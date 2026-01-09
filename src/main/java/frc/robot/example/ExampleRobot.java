@@ -96,5 +96,6 @@ public class ExampleRobot extends GenericRobot {
   public void buildAutoCommands() {
     super.buildAutoCommands();
     selectableCommand.addOption("Do Nothing", Commands.none());
+    drivetrain.addAutoCommands(selectableCommand);
   }
 }

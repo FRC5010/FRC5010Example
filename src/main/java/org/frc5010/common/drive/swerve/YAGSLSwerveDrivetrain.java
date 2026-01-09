@@ -185,8 +185,8 @@ public class YAGSLSwerveDrivetrain extends SwerveDriveFunctions {
     return SwerveDriveTest.generateSysIdCommand(
         SwerveDriveTest.setAngleSysIdRoutine(new Config(), swerveSubsystem, swerveDrive),
         3.0,
-        5.0,
-        3.0);
+        3.0,
+        1.0);
   }
 
   /**

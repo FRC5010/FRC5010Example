@@ -8,6 +8,7 @@
 package org.frc5010.common.drive.swerve.akit;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
 
 import com.pathplanner.lib.config.RobotConfig;
@@ -36,23 +37,27 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import org.frc5010.common.commands.AkitDriveCommands;
 import org.frc5010.common.drive.pose.DrivePoseEstimator;
 import org.frc5010.common.drive.pose.SwerveFunctionsPose;
 import org.frc5010.common.drive.swerve.AkitSwerveConfig;
+import org.frc5010.common.drive.swerve.GenericSwerveDrivetrain;
 import org.frc5010.common.drive.swerve.GenericSwerveModuleInfo;
 import org.frc5010.common.drive.swerve.SwerveDriveFunctions;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import swervelib.simulation.ironmaple.simulation.SimulatedArena;
 
 public class AkitSwerveDrive extends SwerveDriveFunctions {
-  final AkitSwerveConfig config;
+  private final AkitSwerveConfig config;
   private final GyroIO gyroIO;
   private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
   private final Module[] modules = new Module[4]; // FL, FR, BL, BR
@@ -114,6 +119,10 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
         (targetPose) -> {
           Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
         });
+  }
+
+  public AkitSwerveConfig getConfig() {
+    return config;
   }
 
   @Override
@@ -375,9 +384,9 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
       sysId =
           new SysIdRoutine(
               new SysIdRoutine.Config(
-                  null,
-                  null,
-                  null,
+                  Volts.of(0.5).per(Second),
+                  Volts.of(7),
+                  Second.of(30),
                   (state) -> Logger.recordOutput("Drive/SysIdState", state.toString())),
               new SysIdRoutine.Mechanism(
                   (voltage) -> runCharacterization(voltage.in(Volts)), null, swerveSubsystem));
@@ -389,9 +398,16 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
   public Command sysIdDriveMotorCommand(SubsystemBase swerveSubsystem) {
     // Configure SysId
     return sysIdQuasistatic(SysIdRoutine.Direction.kForward)
+        .withTimeout(10)
+        .andThen(Commands.waitSeconds(3))
         .andThen(sysIdQuasistatic(SysIdRoutine.Direction.kReverse))
+        .withTimeout(10)
+        .andThen(Commands.waitSeconds(3))
         .andThen(sysIdDynamic(SysIdRoutine.Direction.kForward))
-        .andThen(sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        .withTimeout(4)
+        .andThen(Commands.waitSeconds(3))
+        .andThen(sysIdDynamic(SysIdRoutine.Direction.kReverse))
+        .withTimeout(4);
   }
 
   @Override
@@ -464,5 +480,16 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
         "FieldSimulation/Coral", SimulatedArena.getInstance().getGamePiecesArrayByType("Coral"));
     Logger.recordOutput(
         "FieldSimulation/Algae", SimulatedArena.getInstance().getGamePiecesArrayByType("Algae"));
+  }
+
+  @Override
+  public void addAutoCommands(
+      LoggedDashboardChooser<Command> selectableCommand, GenericSwerveDrivetrain drivetrain) {
+    selectableCommand.addOption(
+        "Swerve Wheel Radius Characterization",
+        AkitDriveCommands.wheelRadiusCharacterization(drivetrain, this));
+    selectableCommand.addOption(
+        "Swerve Feedforward Characterization",
+        AkitDriveCommands.feedforwardCharacterization(drivetrain, this));
   }
 }

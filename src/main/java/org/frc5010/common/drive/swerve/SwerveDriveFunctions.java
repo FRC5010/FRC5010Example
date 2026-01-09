@@ -27,6 +27,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 import org.frc5010.common.drive.pose.DrivePoseEstimator;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import swervelib.SwerveDrive;
 import swervelib.simulation.ironmaple.simulation.drivesims.AbstractDriveTrainSimulation;
 import swervelib.simulation.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -122,6 +123,11 @@ public abstract class SwerveDriveFunctions {
   }
 
   public void updateSimulation() {
+    // Default empty
+  }
+
+  public void addAutoCommands(
+      LoggedDashboardChooser<Command> selectableCommand, GenericSwerveDrivetrain drivetrain) {
     // Default empty
   }
 

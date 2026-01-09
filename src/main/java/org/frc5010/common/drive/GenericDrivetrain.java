@@ -48,6 +48,7 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismRoot2d;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import swervelib.simulation.ironmaple.simulation.SimulatedArena;
 import swervelib.simulation.ironmaple.simulation.drivesims.AbstractDriveTrainSimulation;
 import swervelib.simulation.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -452,4 +453,6 @@ public abstract class GenericDrivetrain extends GenericSubsystem {
   public static Optional<AbstractDriveTrainSimulation> getMapleSimDrive() {
     return driveTrainSimulationSupplier.get();
   }
+
+  public void addAutoCommands(LoggedDashboardChooser<Command> selectableCommand) {}
 }

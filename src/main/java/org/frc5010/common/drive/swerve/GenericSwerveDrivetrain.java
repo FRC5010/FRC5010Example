@@ -62,6 +62,7 @@ import org.frc5010.common.sensors.Controller;
 import org.json.simple.parser.ParseException;
 import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /** Add your docs here. */
 public class GenericSwerveDrivetrain extends GenericDrivetrain {
@@ -132,6 +133,11 @@ public class GenericSwerveDrivetrain extends GenericDrivetrain {
     // Preload PathPlanner Path finding
     // IF USING CUSTOM PATHFINDER ADD BEFORE THIS LINE
     CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
+  }
+
+  @Override
+  public void addAutoCommands(LoggedDashboardChooser<Command> selectableCommand) {
+    swerveDrive.addAutoCommands(selectableCommand, this);
   }
 
   @Override
@@ -743,7 +749,7 @@ public class GenericSwerveDrivetrain extends GenericDrivetrain {
     DoubleSupplier rightX = () -> driverXbox.getAxisValue(XboxController.Axis.kRightX.value);
     BooleanSupplier isFieldOriented = () -> isFieldOrientedDrive.getValue();
 
-    // driverXbox.createAButton().whileTrue(sysIdDriveMotorCommand());
+    driverXbox.createAButton().whileTrue(sysIdDriveMotorCommand());
     // driverXbox.createBButton().whileTrue(sysIdAngleMotorCommand());
     // return Commands.run(() -> SwerveDriveTest.centerModules(swerveDrive), this);
     return new JoystickToSwerve(

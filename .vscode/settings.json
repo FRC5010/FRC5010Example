@@ -67,100 +67,100 @@
       "fileMatch": [
         "**/akit_swerve_drivetrain.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/akit_swerve_drivetrain.schema.json"
+      "url": "./src/main/resources/schemas/akit_swerve_drivetrain.schema.json"
     },
     {
       "fileMatch": [
         "**/robots.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/robots.schema.json"
+      "url": "./src/main/resources/schemas/robots.schema.json"
     },
     {
       "fileMatch": [
         "**/robot.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/robot.schema.json"
+      "url": "./src/main/resources/schemas/robot.schema.json"
     },
     {
       "fileMatch": [
         "**/competition_mode.json",
         "**/demo_mode.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/user-mode.schema.json"
+      "url": "./src/main/resources/schemas/user-mode.schema.json"
     },
     {
       "fileMatch": [
         "**/cameras.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/cameras.schema.json"
+      "url": "./src/main/resources/schemas/cameras.schema.json"
     },
     {
       "fileMatch": [
         "**/cameras/**/*.json",
         "!**/cameras.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/camera.schema.json"
+      "url": "./src/main/resources/schemas/camera.schema.json"
     },
     {
       "fileMatch": [
         "**/controllers.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/controllers.schema.json"
+      "url": "./src/main/resources/schemas/controllers.schema.json"
     },
     {
       "fileMatch": [
         "**/controllers/*.json",
         "!**/controllers/axis/**/*.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/driveteam-controller.schema.json"
+      "url": "./src/main/resources/schemas/driveteam-controller.schema.json"
     },
     {
       "fileMatch": [
         "**/controllers/axis/*.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/driveteam-controller-axis.schema.json"
+      "url": "./src/main/resources/schemas/driveteam-controller-axis.schema.json"
     },
     {
       "fileMatch": [
         "**/led_strip.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/led-strip.schema.json"
+      "url": "./src/main/resources/schemas/led-strip.schema.json"
     },
     {
       "fileMatch": [
         "**/subsystems/example/percent_motor.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/percent-motor.schema.json"
+      "url": "./src/main/resources/schemas/percent-motor.schema.json"
     },
     {
       "fileMatch": [
         "**/subsystems/example/velocity_motor.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/velocity-motor.schema.json"
+      "url": "./src/main/resources/schemas/velocity-motor.schema.json"
     },
     {
       "fileMatch": [
         "**/subsystems/example/yams_arm.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/yams-arm.schema.json"
+      "url": "./src/main/resources/schemas/yams-arm.schema.json"
     },
     {
       "fileMatch": [
         "**/subsystems/example/yams_elevator.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/yams-elevator.schema.json"
+      "url": "./src/main/resources/schemas/yams-elevator.schema.json"
     },
     {
       "fileMatch": [
         "**/subsystems/example/yams_pivot.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/yams-pivot.schema.json"
+      "url": "./src/main/resources/schemas/yams-pivot.schema.json"
     },
     {
       "fileMatch": [
         "**/subsystems/example/yams_shooter.json"
       ],
-      "url": "./src/main/java/org/frc5010/common/config/schemas/yams-shooter.schema.json"
+      "url": "./src/main/resources/schemas/yams-shooter.schema.json"
     }
   ]
 }

@@ -742,6 +742,17 @@
       }
     },
     "transitory": {
+      "AdvantageKit": {
+        "Drive": {
+          "Module0": {
+            "open": true
+          },
+          "open": true
+        },
+        "SystemStats": {
+          "open": true
+        }
+      },
       "Shuffleboard": {
         "Vision": {
           "Camera shooter": {
@@ -753,11 +764,13 @@
         "Camera": {
           "open": true
         },
+        "Drive Feedforward": {
+          "open": true
+        },
         "DrivePoseEstimator": {
           "DrivePoseEstimator": {
             "open": true
           },
-          "open": true,
           "values": {
             "open": true
           }
@@ -767,6 +780,9 @@
           "values": {
             "open": true
           }
+        },
+        "Wheel Radius Characterization": {
+          "open": true
         },
         "open": true
       },

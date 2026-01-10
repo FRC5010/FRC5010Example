@@ -182,7 +182,6 @@ ctre_sim/
 # clangd
 /.cache
 compile_commands.json
-networktables.json.bck
 
 # Eclipse generated file for annotation processors
 .factorypath

@@ -13,6 +13,8 @@
 
 package org.frc5010.common.commands;
 
+import static edu.wpi.first.units.Units.Volts;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -23,6 +25,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
@@ -33,6 +36,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.frc5010.common.drive.swerve.GenericSwerveDrivetrain;
@@ -166,7 +170,10 @@ public class AkitDriveCommands {
    * <p>This command should only be used in voltage control mode.
    */
   public static Command feedforwardCharacterization(
-      GenericSwerveDrivetrain swerveDrive, AkitSwerveDrive drive) {
+      GenericSwerveDrivetrain swerveDrive,
+      AkitSwerveDrive drive,
+      Consumer<Voltage> characterizer,
+      Supplier<Double> velocitySupplier) {
     List<Double> velocitySamples = new LinkedList<>();
     List<Double> voltageSamples = new LinkedList<>();
     Timer timer = new Timer();
@@ -182,7 +189,8 @@ public class AkitDriveCommands {
         // Allow modules to orient
         Commands.run(
                 () -> {
-                  drive.runCharacterization(0.0);
+                  // drive.runCharacterization(0.0);
+                  characterizer.accept(Volts.of(0.0));
                 },
                 swerveDrive)
             .withTimeout(FF_START_DELAY),
@@ -194,8 +202,9 @@ public class AkitDriveCommands {
         Commands.run(
                 () -> {
                   double voltage = timer.get() * FF_RAMP_RATE;
-                  drive.runCharacterization(voltage);
-                  velocitySamples.add(drive.getFFCharacterizationVelocity());
+                  // drive.runCharacterization(voltage);
+                  characterizer.accept(Volts.of(voltage));
+                  velocitySamples.add(velocitySupplier.get());
                   voltageSamples.add(voltage);
                 },
                 swerveDrive)

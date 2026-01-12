@@ -4,12 +4,22 @@
     "basic_robot": {
       "id": "basic_robot",
       "robotClass": "frc.robot.example.ExampleRobot",
+      "simulate": false
+    },
+    "tigershark": {
+      "id": "tigershark",
+      "robotClass": "frc.robot.tigershark.TigerShark",
+      "simulate": false
+    },
+    "alpha": {
+      "id": "alpha",
+      "robotClass": "frc.robot.alpha.Alpha",
       "simulate": true
     },
     "baby_swerve": {
       "id": "00:80:2F:24:6D:74",
       "robotClass": "frc.robot.baby_swerve.BabySwerve",
-      "simulate": true,
+      "simulate": false,
       "competition": true
     }
   }

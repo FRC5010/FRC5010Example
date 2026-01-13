@@ -665,11 +665,6 @@
           "visible": true
         }
       },
-      "/SmartDashboard/ExampleRobot/Auto Modes": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Field": {
         "OdometryPose": {
           "arrowColor": [
@@ -706,6 +701,11 @@
         }
       },
       "/SmartDashboard/Shooter/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/TigerShark/Auto Modes": {
         "window": {
           "visible": true
         }

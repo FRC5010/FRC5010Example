@@ -1,6 +1,7 @@
 package frc.robot.tigershark;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.example.DisplayValueSubsystem;
 import org.frc5010.common.arch.GenericRobot;
 import org.frc5010.common.config.ConfigConstants;
@@ -34,5 +35,12 @@ public class TigerShark extends GenericRobot {
   @Override
   public Command generateAutoCommand(Command autoCommand) {
     return drivetrain.generateAutoCommand(autoCommand);
+  }
+
+  @Override
+  public void buildAutoCommands() {
+    super.buildAutoCommands();
+    selectableCommand.addOption("Do Nothing", Commands.none());
+    drivetrain.addAutoCommands(selectableCommand);
   }
 }

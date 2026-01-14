@@ -1,0 +1,5 @@
+{ 
+    "shooter": "launcher/shooter.json",
+    "hood": "launcher/hood.json",
+    "turret": "launcher/turret.json" 
+}

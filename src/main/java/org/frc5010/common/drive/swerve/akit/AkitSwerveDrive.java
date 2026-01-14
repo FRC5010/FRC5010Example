@@ -524,5 +524,10 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
             this,
             (Voltage voltage) -> runSteerCharacterization(voltage.in(Volts)),
             () -> getSteerFFCharacterizationVelocity()));
+
+    selectableCommand.addOption(
+        "PRO: Swerve Angle PID Tuning", AkitDriveCommands.steerPIDTuning(drivetrain, this));
+    selectableCommand.addOption(
+        "PRO: Swerve Drive PID Tuning", AkitDriveCommands.drivePIDTuning(drivetrain, this));
   }
 }

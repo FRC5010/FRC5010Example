@@ -52,6 +52,8 @@ public class AkitDriveCommands {
   private static final double FF_RAMP_RATE = 0.1; // Volts/Sec
   private static final double WHEEL_RADIUS_MAX_VELOCITY = 0.25; // Rad/Sec
   private static final double WHEEL_RADIUS_RAMP_RATE = 0.05; // Rad/Sec^2
+  private static final double PID_TUNING_VOLTAGE = 2.0; // Volts - voltage to apply during tuning
+  private static final double PID_TUNING_DELAY = 1.0; // Secs - initial delay before measurements
 
   private AkitDriveCommands() {}
 
@@ -230,8 +232,8 @@ public class AkitDriveCommands {
                   System.out.println("********** Drive FF Characterization Results **********");
                   System.out.println("\tkS: " + formatter.format(kS));
                   System.out.println("\tkV: " + formatter.format(kV));
-                  SmartDashboard.putNumber("Drive Feedforward/kS", kS);
-                  SmartDashboard.putNumber("Drive Feedforward/kV", kV);
+                  SmartDashboard.putNumber("Characterization/Feedforward/kS", kS);
+                  SmartDashboard.putNumber("Characterization/Feedforward/kV", kV);
                 }));
   }
 
@@ -303,8 +305,7 @@ public class AkitDriveCommands {
                               + " meters, "
                               + formatter.format(Units.metersToInches(wheelRadius))
                               + " inches");
-                      SmartDashboard.putNumber(
-                          "Wheel Radius Characterization/Wheel Radius", wheelRadius);
+                      SmartDashboard.putNumber("Characterization/Wheel Radius", wheelRadius);
                     })));
   }
 
@@ -312,5 +313,201 @@ public class AkitDriveCommands {
     double[] positions = new double[4];
     Rotation2d lastAngle = new Rotation2d();
     double gyroDelta = 0.0;
+  }
+
+  /**
+   * Measures the proportional gain (P value) of the drive motor PID controllers.
+   *
+   * <p>This command applies a range of target velocity setpoints to the drive motors and measures
+   * the resulting velocity errors to calculate a more robust P value for closed-loop control.
+   *
+   * <p>The P value is calculated using: kP = Applied Voltage / Average Velocity Error across
+   * multiple setpoints
+   */
+  public static Command drivePIDTuning(GenericSwerveDrivetrain swerveDrive, AkitSwerveDrive drive) {
+    final double[] TARGET_VELOCITIES = {0.5, 1.0, 1.5, 2.0, 2.5, 3.0}; // Range of velocities in m/s
+    List<Double> allVelocityErrors = new LinkedList<>();
+
+    return Commands.sequence(
+        // Reset data
+        Commands.runOnce(allVelocityErrors::clear),
+
+        // Allow modules to orient once
+        Commands.run(() -> drive.runCharacterization(0.0), swerveDrive)
+            .withTimeout(PID_TUNING_DELAY),
+
+        // Test each target velocity
+        Commands.sequence(
+            // Create a sequence of commands, one for each target velocity
+            java.util.Arrays.stream(TARGET_VELOCITIES)
+                .boxed()
+                .map(
+                    targetVelocity ->
+                        Commands.sequence(
+                            // Transition to new setpoint
+                            Commands.runOnce(
+                                () -> {
+                                  ChassisSpeeds speeds =
+                                      new ChassisSpeeds(targetVelocity, 0.0, 0.0);
+                                  drive.runVelocity(speeds);
+                                }),
+
+                            // Wait for module to settle
+                            Commands.waitSeconds(0.5),
+
+                            // Gather velocity error data
+                            Commands.run(
+                                    () -> {
+                                      ChassisSpeeds speeds =
+                                          new ChassisSpeeds(targetVelocity, 0.0, 0.0);
+                                      drive.runVelocity(speeds);
+
+                                      // Calculate velocity error: difference between setpoint
+                                      // and actual velocity
+                                      double avgVelocity = 0.0;
+                                      for (int i = 0; i < 4; i++) {
+                                        avgVelocity +=
+                                            drive.getModulesInfo()[i]
+                                                .driveVelocityMetersPerSecond();
+                                      }
+                                      avgVelocity /= 4.0;
+                                      double error = Math.abs(targetVelocity - avgVelocity);
+                                      allVelocityErrors.add(error);
+                                    },
+                                    swerveDrive)
+                                .withTimeout(1.5)))
+                .toArray(Command[]::new)),
+
+        // When finished, calculate and print results
+        Commands.runOnce(
+            () -> {
+              if (allVelocityErrors.isEmpty()) {
+                System.out.println("No velocity error data collected.");
+                return;
+              }
+
+              // Calculate average velocity error across all test points
+              double avgError = 0.0;
+              for (double error : allVelocityErrors) {
+                avgError += error;
+              }
+              avgError /= allVelocityErrors.size();
+
+              // Calculate P value: P = Voltage / Error
+              // This represents the proportional gain needed to achieve the targets with
+              // applied voltage
+              double kP = avgError > 0.001 ? PID_TUNING_VOLTAGE / avgError : 0.0;
+
+              NumberFormat formatter = new DecimalFormat("#0.00000");
+              System.out.println("********** Drive PID P Value Tuning Results **********");
+              System.out.println(
+                  "\tTarget Velocities: " + java.util.Arrays.toString(TARGET_VELOCITIES) + " m/s");
+              System.out.println("\tNumber of Samples: " + allVelocityErrors.size());
+              System.out.println(
+                  "\tAverage Velocity Error: " + formatter.format(avgError) + " m/s");
+              System.out.println("\tSuggested kP: " + formatter.format(kP));
+              System.out.println("*******************************************************");
+              SmartDashboard.putNumber("Characterization/Drive/P_Value", kP);
+              SmartDashboard.putNumber("Characterization/Drive/Avg_Velocity_Error", avgError);
+              SmartDashboard.putNumber(
+                  "Characterization/Drive/Sample_Count", allVelocityErrors.size());
+            }));
+  }
+
+  /**
+   * Measures the proportional gain (P value) of the steer motor PID controllers.
+   *
+   * <p>This command applies a range of target angle setpoints to the steer motors and measures the
+   * resulting angle errors to calculate a more robust P value for closed-loop control.
+   *
+   * <p>The P value is calculated using: kP = Applied Voltage / Average Angle Error across multiple
+   * setpoints
+   */
+  public static Command steerPIDTuning(GenericSwerveDrivetrain swerveDrive, AkitSwerveDrive drive) {
+    final double[] TARGET_ANGLES = {
+      15.0, 30.0, 45.0, 60.0, 75.0, 90.0
+    }; // Range of angles in degrees
+    List<Double> allAngleErrors = new LinkedList<>();
+
+    return Commands.sequence(
+        // Reset data
+        Commands.runOnce(allAngleErrors::clear),
+
+        // Test each target angle
+        Commands.sequence(
+            // Create a sequence of commands, one for each target angle
+            java.util.Arrays.stream(TARGET_ANGLES)
+                .boxed()
+                .map(
+                    targetDegrees ->
+                        Commands.sequence(
+                            // Transition to new setpoint
+                            Commands.runOnce(
+                                () -> {
+                                  // Command all modules to the target angle
+                                  ChassisSpeeds speeds =
+                                      new ChassisSpeeds(0, 0, Math.toRadians(targetDegrees));
+
+                                  drive.runVelocity(speeds);
+                                }),
+
+                            // Wait for modules to reach target angle
+                            Commands.waitSeconds(1.0),
+
+                            // Measure angle error after settling
+                            Commands.runOnce(
+                                () -> {
+                                  double avgAngleError = 0.0;
+                                  for (int i = 0; i < 4; i++) {
+                                    double currentAngle =
+                                        drive.getModulesInfo()[i].steerAbsoluteDegrees();
+                                    double error = Math.abs(targetDegrees - currentAngle);
+                                    // Handle angle wrapping (shortest path)
+                                    if (error > 180.0) {
+                                      error = 360.0 - error;
+                                    }
+                                    avgAngleError += error;
+                                  }
+                                  avgAngleError /= 4.0;
+                                  avgAngleError = Math.toRadians(avgAngleError);
+                                  allAngleErrors.add(avgAngleError);
+                                })))
+                .toArray(Command[]::new)),
+
+        // When finished, calculate and print results
+        Commands.runOnce(
+            () -> {
+              if (allAngleErrors.isEmpty()) {
+                System.out.println("No angle error data collected.");
+                return;
+              }
+
+              // Calculate average angle error across all test points
+              double avgError = 0.0;
+              for (double error : allAngleErrors) {
+                avgError += error;
+              }
+              avgError /= allAngleErrors.size();
+
+              // Calculate P value: P = Voltage / Error
+              double kP = avgError > 0.001 ? PID_TUNING_VOLTAGE / avgError : 0.0;
+
+              NumberFormat formatter = new DecimalFormat("#0.00000");
+              System.out.println("********** Steer PID P Value Tuning Results **********");
+              System.out.println(
+                  "\tTarget Angles: " + java.util.Arrays.toString(TARGET_ANGLES) + " degrees");
+              System.out.println("\tNumber of Samples: " + allAngleErrors.size());
+              System.out.println(
+                  "\tAverage Angle Error: "
+                      + formatter.format(Math.toDegrees(avgError))
+                      + " degrees");
+              System.out.println("\tSuggested kP: " + formatter.format(kP));
+              System.out.println("*******************************************************");
+              SmartDashboard.putNumber("Characterization/Steer/P_Value", kP);
+              SmartDashboard.putNumber(
+                  "Characterization/Steer/Avg_Angle_Error", Math.toDegrees(avgError));
+              SmartDashboard.putNumber(
+                  "Characterization/Steer/Sample_Count", allAngleErrors.size());
+            }));
   }
 }

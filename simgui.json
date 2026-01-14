@@ -134,6 +134,11 @@
           "visible": true
         }
       },
+      "/SmartDashboard/Drive Visual": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/DrivePoseEstimator/Pose Field": {
         "CARPET0": {
           "image": ".\\pictures\\carpet.png",
@@ -764,6 +769,12 @@
       },
       "SmartDashboard": {
         "Camera": {
+          "open": true
+        },
+        "Characterization": {
+          "Steer": {
+            "open": true
+          },
           "open": true
         },
         "Drive Feedforward": {

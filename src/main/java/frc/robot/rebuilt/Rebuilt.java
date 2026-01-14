@@ -3,10 +3,24 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.rebuilt;
+import org.frc5010.common.arch.StateMachine;
+import org.frc5010.common.arch.StateMachine.State;
+import org.frc5010.common.config.ConfigConstants;
+import org.frc5010.common.constants.SwerveConstants;
+import org.frc5010.common.drive.GenericDrivetrain;
+import org.frc5010.common.motors.function.PercentControlMotor;
+import org.frc5010.common.sensors.Controller;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Rebuilt extends SubsystemBase {
+
+public class Rebuilt<indexer, Launcher> extends SubsystemBase {
+  SwerveConstants swerveConstants;
+  GenericDrivetrain drivetrain;
+  PercentControlMotor percentControlMotor;
+  indexer indexer;
+  Launcher launcher;
+  StateMachine stateMachine = new StateMachine("RebuiltStateMachine");
   /** Creates a new Rebuilt. */
   public Rebuilt() {}
 

@@ -6,6 +6,10 @@ package frc.robot.rebuilt;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.rebuilt.subsystems.Climb;
+import frc.robot.rebuilt.subsystems.Indexer;
+import frc.robot.rebuilt.subsystems.Intake;
+import frc.robot.rebuilt.subsystems.Launcher;
 import org.frc5010.common.arch.GenericRobot;
 import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.config.ConfigConstants;
@@ -20,10 +24,18 @@ public class Rebuilt extends GenericRobot {
   GenericDrivetrain drivetrain;
   PercentControlMotor percentControlMotor;
   StateMachine stateMachine = new StateMachine("ExampleStateMachine");
+  Indexer indexer;
+  Climb climb;
+  Intake intake;
+  Launcher launcher;
 
   public Rebuilt(String directory) {
     super(directory);
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
+    indexer = new Indexer();
+    climb = new Climb();
+    intake = new Intake();
+    launcher = new Launcher();
   }
 
   @Override

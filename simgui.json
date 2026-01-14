@@ -112,6 +112,7 @@
       "/SmartDashboard/PhotonAlerts": "Alerts",
       "/SmartDashboard/Pigeon 2 (v6) [13]": "Gyro",
       "/SmartDashboard/Pigeon 2 [13]": "Gyro",
+      "/SmartDashboard/Rebuilt/Auto Modes": "String Chooser",
       "/SmartDashboard/Robot Visual": "Mechanism2d",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Shooter/mechanism": "Mechanism2d",
@@ -700,17 +701,17 @@
           "visible": true
         }
       },
+      "/SmartDashboard/Rebuilt/Auto Modes": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Robot Visual": {
         "window": {
           "visible": true
         }
       },
       "/SmartDashboard/Shooter/mechanism": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/TigerShark/Auto Modes": {
         "window": {
           "visible": true
         }
@@ -828,5 +829,8 @@
   },
   "NetworkTables Info": {
     "visible": true
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

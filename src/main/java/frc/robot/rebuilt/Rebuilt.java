@@ -10,15 +10,17 @@ import org.frc5010.common.constants.SwerveConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.motors.function.PercentControlMotor;
 import org.frc5010.common.sensors.Controller;
+import frc.robot.rebuilt.subsystems.Indexer;
+import frc.robot.rebuilt.subsystems.Launcher;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class Rebuilt<indexer, Launcher> extends SubsystemBase {
+public class Rebuilt extends SubsystemBase {
   SwerveConstants swerveConstants;
   GenericDrivetrain drivetrain;
   PercentControlMotor percentControlMotor;
-  indexer indexer;
+  Indexer indexer;
   Launcher launcher;
   StateMachine stateMachine = new StateMachine("RebuiltStateMachine");
   /** Creates a new Rebuilt. */

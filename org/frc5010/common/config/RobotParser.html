@@ -78,7 +78,38 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">RobotParser</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">RobotParser is used to parse JSON configuration files to build a robot.</div>
+<div class="block">Parses JSON configuration files to initialize and build a robot's subsystems.
+
+ <p>This class is responsible for reading and processing JSON configuration files from the robot's
+ deploy directory. It orchestrates the loading and configuration of:
+
+ <ul>
+   <li>Robot base configuration (basic properties)
+   <li>Driveteam controller bindings
+   <li>Vision system cameras
+   <li>Drivetrain (swerve or other type)
+   <li>LED strips
+ </ul>
+
+ <p>The typical usage pattern is:
+
+ <pre>
+   RobotParser parser = new RobotParser("myRobotDir", robot);
+   parser.createRobot(robot);
+ </pre>
+
+ <p>Configuration files are expected to be located in the robot's deploy directory and must follow
+ the standard FRC5010 JSON schema.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list-long">
+<li><a href="../arch/GenericRobot.html" title="class in org.frc5010.common.arch"><code>GenericRobot</code></a></li>
+<li><a href="DriveteamControllerConfiguration.html" title="class in org.frc5010.common.config"><code>DriveteamControllerConfiguration</code></a></li>
+<li><a href="json/CameraConfigurationJson.html" title="class in org.frc5010.common.config.json"><code>CameraConfigurationJson</code></a></li>
+</ul>
+</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -93,7 +124,7 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,org.frc5010.common.arch.GenericRobot)" class="member-name-link">RobotParser</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;robotDirectory,
  <a href="../arch/GenericRobot.html" title="class in org.frc5010.common.arch">GenericRobot</a>&nbsp;robot)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Creates a new RobotParser.</div>
+<div class="block">Creates a new RobotParser and initializes robot configuration from JSON files.</div>
 </div>
 </div>
 </section>
@@ -112,7 +143,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createRobot(org.frc5010.common.arch.GenericRobot)" class="member-name-link">createRobot</a><wbr>(<a href="../arch/GenericRobot.html" title="class in org.frc5010.common.arch">GenericRobot</a>&nbsp;robot)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Method to create the robot.</div>
+<div class="block">Applies all loaded configurations to create and initialize the robot's subsystems.</div>
 </div>
 </div>
 </div>
@@ -137,13 +168,30 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">RobotParser</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;robotDirectory,
  <a href="../arch/GenericRobot.html" title="class in org.frc5010.common.arch">GenericRobot</a>&nbsp;robot)</span>
             throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">Creates a new RobotParser.</div>
+<div class="block">Creates a new RobotParser and initializes robot configuration from JSON files.
+
+ <p>This constructor performs the following steps:
+
+ <ol>
+   <li>Locates the robot configuration directory
+   <li>Loads and parses robot.json for base robot configuration
+   <li>Loads and parses controllers.json for driveteam controller configuration
+   <li>Loads and parses cameras.json for vision system configuration
+   <li>Parses LED strip configurations
+   <li>Loads drivetrain configuration (YAGSL swerve or AdvantageKit swerve)
+ </ol>
+
+ <p>The configuration is not fully applied to the robot until <a href="#createRobot(org.frc5010.common.arch.GenericRobot)"><code>createRobot(GenericRobot)</code></a>
+ is called.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>robotDirectory</code> - the directory to read from</dd>
-<dd><code>robot</code> - the robot being configured</dd>
+<dd><code>robotDirectory</code> - the name of the directory (relative to the deploy directory) containing
+     the robot configuration JSON files</dd>
+<dd><code>robot</code> - the <a href="../arch/GenericRobot.html" title="class in org.frc5010.common.arch"><code>GenericRobot</code></a> instance that will be configured with the loaded
+     configuration</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - if any configuration file cannot be read or parsed</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/AssertionError.html" title="class or interface in java.lang" class="external-link">AssertionError</a></code> - if required configuration files (robot.json) are missing</dd>
 </dl>
 </section>
 </li>
@@ -159,10 +207,30 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createRobot(org.frc5010.common.arch.GenericRobot)">
 <h3>createRobot</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">createRobot</span><wbr><span class="parameters">(<a href="../arch/GenericRobot.html" title="class in org.frc5010.common.arch">GenericRobot</a>&nbsp;robot)</span></div>
-<div class="block">Method to create the robot.</div>
+<div class="block">Applies all loaded configurations to create and initialize the robot's subsystems.
+
+ <p>This method instantiates and configures all robot subsystems based on the JSON configuration
+ files that were loaded during construction. It performs:
+
+ <ul>
+   <li>Creation of driveteam controller bindings
+   <li>Creation of the drivetrain subsystem (if configured)
+   <li>Creation of vision/camera subsystems
+ </ul>
+
+ <p>This method should be called after the robot instance is fully initialized and ready to
+ receive subsystems.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>robot</code> - description of parameter</dd>
+<dd><code>robot</code> - the <a href="../arch/GenericRobot.html" title="class in org.frc5010.common.arch"><code>GenericRobot</code></a> instance to apply configurations to</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if required configuration data was not loaded successfully</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list-long">
+<li><a href="#%3Cinit%3E(java.lang.String,org.frc5010.common.arch.GenericRobot)"><code>for the loading phase</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>

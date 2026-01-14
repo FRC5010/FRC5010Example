@@ -101,7 +101,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-org.frc5010.common.drive.swerve.SwerveDriveFunctions">Fields inherited from class&nbsp;org.frc5010.common.drive.swerve.<a href="SwerveDriveFunctions.html" title="class in org.frc5010.common.drive.swerve">SwerveDriveFunctions</a></h3>
-<code><a href="SwerveDriveFunctions.html#moduleInfos">moduleInfos</a></code></div>
+<code><a href="SwerveDriveFunctions.html#driveSimulation">driveSimulation</a>, <a href="SwerveDriveFunctions.html#mapleSimConfig">mapleSimConfig</a>, <a href="SwerveDriveFunctions.html#moduleInfos">moduleInfos</a>, <a href="SwerveDriveFunctions.html#odometryLock">odometryLock</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -136,69 +136,82 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add a fake vision reading for testing purposes.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#centerModulesCommand()" class="member-name-link">centerModulesCommand</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns a Command that centers the modules of the SwerveDrive subsystem.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drive(edu.wpi.first.math.geometry.Translation2d,double,boolean)" class="member-name-link">drive</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;translation,
- double&nbsp;rotation,
- boolean&nbsp;fieldRelative)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">The primary method for controlling the drivebase.</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drive(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">drive</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;velocity)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addVisionMeasurement(edu.wpi.first.math.geometry.Pose2d,double,edu.wpi.first.math.Matrix)" class="member-name-link">addVisionMeasurement</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;robotPose,
+ double&nbsp;imageCaptureTime,
+ edu.wpi.first.math.Matrix&lt;edu.wpi.first.math.numbers.N3,<wbr>edu.wpi.first.math.numbers.N1&gt;&nbsp;stdVector)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Drive according to the chassis robot oriented velocity.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drive(edu.wpi.first.math.kinematics.ChassisSpeeds,com.pathplanner.lib.util.DriveFeedforwards)" class="member-name-link">drive</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;velocity,
- com.pathplanner.lib.util.DriveFeedforwards&nbsp;feedforwards)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Drive according to the chassis robot oriented velocity and drive feedforwards.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drive(edu.wpi.first.math.kinematics.ChassisSpeeds,edu.wpi.first.math.kinematics.SwerveModuleState%5B%5D,edu.wpi.first.units.measure.Force%5B%5D)" class="member-name-link">drive</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;robotRelativeVelocity,
- edu.wpi.first.math.kinematics.SwerveModuleState[]&nbsp;states,
- edu.wpi.first.units.measure.Force[]&nbsp;feedforwardForces)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Drive the robot using the <code>SwerveModuleState</code>, it is recommended to have <a href="../../../../../swervelib/SwerveDrive.html#setCosineCompensator(boolean)"><code>SwerveDrive.setCosineCompensator(boolean)</code></a> set to false for this.<br></div>
+<div class="block">Standard deviations of the vision measurements.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveCommand(java.util.function.DoubleSupplier,java.util.function.DoubleSupplier,java.util.function.DoubleSupplier)" class="member-name-link">driveCommand</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;translationX,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;translationY,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;angularRotationX)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#centerModulesCommand()" class="member-name-link">centerModulesCommand</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Command to drive the robot using translative values and heading as angular velocity.</div>
+<div class="block">Returns a Command that centers the modules of the SwerveDrive subsystem.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drive(edu.wpi.first.math.geometry.Translation2d,double,boolean)" class="member-name-link">drive</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;translation,
+ double&nbsp;rotation,
+ boolean&nbsp;fieldRelative)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The primary method for controlling the drivebase.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drive(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">drive</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;velocity)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Drive according to the chassis robot oriented velocity.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drive(edu.wpi.first.math.kinematics.ChassisSpeeds,com.pathplanner.lib.util.DriveFeedforwards)" class="member-name-link">drive</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;velocity,
+ com.pathplanner.lib.util.DriveFeedforwards&nbsp;feedforwards)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Drive according to the chassis robot oriented velocity and drive feedforwards.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drive(edu.wpi.first.math.kinematics.ChassisSpeeds,edu.wpi.first.math.kinematics.SwerveModuleState%5B%5D,edu.wpi.first.units.measure.Force%5B%5D)" class="member-name-link">drive</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;robotRelativeVelocity,
+ edu.wpi.first.math.kinematics.SwerveModuleState[]&nbsp;states,
+ edu.wpi.first.units.measure.Force[]&nbsp;feedforwardForces)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Drive the robot using the <code>SwerveModuleState</code>, it is recommended to have <code>SwerveDrive.setCosineCompensator(boolean)</code> set to false for this.<br></div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveCommand(java.util.function.DoubleSupplier,java.util.function.DoubleSupplier,java.util.function.DoubleSupplier,java.util.function.DoubleSupplier)" class="member-name-link">driveCommand</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;translationX,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveCommand(java.util.function.DoubleSupplier,java.util.function.DoubleSupplier,java.util.function.DoubleSupplier)" class="member-name-link">driveCommand</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;translationX,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;translationY,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;angularRotationX)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Command to drive the robot using translative values and heading as angular velocity.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveCommand(java.util.function.DoubleSupplier,java.util.function.DoubleSupplier,java.util.function.DoubleSupplier,java.util.function.DoubleSupplier)" class="member-name-link">driveCommand</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;translationX,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;translationY,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;headingX,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;headingY)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Command to drive the robot using translative values and heading as a setpoint.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveFieldOriented(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">driveFieldOriented</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;velocity)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveFieldOriented(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">driveFieldOriented</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;velocity)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Drive the robot given a chassis field oriented velocity.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveRobotRelative(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">driveRobotRelative</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;velocity)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveToDistanceCommand(double,double)" class="member-name-link">driveToDistanceCommand</a><wbr>(double&nbsp;distanceInMeters,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveRobotRelative(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">driveRobotRelative</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;velocity)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveToDistanceCommand(double,double)" class="member-name-link">driveToDistanceCommand</a><wbr>(double&nbsp;distanceInMeters,
  double&nbsp;speedInMetersPerSecond)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a Command that drives the swerve drive to a specific distance at a given speed.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAutonomousCommand(java.lang.String)" class="member-name-link">getAutonomousCommand</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pathName)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAutonomousCommand(java.lang.String)" class="member-name-link">getAutonomousCommand</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pathName)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get the path follower with events.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;swervelib.simulation.ironmaple.simulation.drivesims.AbstractDriveTrainSimulation&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDriveTrainSimulationSupplier()" class="member-name-link">getDriveTrainSimulationSupplier</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets a supplier of the current simulated drivetrain, or an empty optional if not running in
+ simulation.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj.smartdashboard.Field2d</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getField2d()" class="member-name-link">getField2d</a>()</code></div>
@@ -211,21 +224,10 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGyroRate()" class="member-name-link">getGyroRate</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Rotation2d</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeading()" class="member-name-link">getHeading</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.kinematics.SwerveDriveKinematics</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getKinematics()" class="member-name-link">getKinematics</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the current yaw angle of the robot, as reported by the swerve pose estimator in the
- underlying drivebase.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.kinematics.SwerveDriveKinematics</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getKinematics()" class="member-name-link">getKinematics</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get the swerve drive kinematics object.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Pose2d</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMapleSimPose()" class="member-name-link">getMapleSimPose</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Retrieves the pose of the simulated drivetrain from the MapleSim system.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.units.measure.AngularVelocity</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaximumModuleAngleVelocity()" class="member-name-link">getMaximumModuleAngleVelocity</a>()</code></div>
@@ -251,25 +253,36 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the current velocity (x, y and omega) of the robot</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Rotation2d</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRotation()" class="member-name-link">getRotation</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the current yaw angle of the robot, as reported by the swerve pose estimator in the
+ underlying drivebase.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Pose2d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSimPose()" class="member-name-link">getSimPose</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves the pose of the simulated drivetrain from the MapleSim system.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.kinematics.SwerveModuleState[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStates()" class="member-name-link">getStates</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the current module states (azimuth and velocity)</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../../swervelib/SwerveController.html" title="class in swervelib">SwerveController</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>swervelib.SwerveController</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSwerveController()" class="member-name-link">getSwerveController</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Get the <a href="../../../../../swervelib/SwerveController.html" title="class in swervelib"><code>SwerveController</code></a> in the swerve drive.</div>
+<div class="block">Get the <code>SwerveController</code> in the swerve drive.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../../../../../swervelib/SwerveDrive.html" title="class in swervelib">SwerveDrive</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static swervelib.SwerveDrive</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSwerveDrive()" class="member-name-link">getSwerveDrive</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Get the swerve drive object, which has the actual driving logic, encoder data, etc.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../../swervelib/parser/SwerveDriveConfiguration.html" title="class in swervelib.parser">SwerveDriveConfiguration</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>swervelib.parser.SwerveDriveConfiguration</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSwerveDriveConfiguration()" class="member-name-link">getSwerveDriveConfiguration</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Get the <a href="../../../../../swervelib/parser/SwerveDriveConfiguration.html" title="class in swervelib.parser"><code>SwerveDriveConfiguration</code></a> object.</div>
+<div class="block">Get the <code>SwerveDriveConfiguration</code> object.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.kinematics.ChassisSpeeds</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTargetSpeeds(double,double,double,double)" class="member-name-link">getTargetSpeeds</a><wbr>(double&nbsp;xInput,
@@ -312,19 +325,19 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetEncoders()" class="member-name-link">resetEncoders</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetOdometry(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">resetOdometry</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;initialHolonomicPose)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setChassisSpeeds(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">setChassisSpeeds</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;chassisSpeeds)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Resets odometry to the given pose.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setChassisSpeeds(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">setChassisSpeeds</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;chassisSpeeds)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set chassis speeds with closed-loop velocity control.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMotorBrake(boolean)" class="member-name-link">setMotorBrake</a><wbr>(boolean&nbsp;brake)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMotorBrake(boolean)" class="member-name-link">setMotorBrake</a><wbr>(boolean&nbsp;brake)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the drive motors to brake/coast mode.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPose(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">setPose</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;initialHolonomicPose)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Resets odometry to the given pose.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#simDriveCommand(java.util.function.DoubleSupplier,java.util.function.DoubleSupplier,java.util.function.DoubleSupplier)" class="member-name-link">simDriveCommand</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;translationX,
@@ -347,20 +360,13 @@ loadScripts(document, 'script');</script>
 <div class="block">Command to characterize the robot drive motors using SysId</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateVisionMeasurements(edu.wpi.first.math.geometry.Pose2d,double,edu.wpi.first.math.Matrix)" class="member-name-link">updateVisionMeasurements</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;robotPose,
- double&nbsp;imageCaptureTime,
- edu.wpi.first.math.Matrix&lt;edu.wpi.first.math.numbers.N3,<wbr>edu.wpi.first.math.numbers.N1&gt;&nbsp;stdVector)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#zeroGyro()" class="member-name-link">zeroGyro</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Standard deviations of the vision measurements.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#zeroGyro()" class="member-name-link">zeroGyro</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resets the gyro angle to zero and resets odometry to the same position, but facing toward 0.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#zeroGyroWithAlliance()" class="member-name-link">zeroGyroWithAlliance</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#zeroGyroWithAlliance()" class="member-name-link">zeroGyroWithAlliance</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This will zero (calibrate) the robot to assume the current position is facing forward</div>
 </div>
 </div>
@@ -368,7 +374,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.frc5010.common.drive.swerve.SwerveDriveFunctions">Methods inherited from class&nbsp;org.frc5010.common.drive.swerve.<a href="SwerveDriveFunctions.html" title="class in org.frc5010.common.drive.swerve">SwerveDriveFunctions</a></h3>
-<code><a href="SwerveDriveFunctions.html#periodic()">periodic</a>, <a href="SwerveDriveFunctions.html#run(java.lang.Runnable)">run</a>, <a href="SwerveDriveFunctions.html#updateSimulation()">updateSimulation</a></code></div>
+<code><a href="SwerveDriveFunctions.html#addAutoCommands(org.littletonrobotics.junction.networktables.LoggedDashboardChooser,org.frc5010.common.drive.swerve.GenericSwerveDrivetrain)">addAutoCommands</a>, <a href="SwerveDriveFunctions.html#getPPRobotConfigSupplier()">getPPRobotConfigSupplier</a>, <a href="SwerveDriveFunctions.html#periodic()">periodic</a>, <a href="SwerveDriveFunctions.html#run(java.lang.Runnable)">run</a>, <a href="SwerveDriveFunctions.html#setPPRobotConfigSupplier(java.util.function.Supplier)">setPPRobotConfigSupplier</a>, <a href="SwerveDriveFunctions.html#updateSimulation()">updateSimulation</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -577,7 +583,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">drive</span><wbr><span class="parameters">(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;robotRelativeVelocity,
  edu.wpi.first.math.kinematics.SwerveModuleState[]&nbsp;states,
  edu.wpi.first.units.measure.Force[]&nbsp;feedforwardForces)</span></div>
-<div class="block">Drive the robot using the <code>SwerveModuleState</code>, it is recommended to have <a href="../../../../../swervelib/SwerveDrive.html#setCosineCompensator(boolean)"><code>SwerveDrive.setCosineCompensator(boolean)</code></a> set to false for this.<br></div>
+<div class="block">Drive the robot using the <code>SwerveModuleState</code>, it is recommended to have <code>SwerveDrive.setCosineCompensator(boolean)</code> set to false for this.<br></div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="SwerveDriveFunctions.html#drive(edu.wpi.first.math.kinematics.ChassisSpeeds,edu.wpi.first.math.kinematics.SwerveModuleState%5B%5D,edu.wpi.first.units.measure.Force%5B%5D)">drive</a></code>&nbsp;in class&nbsp;<code><a href="SwerveDriveFunctions.html" title="class in org.frc5010.common.drive.swerve">SwerveDriveFunctions</a></code></dd>
@@ -662,13 +668,15 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="resetOdometry(edu.wpi.first.math.geometry.Pose2d)">
-<h3>resetOdometry</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resetOdometry</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;initialHolonomicPose)</span></div>
+<section class="detail" id="setPose(edu.wpi.first.math.geometry.Pose2d)">
+<h3>setPose</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPose</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;initialHolonomicPose)</span></div>
 <div class="block">Resets odometry to the given pose. Gyro angle and module positions do not need to be reset when
  calling this method. However, if either gyro angle or module position is reset, this must be
  called in order for odometry to keep working.</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="SwerveDriveFunctions.html#setPose(edu.wpi.first.math.geometry.Pose2d)">setPose</a></code>&nbsp;in class&nbsp;<code><a href="SwerveDriveFunctions.html" title="class in org.frc5010.common.drive.swerve">SwerveDriveFunctions</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>initialHolonomicPose</code> - The pose to set the odometry to</dd>
 </dl>
@@ -724,13 +732,15 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getHeading()">
-<h3>getHeading</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Rotation2d</span>&nbsp;<span class="element-name">getHeading</span>()</div>
+<section class="detail" id="getRotation()">
+<h3>getRotation</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Rotation2d</span>&nbsp;<span class="element-name">getRotation</span>()</div>
 <div class="block">Gets the current yaw angle of the robot, as reported by the swerve pose estimator in the
  underlying drivebase. Note, this is not the raw gyro reading, this may be corrected from calls
  to resetOdometry().</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="SwerveDriveFunctions.html#getRotation()">getRotation</a></code>&nbsp;in class&nbsp;<code><a href="SwerveDriveFunctions.html" title="class in org.frc5010.common.drive.swerve">SwerveDriveFunctions</a></code></dd>
 <dt>Returns:</dt>
 <dd>The yaw angle</dd>
 </dl>
@@ -803,22 +813,22 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="getSwerveController()">
 <h3>getSwerveController</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../../swervelib/SwerveController.html" title="class in swervelib">SwerveController</a></span>&nbsp;<span class="element-name">getSwerveController</span>()</div>
-<div class="block">Get the <a href="../../../../../swervelib/SwerveController.html" title="class in swervelib"><code>SwerveController</code></a> in the swerve drive.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">swervelib.SwerveController</span>&nbsp;<span class="element-name">getSwerveController</span>()</div>
+<div class="block">Get the <code>SwerveController</code> in the swerve drive.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd><a href="../../../../../swervelib/SwerveController.html" title="class in swervelib"><code>SwerveController</code></a> from the <a href="../../../../../swervelib/SwerveDrive.html" title="class in swervelib"><code>SwerveDrive</code></a>.</dd>
+<dd><code>SwerveController</code> from the <code>SwerveDrive</code>.</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getSwerveDriveConfiguration()">
 <h3>getSwerveDriveConfiguration</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../../swervelib/parser/SwerveDriveConfiguration.html" title="class in swervelib.parser">SwerveDriveConfiguration</a></span>&nbsp;<span class="element-name">getSwerveDriveConfiguration</span>()</div>
-<div class="block">Get the <a href="../../../../../swervelib/parser/SwerveDriveConfiguration.html" title="class in swervelib.parser"><code>SwerveDriveConfiguration</code></a> object.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">swervelib.parser.SwerveDriveConfiguration</span>&nbsp;<span class="element-name">getSwerveDriveConfiguration</span>()</div>
+<div class="block">Get the <code>SwerveDriveConfiguration</code> object.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The <a href="../../../../../swervelib/parser/SwerveDriveConfiguration.html" title="class in swervelib.parser"><code>SwerveDriveConfiguration</code></a> fpr the current drive.</dd>
+<dd>The <code>SwerveDriveConfiguration</code> fpr the current drive.</dd>
 </dl>
 </section>
 </li>
@@ -850,7 +860,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="getSwerveDrive()">
 <h3>getSwerveDrive</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../../../../../swervelib/SwerveDrive.html" title="class in swervelib">SwerveDrive</a></span>&nbsp;<span class="element-name">getSwerveDrive</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">swervelib.SwerveDrive</span>&nbsp;<span class="element-name">getSwerveDrive</span>()</div>
 <div class="block">Get the swerve drive object, which has the actual driving logic, encoder data, etc.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -879,22 +889,28 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="updateVisionMeasurements(edu.wpi.first.math.geometry.Pose2d,double,edu.wpi.first.math.Matrix)">
-<h3>updateVisionMeasurements</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateVisionMeasurements</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;robotPose,
+<section class="detail" id="addVisionMeasurement(edu.wpi.first.math.geometry.Pose2d,double,edu.wpi.first.math.Matrix)">
+<h3>addVisionMeasurement</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addVisionMeasurement</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;robotPose,
  double&nbsp;imageCaptureTime,
  edu.wpi.first.math.Matrix&lt;edu.wpi.first.math.numbers.N3,<wbr>edu.wpi.first.math.numbers.N1&gt;&nbsp;stdVector)</span></div>
 <div class="block">Standard deviations of the vision measurements. Increase these numbers to trust global
  measurements from vision less. This matrix is in the form [x, y, theta]^T, with units in meters
  and radians.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="SwerveDriveFunctions.html#addVisionMeasurement(edu.wpi.first.math.geometry.Pose2d,double,edu.wpi.first.math.Matrix)">addVisionMeasurement</a></code>&nbsp;in class&nbsp;<code><a href="SwerveDriveFunctions.html" title="class in org.frc5010.common.drive.swerve">SwerveDriveFunctions</a></code></dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="getMapleSimPose()">
-<h3>getMapleSimPose</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Pose2d</span>&nbsp;<span class="element-name">getMapleSimPose</span>()</div>
+<section class="detail" id="getSimPose()">
+<h3>getSimPose</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Pose2d</span>&nbsp;<span class="element-name">getSimPose</span>()</div>
 <div class="block">Retrieves the pose of the simulated drivetrain from the MapleSim system.</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="SwerveDriveFunctions.html#getSimPose()">getSimPose</a></code>&nbsp;in class&nbsp;<code><a href="SwerveDriveFunctions.html" title="class in org.frc5010.common.drive.swerve">SwerveDriveFunctions</a></code></dd>
 <dt>Returns:</dt>
 <dd>The current pose of the simulated drivetrain as a <code>Pose2d</code>.</dd>
 </dl>
@@ -975,6 +991,21 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="SwerveDriveFunctions.html#driveRobotRelative(edu.wpi.first.math.kinematics.ChassisSpeeds)">driveRobotRelative</a></code>&nbsp;in class&nbsp;<code><a href="SwerveDriveFunctions.html" title="class in org.frc5010.common.drive.swerve">SwerveDriveFunctions</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getDriveTrainSimulationSupplier()">
+<h3>getDriveTrainSimulationSupplier</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;swervelib.simulation.ironmaple.simulation.drivesims.AbstractDriveTrainSimulation&gt;&gt;</span>&nbsp;<span class="element-name">getDriveTrainSimulationSupplier</span>()</div>
+<div class="block">Gets a supplier of the current simulated drivetrain, or an empty optional if not running in
+ simulation.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="SwerveDriveFunctions.html#getDriveTrainSimulationSupplier()">getDriveTrainSimulationSupplier</a></code>&nbsp;in class&nbsp;<code><a href="SwerveDriveFunctions.html" title="class in org.frc5010.common.drive.swerve">SwerveDriveFunctions</a></code></dd>
+<dt>Returns:</dt>
+<dd>A supplier of the current simulated drivetrain, or an empty optional if not running in
+     simulation.</dd>
 </dl>
 </section>
 </li>

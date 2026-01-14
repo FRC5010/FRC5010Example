@@ -121,7 +121,7 @@ implements <a href="../GenericMotorController.html" title="interface in org.frc5
 <div class="col-last even-row-color">
 <div class="block">The maximum RPM</div>
 </div>
-<div class="col-first odd-row-color"><code>protected com.thethriftybot.ThriftyNova</code></div>
+<div class="col-first odd-row-color"><code>protected com.thethriftybot.devices.ThriftyNova</code></div>
 <div class="col-second odd-row-color"><code><a href="#motor" class="member-name-link">motor</a></code></div>
 <div class="col-last odd-row-color">
 <div class="block">The motor controller</div>
@@ -147,9 +147,11 @@ implements <a href="../GenericMotorController.html" title="interface in org.frc5
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,org.frc5010.common.motors.MotorConstants.Motor)" class="member-name-link">GenericThriftyNovaMotor</a><wbr>(int&nbsp;canId,
- <a href="../MotorConstants.Motor.html" title="enum class in org.frc5010.common.motors">MotorConstants.Motor</a>&nbsp;config)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">GenericThriftyNovaMotor</a><wbr>(int&nbsp;canId)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,org.frc5010.common.motors.MotorConstants.Motor)" class="member-name-link">GenericThriftyNovaMotor</a><wbr>(int&nbsp;canId,
+ <a href="../MotorConstants.Motor.html" title="enum class in org.frc5010.common.motors">MotorConstants.Motor</a>&nbsp;config)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -337,7 +339,7 @@ implements <a href="../GenericMotorController.html" title="interface in org.frc5
 <li>
 <section class="detail" id="motor">
 <h3>motor</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">com.thethriftybot.ThriftyNova</span>&nbsp;<span class="element-name">motor</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">com.thethriftybot.devices.ThriftyNova</span>&nbsp;<span class="element-name">motor</span></div>
 <div class="block">The motor controller</div>
 </section>
 </li>
@@ -398,6 +400,12 @@ implements <a href="../GenericMotorController.html" title="interface in org.frc5
 <section class="constructor-details" id="constructor-detail">
 <h2>Constructor Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="&lt;init&gt;(int)">
+<h3>GenericThriftyNovaMotor</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">GenericThriftyNovaMotor</span><wbr><span class="parameters">(int&nbsp;canId)</span></div>
+</section>
+</li>
 <li>
 <section class="detail" id="&lt;init&gt;(int,org.frc5010.common.motors.MotorConstants.Motor)">
 <h3>GenericThriftyNovaMotor</h3>

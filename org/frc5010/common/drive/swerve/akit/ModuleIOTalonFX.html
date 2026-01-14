@@ -147,21 +147,24 @@ implements <a href="ModuleIO.html" title="interface in org.frc5010.common.drive.
 <div class="col-first even-row-color"><code>protected final com.ctre.phoenix6.StatusSignal&lt;edu.wpi.first.units.measure.Current&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#turnCurrent" class="member-name-link">turnCurrent</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final com.ctre.phoenix6.hardware.TalonFX</code></div>
-<div class="col-second odd-row-color"><code><a href="#turnTalon" class="member-name-link">turnTalon</a></code></div>
+<div class="col-first odd-row-color"><code>protected final com.ctre.phoenix6.StatusSignal&lt;edu.wpi.first.units.measure.Angle&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#turnPosition" class="member-name-link">turnPosition</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final com.ctre.phoenix6.StatusSignal&lt;edu.wpi.first.units.measure.AngularVelocity&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#turnVelocity" class="member-name-link">turnVelocity</a></code></div>
+<div class="col-first even-row-color"><code>protected final com.ctre.phoenix6.hardware.TalonFX</code></div>
+<div class="col-second even-row-color"><code><a href="#turnTalon" class="member-name-link">turnTalon</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC</code></div>
-<div class="col-second odd-row-color"><code><a href="#velocityTorqueCurrentRequest" class="member-name-link">velocityTorqueCurrentRequest</a></code></div>
+<div class="col-first odd-row-color"><code>protected final com.ctre.phoenix6.StatusSignal&lt;edu.wpi.first.units.measure.AngularVelocity&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#turnVelocity" class="member-name-link">turnVelocity</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final com.ctre.phoenix6.controls.VelocityVoltage</code></div>
-<div class="col-second even-row-color"><code><a href="#velocityVoltageRequest" class="member-name-link">velocityVoltageRequest</a></code></div>
+<div class="col-first even-row-color"><code>protected final com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC</code></div>
+<div class="col-second even-row-color"><code><a href="#velocityTorqueCurrentRequest" class="member-name-link">velocityTorqueCurrentRequest</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final com.ctre.phoenix6.controls.VoltageOut</code></div>
-<div class="col-second odd-row-color"><code><a href="#voltageRequest" class="member-name-link">voltageRequest</a></code></div>
+<div class="col-first odd-row-color"><code>protected final com.ctre.phoenix6.controls.VelocityVoltage</code></div>
+<div class="col-second odd-row-color"><code><a href="#velocityVoltageRequest" class="member-name-link">velocityVoltageRequest</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected final com.ctre.phoenix6.controls.VoltageOut</code></div>
+<div class="col-second even-row-color"><code><a href="#voltageRequest" class="member-name-link">voltageRequest</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -175,7 +178,8 @@ implements <a href="ModuleIO.html" title="interface in org.frc5010.common.drive.
 <div class="table-header col-second">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected </code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.ctre.phoenix6.swerve.SwerveModuleConstants)" class="member-name-link">ModuleIOTalonFX</a><wbr>(com.ctre.phoenix6.swerve.SwerveModuleConstants&lt;com.ctre.phoenix6.configs.TalonFXConfiguration,<wbr>com.ctre.phoenix6.configs.TalonFXConfiguration,<wbr>com.ctre.phoenix6.configs.CANcoderConfiguration&gt;&nbsp;constants)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.frc5010.common.drive.swerve.AkitSwerveConfig,com.ctre.phoenix6.swerve.SwerveModuleConstants)" class="member-name-link">ModuleIOTalonFX</a><wbr>(<a href="../AkitSwerveConfig.html" title="class in org.frc5010.common.drive.swerve">AkitSwerveConfig</a>&nbsp;config,
+ com.ctre.phoenix6.swerve.SwerveModuleConstants&lt;com.ctre.phoenix6.configs.TalonFXConfiguration,<wbr>com.ctre.phoenix6.configs.TalonFXConfiguration,<wbr>com.ctre.phoenix6.configs.CANcoderConfiguration&gt;&nbsp;constants)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -318,6 +322,12 @@ implements <a href="ModuleIO.html" title="interface in org.frc5010.common.drive.
 </section>
 </li>
 <li>
+<section class="detail" id="turnPosition">
+<h3>turnPosition</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">com.ctre.phoenix6.StatusSignal&lt;edu.wpi.first.units.measure.Angle&gt;</span>&nbsp;<span class="element-name">turnPosition</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="turnAbsolutePosition">
 <h3>turnAbsolutePosition</h3>
 <div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">com.ctre.phoenix6.StatusSignal&lt;edu.wpi.first.units.measure.Angle&gt;</span>&nbsp;<span class="element-name">turnAbsolutePosition</span></div>
@@ -350,9 +360,10 @@ implements <a href="ModuleIO.html" title="interface in org.frc5010.common.drive.
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.ctre.phoenix6.swerve.SwerveModuleConstants)">
+<section class="detail" id="&lt;init&gt;(org.frc5010.common.drive.swerve.AkitSwerveConfig,com.ctre.phoenix6.swerve.SwerveModuleConstants)">
 <h3>ModuleIOTalonFX</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">ModuleIOTalonFX</span><wbr><span class="parameters">(com.ctre.phoenix6.swerve.SwerveModuleConstants&lt;com.ctre.phoenix6.configs.TalonFXConfiguration,<wbr>com.ctre.phoenix6.configs.TalonFXConfiguration,<wbr>com.ctre.phoenix6.configs.CANcoderConfiguration&gt;&nbsp;constants)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">ModuleIOTalonFX</span><wbr><span class="parameters">(<a href="../AkitSwerveConfig.html" title="class in org.frc5010.common.drive.swerve">AkitSwerveConfig</a>&nbsp;config,
+ com.ctre.phoenix6.swerve.SwerveModuleConstants&lt;com.ctre.phoenix6.configs.TalonFXConfiguration,<wbr>com.ctre.phoenix6.configs.TalonFXConfiguration,<wbr>com.ctre.phoenix6.configs.CANcoderConfiguration&gt;&nbsp;constants)</span></div>
 </section>
 </li>
 </ul>

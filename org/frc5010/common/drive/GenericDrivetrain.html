@@ -115,11 +115,9 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>protected edu.wpi.first.wpilibj.Alert</code></div>
 <div class="col-second odd-row-color"><code><a href="#canErrorAlert" class="member-name-link">canErrorAlert</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected com.pathplanner.lib.config.RobotConfig</code></div>
-<div class="col-second even-row-color"><code><a href="#config" class="member-name-link">config</a></code></div>
-<div class="col-last even-row-color">
-<div class="block">Load the RobotConfig from the GUI settings.</div>
-</div>
+<div class="col-first even-row-color"><code>protected static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;swervelib.simulation.ironmaple.simulation.drivesims.AbstractDriveTrainSimulation&gt;&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#driveTrainSimulationSupplier" class="member-name-link">driveTrainSimulationSupplier</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>,<wbr>org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#expectDials" class="member-name-link">expectDials</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
@@ -193,6 +191,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color">
 <div class="block">The pose estimator</div>
 </div>
+<div class="col-first even-row-color"><code>protected com.pathplanner.lib.config.RobotConfig</code></div>
+<div class="col-second even-row-color"><code><a href="#ppRobotConfig" class="member-name-link">ppRobotConfig</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Load the RobotConfig from the GUI settings.</div>
+</div>
+<div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;com.pathplanner.lib.config.RobotConfig&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#ppRobotConfigSupplier" class="member-name-link">ppRobotConfigSupplier</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>protected double</code></div>
 <div class="col-second even-row-color"><code><a href="#previousLeftXInput" class="member-name-link">previousLeftXInput</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
@@ -250,50 +256,59 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#configureButtonBindings(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)" class="member-name-link">configureButtonBindings</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addAutoCommands(org.littletonrobotics.junction.networktables.LoggedDashboardChooser)" class="member-name-link">addAutoCommands</a><wbr>(org.littletonrobotics.junction.networktables.LoggedDashboardChooser&lt;edu.wpi.first.wpilibj2.command.Command&gt;&nbsp;selectableCommand)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#configureButtonBindings(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)" class="member-name-link">configureButtonBindings</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
  <a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;operator)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Called when the configuring the button bindings</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createDefaultCommand(org.frc5010.common.sensors.Controller)" class="member-name-link">createDefaultCommand</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createDefaultCommand(org.frc5010.common.sensors.Controller)" class="member-name-link">createDefaultCommand</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates a default command for the GenericDrivetrain.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createDefaultTestCommand(org.frc5010.common.sensors.Controller)" class="member-name-link">createDefaultTestCommand</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createDefaultTestCommand(org.frc5010.common.sensors.Controller)" class="member-name-link">createDefaultTestCommand</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates a default test command for the GenericDrivetrain.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#disabledBehavior()" class="member-name-link">disabledBehavior</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#disabledBehavior()" class="member-name-link">disabledBehavior</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Called when the robot is disabled</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#drive(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">drive</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;direction)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Drive with ChassisSpeeds</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#driveWithFeedforwards(edu.wpi.first.math.kinematics.ChassisSpeeds,com.pathplanner.lib.util.DriveFeedforwards)" class="member-name-link">driveWithFeedforwards</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;direction,
- com.pathplanner.lib.util.DriveFeedforwards&nbsp;feedforwards)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#drive(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">drive</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;direction)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Drive with ChassisSpeeds</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#generateAutoCommand(edu.wpi.first.wpilibj2.command.Command)" class="member-name-link">generateAutoCommand</a><wbr>(edu.wpi.first.wpilibj2.command.Command&nbsp;autoCommand)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#driveWithFeedforwards(edu.wpi.first.math.kinematics.ChassisSpeeds,com.pathplanner.lib.util.DriveFeedforwards)" class="member-name-link">driveWithFeedforwards</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;direction,
+ com.pathplanner.lib.util.DriveFeedforwards&nbsp;feedforwards)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Drive with ChassisSpeeds</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#generateAutoCommand(edu.wpi.first.wpilibj2.command.Command)" class="member-name-link">generateAutoCommand</a><wbr>(edu.wpi.first.wpilibj2.command.Command&nbsp;autoCommand)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Generates an auto command that resets the encoders before starting and continues until the
  GenericDrivetrain has issues.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract edu.wpi.first.wpilibj.smartdashboard.Field2d</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getField2d()" class="member-name-link">getField2d</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Rotation2d</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeading()" class="member-name-link">getHeading</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract edu.wpi.first.wpilibj.smartdashboard.Field2d</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getField2d()" class="member-name-link">getField2d</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Rotation2d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeading()" class="member-name-link">getHeading</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the current heading of the pose estimator.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;swervelib.simulation.ironmaple.simulation.drivesims.AbstractDriveTrainSimulation&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getMapleSimDrive()" class="member-name-link">getMapleSimDrive</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Gets the maple-sim drivetrain simulation instance This is used to add intake simulation /
+ launch game pieces from the robot</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.littletonrobotics.junction.mechanism.LoggedMechanism2d</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMechVisual()" class="member-name-link">getMechVisual</a>()</code></div>
@@ -400,7 +415,7 @@ loadScripts(document, 'script');</script>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-edu.wpi.first.wpilibj2.command.Subsystem">Methods inherited from interface&nbsp;edu.wpi.first.wpilibj2.command.Subsystem</h3>
-<code>defer, getCurrentCommand, getDefaultCommand, register, removeDefaultCommand, run, runEnd, runOnce, setDefaultCommand, startEnd, startRun</code></div>
+<code>defer, getCurrentCommand, getDefaultCommand, idle, register, removeDefaultCommand, run, runEnd, runOnce, setDefaultCommand, startEnd, startRun</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.frc5010.common.arch.WpiHelperInterface">Methods inherited from interface&nbsp;org.frc5010.common.arch.<a href="../arch/WpiHelperInterface.html" title="interface in org.frc5010.common.arch">WpiHelperInterface</a></h3>
 <code><a href="../arch/WpiHelperInterface.html#log(java.lang.String)">log</a>, <a href="../arch/WpiHelperInterface.html#log_rio(java.lang.String)">log_rio</a>, <a href="../arch/WpiHelperInterface.html#log_wpi(java.lang.String)">log_wpi</a></code></div>
@@ -430,11 +445,23 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="config">
-<h3>config</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">com.pathplanner.lib.config.RobotConfig</span>&nbsp;<span class="element-name">config</span></div>
+<section class="detail" id="ppRobotConfig">
+<h3>ppRobotConfig</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">com.pathplanner.lib.config.RobotConfig</span>&nbsp;<span class="element-name">ppRobotConfig</span></div>
 <div class="block">Load the RobotConfig from the GUI settings. You should probably store this in your Constants
  file</div>
+</section>
+</li>
+<li>
+<section class="detail" id="ppRobotConfigSupplier">
+<h3>ppRobotConfigSupplier</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;com.pathplanner.lib.config.RobotConfig&gt;</span>&nbsp;<span class="element-name">ppRobotConfigSupplier</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="driveTrainSimulationSupplier">
+<h3>driveTrainSimulationSupplier</h3>
+<div class="member-signature"><span class="modifiers">protected static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;swervelib.simulation.ironmaple.simulation.drivesims.AbstractDriveTrainSimulation&gt;&gt;</span>&nbsp;<span class="element-name">driveTrainSimulationSupplier</span></div>
 </section>
 </li>
 <li>
@@ -932,6 +959,25 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>false if the GenericDrivetrain does not have any issues, true otherwise.</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getMapleSimDrive()">
+<h3>getMapleSimDrive</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;swervelib.simulation.ironmaple.simulation.drivesims.AbstractDriveTrainSimulation&gt;</span>&nbsp;<span class="element-name">getMapleSimDrive</span>()</div>
+<div class="block">Gets the maple-sim drivetrain simulation instance This is used to add intake simulation /
+ launch game pieces from the robot</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>an optional maple-sim <code>SwerveDriveSimulation</code> object, or <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html#empty()" title="class or interface in java.util" class="external-link"><code>Optional.empty()</code></a>
+     when calling from a real robot</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="addAutoCommands(org.littletonrobotics.junction.networktables.LoggedDashboardChooser)">
+<h3>addAutoCommands</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addAutoCommands</span><wbr><span class="parameters">(org.littletonrobotics.junction.networktables.LoggedDashboardChooser&lt;edu.wpi.first.wpilibj2.command.Command&gt;&nbsp;selectableCommand)</span></div>
 </section>
 </li>
 </ul>

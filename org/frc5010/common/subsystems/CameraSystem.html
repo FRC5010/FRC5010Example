@@ -90,8 +90,37 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">CameraSystem</span>
 <span class="extends-implements">extends <a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch">GenericSubsystem</a></span></div>
-<div class="block">This class is an abstract class that needs to be implemented by any subclass of CameraSystem. It
- is responsible for updating the camera information.</div>
+<div class="block">Abstract base class for vision-based camera subsystems.
+
+ <p>This class provides the framework for implementing camera subsystems that process vision data
+ from one or more cameras. Subclasses implement specific behavior based on what the camera is
+ tracking (AprilTags, targets, game pieces, etc.).
+
+ <p>Key responsibilities:
+
+ <ul>
+   <li>Periodically update camera data (<a href="#periodic()"><code>periodic()</code></a>)
+   <li>Detect and track targets (<a href="#hasValidTarget()"><code>hasValidTarget()</code></a>)
+   <li>Calculate distance and orientation to targets (<a href="#getDistanceToTarget()"><code>getDistanceToTarget()</code></a>)
+   <li>Simulate vision targets in simulation mode (<a href="#simulationPeriodic()"><code>simulationPeriodic()</code></a>)
+ </ul>
+
+ <p>This is an abstract class; concrete implementations include:
+
+ <ul>
+   <li><a href="FiducialTargetSystem.html" title="class in org.frc5010.common.subsystems"><code>FiducialTargetSystem</code></a> - For AprilTag tracking
+   <li><a href="VisibleTargetSystem.html" title="class in org.frc5010.common.subsystems"><code>VisibleTargetSystem</code></a> - For visual target tracking
+   <li><a href="AprilTagPoseSystem.html" title="class in org.frc5010.common.subsystems"><code>AprilTagPoseSystem</code></a> - For pose estimation
+ </ul></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../sensors/camera/GenericCamera.html" title="class in org.frc5010.common.sensors.camera"><code>GenericCamera</code></a></li>
+<li><a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch"><code>GenericSubsystem</code></a></li>
+</ul>
+</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -107,14 +136,18 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>protected <a href="../sensors/camera/GenericCamera.html" title="class in org.frc5010.common.sensors.camera">GenericCamera</a></code></div>
 <div class="col-second even-row-color"><code><a href="#camera" class="member-name-link">camera</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">The camera object.</div>
+<div class="block">The camera instance providing the vision data</div>
 </div>
 <div class="col-first odd-row-color"><code>protected <a href="../telemetry/DisplayBoolean.html" title="class in org.frc5010.common.telemetry">DisplayBoolean</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#HAS_VALID_TARGET" class="member-name-link">HAS_VALID_TARGET</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">Telemetry display for camera target validity state</div>
+</div>
 <div class="col-first even-row-color"><code>protected org.photonvision.estimation.TargetModel</code></div>
 <div class="col-second even-row-color"><code><a href="#targetModel" class="member-name-link">targetModel</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Target model used for vision simulation (default: 12-inch diameter circle at ~0.3556m)</div>
+</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-org.frc5010.common.arch.GenericSubsystem">Fields inherited from class&nbsp;org.frc5010.common.arch.<a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch">GenericSubsystem</a></h3>
@@ -131,7 +164,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.frc5010.common.sensors.camera.GenericCamera)" class="member-name-link">CameraSystem</a><wbr>(<a href="../sensors/camera/GenericCamera.html" title="class in org.frc5010.common.sensors.camera">GenericCamera</a>&nbsp;camera)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Creates a new CameraSystem.</div>
+<div class="block">Creates a new CameraSystem with the specified camera.</div>
 </div>
 </div>
 </section>
@@ -150,20 +183,22 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getDistanceToTarget()" class="member-name-link">getDistanceToTarget</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Get the distance to the target - need to be implemented by any subclass of CameraSystem</div>
+<div class="block">Gets the distance from the camera to the detected target.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.button.Trigger</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasAValidTarget()" class="member-name-link">hasAValidTarget</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Creates a Trigger that activates when a valid target is detected.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hasValidTarget()" class="member-name-link">hasValidTarget</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Does the camera have a valid target?</div>
+<div class="block">Checks if the camera currently has a valid target in view.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#periodic()" class="member-name-link">periodic</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">This method is called once per scheduler run and it calls the updateCameraInfo() method.</div>
+<div class="block">Periodic update method called by the WPILib scheduler.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#simulationPeriodic()" class="member-name-link">simulationPeriodic</a>()</code></div>
@@ -173,7 +208,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateCameraInfo()" class="member-name-link">updateCameraInfo</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">This is an abstract method that needs to be implemented by any subclass of CameraSystem.</div>
+<div class="block">Updates camera information during each periodic cycle.</div>
 </div>
 </div>
 </div>
@@ -189,7 +224,7 @@ loadScripts(document, 'script');</script>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-edu.wpi.first.wpilibj2.command.Subsystem">Methods inherited from interface&nbsp;edu.wpi.first.wpilibj2.command.Subsystem</h3>
-<code>defer, getCurrentCommand, getDefaultCommand, register, removeDefaultCommand, run, runEnd, runOnce, setDefaultCommand, startEnd, startRun</code></div>
+<code>defer, getCurrentCommand, getDefaultCommand, idle, register, removeDefaultCommand, run, runEnd, runOnce, setDefaultCommand, startEnd, startRun</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.frc5010.common.arch.WpiHelperInterface">Methods inherited from interface&nbsp;org.frc5010.common.arch.<a href="../arch/WpiHelperInterface.html" title="interface in org.frc5010.common.arch">WpiHelperInterface</a></h3>
 <code><a href="../arch/WpiHelperInterface.html#log(java.lang.String)">log</a>, <a href="../arch/WpiHelperInterface.html#log_rio(java.lang.String)">log_rio</a>, <a href="../arch/WpiHelperInterface.html#log_wpi(java.lang.String)">log_wpi</a></code></div>
@@ -208,19 +243,21 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="camera">
 <h3>camera</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../sensors/camera/GenericCamera.html" title="class in org.frc5010.common.sensors.camera">GenericCamera</a></span>&nbsp;<span class="element-name">camera</span></div>
-<div class="block">The camera object.</div>
+<div class="block">The camera instance providing the vision data</div>
 </section>
 </li>
 <li>
 <section class="detail" id="HAS_VALID_TARGET">
 <h3>HAS_VALID_TARGET</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../telemetry/DisplayBoolean.html" title="class in org.frc5010.common.telemetry">DisplayBoolean</a></span>&nbsp;<span class="element-name">HAS_VALID_TARGET</span></div>
+<div class="block">Telemetry display for camera target validity state</div>
 </section>
 </li>
 <li>
 <section class="detail" id="targetModel">
 <h3>targetModel</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">org.photonvision.estimation.TargetModel</span>&nbsp;<span class="element-name">targetModel</span></div>
+<div class="block">Target model used for vision simulation (default: 12-inch diameter circle at ~0.3556m)</div>
 </section>
 </li>
 </ul>
@@ -235,10 +272,15 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(org.frc5010.common.sensors.camera.GenericCamera)">
 <h3>CameraSystem</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CameraSystem</span><wbr><span class="parameters">(<a href="../sensors/camera/GenericCamera.html" title="class in org.frc5010.common.sensors.camera">GenericCamera</a>&nbsp;camera)</span></div>
-<div class="block">Creates a new CameraSystem.</div>
+<div class="block">Creates a new CameraSystem with the specified camera.
+
+ <p>Initializes the camera subsystem and sets up telemetry displays for vision system status and
+ target information.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>camera</code> - the camera object</dd>
+<dd><code>camera</code> - the <a href="../sensors/camera/GenericCamera.html" title="class in org.frc5010.common.sensors.camera"><code>GenericCamera</code></a> instance to use for vision processing</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if camera is null</dd>
 </dl>
 </section>
 </li>
@@ -254,7 +296,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="periodic()">
 <h3>periodic</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">periodic</span>()</div>
-<div class="block">This method is called once per scheduler run and it calls the updateCameraInfo() method.</div>
+<div class="block">Periodic update method called by the WPILib scheduler.
+
+ <p>This method is invoked once per scheduler cycle (~20ms on FRC robots). It updates camera
+ data and processes vision information.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>periodic</code>&nbsp;in interface&nbsp;<code>edu.wpi.first.wpilibj2.command.Subsystem</code></dd>
@@ -288,18 +333,38 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="updateCameraInfo()">
 <h3>updateCameraInfo</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateCameraInfo</span>()</div>
-<div class="block">This is an abstract method that needs to be implemented by any subclass of CameraSystem. It is
- responsible for updating the camera information.</div>
+<div class="block">Updates camera information during each periodic cycle.
+
+ <p>This method is called from <a href="#periodic()"><code>periodic()</code></a> and is responsible for refreshing vision data
+ from the camera. Subclasses may override this to perform additional processing beyond basic
+ camera updates.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../sensors/camera/GenericCamera.html#update()"><code>GenericCamera.update()</code></a></li>
+</ul>
+</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getDistanceToTarget()">
 <h3>getDistanceToTarget</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDistanceToTarget</span>()</div>
-<div class="block">Get the distance to the target - need to be implemented by any subclass of CameraSystem</div>
+<div class="block">Gets the distance from the camera to the detected target.
+
+ <p>This method must be implemented by subclasses to calculate the distance based on the
+ specific type of target being tracked. The meaning of "distance" depends on the implementation:
+
+ <ul>
+   <li>For target-based systems: horizontal distance to the target
+   <li>For AprilTag systems: 3D distance to the tag center
+   <li>For game piece systems: distance to the piece
+ </ul></div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the distance to the target</dd>
+<dd>the distance to the target in meters, or a negative value if no valid target</dd>
 </dl>
 </section>
 </li>
@@ -307,10 +372,14 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hasValidTarget()">
 <h3>hasValidTarget</h3>
 <div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasValidTarget</span>()</div>
-<div class="block">Does the camera have a valid target?</div>
+<div class="block">Checks if the camera currently has a valid target in view.
+
+ <p>This abstract method must be implemented by subclasses to determine the validity of the
+ current target based on confidence, ambiguity, or other criteria appropriate to the specific
+ vision task.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>true if the camera has a valid target</dd>
+<dd><code>true</code> if a valid target is detected, <code>false</code> otherwise</dd>
 </dl>
 </section>
 </li>
@@ -318,6 +387,18 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hasAValidTarget()">
 <h3>hasAValidTarget</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj2.command.button.Trigger</span>&nbsp;<span class="element-name">hasAValidTarget</span>()</div>
+<div class="block">Creates a Trigger that activates when a valid target is detected.
+
+ <p>This can be used in command scheduling to automatically trigger actions when a target
+ becomes available. For example:
+
+ <pre>
+   cameraSystem.hasAValidTarget().onTrue(alignCommand);
+ </pre></div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>a <code>Trigger</code> that is active when <a href="#hasValidTarget()"><code>hasValidTarget()</code></a> returns true</dd>
+</dl>
 </section>
 </li>
 </ul>

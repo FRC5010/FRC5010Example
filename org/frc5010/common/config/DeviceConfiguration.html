@@ -78,6 +78,28 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">DeviceConfiguration</span></div>
+<div class="block">Interface for configuring robot devices from JSON configuration data.
+
+ <p>Implementations of this interface define how to instantiate and configure specific robot
+ hardware devices (motors, sensors, subsystems, etc.) from JSON configuration objects. This
+ pattern allows robot configuration to be externalized to JSON files while maintaining type safety
+ and compile-time checking.
+
+ <p>Typical usage:
+
+ <pre>
+   DeviceConfiguration config = objectMapper.readValue(jsonFile, ConcreteConfigClass.class);
+   MyDevice device = (MyDevice) config.configure(subsystem);
+ </pre></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch"><code>GenericSubsystem</code></a></li>
+<li><code>SubsystemBase</code></li>
+</ul>
+</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -94,10 +116,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#configure(edu.wpi.first.wpilibj2.command.SubsystemBase)" class="member-name-link">configure</a><wbr>(edu.wpi.first.wpilibj2.command.SubsystemBase&nbsp;deviceHandler)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Configures and returns a device instance based on this configuration object.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#configure(org.frc5010.common.arch.GenericSubsystem)" class="member-name-link">configure</a><wbr>(<a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch">GenericSubsystem</a>&nbsp;deviceHandler)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Configures and returns a device instance using a <a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch"><code>GenericSubsystem</code></a>.</div>
+</div>
 </div>
 </div>
 </div>
@@ -116,12 +142,34 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="configure(edu.wpi.first.wpilibj2.command.SubsystemBase)">
 <h3>configure</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">configure</span><wbr><span class="parameters">(edu.wpi.first.wpilibj2.command.SubsystemBase&nbsp;deviceHandler)</span></div>
+<div class="block">Configures and returns a device instance based on this configuration object.
+
+ <p>This method is called with the subsystem that will contain the device. The implementing
+ class is responsible for creating the appropriate device instance using the configuration data
+ and adding it to the subsystem if necessary.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>deviceHandler</code> - the <code>SubsystemBase</code> to configure with this device configuration</dd>
+<dt>Returns:</dt>
+<dd>the configured device object, or <code>null</code> if no device was created</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="configure(org.frc5010.common.arch.GenericSubsystem)">
 <h3>configure</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">configure</span><wbr><span class="parameters">(<a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch">GenericSubsystem</a>&nbsp;deviceHandler)</span></div>
+<div class="block">Configures and returns a device instance using a <a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch"><code>GenericSubsystem</code></a>.
+
+ <p>This method delegates to <a href="#configure(edu.wpi.first.wpilibj2.command.SubsystemBase)"><code>configure(SubsystemBase)</code></a> after casting the <code>
+ GenericSubsystem</code> to a <code>SubsystemBase</code>. Subclasses can override this method for more
+ specific handling when working with <code>GenericSubsystem</code> instances.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>deviceHandler</code> - the <a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch"><code>GenericSubsystem</code></a> to configure with this device configuration</dd>
+<dt>Returns:</dt>
+<dd>the configured device object, or <code>null</code> if no device was created</dd>
+</dl>
 </section>
 </li>
 </ul>

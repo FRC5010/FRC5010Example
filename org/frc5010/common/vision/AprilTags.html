@@ -78,7 +78,36 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">AprilTags</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Add your docs here.</div>
+<div class="block">AprilTag field layout and utilities for vision-based pose estimation.
+
+ <p>This class provides access to AprilTag field layouts (both standard official layouts and
+ custom layouts) used for vision-based localization on FRC robots. It maintains the mapping
+ between AprilTag IDs and their poses on the field, which is essential for accurate pose
+ estimation using vision.
+
+ <p>The class supports:
+
+ <ul>
+   <li>Official FIRST game field layouts
+   <li>Custom practice field layouts
+   <li>Reverse lookup from poses to AprilTag IDs
+ </ul>
+
+ <p>Usage:
+
+ <pre>
+   AprilTagFieldLayout layout = AprilTags.aprilTagFieldLayout;
+   Optional&lt;Pose3d&gt; tagPose = layout.getTagPose(5);
+ </pre></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><code>AprilTagFieldLayout</code></li>
+<li><code>AprilTag</code></li>
+</ul>
+</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -94,7 +123,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
 <div class="col-second even-row-color"><code><a href="AprilTags.AprilTag5010.html" class="type-name-link" title="enum class in org.frc5010.common.vision">AprilTags.AprilTag5010</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">An set of enum constants that define the April Tag positions for a custom field layout.</div>
+<div class="block">Enumeration of custom AprilTag positions for FRC5010 practice field.</div>
 </div>
 </div>
 </section>
@@ -111,17 +140,17 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static edu.wpi.first.apriltag.AprilTagFieldLayout</code></div>
 <div class="col-second even-row-color"><code><a href="#aprilTagFieldLayout" class="member-name-link">aprilTagFieldLayout</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">The default field layout</div>
+<div class="block">The official AprilTag field layout for the current FIRST game</div>
 </div>
 <div class="col-first odd-row-color"><code>static edu.wpi.first.apriltag.AprilTagFieldLayout</code></div>
 <div class="col-second odd-row-color"><code><a href="#aprilTagRoomLayout" class="member-name-link">aprilTagRoomLayout</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">The default room layout</div>
+<div class="block">Alternative AprilTag layout for practice/lab fields</div>
 </div>
 <div class="col-first even-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;edu.wpi.first.math.geometry.Pose2d,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#poseToID" class="member-name-link">poseToID</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">A map of poses to April Tag IDs for reverse lookup</div>
+<div class="block">Reverse lookup map: given a pose, find the corresponding AprilTag ID</div>
 </div>
 </div>
 </section>
@@ -174,21 +203,21 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="aprilTagFieldLayout">
 <h3>aprilTagFieldLayout</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.apriltag.AprilTagFieldLayout</span>&nbsp;<span class="element-name">aprilTagFieldLayout</span></div>
-<div class="block">The default field layout</div>
+<div class="block">The official AprilTag field layout for the current FIRST game</div>
 </section>
 </li>
 <li>
 <section class="detail" id="aprilTagRoomLayout">
 <h3>aprilTagRoomLayout</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.apriltag.AprilTagFieldLayout</span>&nbsp;<span class="element-name">aprilTagRoomLayout</span></div>
-<div class="block">The default room layout</div>
+<div class="block">Alternative AprilTag layout for practice/lab fields</div>
 </section>
 </li>
 <li>
 <section class="detail" id="poseToID">
 <h3>poseToID</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;edu.wpi.first.math.geometry.Pose2d,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">poseToID</span></div>
-<div class="block">A map of poses to April Tag IDs for reverse lookup</div>
+<div class="block">Reverse lookup map: given a pose, find the corresponding AprilTag ID</div>
 </section>
 </li>
 </ul>

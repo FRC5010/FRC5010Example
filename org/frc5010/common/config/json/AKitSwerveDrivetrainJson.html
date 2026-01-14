@@ -83,7 +83,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">AKitSwerveDrivetrainJson</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="DrivetrainPropertiesJson.html" title="interface in org.frc5010.common.config.json">DrivetrainPropertiesJson</a></span></div>
-<div class="block">Add your docs here.</div>
+<div class="block">Configuration for AKit Swerve Drivetrain</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -96,17 +96,11 @@ implements <a href="DrivetrainPropertiesJson.html" title="interface in org.frc50
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>double</code></div>
-<div class="col-second even-row-color"><code><a href="#robotMassKg" class="member-name-link">robotMassKg</a></code></div>
+<div class="col-first even-row-color"><code><a href="devices/DrivetrainConstantsJson.html" title="class in org.frc5010.common.config.json.devices">DrivetrainConstantsJson</a></code></div>
+<div class="col-second even-row-color"><code><a href="#constants" class="member-name-link">constants</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>double</code></div>
-<div class="col-second odd-row-color"><code><a href="#robotMOI" class="member-name-link">robotMOI</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#type" class="member-name-link">type</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>double</code></div>
-<div class="col-second odd-row-color"><code><a href="#wheelCOF" class="member-name-link">wheelCOF</a></code></div>
+<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#type" class="member-name-link">type</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
 <div class="inherited-list">
@@ -144,7 +138,7 @@ implements <a href="DrivetrainPropertiesJson.html" title="interface in org.frc50
 <div class="block">Creates the drivetrain</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.geometry.Translation2d[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getModuleTranslations()" class="member-name-link">getModuleTranslations</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getModuleTranslations(org.frc5010.common.drive.swerve.AkitSwerveConfig)" class="member-name-link">getModuleTranslations</a><wbr>(<a href="../../drive/swerve/AkitSwerveConfig.html" title="class in org.frc5010.common.drive.swerve">AkitSwerveConfig</a>&nbsp;config)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns an array of module translations.</div>
 </div>
@@ -178,21 +172,9 @@ implements <a href="DrivetrainPropertiesJson.html" title="interface in org.frc50
 </section>
 </li>
 <li>
-<section class="detail" id="robotMassKg">
-<h3>robotMassKg</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">robotMassKg</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="robotMOI">
-<h3>robotMOI</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">robotMOI</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="wheelCOF">
-<h3>wheelCOF</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">wheelCOF</span></div>
+<section class="detail" id="constants">
+<h3>constants</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="devices/DrivetrainConstantsJson.html" title="class in org.frc5010.common.config.json.devices">DrivetrainConstantsJson</a></span>&nbsp;<span class="element-name">constants</span></div>
 </section>
 </li>
 </ul>
@@ -251,9 +233,9 @@ implements <a href="DrivetrainPropertiesJson.html" title="interface in org.frc50
 </section>
 </li>
 <li>
-<section class="detail" id="getModuleTranslations()">
+<section class="detail" id="getModuleTranslations(org.frc5010.common.drive.swerve.AkitSwerveConfig)">
 <h3>getModuleTranslations</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Translation2d[]</span>&nbsp;<span class="element-name">getModuleTranslations</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Translation2d[]</span>&nbsp;<span class="element-name">getModuleTranslations</span><wbr><span class="parameters">(<a href="../../drive/swerve/AkitSwerveConfig.html" title="class in org.frc5010.common.drive.swerve">AkitSwerveConfig</a>&nbsp;config)</span></div>
 <div class="block">Returns an array of module translations.</div>
 </section>
 </li>

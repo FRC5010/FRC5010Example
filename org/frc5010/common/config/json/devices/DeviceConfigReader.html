@@ -119,26 +119,31 @@ loadScripts(document, 'script');</script>
 <div class="block">Retrieves a motor controller based on the specified type and ID.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getReflectedMotor(java.lang.String,java.lang.String,int)" class="member-name-link">getReflectedMotor</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;controller,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
- int&nbsp;id)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getReflectedGenericMotor(java.lang.String,int,java.lang.String)" class="member-name-link">getReflectedGenericMotor</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;controller,
+ int&nbsp;id,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;canbus)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Get a motor controller based on the controller type and motor type.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;yams.motorcontrollers.SmartMotorController&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSmartMotor(java.lang.String,java.lang.String,int,yams.motorcontrollers.SmartMotorControllerConfig)" class="member-name-link">getSmartMotor</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;controller,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.system.plant.DCMotor</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSimulatedMotor(java.lang.String,int)" class="member-name-link">getSimulatedMotor</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
+ int&nbsp;numberOfMotors)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;yams.motorcontrollers.SmartMotorController&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSmartMotor(java.lang.String,java.lang.String,int,yams.motorcontrollers.SmartMotorControllerConfig,java.lang.String)" class="member-name-link">getSmartMotor</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;controller,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
  int&nbsp;id,
- yams.motorcontrollers.SmartMotorControllerConfig&nbsp;config)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+ yams.motorcontrollers.SmartMotorControllerConfig&nbsp;config,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;canbus)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Get a <code>SmartMotorController</code> wrapper from the provided motor controller object and
  simulate it with the provided motor simulator.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#readDeviceConfig(org.frc5010.common.arch.GenericSubsystem,java.io.File,java.lang.String)" class="member-name-link">readDeviceConfig</a><wbr>(<a href="../../../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch">GenericSubsystem</a>&nbsp;system,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#readDeviceConfig(org.frc5010.common.arch.GenericSubsystem,java.io.File,java.lang.String)" class="member-name-link">readDeviceConfig</a><wbr>(<a href="../../../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch">GenericSubsystem</a>&nbsp;system,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/File.html" title="class or interface in java.io" class="external-link">File</a>&nbsp;deviceFile,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Reads a device configuration from the given file and adds it to the system.</div>
 </div>
 </div>
@@ -212,12 +217,13 @@ com.fasterxml.jackson.databind.DatabindException,
 </section>
 </li>
 <li>
-<section class="detail" id="getSmartMotor(java.lang.String,java.lang.String,int,yams.motorcontrollers.SmartMotorControllerConfig)">
+<section class="detail" id="getSmartMotor(java.lang.String,java.lang.String,int,yams.motorcontrollers.SmartMotorControllerConfig,java.lang.String)">
 <h3>getSmartMotor</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;yams.motorcontrollers.SmartMotorController&gt;</span>&nbsp;<span class="element-name">getSmartMotor</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;controller,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
  int&nbsp;id,
- yams.motorcontrollers.SmartMotorControllerConfig&nbsp;config)</span></div>
+ yams.motorcontrollers.SmartMotorControllerConfig&nbsp;config,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;canbus)</span></div>
 <div class="block">Get a <code>SmartMotorController</code> wrapper from the provided motor controller object and
  simulate it with the provided motor simulator.</div>
 <dl class="notes">
@@ -233,18 +239,25 @@ com.fasterxml.jackson.databind.DatabindException,
 </section>
 </li>
 <li>
-<section class="detail" id="getReflectedMotor(java.lang.String,java.lang.String,int)">
-<h3>getReflectedMotor</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">getReflectedMotor</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;controller,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
- int&nbsp;id)</span></div>
+<section class="detail" id="getSimulatedMotor(java.lang.String,int)">
+<h3>getSimulatedMotor</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.math.system.plant.DCMotor</span>&nbsp;<span class="element-name">getSimulatedMotor</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
+ int&nbsp;numberOfMotors)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getReflectedGenericMotor(java.lang.String,int,java.lang.String)">
+<h3>getReflectedGenericMotor</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">getReflectedGenericMotor</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;controller,
+ int&nbsp;id,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;canbus)</span></div>
 <div class="block">Get a motor controller based on the controller type and motor type.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>controller</code> - The type of motor controller, e.g. "spark", "talonfx", "nova", "thrifty",
      "thrifty_nova", or "thriftynova"</dd>
-<dd><code>type</code> - The type of motor, e.g. "neo", "neo550", "krakenx60", or "krakenx44"</dd>
 <dd><code>id</code> - The CAN ID of the motor controller</dd>
+<dd><code>canbus</code> - The CAN bus of the motor controller</dd>
 <dt>Returns:</dt>
 <dd>The motor controller object</dd>
 </dl>

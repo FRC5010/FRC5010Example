@@ -78,7 +78,14 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">CameraConfigurationJson</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Add your docs here.</div>
+<div class="block">Configuration data class for camera systems in an FRC robot.
+
+ <p>This class represents the JSON configuration for a single camera, including its type
+ (Limelight, PhotonVision, AprilTag), physical pose relative to the robot center, and calibration
+ parameters. The configuration supports both real hardware and simulation modes.
+
+ <p>Configuration is typically loaded from JSON files and used to instantiate the appropriate
+ camera implementation (<a href="../../sensors/camera/LimeLightCamera.html" title="class in org.frc5010.common.sensors.camera"><code>LimeLightCamera</code></a>, <a href="../../sensors/camera/PhotonVisionCamera.html" title="class in org.frc5010.common.sensors.camera"><code>PhotonVisionCamera</code></a>, etc.) via the <a href="#configureCamera(org.frc5010.common.arch.GenericRobot)"><code>configureCamera(GenericRobot)</code></a> method.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -94,100 +101,103 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#APRIL_TAG" class="member-name-link">APRIL_TAG</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">AprilTag constant</div>
+<div class="block">Constant identifier for AprilTag detection mode</div>
 </div>
 <div class="col-first odd-row-color"><code>int</code></div>
 <div class="col-second odd-row-color"><code><a href="#column" class="member-name-link">column</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Column in SmartDashboard</div>
+<div class="block">The SmartDashboard column index for this camera's telemetry display</div>
 </div>
 <div class="col-first even-row-color"><code>double</code></div>
 <div class="col-second even-row-color"><code><a href="#fov" class="member-name-link">fov</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Camera field of view (FOV) in degrees</div>
+</div>
 <div class="col-first odd-row-color"><code>int</code></div>
 <div class="col-second odd-row-color"><code><a href="#height" class="member-name-link">height</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Camera height in pixels</div>
+<div class="block">Vertical resolution of the camera in pixels</div>
 </div>
 <div class="col-first even-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#LIMELIGHT" class="member-name-link">LIMELIGHT</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Limelight constant</div>
+<div class="block">Constant identifier for Limelight camera type</div>
 </div>
 <div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#name" class="member-name-link">name</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Name of the camera</div>
+<div class="block">Unique name of the camera used as a subsystem identifier</div>
 </div>
 <div class="col-first even-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#PHOTON_VISION" class="member-name-link">PHOTON_VISION</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">PhotonVision constant</div>
+<div class="block">Constant identifier for PhotonVision camera type</div>
 </div>
 <div class="col-first odd-row-color"><code>double</code></div>
 <div class="col-second odd-row-color"><code><a href="#pitch" class="member-name-link">pitch</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Camera pitch angle in degrees, in the robot's reference frame</div>
+<div class="block">Camera pitch rotation in degrees around the Y-axis in the robot's reference frame</div>
 </div>
 <div class="col-first even-row-color"><code>double</code></div>
 <div class="col-second even-row-color"><code><a href="#roll" class="member-name-link">roll</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Camera roll angle in degrees, in the robot's reference frame</div>
+<div class="block">Camera roll rotation in degrees around the X-axis in the robot's reference frame</div>
 </div>
 <div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#strategy" class="member-name-link">strategy</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Optional strategy of the camera pose</div>
+<div class="block">The pose estimation strategy for PhotonVision cameras (e.g., "AVERAGE_BEST_TARGETS",
+ "LOWEST_AMBIGUITY").</div>
 </div>
 <div class="col-first even-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#TARGET" class="member-name-link">TARGET</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Target camera constant</div>
+<div class="block">Constant identifier for target tracking mode</div>
 </div>
 <div class="col-first odd-row-color"><code>int[]</code></div>
 <div class="col-second odd-row-color"><code><a href="#targetFiducialIds" class="member-name-link">targetFiducialIds</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">optional target fiducial id</div>
+<div class="block">Optional array of AprilTag fiducial IDs to track.</div>
 </div>
 <div class="col-first even-row-color"><code>double</code></div>
 <div class="col-second even-row-color"><code><a href="#targetHeight" class="member-name-link">targetHeight</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">optional target height in meters</div>
+<div class="block">Optional height of the target in meters (used for target tracking mode)</div>
 </div>
 <div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#type" class="member-name-link">type</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Type of the camera</div>
+<div class="block">The camera vendor/type.</div>
 </div>
 <div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#use" class="member-name-link">use</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Use of the camera</div>
+<div class="block">The use case for this camera.</div>
 </div>
 <div class="col-first odd-row-color"><code>int</code></div>
 <div class="col-second odd-row-color"><code><a href="#width" class="member-name-link">width</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Camera width in pixels</div>
+<div class="block">Horizontal resolution of the camera in pixels</div>
 </div>
 <div class="col-first even-row-color"><code>double</code></div>
 <div class="col-second even-row-color"><code><a href="#x" class="member-name-link">x</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Camera X position from center in meters, in the robot's reference frame</div>
+<div class="block">Camera X position offset from robot center in meters (forward/backward in robot frame)</div>
 </div>
 <div class="col-first odd-row-color"><code>double</code></div>
 <div class="col-second odd-row-color"><code><a href="#y" class="member-name-link">y</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Camera Y position from center in meters, in the robot's reference frame</div>
+<div class="block">Camera Y position offset from robot center in meters (left/right in robot frame)</div>
 </div>
 <div class="col-first even-row-color"><code>double</code></div>
 <div class="col-second even-row-color"><code><a href="#yaw" class="member-name-link">yaw</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Camera yaw angle in degrees, in the robot's reference frame</div>
+<div class="block">Camera yaw rotation in degrees around the Z-axis in the robot's reference frame</div>
 </div>
 <div class="col-first odd-row-color"><code>double</code></div>
 <div class="col-second odd-row-color"><code><a href="#z" class="member-name-link">z</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Camera Z position from center in meters, in the robot's reference frame</div>
+<div class="block">Camera Z position offset from robot center in meters (up/down in robot frame)</div>
 </div>
 </div>
 </section>
@@ -219,7 +229,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#configureCamera(org.frc5010.common.arch.GenericRobot)" class="member-name-link">configureCamera</a><wbr>(<a href="../../arch/GenericRobot.html" title="class in org.frc5010.common.arch">GenericRobot</a>&nbsp;robot)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Configures the camera system based on the provided robot.</div>
+<div class="block">Configures the camera system based on the provided robot and current configuration.</div>
 </div>
 </div>
 </div>
@@ -242,139 +252,155 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="LIMELIGHT">
 <h3>LIMELIGHT</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">LIMELIGHT</span></div>
-<div class="block">Limelight constant</div>
+<div class="block">Constant identifier for Limelight camera type</div>
 </section>
 </li>
 <li>
 <section class="detail" id="PHOTON_VISION">
 <h3>PHOTON_VISION</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">PHOTON_VISION</span></div>
-<div class="block">PhotonVision constant</div>
+<div class="block">Constant identifier for PhotonVision camera type</div>
 </section>
 </li>
 <li>
 <section class="detail" id="APRIL_TAG">
 <h3>APRIL_TAG</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">APRIL_TAG</span></div>
-<div class="block">AprilTag constant</div>
+<div class="block">Constant identifier for AprilTag detection mode</div>
 </section>
 </li>
 <li>
 <section class="detail" id="TARGET">
 <h3>TARGET</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">TARGET</span></div>
-<div class="block">Target camera constant</div>
+<div class="block">Constant identifier for target tracking mode</div>
 </section>
 </li>
 <li>
 <section class="detail" id="name">
 <h3>name</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">name</span></div>
-<div class="block">Name of the camera</div>
+<div class="block">Unique name of the camera used as a subsystem identifier</div>
 </section>
 </li>
 <li>
 <section class="detail" id="use">
 <h3>use</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">use</span></div>
-<div class="block">Use of the camera</div>
+<div class="block">The use case for this camera. Valid values include:
+
+ <ul>
+   <li>"target" - for target tracking systems
+   <li>"apriltag" - for AprilTag-based pose estimation
+   <li>"quest" - for QuestNav visual odometry
+ </ul></div>
 </section>
 </li>
 <li>
 <section class="detail" id="type">
 <h3>type</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">type</span></div>
-<div class="block">Type of the camera</div>
+<div class="block">The camera vendor/type. Valid values include:
+
+ <ul>
+   <li>"limelight" - Limelight camera
+   <li>"photonvision" - PhotonVision camera
+ </ul>
+
+ Defaults to "none" if not specified.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="strategy">
 <h3>strategy</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">strategy</span></div>
-<div class="block">Optional strategy of the camera pose</div>
+<div class="block">The pose estimation strategy for PhotonVision cameras (e.g., "AVERAGE_BEST_TARGETS",
+ "LOWEST_AMBIGUITY"). Defaults to "none" if not using multi-target pose estimation.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="column">
 <h3>column</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">column</span></div>
-<div class="block">Column in SmartDashboard</div>
+<div class="block">The SmartDashboard column index for this camera's telemetry display</div>
 </section>
 </li>
 <li>
 <section class="detail" id="x">
 <h3>x</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">x</span></div>
-<div class="block">Camera X position from center in meters, in the robot's reference frame</div>
+<div class="block">Camera X position offset from robot center in meters (forward/backward in robot frame)</div>
 </section>
 </li>
 <li>
 <section class="detail" id="y">
 <h3>y</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">y</span></div>
-<div class="block">Camera Y position from center in meters, in the robot's reference frame</div>
+<div class="block">Camera Y position offset from robot center in meters (left/right in robot frame)</div>
 </section>
 </li>
 <li>
 <section class="detail" id="z">
 <h3>z</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">z</span></div>
-<div class="block">Camera Z position from center in meters, in the robot's reference frame</div>
+<div class="block">Camera Z position offset from robot center in meters (up/down in robot frame)</div>
 </section>
 </li>
 <li>
 <section class="detail" id="roll">
 <h3>roll</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">roll</span></div>
-<div class="block">Camera roll angle in degrees, in the robot's reference frame</div>
+<div class="block">Camera roll rotation in degrees around the X-axis in the robot's reference frame</div>
 </section>
 </li>
 <li>
 <section class="detail" id="pitch">
 <h3>pitch</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">pitch</span></div>
-<div class="block">Camera pitch angle in degrees, in the robot's reference frame</div>
+<div class="block">Camera pitch rotation in degrees around the Y-axis in the robot's reference frame</div>
 </section>
 </li>
 <li>
 <section class="detail" id="yaw">
 <h3>yaw</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">yaw</span></div>
-<div class="block">Camera yaw angle in degrees, in the robot's reference frame</div>
+<div class="block">Camera yaw rotation in degrees around the Z-axis in the robot's reference frame</div>
 </section>
 </li>
 <li>
 <section class="detail" id="width">
 <h3>width</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">width</span></div>
-<div class="block">Camera width in pixels</div>
+<div class="block">Horizontal resolution of the camera in pixels</div>
 </section>
 </li>
 <li>
 <section class="detail" id="height">
 <h3>height</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">height</span></div>
-<div class="block">Camera height in pixels</div>
+<div class="block">Vertical resolution of the camera in pixels</div>
 </section>
 </li>
 <li>
 <section class="detail" id="fov">
 <h3>fov</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">fov</span></div>
+<div class="block">Camera field of view (FOV) in degrees</div>
 </section>
 </li>
 <li>
 <section class="detail" id="targetHeight">
 <h3>targetHeight</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">targetHeight</span></div>
-<div class="block">optional target height in meters</div>
+<div class="block">Optional height of the target in meters (used for target tracking mode)</div>
 </section>
 </li>
 <li>
 <section class="detail" id="targetFiducialIds">
 <h3>targetFiducialIds</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int[]</span>&nbsp;<span class="element-name">targetFiducialIds</span></div>
-<div class="block">optional target fiducial id</div>
+<div class="block">Optional array of AprilTag fiducial IDs to track. If empty, all AprilTags may be detected
+ depending on the configuration strategy.</div>
 </section>
 </li>
 </ul>
@@ -403,10 +429,33 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="configureCamera(org.frc5010.common.arch.GenericRobot)">
 <h3>configureCamera</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">configureCamera</span><wbr><span class="parameters">(<a href="../../arch/GenericRobot.html" title="class in org.frc5010.common.arch">GenericRobot</a>&nbsp;robot)</span></div>
-<div class="block">Configures the camera system based on the provided robot.</div>
+<div class="block">Configures the camera system based on the provided robot and current configuration.
+
+ <p>This method performs the following operations:
+
+ <ol>
+   <li>Creates the appropriate camera instance based on the <a href="#type"><code>type</code></a> field (real hardware
+       or simulation)
+   <li>Initializes camera parameters (resolution, FOV, pose relative to robot)
+   <li>Sets up the camera according to its configured <a href="#use"><code>use</code></a> case:
+       <ul>
+         <li>"target" - Creates a target tracking system
+         <li>"apriltag" - Registers camera with pose estimator for localization
+         <li>"quest" - Initializes QuestNav visual odometry system
+       </ul>
+   <li>Registers the camera/vision system with the robot
+ </ol>
+
+ <p>The method handles both real and simulated robot modes (<code>RobotBase.isReal()</code>). In
+ simulation, cameras are created with physics-based simulation capabilities.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>robot</code> - the GenericRobot instance to configure the camera for</dd>
+<dd><code>robot</code> - the <a href="../../arch/GenericRobot.html" title="class in org.frc5010.common.arch"><code>GenericRobot</code></a> instance to configure the camera for. The robot must have
+     a drivetrain subsystem with a pose estimator if using pose-based vision modes</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the camera type or use case is not recognized</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if required subsystems (e.g., drivetrain) are not available for
+     the specified use case</dd>
 </dl>
 </section>
 </li>

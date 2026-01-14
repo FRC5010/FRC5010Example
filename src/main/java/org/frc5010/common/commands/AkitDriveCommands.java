@@ -42,6 +42,10 @@ import java.util.function.Supplier;
 import org.frc5010.common.drive.swerve.GenericSwerveDrivetrain;
 import org.frc5010.common.drive.swerve.akit.AkitSwerveDrive;
 
+/**
+ * Factory class for creating swerve drive related commands including manual drive control,
+ * characterization routines, and PID tuning commands for drive and steer motors.
+ */
 public class AkitDriveCommands {
   private static final double DEADBAND = 0.1;
   private static final double ANGLE_KP = 5.0;
@@ -73,6 +77,13 @@ public class AkitDriveCommands {
 
   /**
    * Field relative drive command using two joysticks (controlling linear and angular velocities).
+   *
+   * @param swerveDrive the swerve drivetrain subsystem to control
+   * @param drive the swerve drive implementation
+   * @param xSupplier supplier for the forward/backward joystick input
+   * @param ySupplier supplier for the left/right joystick input
+   * @param omegaSupplier supplier for the rotation joystick input
+   * @return a command that continuously reads joystick inputs and drives the robot
    */
   public static Command joystickDrive(
       GenericSwerveDrivetrain swerveDrive,
@@ -115,6 +126,13 @@ public class AkitDriveCommands {
    * Field relative drive command using joystick for linear control and PID for angular control.
    * Possible use cases include snapping to an angle, aiming at a vision target, or controlling
    * absolute rotation with a joystick.
+   *
+   * @param swerveDrive the swerve drivetrain subsystem to control
+   * @param drive the swerve drive implementation
+   * @param xSupplier supplier for the forward/backward joystick input
+   * @param ySupplier supplier for the left/right joystick input
+   * @param rotationSupplier supplier for the target rotation angle
+   * @return a command that drives the robot while maintaining a target orientation
    */
   public static Command joystickDriveAtAngle(
       GenericSwerveDrivetrain swerveDrive,
@@ -170,6 +188,12 @@ public class AkitDriveCommands {
    * Measures the velocity feedforward constants for the drive motors.
    *
    * <p>This command should only be used in voltage control mode.
+   *
+   * @param swerveDrive the swerve drivetrain subsystem to characterize
+   * @param drive the swerve drive implementation
+   * @param characterizer consumer that accepts voltage values to apply to drive motors
+   * @param velocitySupplier supplier that returns the current velocity for measurement
+   * @return a command that performs feedforward characterization and logs results
    */
   public static Command feedforwardCharacterization(
       GenericSwerveDrivetrain swerveDrive,
@@ -237,7 +261,13 @@ public class AkitDriveCommands {
                 }));
   }
 
-  /** Measures the robot's wheel radius by spinning in a circle. */
+  /**
+   * Measures the robot's wheel radius by spinning in a circle.
+   *
+   * @param swerveDrive the swerve drivetrain subsystem to characterize
+   * @param drive the swerve drive implementation
+   * @return a command that measures wheel radius and logs the results to SmartDashboard
+   */
   public static Command wheelRadiusCharacterization(
       GenericSwerveDrivetrain swerveDrive, AkitSwerveDrive drive) {
     SlewRateLimiter limiter = new SlewRateLimiter(WHEEL_RADIUS_RAMP_RATE);
@@ -323,6 +353,11 @@ public class AkitDriveCommands {
    *
    * <p>The P value is calculated using: kP = Applied Voltage / Average Velocity Error across
    * multiple setpoints
+   *
+   * @param swerveDrive the swerve drivetrain subsystem to tune
+   * @param drive the swerve drive implementation
+   * @return a command that measures velocity errors across multiple setpoints and logs suggested kP
+   *     values
    */
   public static Command drivePIDTuning(GenericSwerveDrivetrain swerveDrive, AkitSwerveDrive drive) {
     final double[] TARGET_VELOCITIES = {0.5, 1.0, 1.5, 2.0, 2.5, 3.0}; // Range of velocities in m/s
@@ -422,6 +457,11 @@ public class AkitDriveCommands {
    *
    * <p>The P value is calculated using: kP = Applied Voltage / Average Angle Error across multiple
    * setpoints
+   *
+   * @param swerveDrive the swerve drivetrain subsystem to tune
+   * @param drive the swerve drive implementation
+   * @return a command that measures angle errors across multiple setpoints and logs suggested kP
+   *     values
    */
   public static Command steerPIDTuning(GenericSwerveDrivetrain swerveDrive, AkitSwerveDrive drive) {
     final double[] TARGET_ANGLES = {

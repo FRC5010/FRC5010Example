@@ -1,6 +1,6 @@
 {
   "motorSetup": {
-    "name": "Arm",
+    "name": "Hood",
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
     "canId": 11

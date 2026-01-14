@@ -1,5 +1,8 @@
 {
-  "shooter": "launcher/shooter.json",
-  "hood": "launcher/hood.json",
-  "turret": "launcher/turret.json"
+  "devices": {
+    "hood": "launcher/hood.json",
+    "shooter": "launcher/shooter.json",
+    "turret": "launcher/turret.json"
+  },
+  "display": true
 }

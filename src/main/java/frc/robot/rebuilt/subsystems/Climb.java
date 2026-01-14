@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climb extends SubsystemBase {
   /** Creates a new Climb. */
-  public Climb() {}
+  public Climb() {
+    super("climb.json");
+  }
 
   @Override
   public void periodic() {

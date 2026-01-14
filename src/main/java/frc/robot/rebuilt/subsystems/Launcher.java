@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Launcher extends SubsystemBase {
   /** Creates a new Launcher. */
-  public Launcher() {}
+  public Launcher() {
+    super("launcher.json");
+  }
 
   @Override
   public void periodic() {

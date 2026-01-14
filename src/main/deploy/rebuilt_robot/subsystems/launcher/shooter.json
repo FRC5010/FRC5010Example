@@ -1,9 +1,9 @@
 {
   "motorSetup": {
-    "name": "Shooter",
+    "name": "shooter_motor",
     "controllerType": "spark",
     "motorType": "Neo",
-    "canId": 12
+    "canId": 14
   },
   "motorSystemId": {
     "feedBack": {

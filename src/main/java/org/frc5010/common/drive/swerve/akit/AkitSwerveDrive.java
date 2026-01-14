@@ -106,7 +106,7 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_AdvantageKit);
 
     // Start odometry thread
-    PhoenixOdometryThread.getInstance().start();
+    OdometryThread.getInstance().start();
 
     // Should we keep this?
     // Pathfinding.setPathfinder(new LocalADStarAK());
@@ -508,21 +508,26 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
   public void addAutoCommands(
       LoggedDashboardChooser<Command> selectableCommand, GenericSwerveDrivetrain drivetrain) {
     selectableCommand.addOption(
-        "Swerve Wheel Radius Characterization",
+        "PRO: Swerve Wheel Radius Characterization",
         AkitDriveCommands.wheelRadiusCharacterization(drivetrain, this));
     selectableCommand.addOption(
-        "Swerve Drive Feedforward Characterization",
+        "PRO: Swerve Drive Feedforward Characterization",
         AkitDriveCommands.feedforwardCharacterization(
             drivetrain,
             this,
             (Voltage voltage) -> runCharacterization(voltage.in(Volts)),
             () -> getDriveFFCharacterizationVelocity()));
     selectableCommand.addOption(
-        "Swerve Steer Feedforward Characterization",
+        "PRO: Swerve Steer Feedforward Characterization",
         AkitDriveCommands.feedforwardCharacterization(
             drivetrain,
             this,
             (Voltage voltage) -> runSteerCharacterization(voltage.in(Volts)),
             () -> getSteerFFCharacterizationVelocity()));
+
+    selectableCommand.addOption(
+        "PRO: Swerve Angle PID Tuning", AkitDriveCommands.steerPIDTuning(drivetrain, this));
+    selectableCommand.addOption(
+        "PRO: Swerve Drive PID Tuning", AkitDriveCommands.drivePIDTuning(drivetrain, this));
   }
 }

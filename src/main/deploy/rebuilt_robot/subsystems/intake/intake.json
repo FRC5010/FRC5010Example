@@ -1,0 +1,11 @@
+{
+  "name": "intake_motor",
+  "type": "Neo",
+  "controller": "spark",
+  "id": 11,
+  "gearing": 1.0,
+  "momentOfInertiaKgMSq": 1.0,
+  "x": 0.5,
+  "y": 0.0,
+  "z": 0.25
+}

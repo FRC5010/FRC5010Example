@@ -4,9 +4,9 @@
 
 package frc.robot.rebuilt.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.frc5010.common.arch.GenericSubsystem;
 
-public class Intake extends SubsystemBase {
+public class Intake extends GenericSubsystem {
   /** Creates a new Intake. */
   public Intake() {
     super("intake.json");

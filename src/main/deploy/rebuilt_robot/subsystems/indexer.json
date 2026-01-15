@@ -1,7 +1,13 @@
 {
   "devices": {
-    "feeder": "indexer/feeder.json",
-    "indexer": "indexer/indexer.json"
+    "feeder": {
+      "device": "percent_motor",
+      "file": "indexer/feeder.json"
+    },
+    "indexer": {
+      "device": "percent_motor",
+      "file": "indexer/indexer.json"
+    }
   },
   "display": true
 }

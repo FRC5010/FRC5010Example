@@ -1,5 +1,6 @@
 {
   "name": "intake_motor",
+  "type": "Neo",
   "controller": "spark",
   "id": 11,
   "gearing": 1.0,

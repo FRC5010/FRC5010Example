@@ -2,7 +2,7 @@
   "devices": [
     {
       "device": "percent_motor",
-      "file": "intake/intake.json"
+      "file": "intake/spintake.json"
     },
     {
       "device": "yams_elevator",

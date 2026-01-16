@@ -6,7 +6,7 @@
     },
     {
       "device": "percent_motor",
-      "file": "indexer/indexer.json"
+      "file": "indexer/spindexer.json"
     }
   ],
   "display": true

@@ -5,15 +5,40 @@
 package frc.robot.rebuilt.subsystems;
 
 import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.motors.function.PercentControlMotor;
+import org.frc5010.common.sensors.Controller;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 public class Intake extends GenericSubsystem {
+  private PercentControlMotor Spintake;
+
   /** Creates a new Intake. */
   public Intake() {
     super("intake.json");
+    Spintake = (PercentControlMotor) devices.get("spintake");
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void RunSpintake(double speed) {
+    Spintake.set(speed);
+  }
+
+  public void ConfigController(Controller controller) {
+    controller
+        .createAButton()
+        .whileTrue(spintakeCommand(.25));
+
+  }
+
+  public Command spintakeCommand(double speed) {
+    return Commands.run(
+        () -> {
+          RunSpintake(.25);
+        })
+        .finallyDo(
+            () -> {
+              RunSpintake(0);
+            });
   }
 }

@@ -1,7 +1,7 @@
 {
   "devices": [
     {
-      "device": "percent_motor",
+      "device": "yams_elevator",
       "file": "climb/climb_motor.json"
     }
   ],

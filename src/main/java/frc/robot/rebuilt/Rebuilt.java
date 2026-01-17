@@ -42,6 +42,7 @@ public class Rebuilt extends GenericRobot {
   public void configureButtonBindings(Controller driver, Controller operator) {
     indexer.ConfigController(driver);
     intake.ConfigController(driver);
+    climb.ConfigController(driver);
   }
 
   @Override

@@ -10,12 +10,12 @@
       "id": "00:80:2F:38:90:61",
       "robotClass": "frc.robot.tigershark.TigerShark",
       "simulate": true,
-      "competition": false
+      "competition": true
     },
     "alpha": {
       "id": "00:80:2F:33:17:DD",
       "robotClass": "frc.robot.alpha.Alpha",
-      "competition": true,
+      "competition": false,
       "simulate": false
     },
     "baby_swerve": {

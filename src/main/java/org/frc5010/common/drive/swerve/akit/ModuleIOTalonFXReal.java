@@ -34,11 +34,11 @@ public class ModuleIOTalonFXReal extends ModuleIOTalonFX {
   public ModuleIOTalonFXReal(AkitSwerveConfig config, SwerveModuleConstants constants) {
     super(config, constants);
 
-    this.timestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
+    this.timestampQueue = TalonFXOdometryThread.getInstance().makeTimestampQueue();
     this.drivePositionQueue =
-        PhoenixOdometryThread.getInstance().registerSignal(super.drivePosition);
+        TalonFXOdometryThread.getInstance().registerSignal(super.drivePosition);
     this.turnPositionQueue =
-        PhoenixOdometryThread.getInstance().registerSignal(super.turnAbsolutePosition);
+        TalonFXOdometryThread.getInstance().registerSignal(super.turnAbsolutePosition);
   }
 
   @Override

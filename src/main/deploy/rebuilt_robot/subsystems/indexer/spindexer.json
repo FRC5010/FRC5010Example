@@ -1,0 +1,11 @@
+{
+  "name": "spindexer",
+  "controller": "spark",
+  "type": "Neo",
+  "id": 10,
+  "gearing": 1.0,
+  "momentOfInertiaKgMSq": 1.0,
+  "x": -0.05,
+  "y": 0.0,
+  "z": 0.1
+}

@@ -1,0 +1,17 @@
+{
+  "devices": [
+    {
+      "device": "yams_arm",
+      "file": "launcher/hood.json"
+    },
+    {
+      "device": "yams_shooter",
+      "file": "launcher/shooter.json"
+    },
+    {
+      "device": "yams_pivot",
+      "file": "launcher/turret.json"
+    }
+  ],
+  "display": true
+}

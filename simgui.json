@@ -10,12 +10,62 @@
       }
     },
     "Other Devices": {
+      "CANcoder (v6)[16]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [10]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [11]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [11] RELATIVE ENCODER": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [12]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [13]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [13] RELATIVE ENCODER": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [16]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [16] RELATIVE ENCODER": {
+        "header": {
+          "open": true
+        }
+      },
       "SPARK MAX [5]": {
         "header": {
           "open": true
         }
       },
       "SPARK MAX [7]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [9]": {
         "header": {
           "open": true
         }
@@ -40,12 +90,12 @@
           "open": true
         }
       },
-      "Talon FX (v6)[2]/Rotor Sensor": {
+      "Talon FX (v6)[51]": {
         "header": {
           "open": true
         }
       },
-      "Talon FX (v6)[51]": {
+      "Talon FX (v6)[8]": {
         "header": {
           "open": true
         }
@@ -91,8 +141,10 @@
       "/Shuffleboard/BabySwerve/Auto Modes": "String Chooser",
       "/Shuffleboard/ExampleRobot/Auto Modes": "String Chooser",
       "/SmartDashboard/Alerts": "Alerts",
+      "/SmartDashboard/Alpha/Auto Modes": "String Chooser",
       "/SmartDashboard/Arm/mechanism": "Mechanism2d",
       "/SmartDashboard/Auto Modes": "String Chooser",
+      "/SmartDashboard/Climb/mechanism": "Mechanism2d",
       "/SmartDashboard/Drive Visual": "Mechanism2d",
       "/SmartDashboard/DrivePoseEstimator/Pose Field": "Field2d",
       "/SmartDashboard/Elevator/mechanism": "Mechanism2d",
@@ -101,6 +153,10 @@
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/IMU": "Alerts",
       "/SmartDashboard/JSON": "Alerts",
+      "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/Down": "Command",
+      "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/Up": "Command",
+      "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/ZeroEncoder": "Command",
+      "/SmartDashboard/Mechanisms/Commands/climb.json/Live Tuning": "Command",
       "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/Down": "Command",
       "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/LiveTuning": "Command",
       "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/Up": "Command",
@@ -111,15 +167,18 @@
       "/SmartDashboard/PhotonAlerts": "Alerts",
       "/SmartDashboard/Pigeon 2 (v6) [13]": "Gyro",
       "/SmartDashboard/Pigeon 2 [13]": "Gyro",
+      "/SmartDashboard/Rebuilt/Auto Modes": "String Chooser",
       "/SmartDashboard/Robot Visual": "Mechanism2d",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Shooter/mechanism": "Mechanism2d",
       "/SmartDashboard/Swerve Drive": "Alerts",
+      "/SmartDashboard/TigerShark/Auto Modes": "String Chooser",
       "/SmartDashboard/Turret/mechanism": "Mechanism2d",
       "/SmartDashboard/VisionSystemSim-Vision/Sim Field": "Field2d",
       "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d",
       "/SmartDashboard/navX-Sensor[1]": "Gyro",
-      "/SmartDashboard/navX-Sensor[4]": "Gyro"
+      "/SmartDashboard/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/winch_motor/mechanism": "Mechanism2d"
     },
     "windows": {
       "/FMSInfo": {
@@ -127,7 +186,7 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Arm/mechanism": {
+      "/SmartDashboard/Climb/mechanism": {
         "window": {
           "visible": true
         }
@@ -693,11 +752,6 @@
           "visible": true
         }
       },
-      "/SmartDashboard/ExampleRobot/Auto Modes": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Field": {
         "OdometryPose": {
           "arrowColor": [
@@ -728,12 +782,17 @@
           "visible": true
         }
       },
+      "/SmartDashboard/Rebuilt/Auto Modes": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Robot Visual": {
         "window": {
           "visible": true
         }
       },
-      "/SmartDashboard/Shooter/mechanism": {
+      "/SmartDashboard/TigerShark/Auto Modes": {
         "window": {
           "visible": true
         }
@@ -877,5 +936,8 @@
   },
   "NetworkTables Info": {
     "visible": true
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

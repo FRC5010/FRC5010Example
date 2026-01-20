@@ -1,0 +1,10 @@
+{
+  "name": "feeder",
+  "controller": "spark",
+  "type": "Neo",
+  "id": 9,
+  "gearing": 1.0,
+  "x": -0.40,
+  "y": 0.0,
+  "z": 0.10
+}

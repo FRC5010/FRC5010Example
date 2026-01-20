@@ -1,0 +1,9 @@
+{
+  "devices": [
+    {
+      "device": "yams_elevator",
+      "file": "climb/climb_motor.json"
+    }
+  ],
+  "display": true
+}

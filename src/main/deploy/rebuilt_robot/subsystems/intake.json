@@ -1,0 +1,13 @@
+{
+  "devices": [
+    {
+      "device": "percent_motor",
+      "file": "intake/spintake.json"
+    },
+    {
+      "device": "yams_elevator",
+      "file": "intake/winch.json"
+    }
+  ],
+  "display": true
+}

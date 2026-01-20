@@ -29,19 +29,19 @@
       "type": "pigeon2",
       "id": 50,
       "inverted": false,
-      "canbus": ""
+      "canbus": "canivore"
     },
     "driveGearRatio": "1:6.75",
     "steerGearRatio": "1:25",
     "driveMotorControl": {
       "feedBack": {
-        "p": 0.1,
+        "p": 0.00001,
         "i": 0.0,
         "d": 0.0
       },
       "feedForward": {
-        "s": 0.2,
-        "v": 0.124,
+        "s": 0.0698163127444402,
+        "v": 0.11987949085405275,
         "a": 0.0
       }
     },
@@ -52,8 +52,8 @@
         "d": 0.5
       },
       "feedForward": {
-        "s": 0.1,
-        "v": 1.91,
+        "s": 0.06242725612073021,
+        "v": 0.4513057312290134,
         "a": 0.0
       }
     },
@@ -159,6 +159,6 @@
       "val": 120,
       "uom": "amps"
     },
-    "canbus": ""
+    "canbus": "canivore"
   }
 }

@@ -13,8 +13,9 @@
       "competition": false
     },
     "alpha": {
-      "id": "alpha",
+      "id": "00:80:2F:33:17:DD",
       "robotClass": "frc.robot.alpha.Alpha",
+      "competition": false,
       "simulate": false
     },
     "rebuilt_robot": {

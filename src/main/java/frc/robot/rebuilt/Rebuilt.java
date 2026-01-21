@@ -10,11 +10,13 @@ import org.frc5010.common.constants.SwerveConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.commands.AutoCommands;
-import frc.robot.rebuilt.commands.TestCommands;
+import frc.robot.rebuilt.commands.ClimbCommands;
 import frc.robot.rebuilt.commands.IntakeCommands;
+import frc.robot.rebuilt.commands.TestCommands;
 import frc.robot.rebuilt.subsystems.Climb;
 import frc.robot.rebuilt.subsystems.Indexer;
 import frc.robot.rebuilt.subsystems.Intake;
@@ -29,8 +31,10 @@ public class Rebuilt extends GenericRobot {
   Intake intake;
   Launcher launcher;
   AutoCommands autocommands;
-  TestCommands testCommands;
+  ClimbCommands climbCommands;
   IntakeCommands intakecommands;
+  TestCommands testCommands;
+  
   
 
   public Rebuilt(String directory) {
@@ -46,7 +50,19 @@ public class Rebuilt extends GenericRobot {
   public void configureButtonBindings(Controller driver, Controller operator) {
     indexer.ConfigController(driver);
     intake.ConfigController(driver);
+<<<<<<< Updated upstream
     climb.ConfigController(driver);
+
+     if (DriverStation.isTest ()){
+      testCommands.configureButtonBindings(driver);
+    }
+    else{
+      // Add teleop commands here
+    }
+  
+=======
+    launcher.ConfigController(driver);
+>>>>>>> Stashed changes
   }
 
   @Override

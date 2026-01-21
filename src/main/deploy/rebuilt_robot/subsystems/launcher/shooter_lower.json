@@ -1,8 +1,8 @@
 {
   "motorSetup": {
-    "name": "shooter_motor",
-    "controllerType": "spark",
-    "motorType": "Neo",
+    "name": "lowershootermotor",
+    "controllerType": "talonfx",
+    "motorType": "KrakenX60",
     "canId": 14
   },
   "motorSystemId": {

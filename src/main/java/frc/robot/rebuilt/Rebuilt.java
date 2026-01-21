@@ -4,21 +4,13 @@
 
 package frc.robot.rebuilt;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.rebuilt.commands.AutoCommands;
-import frc.robot.rebuilt.commands.IntakeCommands;
-import frc.robot.rebuilt.commands.TestCommands;
-import frc.robot.rebuilt.subsystems.Climb;
-import frc.robot.rebuilt.subsystems.Indexer;
-import frc.robot.rebuilt.subsystems.Intake;
-import frc.robot.rebuilt.subsystems.Launcher;
 import org.frc5010.common.arch.GenericRobot;
 import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.constants.SwerveConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.commands.AutoCommands;
@@ -59,6 +51,14 @@ public class Rebuilt extends GenericRobot {
     indexer.ConfigController(driver);
     intake.ConfigController(driver);
     climb.ConfigController(driver);
+
+     if (DriverStation.isTest ()){
+      testCommands.configureButtonBindings(driver);
+    }
+    else{
+      // Add teleop commands here
+    }
+  
   }
 
   @Override

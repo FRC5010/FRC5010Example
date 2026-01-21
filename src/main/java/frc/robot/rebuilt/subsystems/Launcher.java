@@ -4,12 +4,6 @@
 
 package frc.robot.rebuilt.subsystems;
 
-<<<<<<< Updated upstream
-import org.frc5010.common.arch.GenericSubsystem;
-
-public class Launcher extends GenericSubsystem {
-=======
-import java.util.Map;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,17 +19,14 @@ public class Launcher extends GenericSubsystem {
   private Arm Hood;
   private FlyWheel UpperShooter;
   private FlyWheel LowerShooter;
-  
->>>>>>> Stashed changes
+
   /** Creates a new Launcher. */
-  
   public Launcher() {
     super("launcher.json");
     Turret = (Pivot) devices.get("turretmotor");
     Hood = (Arm) devices.get("hoodmotor");
     UpperShooter = (FlyWheel) devices.get("uppershootermotor");
     LowerShooter = (FlyWheel) devices.get("lowershootermotor");
-    
   }
 
   public void runShooter(double speed) {

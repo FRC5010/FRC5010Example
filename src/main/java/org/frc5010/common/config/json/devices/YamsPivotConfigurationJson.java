@@ -10,6 +10,8 @@ import org.frc5010.common.config.DeviceConfiguration;
 import org.frc5010.common.config.UnitsParser;
 import org.frc5010.common.config.json.UnitValueJson;
 import org.frc5010.common.config.units.AngleUnit;
+import org.frc5010.common.config.units.DistanceUnit;
+import org.frc5010.common.config.units.MassUnit;
 import org.frc5010.common.config.units.VoltageUnit;
 import org.frc5010.common.motors.GenericMotorController;
 import yams.gearing.GearBox;
@@ -34,7 +36,8 @@ public class YamsPivotConfigurationJson implements DeviceConfiguration {
   public double[] gearing;
   public UnitValueJson voltageCompensation = new UnitValueJson(12, VoltageUnit.VOLTS.toString());
   public UnitValueJson startingPosition = new UnitValueJson(0, AngleUnit.DEGREES.toString());
-  public double moi;
+  public UnitValueJson radius = new UnitValueJson(1, DistanceUnit.INCHES.toString());
+  public UnitValueJson mass = new UnitValueJson(1, MassUnit.POUNDS.toString());
 
   /**
    * Configure the given GenericSubsystem with a pivot using the given json configuration.
@@ -84,7 +87,7 @@ public class YamsPivotConfigurationJson implements DeviceConfiguration {
                 UnitsParser.parseAngle(lowerHardLimit), UnitsParser.parseAngle(upperHardLimit))
             .withTelemetry(motorSetup.name, TelemetryVerbosity.valueOf(motorSetup.logLevel))
             .withStartingPosition(UnitsParser.parseAngle(startingPosition))
-            .withMOI(moi);
+            .withMOI(UnitsParser.parseDistance(radius), UnitsParser.parseMass(mass));
     Pivot pivot = new Pivot(pivotConfig);
     return pivot;
   }

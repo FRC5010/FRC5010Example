@@ -36,7 +36,6 @@ public class YamsShooterConfigurationJson implements DeviceConfiguration {
   public UnitValueJson voltageCompensation = new UnitValueJson(12, VoltageUnit.VOLTS.toString());
   public UnitValueJson mass = new UnitValueJson(0, MassUnit.POUNDS.toString());
   public UnitValueJson diameter = new UnitValueJson(0, DistanceUnit.INCHES.toString());
-  public double moi = 0;
 
   /**
    * Configure the given GenericSubsystem with a shooter using the given json configuration.
@@ -94,9 +93,8 @@ public class YamsShooterConfigurationJson implements DeviceConfiguration {
             .withLowerSoftLimit(UnitsParser.parseAngularVelocity(lowerSoftLimit))
             .withSpeedometerSimulation(UnitsParser.parseAngularVelocity(upperSoftLimit))
             .withTelemetry(motorSetup.name, TelemetryVerbosity.valueOf(motorSetup.logLevel));
-    if (0 != moi) {
-      shooterConfig.withMOI(moi);
-    }
+    shooterConfig.withMOI(
+        UnitsParser.parseDistance(diameter).div(2.0), UnitsParser.parseMass(mass));
     FlyWheel shooter = new FlyWheel(shooterConfig);
     return shooter;
   }

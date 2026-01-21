@@ -15,6 +15,10 @@
     {
       "device": "yams_arm",
       "file": "example/yams_arm.json"
+    },
+    {
+      "device": "yams_pivot",
+      "file": "example/yams_pivot.json"
     }
   ],
   "display": true

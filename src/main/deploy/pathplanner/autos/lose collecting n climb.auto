@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "shoot 8"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "lose collecting"
@@ -14,6 +20,18 @@
           "type": "path",
           "data": {
             "pathName": "lose collecting climb"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot "
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "climb"
           }
         }
       ]

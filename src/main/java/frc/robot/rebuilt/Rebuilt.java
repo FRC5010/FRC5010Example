@@ -50,6 +50,7 @@ public class Rebuilt extends GenericRobot {
   public void configureButtonBindings(Controller driver, Controller operator) {
     indexer.ConfigController(driver);
     intake.ConfigController(driver);
+<<<<<<< Updated upstream
     climb.ConfigController(driver);
 
      if (DriverStation.isTest ()){
@@ -59,6 +60,9 @@ public class Rebuilt extends GenericRobot {
       // Add teleop commands here
     }
   
+=======
+    launcher.ConfigController(driver);
+>>>>>>> Stashed changes
   }
 
   @Override

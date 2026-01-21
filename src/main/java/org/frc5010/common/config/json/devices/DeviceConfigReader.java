@@ -102,6 +102,7 @@ public class DeviceConfigReader {
             yamsShooterConfigurationJson.configure(system));
         break;
       default:
+        System.out.println("Unknown device key: " + key);
         break;
     }
   }

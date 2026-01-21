@@ -6,10 +6,14 @@
     },
     {
       "device": "yams_shooter",
-      "file": "launcher/shooter.json"
+      "file": "launcher/shooter_upper.json"
     },
     {
-      "device": "yams_pivot",
+      "device": "yams_shooter",
+      "file": "launcher/shooter_lower.json"
+    },
+    {
+      "device": "yams_turret",
       "file": "launcher/turret.json"
     }
   ],

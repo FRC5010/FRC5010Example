@@ -1,9 +1,9 @@
 {
   "motorSetup": {
-    "name": "turretmotor",
+    "name": "uppershootermotor",
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
-    "canId": 16
+    "canId": 15
   },
   "motorSystemId": {
     "feedBack": {
@@ -25,33 +25,24 @@
       "uom": "deg/s^2"
     }
   },
-  "lowerHardLimit": {
-    "val": -100,
-    "uom": "deg"
-  },
-  "upperHardLimit": {
-    "val": 200,
-    "uom": "deg"
-  },
-  "startingAngle": {
-    "val": 0,
-    "uom": "deg"
-  },
   "lowerSoftLimit": {
-    "val": -30,
-    "uom": "deg"
+    "val": 0,
+    "uom": "rpm"
   },
   "upperSoftLimit": {
-    "val": 100,
-    "uom": "deg"
+    "val": 5000,
+    "uom": "rpm"
   },
   "gearing": [
     3,
     4
   ],
-  "startingPosition": {
-    "val": 0,
-    "uom": "deg"
+  "mass": {
+    "val": 2,
+    "uom": "kg"
   },
-  "moi": 0.001
+  "diameter": {
+    "val": 0.05,
+    "uom": "m"
+  }
 }

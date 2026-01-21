@@ -32,10 +32,10 @@ public class Rebuilt extends GenericRobot {
   public Rebuilt(String directory) {
     super(directory);
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
-    indexer = new Indexer();
-    climb = new Climb();
-    intake = new Intake();
-    launcher = new Launcher();
+    indexer = (Indexer) subsystems.get(ConfigConstants.INDEXER);
+    climb = (Climb) subsystems.get(ConfigConstants.CLIMB);
+    intake = (Intake) subsystems.get(ConfigConstants.INTAKE);
+    launcher = (Launcher) subsystems.get(ConfigConstants.LAUNCHER);
   }
 
   @Override

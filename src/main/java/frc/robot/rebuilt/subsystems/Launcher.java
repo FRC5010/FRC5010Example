@@ -4,9 +4,10 @@
 
 package frc.robot.rebuilt.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.frc5010.common.arch.GenericSubsystem;
 
-public class Launcher extends SubsystemBase {
+
+public class Launcher extends GenericSubsystem {
   /** Creates a new Launcher. */
   public Launcher() {
     super("launcher.json");

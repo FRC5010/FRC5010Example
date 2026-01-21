@@ -1,1 +1,13 @@
+package frc.robot.rebuilt.commands;
 
+import java.util.Map;
+
+import org.frc5010.common.arch.GenericSubsystem;
+
+public class TestCommands{
+
+    private Map<String, GenericSubsystem> subsystems;
+public void TestCommands(Map<String, GenericSubsystem> subsystems){
+    this.subsystems = subsystems;
+}
+}

@@ -4,16 +4,7 @@
 
 package frc.robot.rebuilt.subsystems;
 
-<<<<<<< Updated upstream
-import org.frc5010.common.arch.GenericSubsystem;
-
-public class Launcher extends GenericSubsystem {
-=======
-import java.util.Map;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.sensors.Controller;
 import yams.mechanisms.positional.Arm;
@@ -25,17 +16,14 @@ public class Launcher extends GenericSubsystem {
   private Arm Hood;
   private FlyWheel UpperShooter;
   private FlyWheel LowerShooter;
-  
->>>>>>> Stashed changes
+
   /** Creates a new Launcher. */
-  
   public Launcher() {
     super("launcher.json");
     Turret = (Pivot) devices.get("turretmotor");
     Hood = (Arm) devices.get("hoodmotor");
     UpperShooter = (FlyWheel) devices.get("uppershootermotor");
     LowerShooter = (FlyWheel) devices.get("lowershootermotor");
-    
   }
 
   public void runShooter(double speed) {
@@ -59,109 +47,7 @@ public class Launcher extends GenericSubsystem {
     Turret.getMotorController().setPosition(angle);
   }
 
-  public Command testLauncherCommand(double speed, double time) {
-
-    return (Commands.run(
-                () -> {
-                  runShooter(speed);
-                })
-            .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      runShooter(0);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setUpperSpeed(speed);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setUpperSpeed(0);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setLowerSpeed(speed);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setLowerSpeed(0);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setHoodAngle(Units.Degrees.of(90));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setHoodAngle(Units.Degrees.of(180));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setHoodAngle(Units.Degrees.of(-90));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setHoodAngle(Units.Degrees.of(-180));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setHoodAngle(Units.Degrees.of(0));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setTurretRotation(Units.Degrees.of(90.0));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setTurretRotation(Units.Degrees.of(180.0));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setTurretRotation(Units.Degrees.of(-90.0));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setTurretRotation(Units.Degrees.of(180.0));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      setTurretRotation(Units.Degrees.of(0));
-                    }))
-                .withTimeout(time))
-        .repeatedly();
-  }
-
-  public void ConfigController(Controller controller) {
-    controller.createLeftStickButton().whileTrue(testLauncherCommand(4, 1));
-  }
+  public void ConfigController(Controller controller) {}
 
   @Override
   public void periodic() {

@@ -41,6 +41,7 @@ public class Rebuilt extends GenericRobot {
     intake = new Intake();
     launcher = new Launcher();
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
+    testCommands = new TestCommands(subsystems);
   }
 
   @Override
@@ -53,6 +54,7 @@ public class Rebuilt extends GenericRobot {
       testCommands.configureButtonBindings(driver);
     } else {
       // Add teleop commands here
+      testCommands.configureButtonBindings(driver);
     }
   }
 

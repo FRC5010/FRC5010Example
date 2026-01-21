@@ -18,7 +18,7 @@ public class TestCommands {
   Intake intake;
   Launcher launcher;
 
-  public void TestCommands(Map<String, GenericSubsystem> subsystems) {
+  public TestCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
     indexer = (Indexer) subsystems.get(ConfigConstants.INDEXER);
     climb = (Climb) subsystems.get(ConfigConstants.CLIMB);

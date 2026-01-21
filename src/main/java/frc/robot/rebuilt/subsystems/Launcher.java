@@ -6,7 +6,6 @@ package frc.robot.rebuilt.subsystems;
 
 import org.frc5010.common.arch.GenericSubsystem;
 
-
 public class Launcher extends GenericSubsystem {
   /** Creates a new Launcher. */
   public Launcher() {

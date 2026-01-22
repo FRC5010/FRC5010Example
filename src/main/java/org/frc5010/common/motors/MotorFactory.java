@@ -75,6 +75,10 @@ public class MotorFactory {
     switch (config) {
       case KrakenX60:
         return new GenericTalonFXMotor(canId, config);
+      case KrakenX44:
+        return new GenericTalonFXMotor(canId, config);
+      case KrakenX60Foc:
+        return new GenericTalonFXMotor(canId, config);
       default:
         throw new IllegalArgumentException("TalonFX can not use " + config + " config");
     }

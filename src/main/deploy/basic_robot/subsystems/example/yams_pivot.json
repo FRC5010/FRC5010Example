@@ -53,5 +53,12 @@
     "val": 0,
     "uom": "deg"
   },
-  "moi": 0.001
+  "radius": {
+    "val": 1,
+    "uom": "in"
+  },
+  "mass": {
+    "val": 1,
+    "uom": "lb"
+  }
 }

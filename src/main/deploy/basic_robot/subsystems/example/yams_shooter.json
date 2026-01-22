@@ -2,7 +2,7 @@
   "motorSetup": {
     "name": "Shooter",
     "controllerType": "spark",
-    "motorType": "Neo",
+    "motorType": "KrakenX44",
     "canId": 12
   },
   "motorSystemId": {

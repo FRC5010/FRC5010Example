@@ -308,9 +308,7 @@
           "description": "Type of motor controller",
           "enum": [
             "talonfx",
-            "talonsrx",
-            "sparkmax",
-            "victorspx"
+            "spark"
           ]
         },
         "canId": {

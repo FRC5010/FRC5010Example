@@ -147,6 +147,9 @@ public class DeviceConfigReader {
       case "krakenx60foc":
         motorSim = DCMotor.getKrakenX60Foc(numberOfMotors);
         break;
+      case "krakenx44":
+        motorSim = DCMotor.getKrakenX44(numberOfMotors);
+        break;
       default:
     }
     return motorSim;

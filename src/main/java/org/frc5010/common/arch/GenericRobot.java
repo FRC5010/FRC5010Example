@@ -194,6 +194,16 @@ public abstract class GenericRobot extends GenericMechanism implements GenericDe
   }
 
   /**
+   * Use this method to define your button->command mappings. Buttons can be created by
+   * instantiating a {@link GenericHID} or one of its subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   */
+  public void configureAltButtonBindings() {
+    configureAltButtonBindings(driver.orElse(null), operator.orElse(null));
+  }
+
+  /**
    * Sets up the default commands for the robot. If the robot is in teleoperated or autonomous mode,
    * it will call the setupDefaultCommands method. If the robot is in test mode, it will call the
    * setupTestDefaultCommands method.
@@ -202,7 +212,13 @@ public abstract class GenericRobot extends GenericMechanism implements GenericDe
     if (DriverStation.isTeleop() || DriverStation.isAutonomous()) {
       setupDefaultCommands(driver.orElse(null), operator.orElse(null));
     } else if (DriverStation.isTest()) {
-      setupTestDefaultCommmands(driver.orElse(null), operator.orElse(null));
+      setupAltDefaultCommmands(driver.orElse(null), operator.orElse(null));
+    }
+  }
+
+  public void setupAltDefaultCommands() {
+    if (DriverStation.isTest()) {
+      setupAltDefaultCommmands(driver.orElse(null), operator.orElse(null));
     }
   }
 
@@ -250,7 +266,7 @@ public abstract class GenericRobot extends GenericMechanism implements GenericDe
 
   /** Executes periodic behavior when the robot is disabled. */
   @Override
-  public void disabledBehavior() {
+  public void disabledPeriodic() {
     selectableCommand.periodic();
   }
 

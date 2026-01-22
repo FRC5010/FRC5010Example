@@ -50,6 +50,14 @@ public abstract class GenericMechanism implements WpiHelperInterface {
   public abstract void configureButtonBindings(Controller driver, Controller operator);
 
   /**
+   * configureAltButtonBindings should map button/axis controls to commands
+   *
+   * @param driver - driver joystick
+   * @param operator - operator joystick
+   */
+  public void configureAltButtonBindings(Controller driver, Controller operator) {}
+
+  /**
    * setupDefaultCommands should setup the default commands needed by subsystems It could check for
    * Test mode and enable different commands
    *
@@ -64,7 +72,7 @@ public abstract class GenericMechanism implements WpiHelperInterface {
    * @param driver the driver controller
    * @param operator the operator controller
    */
-  public void setupTestDefaultCommmands(Controller driver, Controller operator) {}
+  public void setupAltDefaultCommmands(Controller driver, Controller operator) {}
 
   /**
    * initRealOrSim should check the real or simulation state of the robot and initialize its code
@@ -87,5 +95,8 @@ public abstract class GenericMechanism implements WpiHelperInterface {
   public abstract Command generateAutoCommand(Command autoCommand);
 
   /** Executed periodically when robot is disabled */
-  public void disabledBehavior() {}
+  public void disabledInit() {}
+
+  /** Executed periodically when robot is disabled */
+  public void disabledPeriodic() {}
 }

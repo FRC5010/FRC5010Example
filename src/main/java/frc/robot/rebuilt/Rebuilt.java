@@ -4,7 +4,6 @@
 
 package frc.robot.rebuilt;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.commands.AutoCommands;
@@ -46,16 +45,13 @@ public class Rebuilt extends GenericRobot {
 
   @Override
   public void configureButtonBindings(Controller driver, Controller operator) {
-    indexer.ConfigController(driver);
-    intake.ConfigController(driver);
-    climb.ConfigController(driver);
+    climbCommands.configureButtonBindings(operator);
+  }
 
-    if (DriverStation.isTest()) {
-      testCommands.configureButtonBindings(driver);
-    } else {
-      // Add teleop commands here
-      testCommands.configureButtonBindings(driver);
-    }
+  @Override
+  public void configureAltButtonBindings(Controller driver, Controller operator) {
+    // Add test mode specific button bindings here
+    testCommands.configureButtonBindings(driver);
   }
 
   @Override

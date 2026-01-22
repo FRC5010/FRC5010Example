@@ -5,6 +5,7 @@
 package org.frc5010.common.config.json.devices;
 
 import java.util.Map;
+import org.frc5010.common.config.json.Pose2dJson;
 import org.frc5010.common.config.json.UnitValueJson;
 
 /** SwerveConstantsJson class holds configuration constants for a swerve drive system. */
@@ -57,6 +58,8 @@ public class DrivetrainConstantsJson {
   public UnitValueJson slipCurrent = new UnitValueJson(40, "amps");
   /** The CAN bus for the drivetrain */
   public String canbus = "";
+  /** Starting pose of the robot */
+  public Pose2dJson startingPose = new Pose2dJson();
 
   /** Configuration for a swerve module */
   public static class ModuleConfigJson {

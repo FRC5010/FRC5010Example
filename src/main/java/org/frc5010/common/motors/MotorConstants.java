@@ -25,6 +25,16 @@ public class MotorConstants {
         Amps.of(40),
         RPM.of(6000),
         (Integer numberOfMotors) -> DCMotor.getKrakenX60(numberOfMotors),
+        1023),
+    KrakenX60Foc(
+        Amps.of(40),
+        RPM.of(6000),
+        (Integer numberOfMotors) -> DCMotor.getKrakenX60Foc(numberOfMotors),
+        1023),
+    KrakenX44(
+        Amps.of(40),
+        RPM.of(6000),
+        (Integer numberOfMotors) -> DCMotor.getKrakenX44(numberOfMotors),
         1023);
 
     public Current currentLimit = Amps.of(20);

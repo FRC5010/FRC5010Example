@@ -4,6 +4,7 @@
 
 package org.frc5010.common.config.json;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.util.Optional;
 import org.frc5010.common.arch.GenericRobot;
 import org.frc5010.common.config.ConfigConstants;
+import org.frc5010.common.config.UnitsParser;
 import org.frc5010.common.config.json.devices.DeviceConfigReader;
 import org.frc5010.common.config.json.devices.DrivetrainConstantsJson;
 import org.frc5010.common.constants.RobotConstantsDef;
@@ -178,6 +180,12 @@ public class AKitSwerveDrivetrainJson implements DrivetrainPropertiesJson {
     robot.addSubsystem(ConfigConstants.DRIVETRAIN, drivetrain);
     robot.setPoseSupplier(() -> dt.getPoseEstimator().getCurrentPose());
     robot.setSimulatedPoseSupplier(() -> driveFunctions.getSimPose());
+    Pose2d startingPoseFromJson =
+        new Pose2d(
+            UnitsParser.parseDistance(constants.startingPose.x).in(Meters),
+            UnitsParser.parseDistance(constants.startingPose.y).in(Meters),
+            new Rotation2d(UnitsParser.parseAngle(constants.startingPose.rotation).in(Degrees)));
+    dt.resetPose(startingPoseFromJson);
     gamePiecesJson.ifPresent(it -> it.createGamePieces(dt));
   }
 

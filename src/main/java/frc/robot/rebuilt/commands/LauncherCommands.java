@@ -3,6 +3,7 @@ package frc.robot.rebuilt.commands;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.subsystems.Launcher;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
@@ -14,7 +15,7 @@ public class LauncherCommands {
 
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
-    launcher = (Launcher) subsystems.get("launcher");
+    launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
   }
 
   public void configureButtonBindings(Controller controller) {

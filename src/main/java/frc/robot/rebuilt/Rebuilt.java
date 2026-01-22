@@ -59,7 +59,9 @@ public class Rebuilt extends GenericRobot {
   }
 
   @Override
-  public void setupDefaultCommands(Controller driver, Controller operator) {}
+  public void setupDefaultCommands(Controller driver, Controller operator) {
+    drivetrain.setDefaultCommand(drivetrain.createDefaultCommand(driver));
+  }
 
   @Override
   public void initAutoCommands() {

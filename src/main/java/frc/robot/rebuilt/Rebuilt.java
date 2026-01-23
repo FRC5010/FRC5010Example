@@ -4,6 +4,13 @@
 
 package frc.robot.rebuilt;
 
+import org.frc5010.common.arch.GenericRobot;
+import org.frc5010.common.config.ConfigConstants;
+import org.frc5010.common.constants.SwerveConstants;
+import org.frc5010.common.drive.GenericDrivetrain;
+import org.frc5010.common.sensors.Controller;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.commands.AutoCommands;
@@ -14,11 +21,6 @@ import frc.robot.rebuilt.subsystems.Climb;
 import frc.robot.rebuilt.subsystems.Indexer;
 import frc.robot.rebuilt.subsystems.Intake;
 import frc.robot.rebuilt.subsystems.Launcher;
-import org.frc5010.common.arch.GenericRobot;
-import org.frc5010.common.config.ConfigConstants;
-import org.frc5010.common.constants.SwerveConstants;
-import org.frc5010.common.drive.GenericDrivetrain;
-import org.frc5010.common.sensors.Controller;
 
 /** This is an example robot class. */
 public class Rebuilt extends GenericRobot {
@@ -32,32 +34,35 @@ public class Rebuilt extends GenericRobot {
   ClimbCommands climbCommands;
   IntakeCommands intakecommands;
   TestCommands testCommands;
+  
+  
 
   public Rebuilt(String directory) {
     super(directory);
-    indexer = new Indexer();
-    climb = new Climb();
-    intake = new Intake();
-    launcher = new Launcher();
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
-    testCommands = new TestCommands(subsystems);
+    indexer = (Indexer) subsystems.get(Constants.INDEXER);
+    climb = (Climb) subsystems.get(Constants.CLIMB);
+    intake = (Intake) subsystems.get(Constants.INTAKE);
+    launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
   }
 
   @Override
   public void configureButtonBindings(Controller driver, Controller operator) {
-    climbCommands.configureButtonBindings(operator);
-  }
+    indexer.ConfigController(driver);
+    intake.ConfigController(driver);
+    climb.ConfigController(driver);
+
+     if (DriverStation.isTest ()){
+      testCommands.configureButtonBindings(driver);
+    }
+    else{
+      // Add teleop commands here
+    }
+  
+  } 
 
   @Override
-  public void configureAltButtonBindings(Controller driver, Controller operator) {
-    // Add test mode specific button bindings here
-    testCommands.configureButtonBindings(driver);
-  }
-
-  @Override
-  public void setupDefaultCommands(Controller driver, Controller operator) {
-    drivetrain.setDefaultCommand(drivetrain.createDefaultCommand(driver));
-  }
+  public void setupDefaultCommands(Controller driver, Controller operator) {}
 
   @Override
   public void initAutoCommands() {

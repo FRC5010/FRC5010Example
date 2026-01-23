@@ -445,6 +445,16 @@ public class StateMachine extends Command {
         }
       }
     } // end class NeedsConditionTransitionBuilder
+
+    public Object switchto(State pREPPING) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'switchto'");
+    }
+
+    public boolean isActive() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isActive'");
+    }
   } // end class State
 
   /** class Transition is a Triggering external event to change to the next command (state) */

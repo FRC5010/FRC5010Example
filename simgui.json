@@ -176,8 +176,12 @@
       "/SmartDashboard/Turret/mechanism": "Mechanism2d",
       "/SmartDashboard/VisionSystemSim-Vision/Sim Field": "Field2d",
       "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d",
+      "/SmartDashboard/hoodmotor/mechanism": "Mechanism2d",
+      "/SmartDashboard/lowershootermotor/mechanism": "Mechanism2d",
       "/SmartDashboard/navX-Sensor[1]": "Gyro",
       "/SmartDashboard/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/turretmotor/mechanism": "Mechanism2d",
+      "/SmartDashboard/uppershootermotor/mechanism": "Mechanism2d",
       "/SmartDashboard/winch_motor/mechanism": "Mechanism2d"
     },
     "windows": {
@@ -918,11 +922,6 @@
         }
       },
       "/SmartDashboard/Robot Visual": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/TigerShark/Auto Modes": {
         "window": {
           "visible": true
         }

@@ -11,7 +11,7 @@ import frc.robot.rebuilt.commands.TestCommands;
 import frc.robot.rebuilt.subsystems.Climb;
 import frc.robot.rebuilt.subsystems.Indexer;
 import frc.robot.rebuilt.subsystems.Intake;
-import frc.robot.rebuilt.subsystems.Launcher;
+import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import org.frc5010.common.arch.GenericRobot;
 import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.constants.SwerveConstants;

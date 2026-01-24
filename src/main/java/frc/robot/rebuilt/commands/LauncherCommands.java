@@ -28,16 +28,16 @@ public class LauncherCommands {
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {
 
     this.subsystems = subsystems;
-    
-     launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
-     stateMachine = new StateMachine("LauncherStateMachine");
 
-     lowState = stateMachine.addState("LOW-SPEED", Commands.idle());
+    launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
+    stateMachine = new StateMachine("LauncherStateMachine");
+
+    lowState = stateMachine.addState("LOW-SPEED", Commands.idle());
   }
 
   public void configureButtonBindings(Controller controller) {
 
-    if (launcher != null){
+    if (launcher != null) {
       launcher.setDefaultCommand(stateMachine);
     }
 
@@ -46,26 +46,19 @@ public class LauncherCommands {
     Trigger rightBumper = controller.createRightBumper();
     Trigger leftBumper = controller.createLeftBumper();
 
-   lowState.switchTo(prepState).when(rightBumper);
-     prepState.switchTo(lowState).when(() -> !rightBumper.getAsBoolean());
+    lowState.switchTo(prepState).when(rightBumper);
+    prepState.switchTo(lowState).when(() -> !rightBumper.getAsBoolean());
 
     prepState.switchTo(readyState).when(leftBumper);
-     readyState.switchTo(lowState).when(() -> !leftBumper.getAsBoolean());
+    readyState.switchTo(lowState).when(() -> !leftBumper.getAsBoolean());
 
-      
-      if (lowState != null && lowState.isActive() ) {
-       
-          launcher.setHoodAngle(Units.Degrees.of(0));
-          launcher.setLowerSpeed(0.5);
-          launcher.setTurretRotation(Units.Degrees.of(0));
+    if (lowState != null && lowState.isScheduled()) {
 
-        }
-      }
-      
-      
-
-     
-  
+      launcher.setHoodAngle(Units.Degrees.of(0));
+      launcher.setLowerSpeed(0.5);
+      launcher.setTurretRotation(Units.Degrees.of(0));
+    }
+  }
 
   public Command testLauncherCommand(double speed, double time) {
 

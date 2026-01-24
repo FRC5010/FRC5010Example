@@ -185,11 +185,6 @@
       "/SmartDashboard/winch_motor/mechanism": "Mechanism2d"
     },
     "windows": {
-      "/FMSInfo": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Climb/mechanism": {
         "window": {
           "visible": true
@@ -916,11 +911,6 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Rebuilt/Auto Modes": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Robot Visual": {
         "window": {
           "visible": true
@@ -933,6 +923,26 @@
         "right": 3942,
         "top": 118,
         "width": 16.54119300842285,
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/hoodmotor/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/lowershootermotor/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/turretmotor/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/uppershootermotor/mechanism": {
         "window": {
           "visible": true
         }
@@ -1062,9 +1072,6 @@
         }
       }
     }
-  },
-  "NetworkTables Info": {
-    "visible": true
   },
   "NetworkTables View": {
     "visible": false

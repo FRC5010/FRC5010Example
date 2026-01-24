@@ -2,16 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.rebuilt.subsystems;
+package frc.robot.rebuilt.subsystems.Launcher;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.RobotBase;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.sensors.Controller;
+import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
 import yams.mechanisms.velocity.FlyWheel;
 
 public class Launcher extends GenericSubsystem {
+  private final LauncherIO io;
+  private final LauncherIOInputsAutoLogged inputs = new LauncherIOInputsAutoLogged();
   private Pivot Turret;
   private Arm Hood;
   private FlyWheel UpperShooter;
@@ -24,6 +28,11 @@ public class Launcher extends GenericSubsystem {
     Hood = (Arm) devices.get("hoodmotor");
     UpperShooter = (FlyWheel) devices.get("uppershootermotor");
     LowerShooter = (FlyWheel) devices.get("lowershootermotor");
+    if (RobotBase.isSimulation()) {
+      io = new LauncherIOSim(devices);
+    } else {
+      io = new LauncherIOReal(devices);
+    }
   }
 
   public void runShooter(double speed) {
@@ -51,8 +60,9 @@ public class Launcher extends GenericSubsystem {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
     super.periodic();
+    io.updateInputs(inputs);
+    Logger.processInputs("Launcher", inputs);
   }
 
   @Override

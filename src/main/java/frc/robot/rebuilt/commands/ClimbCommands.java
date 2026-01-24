@@ -3,7 +3,7 @@ package frc.robot.rebuilt.commands;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
-import frc.robot.rebuilt.subsystems.Climb;
+import frc.robot.rebuilt.subsystems.Climb.Climb;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
@@ -47,8 +47,8 @@ public class ClimbCommands {
 
   public void configureButtonBindings(Controller controller) {
     // create Trigger objects for clarity and reuse
-    Trigger rightBumper = controller.createRightBumper();
-    Trigger leftBumper = controller.createLeftBumper();
+    Trigger rightBumper = controller.createXButton();
+    Trigger leftBumper = controller.createYButton();
 
     // idle -> elevate on right bumper press
     idleState.switchTo(elevateState).when(rightBumper);

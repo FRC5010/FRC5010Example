@@ -4,14 +4,22 @@
 
 package frc.robot.rebuilt.subsystems;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.rebuilt.commands.IndexerIO;
+import frc.robot.rebuilt.commands.IndexerIOInputsAutoLogged;
+import frc.robot.rebuilt.commands.IndexerIOReal;
+import frc.robot.rebuilt.commands.IndexerIOSim;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.motors.function.PercentControlMotor;
 import org.frc5010.common.sensors.Controller;
+import org.littletonrobotics.junction.Logger;
 
 public class Indexer extends GenericSubsystem {
   private PercentControlMotor Spindexer;
+  private final IndexerIO io;
+  private final IndexerIOInputsAutoLogged inputs = new IndexerIOInputsAutoLogged();
   private PercentControlMotor Feeder;
 
   /** Creates a new Index. */
@@ -19,6 +27,11 @@ public class Indexer extends GenericSubsystem {
     super("indexer.json");
     Spindexer = (PercentControlMotor) devices.get("spindexer");
     Feeder = (PercentControlMotor) devices.get("feeder");
+    if (RobotBase.isSimulation()) {
+      io = new IndexerIOSim(devices);
+    } else {
+      io = new IndexerIOReal(devices);
+    }
   }
 
   public void RunSpindexer(double speed) {
@@ -30,8 +43,8 @@ public class Indexer extends GenericSubsystem {
   }
 
   public void ConfigController(Controller controller) {
-    controller.createXButton().whileTrue(spindexerCommand(.25));
-    controller.createYButton().whileTrue(feederCommand(.25));
+    controller.createAButton().whileTrue(spindexerCommand(.25));
+    controller.createBButton().whileTrue(feederCommand(.25));
   }
 
   public Command feederCommand(double speed) {
@@ -60,6 +73,8 @@ public class Indexer extends GenericSubsystem {
   public void periodic() {
     // This method will be called once per scheduler run
     super.periodic();
+    io.updateInputs(inputs);
+    Logger.processInputs("Indexer", inputs);
   }
 
   @Override

@@ -1,17 +1,22 @@
 package frc.robot.rebuilt.commands;
 
+import java.util.Map;
+
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.arch.StateMachine;
+import org.frc5010.common.arch.StateMachine.State;
+import org.frc5010.common.config.ConfigConstants;
+import org.frc5010.common.drive.GenericDrivetrain;
+import org.frc5010.common.sensors.Controller;
+import org.frc5010.common.telemetry.DisplayString;
+import org.frc5010.common.telemetry.DisplayValuesHelper;
+
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
-import java.util.Map;
-import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.arch.StateMachine;
-import org.frc5010.common.arch.StateMachine.State;
-import org.frc5010.common.sensors.Controller;
-import org.frc5010.common.telemetry.DisplayString;
-import org.frc5010.common.telemetry.DisplayValuesHelper;
 import yams.mechanisms.positional.Arm;
 
 public class LauncherCommands {
@@ -24,7 +29,9 @@ public class LauncherCommands {
   private State readyState;
   private Arm hood;
   private Launcher launcher;
+  private GenericDrivetrain drivetrain;
   private Map<String, GenericSubsystem> subsystems;
+  private Translation2d target = new Translation2d(0,0);
 
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {
 
@@ -33,6 +40,7 @@ public class LauncherCommands {
     commandState = DisplayHelper.makeDisplayString("Launcher State");
     launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
     stateMachine = new StateMachine("LauncherStateMachine");
+    drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
 
     lowState = stateMachine.addState("LOW-SPEED", lowStateCommand());
     prepState = stateMachine.addState("PREP-SHOOT", prepStateCommand());
@@ -64,6 +72,10 @@ public class LauncherCommands {
     //   launcher.setLowerSpeed(0.5);
     //   launcher.setTurretRotation(Units.Degrees.of(0));
     // }
+  }
+
+  private Translation2d getTargetPose(){
+    return drivetrain.getPoseEstimator().getCurrentPose().getTranslation();
   }
 
   private Command lowStateCommand() {

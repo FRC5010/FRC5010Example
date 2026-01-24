@@ -39,9 +39,10 @@ public class ClimbCommands {
 
     stateMachine.setInitialState(idleState);
 
-    /*  if (climb != null) {
+    if (climb != null) {
+      stateMachine.addRequirements(climb);
       climb.setDefaultCommand(stateMachine);
-    }*/
+    }
   }
 
   public void configureButtonBindings(Controller controller) {

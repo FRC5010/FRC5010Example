@@ -3,7 +3,7 @@ package frc.robot.rebuilt.commands;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
-import frc.robot.rebuilt.subsystems.Climb;
+import frc.robot.rebuilt.subsystems.Climb.Climb;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;

@@ -10,7 +10,7 @@ import frc.robot.rebuilt.commands.AutoCommands;
 import frc.robot.rebuilt.commands.ClimbCommands;
 import frc.robot.rebuilt.commands.IntakeCommands;
 import frc.robot.rebuilt.commands.TestCommands;
-import frc.robot.rebuilt.subsystems.Climb;
+import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.Indexer;
 import frc.robot.rebuilt.subsystems.Intake;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;

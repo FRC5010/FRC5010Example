@@ -4,7 +4,14 @@
 
 package frc.robot.rebuilt.subsystems.Launcher;
 
+import java.util.Map;
+
 /** Add your docs here. */
 public class LauncherIOSim extends LauncherIOReal {
 
+  protected Map<String, Object> devices;
+
+  public LauncherIOSim(Map<String, Object> devices) {
+    super(devices);
+  }
 }

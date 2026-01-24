@@ -1,7 +1,7 @@
 package frc.robot.rebuilt.commands;
 
 import frc.robot.rebuilt.Constants;
-import frc.robot.rebuilt.subsystems.Climb;
+import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.Indexer;
 import frc.robot.rebuilt.subsystems.Intake;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;

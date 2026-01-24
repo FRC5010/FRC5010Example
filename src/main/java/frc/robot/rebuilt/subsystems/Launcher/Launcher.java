@@ -4,11 +4,11 @@
 
 package frc.robot.rebuilt.subsystems.Launcher;
 
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.RobotBase;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.sensors.Controller;
 import org.littletonrobotics.junction.Logger;
-
-import edu.wpi.first.units.measure.Angle;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
 import yams.mechanisms.velocity.FlyWheel;
@@ -24,11 +24,15 @@ public class Launcher extends GenericSubsystem {
   /** Creates a new Launcher. */
   public Launcher() {
     super("launcher.json");
-    io = new LauncherIO() {};
     Turret = (Pivot) devices.get("turretmotor");
     Hood = (Arm) devices.get("hoodmotor");
     UpperShooter = (FlyWheel) devices.get("uppershootermotor");
     LowerShooter = (FlyWheel) devices.get("lowershootermotor");
+    if (RobotBase.isSimulation()) {
+      io = new LauncherIOSim(devices);
+    } else {
+      io = new LauncherIOReal(devices);
+    }
   }
 
   public void runShooter(double speed) {
@@ -54,7 +58,6 @@ public class Launcher extends GenericSubsystem {
 
   public void ConfigController(Controller controller) {}
 
-  
   @Override
   public void periodic() {
     super.periodic();

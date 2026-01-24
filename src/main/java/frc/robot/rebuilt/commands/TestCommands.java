@@ -1,10 +1,10 @@
 package frc.robot.rebuilt.commands;
 
 import frc.robot.rebuilt.Constants;
-import frc.robot.rebuilt.subsystems.Climb;
+import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.Indexer;
 import frc.robot.rebuilt.subsystems.Intake;
-import frc.robot.rebuilt.subsystems.Launcher;
+import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.sensors.Controller;

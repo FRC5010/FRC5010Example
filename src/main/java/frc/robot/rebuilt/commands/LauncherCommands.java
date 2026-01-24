@@ -1,6 +1,5 @@
 package frc.robot.rebuilt.commands;
 
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -11,11 +10,15 @@ import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.arch.StateMachine.State;
 import org.frc5010.common.sensors.Controller;
+import org.frc5010.common.telemetry.DisplayString;
+import org.frc5010.common.telemetry.DisplayValuesHelper;
 import yams.mechanisms.positional.Arm;
 
 public class LauncherCommands {
 
   private StateMachine stateMachine;
+  private DisplayString commandState;
+  private DisplayValuesHelper DisplayHelper;
   private State lowState;
   private State prepState;
   private State readyState;
@@ -26,20 +29,25 @@ public class LauncherCommands {
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {
 
     this.subsystems = subsystems;
-
+    DisplayHelper = new DisplayValuesHelper("LauncherCommands");
+    commandState = DisplayHelper.makeDisplayString("Launcher State");
     launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
     stateMachine = new StateMachine("LauncherStateMachine");
 
-    lowState = stateMachine.addState("LOW-SPEED", Commands.idle());
+    lowState = stateMachine.addState("LOW-SPEED", lowStateCommand());
+    prepState = stateMachine.addState("PREP-SHOOT", prepStateCommand());
+    readyState = stateMachine.addState("READY-TO-SHOOT", readyStateCommand());
+    stateMachine.setInitialState(lowState);
+  }
+
+  public void setDefaultCommands() {
+    if (launcher != null) {
+      stateMachine.addRequirements(launcher);
+      launcher.setDefaultCommand(stateMachine);
+    }
   }
 
   public void configureButtonBindings(Controller controller) {
-
-    if (launcher != null) {
-      launcher.setDefaultCommand(stateMachine);
-    }
-
-    controller.createLeftStickButton().whileTrue(testLauncherCommand(4, 1));
 
     Trigger rightBumper = controller.createRightBumper();
     Trigger leftBumper = controller.createLeftBumper();
@@ -50,111 +58,29 @@ public class LauncherCommands {
     prepState.switchTo(readyState).when(leftBumper);
     readyState.switchTo(lowState).when(() -> !leftBumper.getAsBoolean());
 
-    if (lowState != null && lowState.isScheduled()) {
+    // if (lowState != null && lowState.isScheduled()) {
 
-      launcher.setHoodAngle(Units.Degrees.of(0));
-      launcher.setLowerSpeed(0.5);
-      launcher.setTurretRotation(Units.Degrees.of(0));
-    }
+    //   launcher.setHoodAngle(Units.Degrees.of(0));
+    //   launcher.setLowerSpeed(0.5);
+    //   launcher.setTurretRotation(Units.Degrees.of(0));
+    // }
   }
 
-  public Command testLauncherCommand(double speed, double time) {
+  private Command lowStateCommand() {
+    return Commands.parallel(
+        Commands.print("Launcher in LOW-SPEED state"),
+        Commands.runOnce(() -> commandState.setValue("Low Speed")));
+  }
 
-    return (Commands.run(
-                () -> {
-                  launcher.runShooter(speed);
-                })
-            .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.runShooter(0);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setUpperSpeed(speed);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setUpperSpeed(0);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setLowerSpeed(speed);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setLowerSpeed(0);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setHoodAngle(Units.Degrees.of(90));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setHoodAngle(Units.Degrees.of(180));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setHoodAngle(Units.Degrees.of(-90));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setHoodAngle(Units.Degrees.of(-180));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setHoodAngle(Units.Degrees.of(0));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setTurretRotation(Units.Degrees.of(90.0));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setTurretRotation(Units.Degrees.of(180.0));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setTurretRotation(Units.Degrees.of(-90.0));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setTurretRotation(Units.Degrees.of(180.0));
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setTurretRotation(Units.Degrees.of(0));
-                    }))
-                .withTimeout(time))
-        .repeatedly();
+  private Command prepStateCommand() {
+    return Commands.parallel(
+        Commands.print("Launcher in PREP state"),
+        Commands.runOnce(() -> commandState.setValue("Prep")));
+  }
+
+  private Command readyStateCommand() {
+    return Commands.parallel(
+        Commands.print("Launcher in READY state"),
+        Commands.runOnce(() -> commandState.setValue("Ready")));
   }
 }

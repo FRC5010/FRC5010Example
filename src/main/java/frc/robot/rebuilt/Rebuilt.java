@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.commands.AutoCommands;
 import frc.robot.rebuilt.commands.ClimbCommands;
 import frc.robot.rebuilt.commands.IntakeCommands;
+import frc.robot.rebuilt.commands.LauncherCommands;
 import frc.robot.rebuilt.commands.TestCommands;
 import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.Indexer;
@@ -28,6 +29,7 @@ public class Rebuilt extends GenericRobot {
   Climb climb;
   Intake intake;
   Launcher launcher;
+  LauncherCommands launcherCommands;
   AutoCommands autocommands;
   ClimbCommands climbCommands;
   IntakeCommands intakecommands;
@@ -42,13 +44,14 @@ public class Rebuilt extends GenericRobot {
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
     testCommands = new TestCommands(subsystems);
     climbCommands = new ClimbCommands(subsystems);
+    launcherCommands = new LauncherCommands(subsystems);
     // intakecommands = new IntakeCommands(subsystems);
   }
 
   @Override
   public void configureButtonBindings(Controller driver, Controller operator) {
-    testCommands.configureButtonBindings(driver);
-    climbCommands.configureButtonBindings(operator);
+    climbCommands.configureButtonBindings(driver);
+    launcherCommands.configureButtonBindings(driver);
   }
 
   @Override
@@ -60,6 +63,7 @@ public class Rebuilt extends GenericRobot {
   @Override
   public void setupDefaultCommands(Controller driver, Controller operator) {
     drivetrain.setDefaultCommand(drivetrain.createDefaultCommand(driver));
+    launcherCommands.setDefaultCommands();
   }
 
   @Override

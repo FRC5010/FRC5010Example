@@ -6,21 +6,19 @@ package frc.robot.rebuilt.subsystems.Climb;
 
 import static edu.wpi.first.units.Units.Meters;
 
-import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.sensors.Controller;
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.rebuilt.subsystems.Climb.ClimbIOReal;
-import frc.robot.rebuilt.subsystems.Climb.ClimbIOSim;
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.sensors.Controller;
+import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Elevator;
 
 public class Climb extends GenericSubsystem {
   /** Creates a new Climb. */
   private static Elevator climber;
+
   private final ClimbIO io;
   private final ClimbIOInputsAutoLogged inputs = new ClimbIOInputsAutoLogged();
 
@@ -41,21 +39,19 @@ public class Climb extends GenericSubsystem {
 
   public Climb() {
     super("climb.json");
-      if (RobotBase.isSimulation()) {
-        io = new ClimbIOSim(devices);
-     } else {
-        io = new ClimbIOReal(devices);
+    if (RobotBase.isSimulation()) {
+      io = new ClimbIOSim(devices);
+    } else {
+      io = new ClimbIOReal(devices);
       climber = (Elevator) devices.get("Climb");
+    }
   }
-}
-  
 
   public void setHeight(double height) {
     Distance mydist = Meters.of(height);
     climber.getMotorController().setPosition(mydist);
   }
-   
- 	
+
   @Override
   public void periodic() {
     super.periodic();

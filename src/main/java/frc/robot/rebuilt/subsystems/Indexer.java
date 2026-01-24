@@ -43,8 +43,8 @@ public class Indexer extends GenericSubsystem {
   }
 
   public void ConfigController(Controller controller) {
-    controller.createXButton().whileTrue(spindexerCommand(.25));
-    controller.createYButton().whileTrue(feederCommand(.25));
+    controller.createAButton().whileTrue(spindexerCommand(.25));
+    controller.createBButton().whileTrue(feederCommand(.25));
   }
 
   public Command feederCommand(double speed) {

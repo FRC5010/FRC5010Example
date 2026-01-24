@@ -47,8 +47,8 @@ public class ClimbCommands {
 
   public void configureButtonBindings(Controller controller) {
     // create Trigger objects for clarity and reuse
-    Trigger rightBumper = controller.createRightBumper();
-    Trigger leftBumper = controller.createLeftBumper();
+    Trigger rightBumper = controller.createXButton();
+    Trigger leftBumper = controller.createYButton();
 
     // idle -> elevate on right bumper press
     idleState.switchTo(elevateState).when(rightBumper);

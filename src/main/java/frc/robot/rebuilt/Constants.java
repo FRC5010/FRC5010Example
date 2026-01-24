@@ -2,8 +2,8 @@ package frc.robot.rebuilt;
 
 import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.Indexer;
-import frc.robot.rebuilt.subsystems.Intake;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
+import frc.robot.rebuilt.subsystems.intake.Intake;
 
 public class Constants {
   public static final String INDEXER = Indexer.class.getSimpleName();

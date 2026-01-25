@@ -8,13 +8,13 @@ import swervelib.simulation.ironmaple.simulation.IntakeSimulation;
 import swervelib.simulation.ironmaple.simulation.drivesims.AbstractDriveTrainSimulation;
 
 public class IntakeIOSim extends IntakeIOReal {
-  private IntakeSimulation intakeSimulation;
+  public static IntakeSimulation intakeSimulation;
   private AbstractDriveTrainSimulation driveTrainSimulation;
 
   public IntakeIOSim(Map<String, Object> devices) {
     super(devices);
     driveTrainSimulation = GenericDrivetrain.getMapleSimDrive().get();
-    this.intakeSimulation =
+    intakeSimulation =
         IntakeSimulation.OverTheBumperIntake(
             "Gamepiece",
             driveTrainSimulation,

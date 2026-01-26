@@ -3,7 +3,25 @@
     "name": "hoodmotor",
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
-    "canId": 13
+    "canId": 13,
+    "robotToMotor": {
+      "x": {
+        "val": -8.2,
+        "uom": "in"
+      },
+      "y": {
+        "val": 10.104,
+        "uom": "in"
+      },
+      "z": {
+        "val": 15.786,
+        "uom": "in"
+      },
+      "rotation": {
+        "val": 0.0,
+        "uom": "deg"
+      }
+    }
   },
   "motorSystemId": {
     "feedBack": {
@@ -46,27 +64,27 @@
     }
   },
   "length": {
-    "val": 0.135,
-    "uom": "in"
+    "val": 0.234,
+    "uom": "m"
   },
   "lowerHardLimit": {
-    "val": -80,
+    "val": 55,
     "uom": "deg"
   },
   "upperHardLimit": {
-    "val": 200,
+    "val": 100,
     "uom": "deg"
   },
   "startingAngle": {
-    "val": 0,
+    "val": 55,
     "uom": "deg"
   },
   "lowerSoftLimit": {
-    "val": -30,
+    "val": 55,
     "uom": "deg"
   },
   "upperSoftLimit": {
-    "val": 100,
+    "val": 85,
     "uom": "deg"
   },
   "gearing": [
@@ -78,7 +96,7 @@
     "uom": "lbs"
   },
   "horizontalZero": {
-    "val": 0,
+    "val": 55,
     "uom": "deg"
   }
 }

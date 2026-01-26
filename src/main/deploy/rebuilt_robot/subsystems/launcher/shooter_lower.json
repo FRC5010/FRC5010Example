@@ -3,7 +3,25 @@
     "name": "lowershootermotor",
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
-    "canId": 14
+    "canId": 14,
+    "robotToMotor": {
+      "x": {
+        "val": -5.872,
+        "uom": "in"
+      },
+      "y": {
+        "val": 4.8,
+        "uom": "in"
+      },
+      "z": {
+        "val": 14.466,
+        "uom": "in"
+      },
+      "rotation": {
+        "val": 0.0,
+        "uom": "deg"
+      }
+    }
   },
   "motorSystemId": {
     "feedBack": {

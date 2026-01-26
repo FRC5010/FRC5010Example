@@ -3,7 +3,25 @@
     "name": "winch_motor",
     "controllerType": "spark",
     "motorType": "Neo",
-    "canId": 12
+    "canId": 12,
+    "robotToMotor": {
+      "x": {
+        "val": 8.36,
+        "uom": "in"
+      },
+      "y": {
+        "val": 13.482,
+        "uom": "in"
+      },
+      "z": {
+        "val": 8.394,
+        "uom": "in"
+      },
+      "rotation": {
+        "val": 0.0,
+        "uom": "deg"
+      }
+    }
   },
   "motorSystemId": {
     "feedBack": {
@@ -51,31 +69,31 @@
   },
   "sprocketTeeth": 22,
   "lowerSoftLimit": {
-    "val": 0.1,
+    "val": 0,
     "uom": "m"
   },
   "upperSoftLimit": {
-    "val": 2,
-    "uom": "m"
+    "val": 12,
+    "uom": "in"
   },
   "lowerHardLimit": {
-    "val": 0.1,
-    "uom": "m"
+    "val": 0,
+    "uom": "in"
   },
   "upperHardLimit": {
-    "val": 3,
-    "uom": "m"
+    "val": 12,
+    "uom": "in"
   },
   "gearing": [
     3,
     4
   ],
   "startingPosition": {
-    "val": 0.5,
+    "val": 0,
     "uom": "m"
   },
   "mass": {
-    "val": 16,
+    "val": 1,
     "uom": "lbs"
   }
 }

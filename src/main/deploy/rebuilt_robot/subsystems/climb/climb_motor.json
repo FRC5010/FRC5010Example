@@ -70,10 +70,10 @@
   "sprocketTeeth": 22,
   "lowerSoftLimit": {
     "val": 0,
-    "uom": "m"
+    "uom": "in"
   },
   "upperSoftLimit": {
-    "val": 20,
+    "val": 9,
     "uom": "in"
   },
   "lowerHardLimit": {
@@ -81,7 +81,7 @@
     "uom": "in"
   },
   "upperHardLimit": {
-    "val": 25,
+    "val": 26.5,
     "uom": "in"
   },
   "gearing": [

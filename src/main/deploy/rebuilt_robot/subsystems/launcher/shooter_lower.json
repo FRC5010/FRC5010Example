@@ -25,6 +25,26 @@
       "uom": "deg/s^2"
     }
   },
+  "simSystemId": {
+    "feedBack": {
+      "p": 4,
+      "i": 0.0,
+      "d": 0.0
+    },
+    "feedForward": {
+      "s": 0.0,
+      "v": 0.0,
+      "a": 0.0
+    },
+    "maxVelocity": {
+      "val": 180,
+      "uom": "deg/s"
+    },
+    "maxAcceleration": {
+      "val": 90,
+      "uom": "deg/s^2"
+    }
+  },
   "lowerSoftLimit": {
     "val": 0,
     "uom": "rpm"
@@ -41,7 +61,7 @@
     "val": 2,
     "uom": "kg"
   },
-  "diameter": {
+  "radius": {
     "val": 0.05,
     "uom": "m"
   }

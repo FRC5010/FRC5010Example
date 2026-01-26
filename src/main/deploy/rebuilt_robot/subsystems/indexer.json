@@ -1,0 +1,13 @@
+{
+  "devices": [
+    {
+      "device": "percent_motor",
+      "file": "indexer/feeder.json"
+    },
+    {
+      "device": "percent_motor",
+      "file": "indexer/spindexer.json"
+    }
+  ],
+  "display": true
+}

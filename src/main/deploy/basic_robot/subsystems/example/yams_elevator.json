@@ -3,7 +3,25 @@
     "name": "Elevator",
     "controllerType": "spark",
     "motorType": "Neo",
-    "canId": 10
+    "canId": 10,
+    "robotToMotor": {
+      "x": {
+        "val": -10.7,
+        "uom": "in"
+      },
+      "y": {
+        "val": -3.669,
+        "uom": "in"
+      },
+      "z": {
+        "val": 5.323,
+        "uom": "in"
+      },
+      "rotation": {
+        "val": 0.0,
+        "uom": "deg"
+      }
+    }
   },
   "motorSystemId": {
     "feedBack": {

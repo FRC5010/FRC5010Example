@@ -35,7 +35,6 @@ public class YamsPivotConfigurationJson implements DeviceConfiguration {
   public UnitValueJson upperSoftLimit = new UnitValueJson(0, AngleUnit.DEGREES.toString());
   public double[] gearing;
   public UnitValueJson voltageCompensation = new UnitValueJson(12, VoltageUnit.VOLTS.toString());
-  public UnitValueJson startingPosition = new UnitValueJson(0, AngleUnit.DEGREES.toString());
   public UnitValueJson radius = new UnitValueJson(1, DistanceUnit.INCHES.toString());
   public UnitValueJson mass = new UnitValueJson(1, MassUnit.POUNDS.toString());
 
@@ -83,7 +82,7 @@ public class YamsPivotConfigurationJson implements DeviceConfiguration {
             .withHardLimit(
                 UnitsParser.parseAngle(lowerHardLimit), UnitsParser.parseAngle(upperHardLimit))
             .withTelemetry(motorSetup.name, TelemetryVerbosity.valueOf(motorSetup.logLevel))
-            .withStartingPosition(UnitsParser.parseAngle(startingPosition))
+            .withStartingPosition(UnitsParser.parseAngle(startingAngle))
             .withMOI(UnitsParser.parseDistance(radius), UnitsParser.parseMass(mass));
     Pivot pivot = new Pivot(pivotConfig);
     return pivot;

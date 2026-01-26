@@ -1,8 +1,7 @@
 {
   "cameras": [
-    "intake.json",
-    "localization.json",
-    "shooter.json",
+    "left.json",
+    "right.json",
     "quest.json"
   ],
   "viewGamePieces": false

@@ -33,7 +33,7 @@ public class ExampleIOReal implements ExampleIO {
     this.percentMotor = (PercentControlMotor) devices.get("percent_motor");
     this.controlledMotor = (VelocityControlMotor) devices.get("velocity_motor");
     this.shooter = (FlyWheel) devices.get("Shooter");
-    this.arm = (Arm) devices.get("Arm");
+    this.arm = (Arm) devices.get("Hood");
     this.angularMotor = (AngularControlMotor) devices.get("angular_motor");
   }
 
@@ -49,8 +49,7 @@ public class ExampleIOReal implements ExampleIO {
 
   @Override
   public void runShooter(double speed) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'runShooter'");
+    shooter.getMotor().setDutyCycle(speed);
   }
 
   @Override
@@ -66,8 +65,7 @@ public class ExampleIOReal implements ExampleIO {
 
   @Override
   public Command setHoodAngle(Angle angle) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'setHoodAngle'");
+    return arm.setAngle(angle);
   }
 
   @Override

@@ -6,6 +6,8 @@ package org.frc5010.common.config.json.devices;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.Optional;
+import org.frc5010.common.config.ConfigConstants.ControlAlgorithm;
 import org.frc5010.common.config.DeviceConfiguration;
 import org.frc5010.common.config.UnitsParser;
 import org.frc5010.common.config.json.UnitValueJson;
@@ -13,20 +15,17 @@ import org.frc5010.common.config.units.AngleUnit;
 import org.frc5010.common.config.units.DistanceUnit;
 import org.frc5010.common.config.units.MassUnit;
 import org.frc5010.common.config.units.VoltageUnit;
-import org.frc5010.common.motors.GenericMotorController;
-import yams.gearing.GearBox;
-import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.ArmConfig;
 import yams.mechanisms.positional.Arm;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
-import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
-import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 
 public class YamsArmConfigurationJson implements DeviceConfiguration {
   public MotorSetupJson motorSetup = new MotorSetupJson();
+  public ControlAlgorithm controlAlgorithm = ControlAlgorithm.SIMPLE;
   public MotorSystemIdJson motorSystemId = new MotorSystemIdJson();
+  public MotorSystemIdJson simSystemId = new MotorSystemIdJson();
   public UnitValueJson length = new UnitValueJson(0, DistanceUnit.INCHES.toString());
   public UnitValueJson lowerHardLimit = new UnitValueJson(0, AngleUnit.DEGREES.toString());
   public UnitValueJson upperHardLimit = new UnitValueJson(0, AngleUnit.DEGREES.toString());
@@ -46,47 +45,46 @@ public class YamsArmConfigurationJson implements DeviceConfiguration {
    */
   @Override
   public Arm configure(SubsystemBase deviceHandler) {
-    GenericMotorController motor =
-        DeviceConfigReader.getMotor(
-            motorSetup.controllerType, motorSetup.motorType, motorSetup.canId);
-
     SmartMotorControllerConfig motorConfig =
         new SmartMotorControllerConfig(deviceHandler)
-            .withClosedLoopController(
-                motorSystemId.feedBack.p,
-                motorSystemId.feedBack.i,
-                motorSystemId.feedBack.d,
-                UnitsParser.parseAngularVelocity(motorSystemId.maxVelocity),
-                UnitsParser.parseAngularAcceleration(motorSystemId.maxAcceleration))
             .withSoftLimit(
                 UnitsParser.parseAngle(lowerSoftLimit), UnitsParser.parseAngle(upperSoftLimit))
-            .withGearing(new MechanismGearing(GearBox.fromReductionStages(gearing)))
-            .withIdleMode(MotorMode.valueOf(motorSetup.idleMode))
-            .withTelemetry(
-                motorSetup.name + "Motor", TelemetryVerbosity.valueOf(motorSetup.logLevel))
-            .withStatorCurrentLimit(UnitsParser.parseAmps(motorSetup.currentLimit))
-            .withMotorInverted(motorSetup.inverted)
-            .withClosedLoopRampRate(UnitsParser.parseTime(motorSystemId.closedLoopRamp))
-            .withOpenLoopRampRate(UnitsParser.parseTime(motorSystemId.openLoopRamp))
             .withFeedforward(
                 new ArmFeedforward(
                     motorSystemId.feedForward.s,
                     motorSystemId.feedForward.g,
                     motorSystemId.feedForward.v,
                     motorSystemId.feedForward.a))
-            .withControlMode(ControlMode.valueOf(motorSystemId.controlMode));
-    MotorSetupJson.setupFollowers(motorConfig, motorSetup);
-    motor.setMotorSimulationType(
-        motor.getMotorConfig().getMotorSimulationType(motorSetup.numberOfMotors));
+            .withSimFeedforward(
+                new ArmFeedforward(
+                    simSystemId.feedForward.s,
+                    simSystemId.feedForward.g,
+                    simSystemId.feedForward.v,
+                    simSystemId.feedForward.a));
 
-    SmartMotorController smartMotor = motor.getSmartMotorController(motorConfig);
+    YamsConfigCommon.PhysicalParameters physicalParams =
+        new YamsConfigCommon.PhysicalParameters(voltageCompensation, mass, length, gearing);
+
+    Optional<SmartMotorController> smartMotor =
+        YamsConfigCommon.configureSmartMotorController(
+            motorSetup, motorConfig, controlAlgorithm, motorSystemId, simSystemId, physicalParams);
+    if (smartMotor.isEmpty()) {
+      throw new RuntimeException(
+          "Smart motor configuration issue. ID: "
+              + motorSetup.canId
+              + " Controller: "
+              + motorSetup.controllerType
+              + " Motor: "
+              + motorSetup.motorType);
+    }
+
     ArmConfig armConfig =
-        new ArmConfig(smartMotor)
-            .withLength(UnitsParser.parseDistance(length))
+        new ArmConfig(smartMotor.get())
+            .withLength(physicalParams.length)
             .withHardLimit(
                 UnitsParser.parseAngle(lowerHardLimit), UnitsParser.parseAngle(upperHardLimit))
             .withTelemetry(motorSetup.name, TelemetryVerbosity.valueOf(motorSetup.logLevel))
-            .withMass(UnitsParser.parseMass(mass))
+            .withMass(physicalParams.mass)
             .withStartingPosition(UnitsParser.parseAngle(startingAngle))
             .withHorizontalZero(UnitsParser.parseAngle(horizontalZero));
     Arm arm = new Arm(armConfig);

@@ -974,6 +974,9 @@
             "open": true
           }
         },
+        "Shooter": {
+          "open": true
+        },
         "Wheel Radius Characterization": {
           "open": true
         },

@@ -25,7 +25,28 @@
       "val": 20,
       "uom": "m/s^2"
     },
-    "controlMode": "OPEN_LOOP"
+    "controlMode": "CLOSED_LOOP"
+  },
+  "simSystemId": {
+    "feedBack": {
+      "p": 2.7739E-10,
+      "i": 0.0,
+      "d": 0.0
+    },
+    "feedForward": {
+      "s": 0.013799,
+      "g": 0.24168,
+      "v": 10.219,
+      "a": 0.2153
+    },
+    "maxVelocity": {
+      "val": 4,
+      "uom": "m/s"
+    },
+    "maxAcceleration": {
+      "val": 20,
+      "uom": "m/s^2"
+    }
   },
   "sprocketTeeth": 22,
   "lowerSoftLimit": {

@@ -20,6 +20,5 @@
       "device": "yams_pivot",
       "file": "example/yams_pivot.json"
     }
-  ],
-  "display": true
+  ]
 }

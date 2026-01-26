@@ -402,7 +402,7 @@
           "type": "integer",
           "description": "CAN ID or index of the absolute encoder",
           "minimum": 0,
-          "maximum": 15
+          "maximum": 63
         },
         "absoluteOffset": {
           "$ref": "#/definitions/measurement",

@@ -2,15 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.rebuilt.subsystems;
+package frc.robot.rebuilt.subsystems.Indexer;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.rebuilt.commands.IndexerIO;
 import frc.robot.rebuilt.commands.IndexerIOInputsAutoLogged;
-import frc.robot.rebuilt.commands.IndexerIOReal;
-import frc.robot.rebuilt.commands.IndexerIOSim;
+
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.motors.function.PercentControlMotor;
 import org.frc5010.common.sensors.Controller;

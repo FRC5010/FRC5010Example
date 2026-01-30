@@ -6,7 +6,7 @@
     },
     {
       "device": "yams_elevator",
-      "file": "intake/winch.json"
+      "file": "intake/pinion.json"
     }
   ],
   "display": true

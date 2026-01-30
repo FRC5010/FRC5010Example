@@ -17,16 +17,16 @@ import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Elevator;
 
 public class Intake extends GenericSubsystem {
-  private PercentControlMotor Spintake;
-  private Elevator Winch;
+  private PercentControlMotor spintake;
+  private Elevator intakePinion;
   private IntakeIO io;
   private IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
 
   /** Creates a new Intake. */
   public Intake() {
     super("intake.json");
-    Spintake = (PercentControlMotor) devices.get("spintake");
-    Winch = (Elevator) devices.get("winch");
+    spintake = (PercentControlMotor) devices.get("spintake");
+    intakePinion = (Elevator) devices.get("intakePinion");
     if (RobotBase.isSimulation()) {
       io = new IntakeIOSim(devices);
     } else {
@@ -35,7 +35,7 @@ public class Intake extends GenericSubsystem {
   }
 
   public void RunSpintake(double speed) {
-    Spintake.set(speed);
+    spintake.set(speed);
   }
 
   public void ConfigController(Controller controller) {
@@ -53,9 +53,9 @@ public class Intake extends GenericSubsystem {
             });
   }
 
-  public void setHeight(double height) {
-    Distance mydist = Meters.of(height);
-    Winch.getMotorController().setPosition(mydist);
+  public void setPinionPosition(double position) {
+    Distance mydist = Meters.of(position);
+    intakePinion.setHeight(mydist);
   }
 
   @Override

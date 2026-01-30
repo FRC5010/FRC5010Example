@@ -25,11 +25,11 @@ public class IntakeCommands {
           "retracting",
           Commands.print("RETRACTING")
               .andThen(() -> intake.RunSpintake(0))
-              .andThen(() -> intake.setHeight(100)));
+              .andThen(() -> intake.setPinionPosition(100)));
   State intaking =
       intakeStateMachine.addState(
           "intaking",
           Commands.print("INTAKING")
               .andThen(() -> intake.RunSpintake(25))
-              .andThen(() -> intake.setHeight(0)));
+              .andThen(() -> intake.setPinionPosition(0)));
 }

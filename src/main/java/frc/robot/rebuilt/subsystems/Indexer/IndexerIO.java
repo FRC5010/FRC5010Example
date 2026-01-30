@@ -7,5 +7,4 @@ public interface IndexerIO {
   public static class IndexerIOInputs {}
 
   public default void updateInputs(IndexerIOInputs inputs) {}
-  ;
 }

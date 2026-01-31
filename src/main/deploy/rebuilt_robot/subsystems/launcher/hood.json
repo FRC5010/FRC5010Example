@@ -1,9 +1,9 @@
 {
   "motorSetup": {
-    "name": "hoodmotor",
+    "name": "hood",
     "controllerType": "talonfx",
-    "motorType": "KrakenX60",
-    "canId": 13,
+    "motorType": "KrakenX44",
+    "canId": 18,
     "robotToMotor": {
       "x": {
         "val": -8.2,

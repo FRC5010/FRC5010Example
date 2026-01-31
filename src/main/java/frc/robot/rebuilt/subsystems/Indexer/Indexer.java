@@ -7,8 +7,7 @@ package frc.robot.rebuilt.subsystems.Indexer;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.rebuilt.commands.IndexerIOInputsAutoLogged;
-
+// import frc.robot.rebuilt.commands.IndexerIOInputsAutoLogged;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.motors.function.PercentControlMotor;
 import org.frc5010.common.sensors.Controller;
@@ -18,13 +17,15 @@ public class Indexer extends GenericSubsystem {
   private PercentControlMotor Spindexer;
   private final IndexerIO io;
   private final IndexerIOInputsAutoLogged inputs = new IndexerIOInputsAutoLogged();
-  private PercentControlMotor Feeder;
+  private PercentControlMotor transferFront;
+  private PercentControlMotor transferBack;
 
   /** Creates a new Index. */
   public Indexer() {
     super("indexer.json");
     Spindexer = (PercentControlMotor) devices.get("spindexer");
-    Feeder = (PercentControlMotor) devices.get("feeder");
+    transferFront = (PercentControlMotor) devices.get("transfer_front");
+    transferBack = (PercentControlMotor) devices.get("transfer_back");
     if (RobotBase.isSimulation()) {
       io = new IndexerIOSim(devices);
     } else {
@@ -37,7 +38,7 @@ public class Indexer extends GenericSubsystem {
   }
 
   public void RunFeeder(double speed) {
-    Feeder.set(speed);
+    transferFront.set(speed);
   }
 
   public void ConfigController(Controller controller) {

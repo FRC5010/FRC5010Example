@@ -1,9 +1,9 @@
 {
   "motorSetup": {
-    "name": "turretmotor",
+    "name": "turret",
     "controllerType": "talonfx",
-    "motorType": "KrakenX60",
-    "canId": 16,
+    "motorType": "KrakenX44",
+    "canId": 17,
     "robotToMotor": {
       "x": {
         "val": -5.872,

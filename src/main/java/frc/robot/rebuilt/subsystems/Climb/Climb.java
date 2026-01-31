@@ -43,7 +43,7 @@ public class Climb extends GenericSubsystem {
       io = new ClimbIOSim(devices);
     } else {
       io = new ClimbIOReal(devices);
-      climber = (Elevator) devices.get("Climb");
+      climber = (Elevator) devices.get("lifter");
     }
   }
 

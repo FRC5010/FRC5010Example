@@ -1,9 +1,15 @@
 {
   "motorSetup": {
-    "name": "lowershootermotor",
+    "name": "flywheel",
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
-    "canId": 14,
+    "canId": 15,
+    "followers": [
+      {
+        "canId": 16,
+        "inverted": true
+      }
+    ],
     "robotToMotor": {
       "x": {
         "val": -5.872,

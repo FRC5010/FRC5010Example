@@ -2,12 +2,15 @@
   "devices": [
     {
       "device": "percent_motor",
-      "file": "indexer/feeder.json"
+      "file": "indexer/transfer_front.json"
+    },
+    {
+      "device": "percent_motor",
+      "file": "indexer/transfer_back.json"
     },
     {
       "device": "percent_motor",
       "file": "indexer/spindexer.json"
     }
-  ],
-  "display": true
+  ]
 }

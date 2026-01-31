@@ -2,8 +2,7 @@
   "devices": [
     {
       "device": "yams_elevator",
-      "file": "climb/climb_motor.json"
+      "file": "climb/lifter.json"
     }
-  ],
-  "display": true
+  ]
 }

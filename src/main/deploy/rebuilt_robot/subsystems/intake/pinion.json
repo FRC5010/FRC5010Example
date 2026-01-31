@@ -1,9 +1,9 @@
 {
   "motorSetup": {
-    "name": "pinion_motor",
+    "name": "pinion",
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
-    "canId": 12,
+    "canId": 14,
     "robotToMotor": {
       "x": {
         "val": -10.7,

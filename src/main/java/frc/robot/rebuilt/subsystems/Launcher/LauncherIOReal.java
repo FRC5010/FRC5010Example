@@ -6,11 +6,14 @@ package frc.robot.rebuilt.subsystems.Launcher;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Second;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import frc.robot.rebuilt.Constants;
+import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
@@ -33,7 +36,7 @@ public class LauncherIOReal implements LauncherIO {
 
   @Override
   public void updateInputs(LauncherIOInputs inputs) {
-    inputs.upperSpeedDesired =
+    inputs.flyWheelSpeedDesired =
         flyWheel
             .getMotorController()
             .getMechanismSetpointVelocity()
@@ -44,20 +47,17 @@ public class LauncherIOReal implements LauncherIO {
     inputs.turretAngleDesired =
         Turret.getMotorController().getMechanismPositionSetpoint().orElse(Degrees.of(0.0));
 
-    inputs.upperSpeedActual = flyWheel.getSpeed().in(RPM);
+    inputs.flyWheelSpeedActual = flyWheel.getSpeed().in(RPM);
     inputs.hoodAngleActual = Hood.getAngle();
     inputs.turretAngleActual = Turret.getAngle();
 
-    inputs.upperSpeedError = inputs.upperSpeedActual - inputs.upperSpeedDesired;
-    inputs.lowerSpeedError = inputs.lowerSpeedActual - inputs.lowerSpeedDesired;
+    inputs.flyWheelSpeedError = inputs.flyWheelSpeedActual - inputs.flyWheelSpeedDesired;
     inputs.hoodAngleError = inputs.hoodAngleActual.minus(inputs.hoodAngleDesired).in(Degrees);
     inputs.turretAngleError = inputs.turretAngleActual.minus(inputs.turretAngleDesired).in(Degrees);
 
-    inputs.upperSpeedAtGoal =
-        Math.abs(inputs.upperSpeedError) <= Constants.LauncherConstants.UPPER_SHOOTER_TOLERANCE_RPM;
-    inputs.lowerSpeedAtGoal =
-        Math.abs(inputs.lowerSpeedError) <= Constants.LauncherConstants.LOWER_SHOOTER_TOLERANCE_RPM;
-    inputs.hoodAngleAtGoal =
+    inputs.flyWheelSpeedAtGoal =
+        Math.abs(inputs.flyWheelSpeedError) <= Constants.LauncherConstants.SHOOTER_TOLERANCE_RPM;
+    inputs.flyWheelSpeedAtGoal =
         Math.abs(inputs.hoodAngleError) <= Constants.LauncherConstants.HOOD_ANGLE_TOLERANCE_DEGREES;
     inputs.turretAngleAtGoal =
         Math.abs(inputs.turretAngleError)
@@ -66,7 +66,11 @@ public class LauncherIOReal implements LauncherIO {
     inputs.hoodVelocity = Hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second));
     inputs.turretVelocity =
         Turret.getMotorController().getMechanismVelocity().in(Degrees.per(Second));
-    inputs.upperMotorOutput = flyWheel.getMotor().getStatorCurrent().in(Amps);
+    inputs.flyWheelMotorOutput = flyWheel.getMotor().getStatorCurrent().in(Amps);
+
+    inputs.robotToTarget = LauncherCommands.getRobotToTarget();
+
+    inputs.targetDistance = Meters.of(inputs.robotToTarget.getDistance(new Translation2d()));
   }
 
   public void runShooter(double speed) {
@@ -88,4 +92,6 @@ public class LauncherIOReal implements LauncherIO {
   public void setTurretRotation(Angle angle) {
     Turret.getMotorController().setPosition(angle);
   }
+
+  public void trackTarget() {} // Placeholder
 }

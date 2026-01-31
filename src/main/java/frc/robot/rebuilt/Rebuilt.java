@@ -51,7 +51,7 @@ public class Rebuilt extends GenericRobot {
   @Override
   public void configureButtonBindings(Controller driver, Controller operator) {
     climbCommands.configureButtonBindings(driver);
-    launcherCommands.configureButtonBindings(driver);
+    launcherCommands.configureButtonBindings(driver, operator);
   }
 
   @Override

@@ -59,15 +59,7 @@ public class Launcher extends GenericSubsystem {
    * @param speed the speed to set the upper shooter motor to, in units of RPM.
    */
   public void runShooter(double speed) {
-    io.setUpperSpeed(speed);
-  }
-
-  public void setUpperSpeed(double speed) {
-    io.setUpperSpeed(speed);
-  }
-
-  public void setLowerSpeed(double speed) {
-    io.setLowerSpeed(speed);
+    io.runShooter(speed);
   }
 
   public void setHoodAngle(Angle angle) {
@@ -76,6 +68,15 @@ public class Launcher extends GenericSubsystem {
 
   public void setTurretRotation(Angle angle) {
     io.setTurretRotation(angle);
+  }
+
+  public Command trackTargetCommand() {
+    return Commands.run(
+        () -> {
+          io.setHoodAngle(inputs.hoodAngleDesired);
+          io.setTurretRotation(inputs.turretAngleDesired);
+          io.runShooter(inputs.flyWheelSpeedDesired);
+        });
   }
 
   /**
@@ -114,10 +115,7 @@ public class Launcher extends GenericSubsystem {
    *
    * @return true if the robot is at the desired speed and angle, false otherwise.
    */
-  public boolean atGoal() {
-    return inputs.upperSpeedAtGoal
-        && inputs.lowerSpeedAtGoal
-        && inputs.hoodAngleAtGoal
-        && inputs.turretAngleAtGoal;
+  public boolean isAtGoal() {
+    return inputs.flyWheelSpeedAtGoal && inputs.hoodAngleAtGoal && inputs.turretAngleAtGoal;
   }
 }

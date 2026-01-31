@@ -5,7 +5,6 @@ import static edu.wpi.first.units.Units.Inches;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import java.util.Map;
@@ -28,9 +27,23 @@ public class LauncherCommands {
   private State prepState;
   private State readyState;
   private Launcher launcher;
-  private GenericDrivetrain drivetrain;
+  private static GenericDrivetrain drivetrain;
   private Map<String, GenericSubsystem> subsystems;
-  private Translation2d target = new Translation2d(Inches.of(182.11), Inches.of(158.84));
+  private static Translation2d target = new Translation2d(Inches.of(182.11), Inches.of(158.84));
+
+  public static Translation2d getRobotToTarget() {
+    return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
+  }
+  //public static Angle getHoodAngle(Distance toTarget) {} Placeholder for now
+
+  private static enum LauncherState {
+    IDLE,
+    LOW_SPEED,
+    PREP,
+    READY
+  }
+
+  private static LauncherState requestedState = LauncherState.IDLE;
 
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
@@ -55,23 +68,26 @@ public class LauncherCommands {
     }
   }
 
-  public void configureButtonBindings(Controller controller) {
+  public void configureButtonBindings(Controller driver, Controller operator) {
 
-    Trigger rightBumper = controller.createRightBumper();
-    Trigger leftBumper = controller.createLeftBumper();
+    driver.createRightBumper().onTrue(shouldPrepCommand()).onFalse(shouldIdleCommand());
 
-    lowState.switchTo(prepState).when(rightBumper);
-    prepState.switchTo(lowState).when(() -> !rightBumper.getAsBoolean());
+    idleState.switchTo(lowState).when(() -> requestedState == LauncherState.LOW_SPEED);
+    idleState.switchTo(prepState).when(() -> requestedState == LauncherState.PREP);
 
-    prepState.switchTo(readyState).when(leftBumper);
-    readyState.switchTo(lowState).when(() -> !leftBumper.getAsBoolean());
+    lowState.switchTo(idleState).when(() -> requestedState == LauncherState.IDLE);
+    lowState.switchTo(prepState).when(() -> requestedState == LauncherState.PREP);
 
-    // if (lowState != null && lowState.isScheduled()) {
+    prepState.switchTo(idleState).when(() -> requestedState == LauncherState.IDLE);
+    prepState.switchTo(lowState).when(() -> requestedState == LauncherState.LOW_SPEED);
+    // prepState.switchTo(readyState).when(() -> requestedState == LauncherState.READY); PLACEHOLDER
+    // FOR NOW
 
-    //   launcher.setHoodAngle(Units.Degrees.of(0));
-    //   launcher.setLowerSpeed(0.5);
-    //   launcher.setTurretRotation(Units.Degrees.of(0));
-    // }
+    readyState.switchTo(idleState).when(() -> requestedState == LauncherState.IDLE);
+    readyState.switchTo(lowState).when(() -> requestedState == LauncherState.LOW_SPEED);
+    // readyState.switchTo(prepState).when(() -> requestedState == LauncherState.PREP); PLACEHOLDER
+    // FOR NOW
+
   }
 
   private Translation2d getTargetPose() {
@@ -101,5 +117,21 @@ public class LauncherCommands {
         Commands.print("Launcher in READY state"),
         Commands.runOnce(() -> commandState.setValue("Ready")),
         launcher.trackTargetCommand(() -> getTargetPose()));
+  }
+
+  public Command shouldIdleCommand() {
+    return Commands.runOnce(() -> requestedState = LauncherState.IDLE);
+  }
+
+  public Command shouldLowCommand() {
+    return Commands.runOnce(() -> requestedState = LauncherState.LOW_SPEED);
+  }
+
+  public Command shouldPrepCommand() {
+    return Commands.runOnce(() -> requestedState = LauncherState.PREP);
+  }
+
+  public Command shouldReadyCommand() {
+    return Commands.runOnce(() -> requestedState = LauncherState.READY);
   }
 }

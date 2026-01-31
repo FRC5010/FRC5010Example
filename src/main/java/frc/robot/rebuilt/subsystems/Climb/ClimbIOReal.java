@@ -6,13 +6,22 @@ package frc.robot.rebuilt.subsystems.Climb;
 
 import java.util.Map;
 
+import yams.mechanisms.positional.Elevator;
+
 /** Add your docs here. */
 public class ClimbIOReal implements ClimbIO {
+   private static Elevator climber;
 
   protected Map<String, Object> devices;
 
+  public void idle(){
+  climber.getMotorController().setDutyCycle(0);
+  }
+
   public ClimbIOReal(Map<String, Object> devices) {
     this.devices = devices;
+
+     climber = (Elevator) devices.get("lifter");
   }
 
   @Override

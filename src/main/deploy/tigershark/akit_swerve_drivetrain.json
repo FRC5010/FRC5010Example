@@ -73,7 +73,7 @@
         },
         "encoderId": 13,
         "absoluteOffset": {
-          "val": 0.15234375,
+          "val": 0.064697265625,
           "uom": "rotations"
         },
         "encoderInverted": false

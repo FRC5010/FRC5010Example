@@ -45,7 +45,7 @@ public class Rebuilt extends GenericRobot {
     testCommands = new TestCommands(subsystems);
     climbCommands = new ClimbCommands(subsystems);
     launcherCommands = new LauncherCommands(subsystems);
-    // intakecommands = new IntakeCommands(subsystems);
+    intakecommands = new IntakeCommands(subsystems);
   }
 
   @Override

@@ -54,25 +54,13 @@ public class TestCommands {
         .andThen(
             (Commands.run(
                     () -> {
-                      launcher.setUpperSpeed(speed);
+                      launcher.runShooter(speed);
                     }))
                 .withTimeout(time))
         .andThen(
             (Commands.run(
                     () -> {
-                      launcher.setUpperSpeed(0);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setLowerSpeed(speed);
-                    }))
-                .withTimeout(time))
-        .andThen(
-            (Commands.run(
-                    () -> {
-                      launcher.setLowerSpeed(0);
+                      launcher.runShooter(0);
                     }))
                 .withTimeout(time))
         .andThen(

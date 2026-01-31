@@ -902,7 +902,10 @@
         "left": 245,
         "right": 3942,
         "top": 118,
-        "width": 16.54119300842285
+        "width": 16.54119300842285,
+        "window": {
+          "visible": true
+        }
       },
       "/SmartDashboard/Robot Visual": {
         "window": {
@@ -926,6 +929,11 @@
         }
       },
       "/SmartDashboard/hood/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/lifter/mechanism": {
         "window": {
           "visible": true
         }
@@ -1004,6 +1012,9 @@
         "open": true
       },
       "Shuffleboard": {
+        ".metadata": {
+          "open": true
+        },
         "ExampleSubsystem": {
           "percent_motor": {
             "open": true
@@ -1021,6 +1032,9 @@
           "Steer": {
             "open": true
           },
+          "open": true
+        },
+        "ClimbCommands": {
           "open": true
         },
         "Drive Feedforward": {
@@ -1074,7 +1088,7 @@
       }
     }
   },
-  "NetworkTables View": {
-    "visible": false
+  "NetworkTables Info": {
+    "visible": true
   }
 }

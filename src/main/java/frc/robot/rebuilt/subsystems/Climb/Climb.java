@@ -22,25 +22,27 @@ public class Climb extends GenericSubsystem {
   private final ClimbIO io;
   private final ClimbIOInputsAutoLogged inputs = new ClimbIOInputsAutoLogged();
 
-  public Command climberCommand(double height) {
+  public Command climberCommand(Distance height) {
     return Commands.run(
             () -> {
-              setHeight(height);
+              setClimbHeight(height);
             })
         .finallyDo(
             () -> {
-              setHeight(0);
+              setClimbHeight(Meters.of(0));
             });
   }
-  
-  public Command idleCommand(){
-    return Commands.runOnce(() -> {
-      io.idle();
-    }, this);
+
+  public Command idleCommand() {
+    return Commands.runOnce(
+        () -> {
+          io.idle();
+        },
+        this);
   }
 
   public void ConfigController(Controller controller) {
-    controller.createBButton().whileTrue(climberCommand(.5));
+    controller.createBButton().whileTrue(climberCommand(Meters.of(.5)));
   }
 
   public Climb() {
@@ -52,13 +54,12 @@ public class Climb extends GenericSubsystem {
     }
   }
 
-  public void setHeight(double height) {
-    Distance mydist = Meters.of(height);
-    climber.getMotorController().setPosition(mydist);
+  public void setClimbHeight(Distance height) {
+    io.setHeight(height);
   }
 
   public Distance getHeight() {
-    return climber.getHeight();
+    return inputs.climbHeight;
   }
 
   @Override

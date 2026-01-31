@@ -4,7 +4,6 @@ import static edu.wpi.first.units.Units.Meters;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.Constants.ClimbConstants;
 import frc.robot.rebuilt.subsystems.Climb.Climb;
@@ -13,6 +12,8 @@ import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.arch.StateMachine.State;
 import org.frc5010.common.sensors.Controller;
+import org.frc5010.common.telemetry.DisplayString;
+import org.frc5010.common.telemetry.DisplayValuesHelper;
 
 public class ClimbCommands {
 
@@ -23,6 +24,8 @@ public class ClimbCommands {
   private State descendState;
   private State liftedState;
   private State loweredState;
+  private DisplayString commandState;
+  private DisplayValuesHelper DisplayHelper;
 
   private static enum ClimbState {
     IDLE,
@@ -39,15 +42,47 @@ public class ClimbCommands {
   public ClimbCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
 
+    DisplayHelper = new DisplayValuesHelper("ClimbCommands");
+    commandState = DisplayHelper.makeDisplayString("Climb State");
+    commandState.setValue(ClimbState.LOWERED.toString());
+
     // Create a simple state machine for climb and set it as the default command for the Climb
     climb = (Climb) subsystems.get(Constants.CLIMB);
     stateMachine = new StateMachine("ClimbStateMachine");
     // a simple idle state; transitions will be added in configureButtonBindings
-    idleState = stateMachine.addState("idle", climb.idleCommand());
+    idleState =
+        stateMachine.addState(
+            "idle",
+            climb
+                .idleCommand()
+                .alongWith(
+                    Commands.runOnce(() -> commandState.setValue(ClimbState.IDLE.toString()))));
+    loweredState =
+        stateMachine.addState(
+            "lowered",
+            Commands.runOnce(() -> commandState.setValue(ClimbState.LOWERED.toString())));
+    liftedState =
+        stateMachine.addState(
+            "lifted", Commands.runOnce(() -> commandState.setValue(ClimbState.LIFTED.toString())));
+
     // states that actually run the climber
     if (climb != null) {
-      elevateState = stateMachine.addState("elevate", climb.climberCommand(.5));
-      descendState = stateMachine.addState("lower", climb.climberCommand(0));
+      elevateState =
+          stateMachine.addState(
+              "elevate",
+              climb
+                  .climberCommand(Meters.of(.5))
+                  .alongWith(
+                      Commands.runOnce(
+                          () -> commandState.setValue(ClimbState.ELEVATE.toString()))));
+      descendState =
+          stateMachine.addState(
+              "lower",
+              climb
+                  .climberCommand(Meters.of(0))
+                  .alongWith(
+                      Commands.runOnce(
+                          () -> commandState.setValue(ClimbState.DESCEND.toString()))));
     } else {
       // fallback states if climb isn't available
       elevateState = stateMachine.addState("elevate", Commands.idle());
@@ -79,16 +114,14 @@ public class ClimbCommands {
 
     operator.createYButton().onTrue(shouldDescendCommand()).onFalse(shouldStopCommand());
 
-    // create Trigger objects for clarity and reuse
-    Trigger rightBumper = operator.createXButton();
-    Trigger leftBumper = operator.createYButton();
-
     // lowered -> elevate when requested
     loweredState.switchTo(elevateState).when(() -> requestedState == ClimbState.ELEVATE);
     // descend -> lowered when height is Zero
     descendState.switchTo(loweredState).when(() -> climb.getHeight().isEquivalent(Meters.of(0)));
     // elevate -> Lifted when height is =to Target
-    elevateState.switchTo(liftedState).when(() -> climb.getHeight().isEquivalent(ClimbConstants.MAX));
+    elevateState
+        .switchTo(liftedState)
+        .when(() -> climb.getHeight().isEquivalent(ClimbConstants.MAX));
     // lifted -> descend when asked to descend
     liftedState.switchTo(descendState).when(() -> requestedState == ClimbState.DESCEND);
     // elevate -> descend when asked to descend
@@ -99,5 +132,9 @@ public class ClimbCommands {
     elevateState.switchTo(idleState).when(() -> requestedState == ClimbState.IDLE);
     // descend -> idle when stopped
     descendState.switchTo(idleState).when(() -> requestedState == ClimbState.IDLE);
+    // idle -> elevate when requested
+    idleState.switchTo(elevateState).when(() -> requestedState == ClimbState.ELEVATE);
+    // idle -> descend when requested
+    idleState.switchTo(descendState).when(() -> requestedState == ClimbState.DESCEND);
   }
 }

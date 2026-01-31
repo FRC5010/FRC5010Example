@@ -1,7 +1,6 @@
 package frc.robot.rebuilt.commands;
 
 import java.util.Map;
-
 import org.frc5010.common.arch.GenericSubsystem;
 
 public class IndexerCommands {
@@ -10,5 +9,4 @@ public class IndexerCommands {
   public IndexerCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
   }
-
 }

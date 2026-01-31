@@ -19,8 +19,7 @@ public class Constants {
   }
 
   public static class LauncherConstants {
-    public static final double UPPER_SHOOTER_TOLERANCE_RPM = 50.0;
-    public static final double LOWER_SHOOTER_TOLERANCE_RPM = 50.0;
+    public static final double SHOOTER_TOLERANCE_RPM = 50.0;
     public static final double HOOD_ANGLE_TOLERANCE_DEGREES = 1.0;
     public static final double TURRET_ANGLE_TOLERANCE_DEGREES = 1.0;
   }

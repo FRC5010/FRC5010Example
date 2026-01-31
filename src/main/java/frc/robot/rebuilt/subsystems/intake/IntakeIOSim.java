@@ -23,4 +23,6 @@ public class IntakeIOSim extends IntakeIOReal {
             IntakeSimulation.IntakeSide.BACK,
             1);
   }
+
+  public void RunSpintake() {}
 }

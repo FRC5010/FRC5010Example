@@ -1,9 +1,9 @@
 {
   "motorSetup": {
-    "name": "Climb",
-    "controllerType": "spark",
-    "motorType": "Neo",
-    "canId": 16,
+    "name": "lifter",
+    "controllerType": "talonfx",
+    "motorType": "KrakenX60",
+    "canId": 19,
     "robotToMotor": {
       "x": {
         "val": -10.7,

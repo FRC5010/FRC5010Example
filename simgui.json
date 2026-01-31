@@ -176,20 +176,21 @@
       "/SmartDashboard/Turret/mechanism": "Mechanism2d",
       "/SmartDashboard/VisionSystemSim-Vision/Sim Field": "Field2d",
       "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d",
+      "/SmartDashboard/flywheel/mechanism": "Mechanism2d",
+      "/SmartDashboard/hood/mechanism": "Mechanism2d",
       "/SmartDashboard/hoodmotor/mechanism": "Mechanism2d",
+      "/SmartDashboard/lifter/mechanism": "Mechanism2d",
       "/SmartDashboard/lowershootermotor/mechanism": "Mechanism2d",
       "/SmartDashboard/navX-Sensor[1]": "Gyro",
       "/SmartDashboard/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/pinion/mechanism": "Mechanism2d",
+      "/SmartDashboard/spintake/mechanism": "Mechanism2d",
+      "/SmartDashboard/turret/mechanism": "Mechanism2d",
       "/SmartDashboard/turretmotor/mechanism": "Mechanism2d",
       "/SmartDashboard/uppershootermotor/mechanism": "Mechanism2d",
       "/SmartDashboard/winch_motor/mechanism": "Mechanism2d"
     },
     "windows": {
-      "/SmartDashboard/Climb/mechanism": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Drive Visual": {
         "window": {
           "visible": true
@@ -876,11 +877,6 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Elevator/mechanism": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Field": {
         "OdometryPose": {
           "arrowColor": [
@@ -906,10 +902,7 @@
         "left": 245,
         "right": 3942,
         "top": 118,
-        "width": 16.54119300842285,
-        "window": {
-          "visible": true
-        }
+        "width": 16.54119300842285
       },
       "/SmartDashboard/Robot Visual": {
         "window": {
@@ -927,22 +920,27 @@
           "visible": true
         }
       },
-      "/SmartDashboard/hoodmotor/mechanism": {
+      "/SmartDashboard/flywheel/mechanism": {
         "window": {
           "visible": true
         }
       },
-      "/SmartDashboard/lowershootermotor/mechanism": {
+      "/SmartDashboard/hood/mechanism": {
         "window": {
           "visible": true
         }
       },
-      "/SmartDashboard/turretmotor/mechanism": {
+      "/SmartDashboard/pinion/mechanism": {
         "window": {
           "visible": true
         }
       },
-      "/SmartDashboard/uppershootermotor/mechanism": {
+      "/SmartDashboard/spintake/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/turret/mechanism": {
         "window": {
           "visible": true
         }

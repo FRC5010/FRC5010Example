@@ -16,13 +16,15 @@ public class Indexer extends GenericSubsystem {
   private PercentControlMotor Spindexer;
   private final IndexerIO io;
   private final IndexerIOInputsAutoLogged inputs = new IndexerIOInputsAutoLogged();
-  private PercentControlMotor Feeder;
+  private PercentControlMotor transferFront;
+  private PercentControlMotor transferBack;
 
   /** Creates a new Index. */
   public Indexer() {
     super("indexer.json");
     Spindexer = (PercentControlMotor) devices.get("spindexer");
-    Feeder = (PercentControlMotor) devices.get("feeder");
+    transferFront = (PercentControlMotor) devices.get("transfer_front");
+    transferBack = (PercentControlMotor) devices.get("transfer_back");
     if (RobotBase.isSimulation()) {
       io = new IndexerIOSim(devices);
     } else {
@@ -35,7 +37,7 @@ public class Indexer extends GenericSubsystem {
   }
 
   public void RunFeeder(double speed) {
-    Feeder.set(speed);
+    transferFront.set(speed);
   }
 
   public void ConfigController(Controller controller) {

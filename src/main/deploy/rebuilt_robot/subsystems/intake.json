@@ -1,13 +1,12 @@
 {
   "devices": [
     {
-      "device": "percent_motor",
+      "device": "yams_shooter",
       "file": "intake/spintake.json"
     },
     {
       "device": "yams_elevator",
       "file": "intake/pinion.json"
     }
-  ],
-  "display": true
+  ]
 }

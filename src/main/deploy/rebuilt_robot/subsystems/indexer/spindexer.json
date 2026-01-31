@@ -1,8 +1,8 @@
 {
   "name": "spindexer",
-  "controller": "spark",
-  "type": "Neo",
-  "id": 10,
+  "controller": "talonfx",
+  "type": "KrakenX44",
+  "id": 9,
   "gearing": 1.0,
   "momentOfInertiaKgMSq": 1.0,
   "x": 0.5,

@@ -22,26 +22,20 @@ public class LauncherIOReal implements LauncherIO {
   protected Map<String, Object> devices;
   private Pivot Turret;
   private Arm Hood;
-  private FlyWheel UpperShooter;
-  private FlyWheel LowerShooter;
+  private FlyWheel flyWheel;
 
   public LauncherIOReal(Map<String, Object> devices) {
     this.devices = devices;
-    Turret = (Pivot) devices.get("turretmotor");
-    Hood = (Arm) devices.get("hoodmotor");
-    UpperShooter = (FlyWheel) devices.get("uppershootermotor");
-    LowerShooter = (FlyWheel) devices.get("lowershootermotor");
+    Turret = (Pivot) devices.get("turret");
+    Hood = (Arm) devices.get("hood");
+    flyWheel = (FlyWheel) devices.get("flywheel");
   }
 
   @Override
   public void updateInputs(LauncherIOInputs inputs) {
     inputs.upperSpeedDesired =
-        UpperShooter.getMotorController()
-            .getMechanismSetpointVelocity()
-            .map(it -> it.in(RPM))
-            .orElse(0.0);
-    inputs.lowerSpeedDesired =
-        LowerShooter.getMotorController()
+        flyWheel
+            .getMotorController()
             .getMechanismSetpointVelocity()
             .map(it -> it.in(RPM))
             .orElse(0.0);
@@ -50,8 +44,7 @@ public class LauncherIOReal implements LauncherIO {
     inputs.turretAngleDesired =
         Turret.getMotorController().getMechanismPositionSetpoint().orElse(Degrees.of(0.0));
 
-    inputs.upperSpeedActual = UpperShooter.getSpeed().in(RPM);
-    inputs.lowerSpeedActual = LowerShooter.getSpeed().in(RPM);
+    inputs.upperSpeedActual = flyWheel.getSpeed().in(RPM);
     inputs.hoodAngleActual = Hood.getAngle();
     inputs.turretAngleActual = Turret.getAngle();
 
@@ -73,21 +66,19 @@ public class LauncherIOReal implements LauncherIO {
     inputs.hoodVelocity = Hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second));
     inputs.turretVelocity =
         Turret.getMotorController().getMechanismVelocity().in(Degrees.per(Second));
-    inputs.upperMotorOutput = UpperShooter.getMotor().getStatorCurrent().in(Amps);
-    inputs.lowerMotorOutput = LowerShooter.getMotor().getStatorCurrent().in(Amps);
+    inputs.upperMotorOutput = flyWheel.getMotor().getStatorCurrent().in(Amps);
   }
 
   public void runShooter(double speed) {
-    UpperShooter.getMotor().setDutyCycle(speed);
-    LowerShooter.getMotor().setDutyCycle(speed);
+    flyWheel.getMotor().setDutyCycle(speed);
   }
 
   public void setUpperSpeed(double speed) {
-    UpperShooter.getMotor().setDutyCycle(speed);
+    flyWheel.getMotor().setDutyCycle(speed);
   }
 
   public void setLowerSpeed(double speed) {
-    LowerShooter.getMotor().setDutyCycle(speed);
+    flyWheel.getMotor().setDutyCycle(speed);
   }
 
   public void setHoodAngle(Angle angle) {

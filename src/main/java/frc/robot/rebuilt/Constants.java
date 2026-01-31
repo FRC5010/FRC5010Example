@@ -1,5 +1,8 @@
 package frc.robot.rebuilt;
 
+import static edu.wpi.first.units.Units.Inch;
+
+import edu.wpi.first.units.measure.Distance;
 import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
@@ -10,6 +13,10 @@ public class Constants {
   public static final String CLIMB = Climb.class.getSimpleName();
   public static final String INTAKE = Intake.class.getSimpleName();
   public static final String LAUNCHER = Launcher.class.getSimpleName();
+
+  public static class ClimbConstants {
+    public static final Distance MAX = Inch.of(27);
+  }
 
   public static class LauncherConstants {
     public static final double UPPER_SHOOTER_TOLERANCE_RPM = 50.0;

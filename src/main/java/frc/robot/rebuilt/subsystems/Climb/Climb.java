@@ -52,6 +52,10 @@ public class Climb extends GenericSubsystem {
     climber.getMotorController().setPosition(mydist);
   }
 
+  public Distance getHeight() {
+    return climber.getHeight();
+  }
+
   @Override
   public void periodic() {
     super.periodic();

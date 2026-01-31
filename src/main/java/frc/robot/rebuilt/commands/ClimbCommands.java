@@ -43,7 +43,7 @@ public class ClimbCommands {
     climb = (Climb) subsystems.get(Constants.CLIMB);
     stateMachine = new StateMachine("ClimbStateMachine");
     // a simple idle state; transitions will be added in configureButtonBindings
-    loweredState = stateMachine.addState("lowered", Commands.idle());
+    idleState = stateMachine.addState("idle", climb.idleCommand());
     // states that actually run the climber
     if (climb != null) {
       elevateState = stateMachine.addState("elevate", climb.climberCommand(.5));

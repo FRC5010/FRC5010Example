@@ -32,6 +32,12 @@ public class Climb extends GenericSubsystem {
               setHeight(0);
             });
   }
+  
+  public Command idleCommand(){
+    return Commands.runOnce(() -> {
+      io.idle();
+    }, this);
+  }
 
   public void ConfigController(Controller controller) {
     controller.createBButton().whileTrue(climberCommand(.5));
@@ -43,7 +49,6 @@ public class Climb extends GenericSubsystem {
       io = new ClimbIOSim(devices);
     } else {
       io = new ClimbIOReal(devices);
-      climber = (Elevator) devices.get("lifter");
     }
   }
 

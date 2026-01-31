@@ -8,5 +8,7 @@ public interface ClimbIO {
   @AutoLog
   public static class ClimbIOInputs {}
 
+  public void idle ();
+
   public default void updateInputs(ClimbIOInputs inputs) {}
 }

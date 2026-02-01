@@ -47,7 +47,6 @@ import org.frc5010.common.constants.GenericDrivetrainConstants;
 import org.frc5010.common.drive.pose.DrivePoseEstimator;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.telemetry.DisplayBoolean;
-import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
@@ -65,7 +64,6 @@ public abstract class GenericDrivetrain extends GenericSubsystem {
   @Getter @Setter private ChassisSpeeds robotVelocity = new ChassisSpeeds();
 
   /** Returns the measured chassis speeds of the robot. */
-  @AutoLogOutput(key = "GenericDrivetrain/ChassisSpeeds/Measured")
   protected abstract ChassisSpeeds getChassisSpeeds();
   /** Whether or not the robot is field oriented */
   protected DisplayBoolean isFieldOrientedDrive;
@@ -164,6 +162,9 @@ public abstract class GenericDrivetrain extends GenericSubsystem {
     return poseEstimator.getGyroRotation2d();
   }
 
+  public ChassisSpeeds getFieldVelocity() {
+    return ChassisSpeeds.fromRobotRelativeSpeeds(robotVelocity, getHeading());
+  }
   /**
    * Drive with ChassisSpeeds
    *
@@ -182,6 +183,7 @@ public abstract class GenericDrivetrain extends GenericSubsystem {
   /** Updates the pose estimator in the periodic function. */
   @Override
   public void periodic() {
+    setRobotVelocity(getChassisSpeeds());
     hasIssues.setValue(hasIssues());
     if (RobotBase.isSimulation() || useGlass) {
       updateGlassWidget();

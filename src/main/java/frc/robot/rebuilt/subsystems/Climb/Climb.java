@@ -13,14 +13,19 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.sensors.Controller;
 import org.littletonrobotics.junction.Logger;
-import yams.mechanisms.positional.Elevator;
 
 public class Climb extends GenericSubsystem {
-  /** Creates a new Climb. */
-  private static Elevator climber;
-
   private final ClimbIO io;
   private final ClimbIOInputsAutoLogged inputs = new ClimbIOInputsAutoLogged();
+
+  public Climb() {
+    super("climb.json");
+    if (RobotBase.isSimulation()) {
+      io = new ClimbIOSim(devices);
+    } else {
+      io = new ClimbIOReal(devices);
+    }
+  }
 
   public Command climberCommand(Distance height) {
     return Commands.run(
@@ -43,15 +48,6 @@ public class Climb extends GenericSubsystem {
 
   public void ConfigController(Controller controller) {
     controller.createBButton().whileTrue(climberCommand(Meters.of(.5)));
-  }
-
-  public Climb() {
-    super("climb.json");
-    if (RobotBase.isSimulation()) {
-      io = new ClimbIOSim(devices);
-    } else {
-      io = new ClimbIOReal(devices);
-    }
   }
 
   public void setClimbHeight(Distance height) {

@@ -17,26 +17,26 @@ import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import frc.robot.rebuilt.subsystems.intake.Intake;
 import org.frc5010.common.arch.GenericRobot;
 import org.frc5010.common.config.ConfigConstants;
-import org.frc5010.common.constants.SwerveConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
+import org.frc5010.common.utils.geometry.AllianceFlipUtil;
 
 /** This is an example robot class. */
 public class Rebuilt extends GenericRobot {
-  SwerveConstants swerveConstants;
-  GenericDrivetrain drivetrain;
-  Indexer indexer;
-  Climb climb;
-  Intake intake;
-  Launcher launcher;
-  LauncherCommands launcherCommands;
-  AutoCommands autocommands;
-  ClimbCommands climbCommands;
-  IntakeCommands intakecommands;
-  TestCommands testCommands;
+  public static GenericDrivetrain drivetrain;
+  public static Indexer indexer;
+  public static Climb climb;
+  public static Intake intake;
+  public static Launcher launcher;
+  public static LauncherCommands launcherCommands;
+  public static AutoCommands autocommands;
+  public static ClimbCommands climbCommands;
+  public static IntakeCommands intakecommands;
+  public static TestCommands testCommands;
 
   public Rebuilt(String directory) {
     super(directory);
+    AllianceFlipUtil.configure(FieldConstants.FIELD_LENGTH, FieldConstants.FIELD_WIDTH);
     indexer = new Indexer();
     climb = new Climb();
     intake = new Intake();

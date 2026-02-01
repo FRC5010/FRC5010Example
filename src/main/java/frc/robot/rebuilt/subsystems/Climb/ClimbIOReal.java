@@ -14,10 +14,6 @@ public class ClimbIOReal implements ClimbIO {
 
   protected Map<String, Object> devices;
 
-  public void idle() {
-    climber.getMotorController().setDutyCycle(0);
-  }
-
   public ClimbIOReal(Map<String, Object> devices) {
     this.devices = devices;
 
@@ -28,6 +24,10 @@ public class ClimbIOReal implements ClimbIO {
   public void updateInputs(ClimbIOInputs inputs) {
 
     inputs.climbHeight = climber.getHeight();
+  }
+
+  public void idle() {
+    climber.getMotorController().setDutyCycle(0);
   }
 
   public void setHeight(Distance height) {

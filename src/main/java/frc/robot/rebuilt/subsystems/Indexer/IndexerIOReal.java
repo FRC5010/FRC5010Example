@@ -1,6 +1,5 @@
 package frc.robot.rebuilt.subsystems.Indexer;
 
-import frc.robot.rebuilt.subsystems.Indexer.IndexerIO.IndexerIOInputs;
 import java.util.Map;
 
 public class IndexerIOReal implements IndexerIO {
@@ -11,5 +10,7 @@ public class IndexerIOReal implements IndexerIO {
   }
 
   @Override
-  public void updateInputs(IndexerIOInputs inputs) {}
+  public void updateInputs(IndexerIOInputs inputs) {
+    // TODO: Add update to input values
+  }
 }

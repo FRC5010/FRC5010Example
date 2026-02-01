@@ -12,6 +12,7 @@ import static edu.wpi.first.units.Units.Second;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
@@ -23,49 +24,55 @@ import yams.mechanisms.velocity.FlyWheel;
 public class LauncherIOReal implements LauncherIO {
 
   protected Map<String, Object> devices;
-  private Pivot Turret;
-  private Arm Hood;
+  private Pivot turret;
+  private Arm hood;
   private FlyWheel flyWheel;
 
   public LauncherIOReal(Map<String, Object> devices) {
     this.devices = devices;
-    Turret = (Pivot) devices.get("turret");
-    Hood = (Arm) devices.get("hood");
+    turret = (Pivot) devices.get("turret");
+    hood = (Arm) devices.get("hood");
     flyWheel = (FlyWheel) devices.get("flywheel");
   }
 
   @Override
   public void updateInputs(LauncherIOInputs inputs) {
+    ShotCalculator.ShootingParameters params = ShotCalculator.getInstance().getParameters();
+    if (params != null && params.isValid()) {
+      // TODO: Use parameters to set turret, hood and flywheel desired values
+    }
+
     inputs.flyWheelSpeedDesired =
         flyWheel
             .getMotorController()
             .getMechanismSetpointVelocity()
-            .map(it -> it.in(RPM))
-            .orElse(0.0);
+            .map(it -> it)
+            .orElse(RPM.of(0.0));
     inputs.hoodAngleDesired =
-        Hood.getMotorController().getMechanismPositionSetpoint().orElse(Degrees.of(0.0));
+        hood.getMotorController().getMechanismPositionSetpoint().orElse(Degrees.of(0.0));
     inputs.turretAngleDesired =
-        Turret.getMotorController().getMechanismPositionSetpoint().orElse(Degrees.of(0.0));
+        turret.getMotorController().getMechanismPositionSetpoint().orElse(Degrees.of(0.0));
 
-    inputs.flyWheelSpeedActual = flyWheel.getSpeed().in(RPM);
-    inputs.hoodAngleActual = Hood.getAngle();
-    inputs.turretAngleActual = Turret.getAngle();
+    inputs.flyWheelSpeedActual = flyWheel.getSpeed();
+    inputs.hoodAngleActual = hood.getAngle();
+    inputs.turretAngleActual = turret.getAngle();
 
-    inputs.flyWheelSpeedError = inputs.flyWheelSpeedActual - inputs.flyWheelSpeedDesired;
+    inputs.flyWheelSpeedError = inputs.flyWheelSpeedActual.minus(inputs.flyWheelSpeedDesired);
     inputs.hoodAngleError = inputs.hoodAngleActual.minus(inputs.hoodAngleDesired).in(Degrees);
     inputs.turretAngleError = inputs.turretAngleActual.minus(inputs.turretAngleDesired).in(Degrees);
 
     inputs.flyWheelSpeedAtGoal =
-        Math.abs(inputs.flyWheelSpeedError) <= Constants.LauncherConstants.SHOOTER_TOLERANCE_RPM;
+        Math.abs(inputs.flyWheelSpeedError.in(RPM))
+            <= Constants.LauncherConstants.SHOOTER_TOLERANCE_RPM;
     inputs.flyWheelSpeedAtGoal =
         Math.abs(inputs.hoodAngleError) <= Constants.LauncherConstants.HOOD_ANGLE_TOLERANCE_DEGREES;
     inputs.turretAngleAtGoal =
         Math.abs(inputs.turretAngleError)
             <= Constants.LauncherConstants.TURRET_ANGLE_TOLERANCE_DEGREES;
 
-    inputs.hoodVelocity = Hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second));
+    inputs.hoodVelocity = hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second));
     inputs.turretVelocity =
-        Turret.getMotorController().getMechanismVelocity().in(Degrees.per(Second));
+        turret.getMotorController().getMechanismVelocity().in(Degrees.per(Second));
     inputs.flyWheelMotorOutput = flyWheel.getMotor().getStatorCurrent().in(Amps);
 
     inputs.robotToTarget = LauncherCommands.getRobotToTarget();
@@ -77,21 +84,15 @@ public class LauncherIOReal implements LauncherIO {
     flyWheel.getMotor().setDutyCycle(speed);
   }
 
-  public void setUpperSpeed(double speed) {
-    flyWheel.getMotor().setDutyCycle(speed);
-  }
-
-  public void setLowerSpeed(double speed) {
-    flyWheel.getMotor().setDutyCycle(speed);
+  public void setFlyWheelVelocity(AngularVelocity speed) {
+    flyWheel.getMotor().setVelocity(speed);
   }
 
   public void setHoodAngle(Angle angle) {
-    Hood.getMotorController().setPosition(angle);
+    hood.getMotorController().setPosition(angle);
   }
 
   public void setTurretRotation(Angle angle) {
-    Turret.getMotorController().setPosition(angle);
+    turret.getMotorController().setPosition(angle);
   }
-
-  public void trackTarget() {} // Placeholder
 }

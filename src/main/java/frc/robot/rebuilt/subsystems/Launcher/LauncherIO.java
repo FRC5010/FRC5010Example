@@ -2,9 +2,11 @@ package frc.robot.rebuilt.subsystems.Launcher;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import org.littletonrobotics.junction.AutoLog;
 
@@ -13,12 +15,12 @@ public interface LauncherIO {
 
   @AutoLog
   public static class LauncherIOInputs {
-    public double flyWheelSpeedDesired = 0.0;
+    public AngularVelocity flyWheelSpeedDesired = RPM.of(0.0);
 
     public Angle hoodAngleDesired = Degrees.of(0.0);
     public Angle turretAngleDesired = Degrees.of(0.0);
 
-    public double flyWheelSpeedActual = 0.0;
+    public AngularVelocity flyWheelSpeedActual = RPM.of(0.0);
     public Angle hoodAngleActual = Degrees.of(0.0);
     public Angle turretAngleActual = Degrees.of(0.0);
 
@@ -26,7 +28,7 @@ public interface LauncherIO {
     public boolean hoodAngleAtGoal = false;
     public boolean turretAngleAtGoal = false;
 
-    public double flyWheelSpeedError = 0.0;
+    public AngularVelocity flyWheelSpeedError = RPM.of(0.0);
     public double hoodAngleError = 0.0;
     public double turretAngleError = 0.0;
 
@@ -43,11 +45,11 @@ public interface LauncherIO {
 
   public void runShooter(double speed);
 
+  public void setFlyWheelVelocity(AngularVelocity speed);
+
   public void setHoodAngle(Angle angle);
 
   public void setTurretRotation(Angle angle);
-
-  public void trackTarget();
 
   public default void updateSimulation() {}
 }

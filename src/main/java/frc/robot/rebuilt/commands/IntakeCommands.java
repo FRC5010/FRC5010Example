@@ -10,6 +10,7 @@ import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.arch.StateMachine.State;
 import org.frc5010.common.sensors.Controller;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class IntakeCommands {
   Intake intake;
@@ -20,8 +21,10 @@ public class IntakeCommands {
     RETRACTED,
     RETRACTING,
     INTAKING
+    // TODO : Add OUTTAKING
   }
 
+  @AutoLogOutput(key = "IntakeCommands/RequestedIntakeState")
   private static IntakeState requestedState = IntakeState.RETRACTED;
 
   public IntakeCommands(Map<String, GenericSubsystem> subsystems) {
@@ -39,7 +42,11 @@ public class IntakeCommands {
     Trigger rightTrigger = new Trigger(() -> controller.getRightTrigger() > 0.25);
     controller.setLeftTrigger(controller.createLeftTrigger());
     Trigger leftTrigger = new Trigger(() -> controller.getLeftTrigger() > 0.25);
+
+    // TODO: This should be intaking not retracting
     rightTrigger.onTrue(shouldRetracting()).onFalse(shouldRetracted());
+    // TODO: Make left trigger do an outtaking state
+
     retracting.switchTo(intaking).when(() -> requestedState == IntakeState.INTAKING);
     retracted.switchTo(intaking).when(() -> requestedState == IntakeState.INTAKING);
     intaking.switchTo(retracting).when(() -> requestedState == IntakeState.RETRACTING);

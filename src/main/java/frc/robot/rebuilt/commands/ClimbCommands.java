@@ -14,6 +14,7 @@ import org.frc5010.common.arch.StateMachine.State;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.telemetry.DisplayString;
 import org.frc5010.common.telemetry.DisplayValuesHelper;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class ClimbCommands {
 
@@ -37,10 +38,11 @@ public class ClimbCommands {
 
   Climb climb;
 
+  @AutoLogOutput(key = "ClimbCommands/RequestedClimbState")
   private static ClimbState requestedState = ClimbState.LOWERED;
 
-  public ClimbCommands(Map<String, GenericSubsystem> subsystems) {
-    this.subsystems = subsystems;
+  public ClimbCommands(Map<String, GenericSubsystem> systems) {
+    this.subsystems = systems;
 
     DisplayHelper = new DisplayValuesHelper("ClimbCommands");
     commandState = DisplayHelper.makeDisplayString("Climb State");

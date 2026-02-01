@@ -16,6 +16,7 @@ import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.telemetry.DisplayString;
 import org.frc5010.common.telemetry.DisplayValuesHelper;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class LauncherCommands {
 
@@ -43,6 +44,7 @@ public class LauncherCommands {
     READY
   }
 
+  @AutoLogOutput(key = "LauncherCommands/RequestedLauncherState")
   private static LauncherState requestedState = LauncherState.IDLE;
 
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {

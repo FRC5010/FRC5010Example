@@ -15,8 +15,8 @@ public class IndexerCommands {
   private State churnState;
   private State feedState;
 
-  public IndexerCommands(Map<String, GenericSubsystem> subsystems) {
-    this.subsystems = subsystems;
+  public IndexerCommands(Map<String, GenericSubsystem> systems) {
+    this.subsystems = systems;
 
     // Create a simple state machine for the indexer and set it as the default command.
     Indexer indexer = (Indexer) subsystems.get(Constants.INDEXER);

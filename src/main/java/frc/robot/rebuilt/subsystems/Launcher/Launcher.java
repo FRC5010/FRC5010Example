@@ -6,6 +6,8 @@ package frc.robot.rebuilt.subsystems.Launcher;
 
 import static edu.wpi.first.units.Units.Degrees;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -14,14 +16,18 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
+import yams.mechanisms.positional.Pivot;
 
 public class Launcher extends GenericSubsystem {
   private final LauncherIO io;
   private final LauncherIOInputsAutoLogged inputs = new LauncherIOInputsAutoLogged();
+  public static Transform3d robotToTurret = new Transform3d();
 
   /** Creates a new Launcher. */
   public Launcher() {
     super("launcher.json");
+    Pivot turret = (Pivot) devices.get("turret");
+    robotToTurret = new Transform3d(turret.getRelativeMechanismPosition(), new Rotation3d());
 
     if (RobotBase.isSimulation()) {
       io = new LauncherIOSim(devices);
@@ -75,7 +81,7 @@ public class Launcher extends GenericSubsystem {
         () -> {
           io.setHoodAngle(inputs.hoodAngleDesired);
           io.setTurretRotation(inputs.turretAngleDesired);
-          io.runShooter(inputs.flyWheelSpeedDesired);
+          io.setFlyWheelVelocity(inputs.flyWheelSpeedDesired);
         });
   }
 

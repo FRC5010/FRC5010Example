@@ -168,6 +168,11 @@ public class GenericSwerveDrivetrain extends GenericDrivetrain {
   }
 
   @Override
+  protected ChassisSpeeds getChassisSpeeds() {
+    return swerveDrive.getRobotVelocity();
+  }
+
+  @Override
   public void initGlassWidget(GenericDrivetrainConstants constants) {
     SmartDashboard.putData("Drive Visual", mechanismSimulation);
     GenericSwerveModuleInfo[] modules = swerveDrive.getModulesInfo();

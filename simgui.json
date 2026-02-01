@@ -95,11 +95,6 @@
           "open": true
         }
       },
-      "Talon FX (v6)[8]": {
-        "header": {
-          "open": true
-        }
-      },
       "Talon FX[50]": {
         "header": {
           "open": true
@@ -147,10 +142,12 @@
       "/SmartDashboard/Climb/mechanism": "Mechanism2d",
       "/SmartDashboard/Drive Visual": "Mechanism2d",
       "/SmartDashboard/DrivePoseEstimator/Pose Field": "Field2d",
+      "/SmartDashboard/DrivePoseEstimator/values/Pose Field": "Field2d",
       "/SmartDashboard/Elevator/mechanism": "Mechanism2d",
       "/SmartDashboard/Encoders": "Alerts",
       "/SmartDashboard/ExampleRobot/Auto Modes": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Hood/mechanism": "Mechanism2d",
       "/SmartDashboard/IMU": "Alerts",
       "/SmartDashboard/JSON": "Alerts",
       "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/Down": "Command",
@@ -902,10 +899,7 @@
         "left": 245,
         "right": 3942,
         "top": 118,
-        "width": 16.54119300842285,
-        "window": {
-          "visible": true
-        }
+        "width": 16.54119300842285
       },
       "/SmartDashboard/Robot Visual": {
         "window": {
@@ -923,32 +917,7 @@
           "visible": true
         }
       },
-      "/SmartDashboard/flywheel/mechanism": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/hood/mechanism": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/lifter/mechanism": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/pinion/mechanism": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/spintake/mechanism": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/turret/mechanism": {
+      "/SmartDashboard/hoodmotor/mechanism": {
         "window": {
           "visible": true
         }
@@ -978,7 +947,10 @@
     "transitory": {
       "AdvantageKit": {
         "Drive": {
-          "Module0": {
+          "open": true
+        },
+        "Vision": {
+          "Camera left": {
             "open": true
           }
         },
@@ -997,6 +969,11 @@
           },
           "open": true
         },
+        "Hood": {
+          "HoodMotor": {
+            "open": true
+          }
+        },
         "Shooter": {
           "ShooterMotor": {
             "mechanism": {
@@ -1006,8 +983,7 @@
             "rotor": {
               "open": true
             }
-          },
-          "open": true
+          }
         },
         "open": true
       },
@@ -1024,8 +1000,7 @@
           "Camera shooter": {
             "open": true
           }
-        },
-        "open": true
+        }
       },
       "SmartDashboard": {
         "Characterization": {
@@ -1049,13 +1024,9 @@
           }
         },
         "ExampleRobot": {
-          "open": true,
           "values": {
             "open": true
           }
-        },
-        "Shooter": {
-          "open": true
         },
         "Wheel Radius Characterization": {
           "open": true
@@ -1087,8 +1058,5 @@
         }
       }
     }
-  },
-  "NetworkTables Info": {
-    "visible": true
   }
 }

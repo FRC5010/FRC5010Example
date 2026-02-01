@@ -7,13 +7,13 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.example.subsystems.ExampleIO.ExampleIOInputs;
-import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.constants.GenericPID;
 import org.frc5010.common.constants.MotorFeedFwdConstants;
@@ -38,6 +38,56 @@ public class ExampleSubsystem extends GenericSubsystem {
     }
   }
 
+  public Command trackTargetCommand(Supplier<Translation2d> targetSupplier) {
+    return Commands.run(
+        () -> {
+          Translation2d targetPose = targetSupplier.get();
+          targetPose.getNorm();
+          io.setTurretRotation(targetPose.getAngle().getMeasure());
+          io.setHoodAngle(Degrees.of(45));
+        });
+  }
+
+  public Command stopTrackingCommand() {
+    return Commands.runOnce(
+        () -> {
+          io.setTurretRotation(Degrees.of(0));
+          io.setHoodAngle(Degrees.of(0));
+        });
+  }
+
+  public Command intakeCommand() {
+    return Commands.runOnce(() -> io.setPercentMotor(0.5), this);
+  }
+
+  public Command stopIntakeCommand() {
+    return Commands.runOnce(() -> io.setPercentMotor(0.0), this);
+  }
+
+  public Command sysIdShooter() {
+    return io.sysIdShooter();
+  }
+
+  public Command addBallToRobot() {
+    return io.addBallToRobot();
+  }
+
+  public Command launchBall() {
+    return io.launchBall();
+  }
+
+  @Override
+  public void periodic() {
+    super.periodic();
+    io.updateInputs(inputs);
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    super.simulationPeriodic();
+    io.updateSimulation();
+  }
+
   public AngularControlMotor angularControlledMotor() {
     AngularControlMotor angularMotor =
         new AngularControlMotor(
@@ -60,39 +110,6 @@ public class ExampleSubsystem extends GenericSubsystem {
     angularMotor.setIZone(3);
     angularMotor.setOutputRange(-12, 12);
     return angularMotor;
-  }
-
-  public Command getDefaultCommand(DoubleSupplier speed) {
-    return Commands.run(() -> io.setPercentMotor(speed.getAsDouble()), this);
-  }
-
-  public AngularVelocity getShooterVelocity() {
-    return io.getShooterVelocity();
-  }
-
-  public Command setVelocity(AngularVelocity speed) {
-    return io.setUpperSpeed(speed).alongWith(io.setHoodAngle(Degrees.of(0)).asProxy());
-  }
-
-  public Command setPercentControlMotorReference(DoubleSupplier reference) {
-    return Commands.runOnce(
-        () -> {
-          double speed = reference.getAsDouble();
-          io.setPercentMotor(speed);
-        },
-        this);
-  }
-
-  public Command setDutyCycle(double output) {
-    return io.setDutyCycle(output);
-  }
-
-  public Command sysIdShooter() {
-    return io.sysIdShooter();
-  }
-
-  public AngularVelocity getVelocity() {
-    return io.getShooterVelocity();
   }
 
   // public Command setVelocityControlMotorReference(DoubleSupplier reference) {
@@ -147,23 +164,4 @@ public class ExampleSubsystem extends GenericSubsystem {
   //   return Commands.runOnce(() -> angularMotor.setReference(reference.getAsDouble()), this);
   // }
 
-  public Command addBallToRobot() {
-    return io.addBallToRobot();
-  }
-
-  public Command launchBall() {
-    return io.launchBall();
-  }
-
-  @Override
-  public void periodic() {
-    super.periodic();
-    io.updateInputs(inputs);
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    super.simulationPeriodic();
-    io.updateSimulation();
-  }
 }

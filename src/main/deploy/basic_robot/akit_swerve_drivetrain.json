@@ -162,15 +162,15 @@
     "canbus": "",
     "startingPose": {
       "x": {
-        "val": 1.0,
+        "val": 3.42,
         "uom": "m"
       },
       "y": {
-        "val": 1.0,
+        "val": 5.75,
         "uom": "m"
       },
       "rotation": {
-        "val": 0.0,
+        "val": -45,
         "uom": "deg"
       }
     }

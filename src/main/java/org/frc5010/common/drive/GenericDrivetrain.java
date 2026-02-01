@@ -36,6 +36,8 @@ import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
 import org.frc5010.common.arch.GenericRobot;
 import org.frc5010.common.arch.GenericRobot.LogLevel;
 import org.frc5010.common.arch.GenericSubsystem;
@@ -45,6 +47,7 @@ import org.frc5010.common.constants.GenericDrivetrainConstants;
 import org.frc5010.common.drive.pose.DrivePoseEstimator;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.telemetry.DisplayBoolean;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
@@ -58,6 +61,12 @@ import swervelib.simulation.ironmaple.simulation.drivesims.SwerveDriveSimulation
 public abstract class GenericDrivetrain extends GenericSubsystem {
   /** The pose estimator */
   protected DrivePoseEstimator poseEstimator;
+  /** The robot velocity */
+  @Getter @Setter private ChassisSpeeds robotVelocity = new ChassisSpeeds();
+
+  /** Returns the measured chassis speeds of the robot. */
+  @AutoLogOutput(key = "GenericDrivetrain/ChassisSpeeds/Measured")
+  protected abstract ChassisSpeeds getChassisSpeeds();
   /** Whether or not the robot is field oriented */
   protected DisplayBoolean isFieldOrientedDrive;
   /**

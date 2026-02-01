@@ -57,9 +57,9 @@ public interface ExampleIO {
 
   public Command setElevatorHeight(double height);
 
-  public Command setHoodAngle(Angle angle);
+  public void setHoodAngle(Angle angle);
 
-  public Command setTurretRotation(Angle angle);
+  public void setTurretRotation(Angle angle);
 
   public AngularVelocity getShooterVelocity();
 

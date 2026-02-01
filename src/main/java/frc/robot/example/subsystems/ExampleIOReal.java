@@ -43,6 +43,7 @@ public class ExampleIOReal implements ExampleIO {
     angularMotor.periodicUpdate();
   }
 
+  @Override
   public void setPercentMotor(double output) {
     percentMotor.set(output);
   }
@@ -64,15 +65,12 @@ public class ExampleIOReal implements ExampleIO {
   }
 
   @Override
-  public Command setHoodAngle(Angle angle) {
-    return arm.setAngle(angle);
+  public void setHoodAngle(Angle angle) {
+    arm.getMotorController().setPosition(angle);
   }
 
   @Override
-  public Command setTurretRotation(Angle angle) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'setTurretRotation'");
-  }
+  public void setTurretRotation(Angle angle) {}
 
   public AngularVelocity getShooterVelocity() {
     return shooter.getSpeed();

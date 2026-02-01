@@ -841,10 +841,7 @@
         "left": 245,
         "right": 3942,
         "top": 118,
-        "width": 16.54119300842285,
-        "window": {
-          "visible": true
-        }
+        "width": 16.54119300842285
       },
       "/SmartDashboard/Robot Visual": {
         "window": {
@@ -897,9 +894,7 @@
     "transitory": {
       "AdvantageKit": {
         "Drive": {
-          "Module0": {
-            "open": true
-          }
+          "open": true
         },
         "Vision": {
           "Camera left": {
@@ -949,8 +944,7 @@
           "Camera shooter": {
             "open": true
           }
-        },
-        "open": true
+        }
       },
       "SmartDashboard": {
         "Characterization": {
@@ -966,22 +960,14 @@
           "DrivePoseEstimator": {
             "open": true
           },
-          "open": true,
           "values": {
             "open": true
           }
         },
         "ExampleRobot": {
-          "open": true,
           "values": {
             "open": true
           }
-        },
-        "Hood": {
-          "open": true
-        },
-        "Shooter": {
-          "open": true
         },
         "Wheel Radius Characterization": {
           "open": true
@@ -1013,8 +999,5 @@
         }
       }
     }
-  },
-  "NetworkTables Info": {
-    "visible": true
   }
 }

@@ -20,8 +20,8 @@ public class IntakeCommands {
   private static enum IntakeState {
     RETRACTED,
     RETRACTING,
-    INTAKING
-    // TODO : Add OUTTAKING
+    INTAKING,
+    OUTTAKING
   }
 
   @AutoLogOutput(key = "IntakeCommands/RequestedIntakeState")
@@ -33,7 +33,7 @@ public class IntakeCommands {
   }
 
   State retracted = intakeStateMachine.addState("retracted", retractedCommand());
-
+  State outtaking = intakeStateMachine.addState("outtaking", outtakingCommand());
   State retracting = intakeStateMachine.addState("retracting", retractingCommand());
   State intaking = intakeStateMachine.addState("intaking", intakingCommand());
 
@@ -43,14 +43,19 @@ public class IntakeCommands {
     controller.setLeftTrigger(controller.createLeftTrigger());
     Trigger leftTrigger = new Trigger(() -> controller.getLeftTrigger() > 0.25);
 
-    // TODO: This should be intaking not retracting
-    rightTrigger.onTrue(shouldRetracting()).onFalse(shouldRetracted());
-    // TODO: Make left trigger do an outtaking state
-
+    rightTrigger.onTrue(shouldIntaking()).onFalse(shouldRetracted());
+    leftTrigger.onTrue(shouldOuttaking()).onFalse(shouldRetracted());
     retracting.switchTo(intaking).when(() -> requestedState == IntakeState.INTAKING);
     retracted.switchTo(intaking).when(() -> requestedState == IntakeState.INTAKING);
     intaking.switchTo(retracting).when(() -> requestedState == IntakeState.RETRACTING);
     retracting.switchTo(retracted).when(() -> intake.isRetracted());
+  }
+
+  public Command outtakingCommand() {
+    return Commands.print("OUTTAKING")
+        .andThen(() -> intake.RunSpintake(-25))
+        .andThen(() -> intake.setPinionPosition(0));
+    // assuming outtaking is just intaking but goes the other way
   }
 
   public Command intakingCommand() {
@@ -69,6 +74,10 @@ public class IntakeCommands {
     return Commands.print("RETRACTED")
         .andThen(() -> intake.RunSpintake(0))
         .andThen(() -> intake.setPinionPosition(0));
+  }
+
+  public Command shouldOuttaking() {
+    return Commands.runOnce(() -> requestedState = IntakeState.OUTTAKING);
   }
 
   public Command shouldIntaking() {

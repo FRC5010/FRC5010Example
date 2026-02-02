@@ -8,15 +8,12 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.motors.function.PercentControlMotor;
 import org.frc5010.common.sensors.Controller;
 import org.littletonrobotics.junction.Logger;
 
 public class Indexer extends GenericSubsystem {
-  private PercentControlMotor Spindexer;
   private final IndexerIO io;
   private final IndexerIOInputsAutoLogged inputs = new IndexerIOInputsAutoLogged();
-  private PercentControlMotor Feeder;
 
   /** Creates a new Index. */
   public Indexer() {
@@ -30,18 +27,22 @@ public class Indexer extends GenericSubsystem {
   }
 
   public void RunSpindexer(double speed) {
-    Spindexer.set(speed);
+    io.RunSpindexer(speed);
   }
 
-  public void RunFeeder(double speed) {
-    Feeder.set(speed);
+  public void RunTransferBack(double speed) {
+    io.RunTransferBack(speed);
+  }
+
+  public void RunTransferFront(double speed) {
+    io.RunTransferFront(speed);
   }
 
   public void ConfigController(Controller controller) {
     controller.createAButton().whileTrue(spindexerCommand(.25));
-    controller.createBButton().whileTrue(feederCommand(.25));
+    // controller.createBButton().whileTrue(feederCommand(.25));
   }
-
+  /*
   public Command feederCommand(double speed) {
     return Commands.run(
             () -> {
@@ -52,6 +53,7 @@ public class Indexer extends GenericSubsystem {
               RunFeeder(0);
             });
   }
+  */
 
   public Command spindexerCommand(double speed) {
     return Commands.run(

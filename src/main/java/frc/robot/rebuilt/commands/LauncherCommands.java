@@ -99,26 +99,43 @@ public class LauncherCommands {
 
   private Command idleStateCommand() {
     return Commands.parallel(
-        Commands.runOnce(() -> {commandState.setValue("Idle"); currentState = LauncherState.IDLE;}), launcher.stopTrackingCommand());
+        Commands.runOnce(
+            () -> {
+              commandState.setValue("Idle");
+              currentState = LauncherState.IDLE;
+            }),
+        launcher.stopTrackingCommand());
   }
 
   private Command lowStateCommand() {
     return Commands.parallel(
-        Commands.runOnce(() -> {commandState.setValue("Low Speed"); currentState = LauncherState.LOW_SPEED;}),
+        Commands.runOnce(
+            () -> {
+              commandState.setValue("Low Speed");
+              currentState = LauncherState.LOW_SPEED;
+            }),
         launcher.trackTargetCommand());
   }
 
   private Command prepStateCommand() {
     return Commands.parallel(
         Commands.print("Launcher in PREP state"),
-        Commands.runOnce(() -> {commandState.setValue("Prep"); currentState = LauncherState.PREP;}),
+        Commands.runOnce(
+            () -> {
+              commandState.setValue("Prep");
+              currentState = LauncherState.PREP;
+            }),
         launcher.trackTargetCommand());
   }
 
   private Command readyStateCommand() {
     return Commands.parallel(
         Commands.print("Launcher in READY state"),
-        Commands.runOnce(() -> {commandState.setValue("Ready"); currentState = LauncherState.READY;}),
+        Commands.runOnce(
+            () -> {
+              commandState.setValue("Ready");
+              currentState = LauncherState.READY;
+            }),
         launcher.trackTargetCommand());
   }
 

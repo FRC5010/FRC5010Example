@@ -5,6 +5,7 @@
 package frc.robot.rebuilt.subsystems.Launcher;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -16,10 +17,13 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
+
+import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
 
 public class Launcher extends GenericSubsystem {
   private final LauncherIO io;
+  private final Arm hood;
   private final LauncherIOInputsAutoLogged inputs = new LauncherIOInputsAutoLogged();
   public static Transform3d robotToTurret = new Transform3d();
 
@@ -27,6 +31,7 @@ public class Launcher extends GenericSubsystem {
   public Launcher() {
     super("launcher.json");
     Pivot turret = (Pivot) devices.get("turret");
+    hood = (Arm) devices.get("hood");
     robotToTurret = new Transform3d(turret.getRelativeMechanismPosition(), new Rotation3d());
 
     if (RobotBase.isSimulation()) {
@@ -79,27 +84,22 @@ public class Launcher extends GenericSubsystem {
   public Command trackTargetCommand() {
     return Commands.run(
         () -> {
-          io.setHoodAngle(inputs.hoodAngleDesired);
-          io.setTurretRotation(inputs.turretAngleDesired);
-          io.setFlyWheelVelocity(inputs.flyWheelSpeedDesired);
+          io.setHoodAngle(inputs.hoodAngleCalculated);
+          io.setTurretRotation(inputs.turretAngleCalculated);
+          io.setFlyWheelVelocity(inputs.flyWheelSpeedCalculated);
+        });
+  }
+  public Command trackTargetCommand(double speed) {
+    return Commands.run(
+        () -> {
+          io.setHoodAngle(hood.getMotorController().getConfig().getMechanismLowerLimit().get());
+          io.setTurretRotation(inputs.turretAngleCalculated);
+          io.setFlyWheelVelocity(RPM.of(speed));
         });
   }
 
-  /**
-   * A command which tracks a target using the turret rotation and hood angle. The command will
-   * continuously set the turret rotation and hood angle to the angle of the target relative to the
-   * robot.
-   *
-   * @param targetSupplier a supplier which returns the target pose to track.
-   * @return a command which tracks the target with the turret rotation and hood angle.
-   */
-  public Command trackTargetCommand(Supplier<Translation2d> targetSupplier) {
-    return Commands.run(
-        () -> {
-          Translation2d targetPose = targetSupplier.get();
-          setTurretRotation(targetPose.getAngle().getMeasure());
-        });
-  }
+
+  
 
   /**
    * A command which stops the tracking of a target and resets the turret rotation and hood angle to
@@ -112,6 +112,7 @@ public class Launcher extends GenericSubsystem {
         () -> {
           setTurretRotation(Degrees.of(0));
           setHoodAngle(Degrees.of(0));
+          runShooter(0);
         });
   }
 

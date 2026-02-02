@@ -3,6 +3,7 @@ package frc.robot.rebuilt.subsystems.Launcher;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
@@ -16,6 +17,10 @@ public interface LauncherIO {
   @AutoLog
   public static class LauncherIOInputs {
     public AngularVelocity flyWheelSpeedDesired = RPM.of(0.0);
+
+    public AngularVelocity flyWheelSpeedCalculated = RotationsPerSecond.of(0.0);
+    public Angle hoodAngleCalculated = Degrees.of(0.0);
+    public Angle turretAngleCalculated = Degrees.of(0.0);
 
     public Angle hoodAngleDesired = Degrees.of(0.0);
     public Angle turretAngleDesired = Degrees.of(0.0);

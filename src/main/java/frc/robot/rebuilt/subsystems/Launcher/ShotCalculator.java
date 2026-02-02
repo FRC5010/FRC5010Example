@@ -7,11 +7,6 @@
 
 package frc.robot.rebuilt.subsystems.Launcher;
 
-import org.frc5010.common.constants.Constants;
-import org.frc5010.common.utils.geometry.AllianceFlipUtil;
-import org.frc5010.common.utils.geometry.GeomUtil;
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,6 +19,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.Rebuilt;
 import lombok.experimental.ExtensionMethod;
+import org.frc5010.common.constants.Constants;
+import org.frc5010.common.utils.geometry.AllianceFlipUtil;
+import org.frc5010.common.utils.geometry.GeomUtil;
+import org.littletonrobotics.junction.Logger;
 
 @ExtensionMethod({GeomUtil.class})
 public class ShotCalculator {

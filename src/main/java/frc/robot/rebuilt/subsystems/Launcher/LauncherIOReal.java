@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Second;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -39,6 +40,9 @@ public class LauncherIOReal implements LauncherIO {
   public void updateInputs(LauncherIOInputs inputs) {
     ShotCalculator.ShootingParameters params = ShotCalculator.getInstance().getParameters();
     if (params != null && params.isValid()) {
+      inputs.hoodAngleCalculated = Degrees.of(params.hoodAngle());
+      inputs.turretAngleCalculated = params.turretAngle().getMeasure();
+      inputs.flyWheelSpeedCalculated = RotationsPerSecond.of(params.flywheelSpeed());
       // TODO: Use parameters to set turret, hood and flywheel desired values
     }
 

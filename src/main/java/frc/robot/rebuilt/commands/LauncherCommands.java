@@ -31,6 +31,7 @@ public class LauncherCommands {
   private static GenericDrivetrain drivetrain;
   private Map<String, GenericSubsystem> subsystems;
   private static Translation2d target = new Translation2d(Inches.of(182.11), Inches.of(158.84));
+  public static LauncherState currentState = LauncherState.IDLE;
 
   public static Translation2d getRobotToTarget() {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
@@ -98,27 +99,27 @@ public class LauncherCommands {
 
   private Command idleStateCommand() {
     return Commands.parallel(
-        Commands.runOnce(() -> commandState.setValue("Idle")), launcher.stopTrackingCommand());
+        Commands.runOnce(() -> {commandState.setValue("Idle"); currentState = LauncherState.IDLE;}), launcher.stopTrackingCommand());
   }
 
   private Command lowStateCommand() {
     return Commands.parallel(
-        Commands.runOnce(() -> commandState.setValue("Low Speed")),
-        launcher.trackTargetCommand(() -> getTargetPose()));
+        Commands.runOnce(() -> {commandState.setValue("Low Speed"); currentState = LauncherState.LOW_SPEED;}),
+        launcher.trackTargetCommand());
   }
 
   private Command prepStateCommand() {
     return Commands.parallel(
         Commands.print("Launcher in PREP state"),
-        Commands.runOnce(() -> commandState.setValue("Prep")),
-        launcher.trackTargetCommand(() -> getTargetPose()));
+        Commands.runOnce(() -> {commandState.setValue("Prep"); currentState = LauncherState.PREP;}),
+        launcher.trackTargetCommand());
   }
 
   private Command readyStateCommand() {
     return Commands.parallel(
         Commands.print("Launcher in READY state"),
-        Commands.runOnce(() -> commandState.setValue("Ready")),
-        launcher.trackTargetCommand(() -> getTargetPose()));
+        Commands.runOnce(() -> {commandState.setValue("Ready"); currentState = LauncherState.READY;}),
+        launcher.trackTargetCommand());
   }
 
   public Command shouldIdleCommand() {
@@ -135,5 +136,9 @@ public class LauncherCommands {
 
   public Command shouldReadyCommand() {
     return Commands.runOnce(() -> requestedState = LauncherState.READY);
+  }
+
+  public static LauncherState getCurrentState() {
+    return currentState;
   }
 }

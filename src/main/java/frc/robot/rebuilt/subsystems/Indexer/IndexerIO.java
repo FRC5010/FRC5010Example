@@ -12,7 +12,9 @@ public interface IndexerIO {
 
   public void RunSpindexer(double speed);
 
-  public void RunFeeder(double speed);
+  public void RunTransferFront(double speed);
+
+  public void RunTransferBack(double speed);
 
   public default void updateInputs(IndexerIOInputs inputs) {}
 }

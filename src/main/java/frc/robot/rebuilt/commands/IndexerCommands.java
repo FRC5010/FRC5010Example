@@ -8,6 +8,7 @@ import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.arch.StateMachine.State;
+import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.telemetry.DisplayString;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -35,11 +36,10 @@ public class IndexerCommands {
     // Create a simple state machine for the indexer and set it as the default command.
     Indexer indexer = (Indexer) subsystems.get(Constants.INDEXER);
     stateMachine = new StateMachine("IndexStateMachine");
-
-    idleState = stateMachine.addState("idle", Commands.idle());
+    idleState = stateMachine.addState("idle", idleStateCommand());
     if (indexer != null) {
-      churnState = stateMachine.addState("churn", indexer.spindexerCommand(.2));
-      feedState = stateMachine.addState("feed", indexer.spindexerCommand(.2));
+      churnState = stateMachine.addState("churn", churnStateCommand());
+      feedState = stateMachine.addState("feed", feedStateCommand());
     }
     stateMachine.setInitialState(idleState);
 
@@ -48,8 +48,16 @@ public class IndexerCommands {
       indexer.setDefaultCommand(stateMachine);
     }
   }
+  // TODO: Adjust Button Inputs
+  public void configureButtonBindings(Controller driver, Controller operator) {
+    driver.createBButton().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
+    idleState.switchTo(churnState).when(() -> requestedState == IndexerState.CHURN);
+    idleState.switchTo(feedState).when(() -> requestedState == IndexerState.FEED);
+    churnState.switchTo(feedState).when(() -> requestedState == IndexerState.FEED);
+    feedState.switchTo(churnState).when(() -> requestedState == IndexerState.CHURN);
+  }
 
-  private Command churnStatecommand() {
+  private Command churnStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
@@ -65,5 +73,26 @@ public class IndexerCommands {
               commandState.setValue("Idle");
               currentState = IndexerState.IDLE;
             }));
+  }
+
+  private Command feedStateCommand() {
+    return Commands.parallel(
+        Commands.runOnce(
+            () -> {
+              commandState.setValue("Feed");
+              currentState = IndexerState.FEED;
+            }));
+  }
+
+  public Command shouldIdleCommand() {
+    return Commands.runOnce(() -> requestedState = IndexerState.IDLE);
+  }
+
+  public Command shouldChurnCommand() {
+    return Commands.runOnce(() -> requestedState = IndexerState.CHURN);
+  }
+
+  public Command shouldFeedCommand() {
+    return Commands.runOnce(() -> requestedState = IndexerState.FEED);
   }
 }

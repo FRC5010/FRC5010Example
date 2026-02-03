@@ -7,6 +7,7 @@ package frc.robot.rebuilt.subsystems.Launcher;
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Second;
@@ -14,9 +15,14 @@ import static edu.wpi.first.units.Units.Second;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.LinearVelocity;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
+
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.motors.function.VelocityControlMotor;
+
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
 import yams.mechanisms.velocity.FlyWheel;
@@ -26,8 +32,8 @@ public class LauncherIOReal implements LauncherIO {
 
   protected Map<String, Object> devices;
   private Pivot turret;
-  private Arm hood;
-  private FlyWheel flyWheel;
+  protected Arm hood;
+  protected FlyWheel flyWheel;
 
   public LauncherIOReal(Map<String, Object> devices) {
     this.devices = devices;
@@ -98,5 +104,9 @@ public class LauncherIOReal implements LauncherIO {
 
   public void setTurretRotation(Angle angle) {
     turret.getMotorController().setPosition(angle);
+  }
+  
+  public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity) {
+    return MetersPerSecond.of(flyWheel.getShooterConfig().getLength().get().magnitude()*(velocity.magnitude()));
   }
 }

@@ -4,12 +4,31 @@
 
 package frc.robot.rebuilt.subsystems.Launcher;
 
-import frc.robot.rebuilt.subsystems.intake.IntakeIOSim;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
 import java.util.Map;
+
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.drive.GenericDrivetrain;
+import org.frc5010.common.drive.swerve.YAGSLSwerveDrivetrain;
+import org.frc5010.common.motors.function.VelocityControlMotor;
+import org.littletonrobotics.junction.Logger;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.units.measure.LinearVelocity;
+import frc.robot.rebuilt.Rebuilt;
+import frc.robot.rebuilt.commands.LauncherCommands;
+import frc.robot.rebuilt.subsystems.intake.IntakeIOSim;
+import swervelib.simulation.ironmaple.simulation.SimulatedArena;
+import swervelib.simulation.ironmaple.simulation.gamepieces.GamePieceProjectile;
+import swervelib.simulation.ironmaple.simulation.seasonspecific.rebuilt2026.RebuiltFuelOnFly;
 
 /** Add your docs here. */
 public class LauncherIOSim extends LauncherIOReal {
-
+  protected GamePieceProjectile gamePieceProjectile;
   protected Map<String, Object> devices;
 
   public LauncherIOSim(Map<String, Object> devices) {
@@ -25,7 +44,24 @@ public class LauncherIOSim extends LauncherIOReal {
     // This would mean we try to shoot 25 times per second, and on average shoot about 12-13
     // gamepieces per second.
     if (Math.random() > 0.5 && amount > 0) {
-      if (IntakeIOSim.intakeSimulation.obtainGamePieceFromIntake()) {
+      if (LauncherCommands.getCurrentState() == LauncherCommands.LauncherState.READY && IntakeIOSim.intakeSimulation.obtainGamePieceFromIntake()) {
+        Pose2d worldPose = Rebuilt.drivetrain.getPoseEstimator().getCurrentPose();
+                    gamePieceProjectile =
+                        new RebuiltFuelOnFly(
+                                worldPose.getTranslation(),
+                                flyWheel.getRelativeMechanismPosition().toTranslation2d(),
+                                Rebuilt.drivetrain.getFieldVelocity(),
+                                worldPose.getRotation(),
+                                Meters.of(0.45),
+                                MetersPerSecond.of(flyWheel.getSpeed().magnitude()),
+                                Degrees.of(90.0).minus(hood.getAngle()))
+                            .withProjectileTrajectoryDisplayCallBack(
+                                (pose3ds) -> {
+                                  Logger.recordOutput(
+                                      "Launcher/GamePieceTrajectory",
+                                      pose3ds.toArray(Pose3d[]::new));
+                                });
+                    SimulatedArena.getInstance().addGamePieceProjectile(gamePieceProjectile);
         // Create a new gamepiece on-the-fly and add it to the field simulation
       }
     }

@@ -38,7 +38,7 @@ public class LauncherCommands {
   }
   // public static Angle getHoodAngle(Distance toTarget) {} Placeholder for now
 
-  private static enum LauncherState {
+  public static enum LauncherState {
     IDLE,
     LOW_SPEED,
     PREP,

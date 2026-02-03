@@ -9,15 +9,12 @@ import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
-
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
 
@@ -89,6 +86,7 @@ public class Launcher extends GenericSubsystem {
           io.setFlyWheelVelocity(inputs.flyWheelSpeedCalculated);
         });
   }
+
   public Command trackTargetCommand(double speed) {
     return Commands.run(
         () -> {
@@ -97,9 +95,6 @@ public class Launcher extends GenericSubsystem {
           io.setFlyWheelVelocity(RPM.of(speed));
         });
   }
-
-
-  
 
   /**
    * A command which stops the tracking of a target and resets the turret rotation and hood angle to

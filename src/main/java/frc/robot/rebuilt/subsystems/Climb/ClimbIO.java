@@ -13,6 +13,8 @@ public interface ClimbIO {
     public Distance climbHeight = Inches.of(0);
   }
 
+ public void runClimb(double speed);
+ 
   public void idle();
 
   public void setHeight(Distance height);

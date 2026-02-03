@@ -53,19 +53,11 @@ public class ClimbCommands {
     stateMachine = new StateMachine("ClimbStateMachine");
     // a simple idle state; transitions will be added in configureButtonBindings
     idleState =
-        stateMachine.addState(
-            "idle",
-            climb
-                .idleCommand()
-                .alongWith(
-                    Commands.runOnce(() -> commandState.setValue(ClimbState.IDLE.toString()))));
+        stateMachine.addState("idle", climb.idleCommand().alongWith(Commands.runOnce(() -> commandState.setValue(ClimbState.IDLE.toString()))));
     loweredState =
-        stateMachine.addState(
-            "lowered",
-            Commands.runOnce(() -> commandState.setValue(ClimbState.LOWERED.toString())));
+        stateMachine.addState("lowered", Commands.runOnce(() -> commandState.setValue(ClimbState.LOWERED.toString())));
     liftedState =
-        stateMachine.addState(
-            "lifted", Commands.runOnce(() -> commandState.setValue(ClimbState.LIFTED.toString())));
+        stateMachine.addState("lifted", Commands.runOnce(() -> commandState.setValue(ClimbState.LIFTED.toString())));
 
     // states that actually run the climber
     if (climb != null) {
@@ -113,8 +105,11 @@ public class ClimbCommands {
 
   public void configureButtonBindings(Controller operator) {
     operator.createXButton().onTrue(shouldElevateCommand()).onFalse(shouldStopCommand());
-
     operator.createYButton().onTrue(shouldDescendCommand()).onFalse(shouldStopCommand());
+    
+    climb.setDefaultCommand(Commands.run(()-> {
+ climb.runClimb(operator.getLeftYAxis());
+    }, climb));
 
     // lowered -> elevate when requested
     loweredState.switchTo(elevateState).when(() -> requestedState == ClimbState.ELEVATE);

@@ -444,7 +444,17 @@ public class StateMachine extends Command {
           }
         }
       }
+
+    public void when(BooleanSupplier condition) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'when'");
+    }
     } // end class NeedsConditionTransitionBuilder
+
+    public void switchTo() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'switchTo'");
+    }
   } // end class State
 
   /** class Transition is a Triggering external event to change to the next command (state) */

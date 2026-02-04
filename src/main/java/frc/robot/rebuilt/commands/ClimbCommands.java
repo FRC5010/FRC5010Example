@@ -2,16 +2,18 @@ package frc.robot.rebuilt.commands;
 
 import static edu.wpi.first.units.Units.Meters;
 
+import java.util.Map;
+
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.arch.StateMachine;
+import org.frc5010.common.arch.StateMachine.State;
+import org.frc5010.common.sensors.Controller;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.Constants.ClimbConstants;
 import frc.robot.rebuilt.subsystems.Climb.Climb;
-import java.util.Map;
-import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.arch.StateMachine;
-import org.frc5010.common.arch.StateMachine.State;
-import org.frc5010.common.sensors.Controller;
 
 public class ClimbCommands {
 
@@ -22,13 +24,17 @@ public class ClimbCommands {
   private State descendState;
   private State liftedState;
   private State loweredState;
+  private State disabledState;
+  private State manualState;
 
   public static enum ClimbState {
     IDLE,
     ELEVATE,
     LIFTED,
     DESCEND,
-    LOWERED
+    LOWERED,
+    DISABLED,
+    MANUAL
   }
 
   private Climb climb;
@@ -52,6 +58,11 @@ public class ClimbCommands {
     liftedState =
         stateMachine.addState(
             "lifted", Commands.runOnce(() -> climb.setCurrentState(ClimbState.LIFTED)));
+    disabledState = 
+        stateMachine.addState("disabled", Commands.runOnce(()-> climb.setCurrentState(ClimbState.DISABLED)));
+    manualState = 
+        stateMachine.addState("manual", Commands.runOnce(()-> climb.setCurrentState(ClimbState.MANUAL)));
+        
 
     // states that actually run the climber
     if (climb != null) {
@@ -73,7 +84,8 @@ public class ClimbCommands {
       descendState = stateMachine.addState("lower", Commands.idle());
     }
 
-    stateMachine.setInitialState(loweredState);
+    // Set DISABLED as the default initial state
+    stateMachine.setInitialState(disabledState);
 
     if (climb != null) {
       stateMachine.addRequirements(climb);
@@ -93,11 +105,23 @@ public class ClimbCommands {
     return Commands.runOnce(() -> climb.setRequestedState(ClimbState.DESCEND));
   }
 
-  public void configureButtonBindings(Controller operator) {
+  // New: command to enable the climb (requests IDLE)
+  public Command shouldEnableCommand() {
+    return Commands.runOnce(() -> climb.setRequestedState(ClimbState.IDLE));
+  }
+
+  public void configureButtonBindings(Controller driver, Controller operator) {
     operator.createXButton().onTrue(shouldElevateCommand()).onFalse(shouldStopCommand());
     operator.createYButton().onTrue(shouldDescendCommand()).onFalse(shouldStopCommand());
 
-    climb.setDefaultCommand(
+    // Bind the "enable climb" button to transition DISABLED -> IDLE when pressed.
+    // Change createStartButton() to whatever button you prefer on your controller.
+    operator.createStartButton().onTrue(shouldEnableCommand());
+
+    // Driver POV-Up enables the climb (requests IDLE)
+    driver.createUpPovButton().onTrue(shouldEnableCommand());
+
+    climb.setDefaultCommand( 
         Commands.run(
             () -> {
               climb.runClimb(operator.getLeftYAxis());
@@ -126,5 +150,12 @@ public class ClimbCommands {
     idleState.switchTo(elevateState).when(() -> climb.isRequested(ClimbState.ELEVATE));
     // idle -> descend when requested
     idleState.switchTo(descendState).when(() -> climb.isRequested(ClimbState.DESCEND));
+    // idle- > manual
+    idleState.switchTo(manualState).when(()-> operator.getLeftYAxis() != 0);
+    //manual to switch
+    manualState.switchTo(idleState).when(()-> operator.getLeftYAxis()==0 );
+
+    // disabled -> idle when the enable command is requested
+    disabledState.switchTo(idleState).when(() -> climb.isRequested(ClimbState.IDLE));
   }
 }

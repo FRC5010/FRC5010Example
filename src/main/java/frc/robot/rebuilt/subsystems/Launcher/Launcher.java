@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.RPM;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -58,7 +59,7 @@ public class Launcher extends GenericSubsystem {
   @Override
   public void simulationPeriodic() {
     super.simulationPeriodic();
-    io.updateSimulation();
+    io.updateSimulation(this);
   }
 
   /**
@@ -77,6 +78,18 @@ public class Launcher extends GenericSubsystem {
 
   public void setTurretRotation(Angle angle) {
     io.setTurretRotation(angle);
+  }
+
+  public Command getHoodSysIdCommand() {
+    return io.getHoodSysIdCommand();
+  }
+
+  public Command getTurretSysIdCommand() {
+    return io.getTurretSysIdCommand();
+  }
+
+  public Command getFlyWheelSysIdCommand() {
+    return io.getFlyWheelSysIdCommand();
   }
 
   public Command trackTargetCommand() {
@@ -140,5 +153,11 @@ public class Launcher extends GenericSubsystem {
 
   public LauncherState getCurrentState() {
     return inputs.stateCurrent;
+  }
+
+  public void usePresets(Angle hoodAngle, Angle turretAngle, AngularVelocity flywheelSpeed) {
+    io.setHoodAngle(hoodAngle);
+    io.setTurretRotation(turretAngle);
+    io.setFlyWheelVelocity(flywheelSpeed);
   }
 }

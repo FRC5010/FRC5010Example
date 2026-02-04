@@ -10,6 +10,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import org.littletonrobotics.junction.AutoLog;
 
@@ -63,5 +64,11 @@ public interface LauncherIO {
 
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity);
 
-  public default void updateSimulation() {}
+  public Command getHoodSysIdCommand();
+
+  public Command getTurretSysIdCommand();
+
+  public Command getFlyWheelSysIdCommand();
+
+  public default void updateSimulation(Launcher launcher) {}
 }

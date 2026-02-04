@@ -11,11 +11,14 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
@@ -105,5 +108,17 @@ public class LauncherIOReal implements LauncherIO {
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity) {
     return MetersPerSecond.of(
         flyWheel.getShooterConfig().getLength().get().magnitude() * (velocity.magnitude()));
+  }
+
+  public Command getHoodSysIdCommand() {
+    return hood.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(5));
+  }
+
+  public Command getTurretSysIdCommand() {
+    return turret.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(5));
+  }
+
+  public Command getFlyWheelSysIdCommand() {
+    return flyWheel.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(5));
   }
 }

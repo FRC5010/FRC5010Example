@@ -11,7 +11,6 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import frc.robot.rebuilt.Rebuilt;
-import frc.robot.rebuilt.commands.LauncherCommands;
 import frc.robot.rebuilt.subsystems.intake.IntakeIOSim;
 import java.util.Map;
 import org.littletonrobotics.junction.Logger;
@@ -29,7 +28,7 @@ public class LauncherIOSim extends LauncherIOReal {
   }
 
   @Override
-  public void updateSimulation() {
+  public void updateSimulation(Launcher launcher) {
     int amount = IntakeIOSim.intakeSimulation.getGamePiecesAmount();
     // Update simulated mechanism states here
     // We should simulate a shot rate of about 10-15 gamepieces per second
@@ -37,8 +36,7 @@ public class LauncherIOSim extends LauncherIOReal {
     // This would mean we try to shoot 25 times per second, and on average shoot about 12-13
     // gamepieces per second.
     if (Math.random() > 0.5 && amount > 0) {
-      if (LauncherCommands.getCurrentState() == LauncherCommands.LauncherState.READY
-          && IntakeIOSim.intakeSimulation.obtainGamePieceFromIntake()) {
+      if (launcher.isAtGoal() && IntakeIOSim.intakeSimulation.obtainGamePieceFromIntake()) {
         Pose2d worldPose = Rebuilt.drivetrain.getPoseEstimator().getCurrentPose();
         gamePieceProjectile =
             new RebuiltFuelOnFly(
@@ -46,8 +44,8 @@ public class LauncherIOSim extends LauncherIOReal {
                     flyWheel.getRelativeMechanismPosition().toTranslation2d(),
                     Rebuilt.drivetrain.getFieldVelocity(),
                     worldPose.getRotation(),
-                    Meters.of(0.45),
-                    MetersPerSecond.of(flyWheel.getSpeed().magnitude()),
+                    flyWheel.getRelativeMechanismPosition().getMeasureZ(),
+                    getFlyWheelExitSpeed(flyWheel.getSpeed()),
                     Degrees.of(90.0).minus(hood.getAngle()))
                 .withProjectileTrajectoryDisplayCallBack(
                     (pose3ds) -> {

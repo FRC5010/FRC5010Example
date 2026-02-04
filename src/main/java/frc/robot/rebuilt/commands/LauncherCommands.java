@@ -1,6 +1,8 @@
 package frc.robot.rebuilt.commands;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,7 +23,7 @@ public class LauncherCommands {
   private State idleState;
   private State lowState;
   private State prepState;
-  private State readyState;
+  private State presetState;
   private static Launcher launcher;
   private static GenericDrivetrain drivetrain;
   private Map<String, GenericSubsystem> subsystems;
@@ -36,7 +38,7 @@ public class LauncherCommands {
     IDLE,
     LOW_SPEED,
     PREP,
-    READY;
+    PRESET;
 
     @Override
     public String toString() {
@@ -53,10 +55,10 @@ public class LauncherCommands {
     drivetrain = (GenericDrivetrain) this.subsystems.get(ConfigConstants.DRIVETRAIN);
 
     stateMachine = new StateMachine("LauncherStateMachine");
+    presetState = stateMachine.addState("PRESET-SHOOT", presetStateCommand());
     idleState = stateMachine.addState("IDLE", idleStateCommand());
     lowState = stateMachine.addState("LOW-SPEED", lowStateCommand());
     prepState = stateMachine.addState("PREP-SHOOT", prepStateCommand());
-    readyState = stateMachine.addState("READY-TO-SHOOT", readyStateCommand());
     stateMachine.setInitialState(lowState);
   }
 
@@ -69,25 +71,23 @@ public class LauncherCommands {
 
   public void configureButtonBindings(Controller driver, Controller operator) {
 
-    driver.createRightBumper().onTrue(shouldPrepCommand()).onFalse(shouldIdleCommand());
-
     idleState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     idleState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
+    idleState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
 
     lowState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
     lowState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
+    lowState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
 
     prepState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     prepState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
-    prepState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
-    // prepState.switchTo(readyState).when(() -> isRequested(LauncherState.READY)); PLACEHOLDER
-    // FOR NOW
+    prepState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
 
-    readyState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
-    readyState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
-    // readyState.switchTo(prepState).when(() -> isRequested(LauncherState.PREP)); PLACEHOLDER
-    // FOR NOW
+    presetState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
+    presetState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
+    presetState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
 
+    operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
   }
 
   private Translation2d getTargetPose() {
@@ -122,12 +122,12 @@ public class LauncherCommands {
         launcher.trackTargetCommand());
   }
 
-  private Command readyStateCommand() {
+  private Command presetStateCommand() {
     return Commands.parallel(
-        Commands.print("Launcher in READY state"),
+        Commands.print("Launcher in PRESET state"),
         Commands.runOnce(
             () -> {
-              launcher.setCurrentState(LauncherState.READY);
+              launcher.setCurrentState(LauncherState.PRESET);
             }),
         launcher.trackTargetCommand());
   }
@@ -144,8 +144,31 @@ public class LauncherCommands {
     return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.PREP));
   }
 
-  public Command shouldReadyCommand() {
-    return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.READY));
+  public Command shouldPresetCommand() {
+    return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.PRESET));
+  }
+
+  // Order is Hood Angle, Turret Angle, Flywheel Speed
+  // Values are placeholders and need to be tuned
+  public Command hubPresetStateCommand() {
+    return shouldPresetCommand()
+        .alongWith(
+            Commands.run(
+                () -> launcher.usePresets(Degrees.of(30), Degrees.of(0), RPM.of(4000)), launcher));
+  }
+
+  public Command towerPresetStateCommand() {
+    return shouldPresetCommand()
+        .alongWith(
+            Commands.run(
+                () -> launcher.usePresets(Degrees.of(45), Degrees.of(15), RPM.of(4500)), launcher));
+  }
+
+  public Command turretForwardPresetStateCommand() {
+    return shouldPresetCommand()
+        .alongWith(
+            Commands.run(
+                () -> launcher.usePresets(Degrees.of(20), Degrees.of(0), RPM.of(3500)), launcher));
   }
 
   public static LauncherState getCurrentState() {

@@ -16,7 +16,7 @@ public class IndexerCommands {
   private State idleState;
   private State churnState;
   private State feedState;
-  private State forcestate;
+  private State forceState;
   private Indexer indexer;
 
   public static enum IndexerState {
@@ -34,7 +34,7 @@ public class IndexerCommands {
     if (indexer != null) {
       churnState = stateMachine.addState("churn", churnStateCommand());
       feedState = stateMachine.addState("feed", feedStateCommand());
-      forceState = stateMachine.addState("")
+      forceState = stateMachine.addState("", Commands.idle());
     }
     stateMachine.setInitialState(idleState);
 
@@ -52,9 +52,8 @@ public class IndexerCommands {
     churnState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
     feedState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
     feedState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
-    forceState.switchTo(idleState).when(() -> indexer.isRequested(Indexer.IDLE));
-        driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
-
+    forceState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
+    driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
   }
 
   private Command churnStateCommand() {

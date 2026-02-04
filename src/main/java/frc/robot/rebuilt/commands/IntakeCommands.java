@@ -43,6 +43,7 @@ public class IntakeCommands {
     Trigger rightTrigger = new Trigger(() -> controller.getRightTrigger() > 0.25);
     controller.setLeftTrigger(controller.createLeftTrigger());
     Trigger leftTrigger = new Trigger(() -> controller.getLeftTrigger() > 0.25);
+    controller.createLeftBumper().onTrue(shouldRetracting()).onFalse(shouldRetracted());
 
     rightTrigger.onTrue(shouldIntaking());
     leftTrigger.onTrue(shouldOuttaking());

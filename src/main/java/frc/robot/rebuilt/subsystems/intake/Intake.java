@@ -25,8 +25,8 @@ public class Intake extends GenericSubsystem {
     }
   }
 
-  public void RunSpintake(double speed) {
-    io.RunSpintake(speed);
+  public void runSpintake(double speed) {
+    io.runSpintake(speed);
   }
 
   public void ConfigController(Controller controller) {}
@@ -34,11 +34,11 @@ public class Intake extends GenericSubsystem {
   public Command spintakeCommand(double speed) {
     return Commands.run(
             () -> {
-              RunSpintake(.25);
+              runSpintake(.25);
             })
         .finallyDo(
             () -> {
-              RunSpintake(0);
+              runSpintake(0);
             });
   }
 

@@ -64,8 +64,8 @@ public class Climb extends GenericSubsystem {
     io.updateInputs(inputs);
     Logger.processInputs("Climb", inputs);
   }
-  public void runClimb(double speed){
- io.runClimb(speed);
- 
+
+  public void runClimb(double speed) {
+    io.runClimb(speed);
   }
 }

@@ -10,16 +10,17 @@ import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.arch.StateMachine.State;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.telemetry.DisplayString;
-import org.littletonrobotics.junction.AutoLogOutput;
+import org.frc5010.common.telemetry.DisplayValuesHelper;
 
 public class IndexerCommands {
   private Map<String, GenericSubsystem> subsystems;
   private StateMachine stateMachine;
-  private DisplayString commandState;
+  private DisplayValuesHelper Dashboard;
+  private static DisplayString currentState;
+  private static DisplayString requestedState;
   private State idleState;
   private State churnState;
   private State feedState;
-  public static IndexerState currentState = IndexerState.IDLE;
 
   private static enum IndexerState {
     IDLE,
@@ -27,13 +28,15 @@ public class IndexerCommands {
     FEED
   }
 
-  @AutoLogOutput(key = "IndexerCommands/RequestedIndexerState")
-  private static IndexerState requestedState = IndexerState.IDLE;
-
   public IndexerCommands(Map<String, GenericSubsystem> systems) {
     this.subsystems = systems;
 
-    // Create a simple state machine for the indexer and set it as the default command.
+    Dashboard = new DisplayValuesHelper("IndexerCommands");
+    currentState = Dashboard.makeDisplayString("CurrentState");
+    currentState.setValue(IndexerState.IDLE.toString());
+    requestedState = Dashboard.makeDisplayString("RequestedState");
+    requestedState.setValue(IndexerState.IDLE.toString());
+
     Indexer indexer = (Indexer) subsystems.get(Constants.INDEXER);
     stateMachine = new StateMachine("IndexStateMachine");
     idleState = stateMachine.addState("idle", idleStateCommand());
@@ -51,18 +54,33 @@ public class IndexerCommands {
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
     driver.createBButton().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
-    idleState.switchTo(churnState).when(() -> requestedState == IndexerState.CHURN);
-    idleState.switchTo(feedState).when(() -> requestedState == IndexerState.FEED);
-    churnState.switchTo(feedState).when(() -> requestedState == IndexerState.FEED);
-    feedState.switchTo(churnState).when(() -> requestedState == IndexerState.CHURN);
+    idleState.switchTo(churnState).when(() -> isRequested(IndexerState.CHURN));
+    idleState.switchTo(feedState).when(() -> isRequested(IndexerState.FEED));
+    churnState.switchTo(feedState).when(() -> isRequested(IndexerState.FEED));
+    feedState.switchTo(churnState).when(() -> isRequested(IndexerState.CHURN));
+  }
+
+  public boolean isRequested(IndexerState state) {
+    return IndexerState.valueOf(requestedState.getValue()) == state;
+  }
+
+  public boolean isCurrent(IndexerState state) {
+    return IndexerState.valueOf(currentState.getValue()) == state;
+  }
+
+  private void setCurrentState(IndexerState state) {
+    currentState.setValue(state.name());
+  }
+
+  private void setRequestedState(IndexerState state) {
+    requestedState.setValue(state.name());
   }
 
   private Command churnStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
-              commandState.setValue("Churn");
-              currentState = IndexerState.CHURN;
+              setCurrentState(IndexerState.CHURN);
             }));
   }
 
@@ -70,8 +88,7 @@ public class IndexerCommands {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
-              commandState.setValue("Idle");
-              currentState = IndexerState.IDLE;
+              setCurrentState(IndexerState.IDLE);
             }));
   }
 
@@ -79,20 +96,19 @@ public class IndexerCommands {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
-              commandState.setValue("Feed");
-              currentState = IndexerState.FEED;
+              setCurrentState(IndexerState.FEED);
             }));
   }
 
   public Command shouldIdleCommand() {
-    return Commands.runOnce(() -> requestedState = IndexerState.IDLE);
+    return Commands.runOnce(() -> setRequestedState(IndexerState.IDLE));
   }
 
   public Command shouldChurnCommand() {
-    return Commands.runOnce(() -> requestedState = IndexerState.CHURN);
+    return Commands.runOnce(() -> setRequestedState(IndexerState.CHURN));
   }
 
   public Command shouldFeedCommand() {
-    return Commands.runOnce(() -> requestedState = IndexerState.FEED);
+    return Commands.runOnce(() -> setRequestedState(IndexerState.FEED));
   }
 }

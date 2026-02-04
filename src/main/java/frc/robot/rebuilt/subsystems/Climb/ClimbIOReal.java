@@ -33,8 +33,8 @@ public class ClimbIOReal implements ClimbIO {
   public void setHeight(Distance height) {
     climber.getMotorController().setPosition(height);
   }
-   public void runClimb(double speed){
-    climber.getMotorController().setDutyCycle(speed);
-   }
 
+  public void runClimb(double speed) {
+    climber.getMotorController().setDutyCycle(speed);
+  }
 }

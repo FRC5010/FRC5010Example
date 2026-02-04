@@ -2,7 +2,6 @@ package frc.robot.rebuilt.subsystems.intake;
 
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.units.measure.Distance;
 import java.util.Map;
@@ -20,13 +19,14 @@ public class IntakeIOReal implements IntakeIO {
     intakePinion = (Elevator) devices.get("pinion");
   }
 
-  public void RunSpintake(double speed) {
-    spintake.set(speed);
+  @Override
+  public void runSpintake(double speed) {
+    spintake.getMotorController().setDutyCycle(speed);
   }
 
   public void setPinionPosition(double position) {
     Distance mydist = Meters.of(position);
-    intakePinion.setHeight(mydist);
+    intakePinion.getMotorController().setPosition(mydist);
   }
 
   public Boolean isRetracted() {
@@ -36,11 +36,6 @@ public class IntakeIOReal implements IntakeIO {
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
     inputs.position = intakePinion.getMotorController().getMeasurementPosition();
-    inputs.speed =
-        spintake
-            .getMotorController()
-            .getMechanismSetpointVelocity()
-            .map(it -> it.in(RPM))
-            .orElse(0.0);
+    inputs.speed = spintake.getMotorController().getDutyCycle();
   }
 }

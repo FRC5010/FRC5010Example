@@ -19,10 +19,6 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
-
-import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.motors.function.VelocityControlMotor;
-
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
 import yams.mechanisms.velocity.FlyWheel;
@@ -105,8 +101,9 @@ public class LauncherIOReal implements LauncherIO {
   public void setTurretRotation(Angle angle) {
     turret.getMotorController().setPosition(angle);
   }
-  
+
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity) {
-    return MetersPerSecond.of(flyWheel.getShooterConfig().getLength().get().magnitude()*(velocity.magnitude()));
+    return MetersPerSecond.of(
+        flyWheel.getShooterConfig().getLength().get().magnitude() * (velocity.magnitude()));
   }
 }

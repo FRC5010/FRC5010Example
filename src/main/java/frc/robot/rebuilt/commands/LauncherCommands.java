@@ -16,13 +16,13 @@ import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.telemetry.DisplayString;
 import org.frc5010.common.telemetry.DisplayValuesHelper;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 public class LauncherCommands {
 
   private StateMachine stateMachine;
-  private DisplayString commandState;
-  private DisplayValuesHelper DisplayHelper;
+  private DisplayValuesHelper Dashboard;
+  private static DisplayString currentState;
+  private static DisplayString requestedState;
   private State idleState;
   private State lowState;
   private State prepState;
@@ -31,7 +31,6 @@ public class LauncherCommands {
   private static GenericDrivetrain drivetrain;
   private Map<String, GenericSubsystem> subsystems;
   private static Translation2d target = new Translation2d(Inches.of(182.11), Inches.of(158.84));
-  public static LauncherState currentState = LauncherState.IDLE;
 
   public static Translation2d getRobotToTarget() {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
@@ -42,16 +41,22 @@ public class LauncherCommands {
     IDLE,
     LOW_SPEED,
     PREP,
-    READY
-  }
+    READY;
 
-  @AutoLogOutput(key = "LauncherCommands/RequestedLauncherState")
-  private static LauncherState requestedState = LauncherState.IDLE;
+    @Override
+    public String toString() {
+      return this.name();
+    }
+  }
 
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
-    DisplayHelper = new DisplayValuesHelper("LauncherCommands", "Values");
-    commandState = DisplayHelper.makeDisplayString("Launcher State");
+    Dashboard = new DisplayValuesHelper("LauncherCommands");
+    currentState = Dashboard.makeDisplayString("CurrentState");
+    requestedState = Dashboard.makeDisplayString("RequestedState");
+
+    setCurrentState(LauncherState.IDLE);
+    setRequestedState(LauncherState.IDLE);
 
     launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
     drivetrain = (GenericDrivetrain) this.subsystems.get(ConfigConstants.DRIVETRAIN);
@@ -75,22 +80,38 @@ public class LauncherCommands {
 
     driver.createRightBumper().onTrue(shouldPrepCommand()).onFalse(shouldIdleCommand());
 
-    idleState.switchTo(lowState).when(() -> requestedState == LauncherState.LOW_SPEED);
-    idleState.switchTo(prepState).when(() -> requestedState == LauncherState.PREP);
+    idleState.switchTo(lowState).when(() -> isRequested(LauncherState.LOW_SPEED));
+    idleState.switchTo(prepState).when(() -> isRequested(LauncherState.PREP));
 
-    lowState.switchTo(idleState).when(() -> requestedState == LauncherState.IDLE);
-    lowState.switchTo(prepState).when(() -> requestedState == LauncherState.PREP);
+    lowState.switchTo(idleState).when(() -> isRequested(LauncherState.IDLE));
+    lowState.switchTo(prepState).when(() -> isRequested(LauncherState.PREP));
 
-    prepState.switchTo(idleState).when(() -> requestedState == LauncherState.IDLE);
-    prepState.switchTo(lowState).when(() -> requestedState == LauncherState.LOW_SPEED);
-    // prepState.switchTo(readyState).when(() -> requestedState == LauncherState.READY); PLACEHOLDER
+    prepState.switchTo(idleState).when(() -> isRequested(LauncherState.IDLE));
+    prepState.switchTo(lowState).when(() -> isRequested(LauncherState.LOW_SPEED));
+    // prepState.switchTo(readyState).when(() -> isRequested(LauncherState.READY)); PLACEHOLDER
     // FOR NOW
 
-    readyState.switchTo(idleState).when(() -> requestedState == LauncherState.IDLE);
-    readyState.switchTo(lowState).when(() -> requestedState == LauncherState.LOW_SPEED);
-    // readyState.switchTo(prepState).when(() -> requestedState == LauncherState.PREP); PLACEHOLDER
+    readyState.switchTo(idleState).when(() -> isRequested(LauncherState.IDLE));
+    readyState.switchTo(lowState).when(() -> isRequested(LauncherState.LOW_SPEED));
+    // readyState.switchTo(prepState).when(() -> isRequested(LauncherState.PREP)); PLACEHOLDER
     // FOR NOW
 
+  }
+
+  public boolean isRequested(LauncherState state) {
+    return LauncherState.valueOf(requestedState.getValue()) == state;
+  }
+
+  public boolean isCurrent(LauncherState state) {
+    return LauncherState.valueOf(currentState.getValue()) == state;
+  }
+
+  private void setCurrentState(LauncherState state) {
+    currentState.setValue(state.name());
+  }
+
+  private void setRequestedState(LauncherState state) {
+    requestedState.setValue(state.name());
   }
 
   private Translation2d getTargetPose() {
@@ -101,8 +122,7 @@ public class LauncherCommands {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
-              commandState.setValue("Idle");
-              currentState = LauncherState.IDLE;
+              setCurrentState(LauncherState.IDLE);
             }),
         launcher.stopTrackingCommand());
   }
@@ -111,8 +131,7 @@ public class LauncherCommands {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
-              commandState.setValue("Low Speed");
-              currentState = LauncherState.LOW_SPEED;
+              setCurrentState(LauncherState.LOW_SPEED);
             }),
         launcher.trackTargetCommand());
   }
@@ -122,8 +141,7 @@ public class LauncherCommands {
         Commands.print("Launcher in PREP state"),
         Commands.runOnce(
             () -> {
-              commandState.setValue("Prep");
-              currentState = LauncherState.PREP;
+              setCurrentState(LauncherState.PREP);
             }),
         launcher.trackTargetCommand());
   }
@@ -133,29 +151,28 @@ public class LauncherCommands {
         Commands.print("Launcher in READY state"),
         Commands.runOnce(
             () -> {
-              commandState.setValue("Ready");
-              currentState = LauncherState.READY;
+              setCurrentState(LauncherState.READY);
             }),
         launcher.trackTargetCommand());
   }
 
   public Command shouldIdleCommand() {
-    return Commands.runOnce(() -> requestedState = LauncherState.IDLE);
+    return Commands.runOnce(() -> setRequestedState(LauncherState.IDLE));
   }
 
   public Command shouldLowCommand() {
-    return Commands.runOnce(() -> requestedState = LauncherState.LOW_SPEED);
+    return Commands.runOnce(() -> setRequestedState(LauncherState.LOW_SPEED));
   }
 
   public Command shouldPrepCommand() {
-    return Commands.runOnce(() -> requestedState = LauncherState.PREP);
+    return Commands.runOnce(() -> setRequestedState(LauncherState.PREP));
   }
 
   public Command shouldReadyCommand() {
-    return Commands.runOnce(() -> requestedState = LauncherState.READY);
+    return Commands.runOnce(() -> setRequestedState(LauncherState.READY));
   }
 
   public static LauncherState getCurrentState() {
-    return currentState;
+    return LauncherState.valueOf(currentState.getValue());
   }
 }

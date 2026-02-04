@@ -10,7 +10,6 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
-
 import org.littletonrobotics.junction.AutoLog;
 
 /** IO interface for the Launcher subsystem. */
@@ -46,11 +45,7 @@ public interface LauncherIO {
     public Translation2d robotToTarget = new Translation2d();
 
     public Distance targetDistance = Meters.of(0.0);
-
-    
   }
-
-  
 
   public default void updateInputs(LauncherIOInputs inputs) {}
 
@@ -65,6 +60,4 @@ public interface LauncherIO {
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity);
 
   public default void updateSimulation() {}
-
-  
 }

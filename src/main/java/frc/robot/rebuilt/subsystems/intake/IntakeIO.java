@@ -10,9 +10,10 @@ public interface IntakeIO {
   public static class IntakeIOInputs {
     public double speed = 0.0;
     public Distance position = Meters.of(0.0);
+    public int simulatedGamepieces = 0;
   }
 
-  public void RunSpintake(double speed);
+  public void runSpintake(double speed);
 
   public void setPinionPosition(double position);
 

@@ -49,8 +49,7 @@ public class ClimbCommands {
     idleState =
         stateMachine.addState(
             "idle",
-            climb
-                .idleCommand()
+            Commands.runOnce(() -> climb.runClimb(0))
                 .alongWith(Commands.runOnce(() -> climb.setCurrentState(ClimbState.IDLE))));
     loweredState =
         stateMachine.addState(
@@ -122,54 +121,36 @@ public class ClimbCommands {
   }
 
   public void configureButtonBindings(Controller driver, Controller operator) {
-    operator.createXButton().onTrue(shouldElevateCommand()).onFalse(shouldStopCommand());
-    operator.createYButton().onTrue(shouldDescendCommand()).onFalse(shouldStopCommand());
 
     // Bind the "enable climb" button to transition DISABLED -> IDLE when pressed.
     // Change createStartButton() to whatever button you prefer on your controller.
     operator.createStartButton().onTrue(shouldEnableCommand());
 
     // Driver POV-Up enables the climb (requests IDLE)
-    driver.createUpPovButton().onTrue(shouldEnableCommand());
-
-    // lowered -> elevate when requested
-    loweredState.switchTo(elevateState).when(() -> climb.isRequested(ClimbState.ELEVATE));
-    // descend -> lowered when height is Zero
-    descendState.switchTo(loweredState).when(() -> climb.getHeight().isEquivalent(Meters.of(0)));
-    // elevate -> Lifted when height is =to Target
-    elevateState
-        .switchTo(liftedState)
-        .when(() -> climb.getHeight().isEquivalent(ClimbConstants.MAX));
-    // lifted -> descend when asked to descend
-    liftedState.switchTo(descendState).when(() -> climb.isRequested(ClimbState.DESCEND));
-    // elevate -> descend when asked to descend
-    elevateState.switchTo(descendState).when(() -> climb.isRequested(ClimbState.DESCEND));
-    // descend -> elevating when asked to elevate
-    descendState.switchTo(elevateState).when(() -> climb.isRequested(ClimbState.ELEVATE));
-    // elevate -> idle when stopped
-    elevateState.switchTo(idleState).when(() -> climb.isRequested(ClimbState.IDLE));
-    // descend -> idle when stopped
-    descendState.switchTo(idleState).when(() -> climb.isRequested(ClimbState.IDLE));
-    // idle -> elevate when requested
-    idleState.switchTo(elevateState).when(() -> climb.isRequested(ClimbState.ELEVATE));
-    // idle -> descend when requested
-    idleState.switchTo(descendState).when(() -> climb.isRequested(ClimbState.DESCEND));
-    // idle- > manual
-    idleState.switchTo(manualState).when(() -> operator.getLeftYAxis() != 0);
-    // manual to switch
-    manualState.switchTo(idleState).when(() -> operator.getLeftYAxis() == 0);
+    driver.createXButton().onTrue(shouldEnableCommand());
 
     // disabled -> idle when the enable command is requested
     disabledState.switchTo(idleState).when(() -> climb.isRequested(ClimbState.IDLE));
     getOpleftY = () -> operator.getLeftYAxis();
 
-    configCommonStates();
+    configCommonStates(operator);
   }
 
   public void configureAltButtonBindings(Controller driver, Controller operator) {
     stateMachine.setInitialState(idleState);
 
+    operator.createXButton().onTrue(shouldElevateCommand()).onFalse(shouldStopCommand());
+    operator.createYButton().onTrue(shouldDescendCommand()).onFalse(shouldStopCommand());
     // lowered -> elevate when requested
+
+    // disabled -> idle when the enable command is requested
+    disabledState.switchTo(idleState).when(() -> climb.isRequested(ClimbState.IDLE));
+
+    configCommonStates(operator);
+  }
+
+  private void configCommonStates(Controller operator) {
+
     loweredState.switchTo(elevateState).when(() -> climb.isRequested(ClimbState.ELEVATE));
     // descend -> lowered when height is Zero
     descendState.switchTo(loweredState).when(() -> climb.getHeight().isEquivalent(Meters.of(0)));
@@ -196,11 +177,6 @@ public class ClimbCommands {
     // manual to switch
     manualState.switchTo(idleState).when(() -> operator.getLeftYAxis() == 0);
 
-    // disabled -> idle when the enable command is requested
-    disabledState.switchTo(idleState).when(() -> climb.isRequested(ClimbState.IDLE));
-
-    configCommonStates();
+    getOpleftY = () -> operator.getLeftYAxis();
   }
-
-  private void configCommonStates() {}
 }

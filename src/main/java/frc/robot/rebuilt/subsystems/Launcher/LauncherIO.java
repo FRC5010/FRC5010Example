@@ -10,6 +10,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
+import frc.robot.rebuilt.commands.LauncherCommands;
 import org.littletonrobotics.junction.AutoLog;
 
 /** IO interface for the Launcher subsystem. */
@@ -17,6 +18,9 @@ public interface LauncherIO {
 
   @AutoLog
   public static class LauncherIOInputs {
+    public LauncherCommands.LauncherState stateRequested = LauncherCommands.LauncherState.IDLE;
+    public LauncherCommands.LauncherState stateCurrent = LauncherCommands.LauncherState.IDLE;
+
     public AngularVelocity flyWheelSpeedDesired = RPM.of(0.0);
 
     public AngularVelocity flyWheelSpeedCalculated = RotationsPerSecond.of(0.0);

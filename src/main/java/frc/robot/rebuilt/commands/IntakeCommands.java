@@ -10,11 +10,8 @@ import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.arch.StateMachine.State;
 import org.frc5010.common.sensors.Controller;
-import org.frc5010.common.telemetry.DisplayString;
-import org.frc5010.common.telemetry.DisplayValuesHelper;
 
 public class IntakeCommands {
-  private DisplayValuesHelper Dashboard;
   Intake intake;
   Map<String, GenericSubsystem> subsystems;
   StateMachine intakeStateMachine = new StateMachine("IntakeStateMachine");
@@ -23,23 +20,15 @@ public class IntakeCommands {
   State retracting = intakeStateMachine.addState("retracting", retractingCommand());
   State intaking = intakeStateMachine.addState("intaking", intakingCommand());
 
-  private static enum IntakeState {
+  public static enum IntakeState {
     RETRACTED,
     RETRACTING,
     INTAKING,
     OUTTAKING;
   }
 
-  private DisplayString currentState;
-  private DisplayString requestedState;
-
   public IntakeCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
-    Dashboard = new DisplayValuesHelper("IntakeCommands");
-    currentState = Dashboard.makeDisplayString("CurrentState");
-    setCurrentState(IntakeState.RETRACTED);
-    requestedState = Dashboard.makeDisplayString("RequestedState");
-    setRequestedState(IntakeState.RETRACTED);
 
     intake = (Intake) subsystems.get(Constants.INTAKE);
     intakeStateMachine.setInitialState(retracted);
@@ -57,69 +46,53 @@ public class IntakeCommands {
 
     rightTrigger.onTrue(shouldIntaking());
     leftTrigger.onTrue(shouldOuttaking());
-    retracting.switchTo(intaking).when(() -> isRequested(IntakeState.INTAKING));
-    retracted.switchTo(intaking).when(() -> isRequested(IntakeState.INTAKING));
-    intaking.switchTo(retracting).when(() -> isRequested(IntakeState.RETRACTING));
-    intaking.switchTo(outtaking).when(() -> isRequested(IntakeState.OUTTAKING));
-    outtaking.switchTo(retracting).when(() -> isRequested(IntakeState.RETRACTING));
-    outtaking.switchTo(intaking).when(() -> isRequested(IntakeState.INTAKING));
+    retracting.switchTo(intaking).when(() -> intake.isRequested(IntakeState.INTAKING));
+    retracted.switchTo(intaking).when(() -> intake.isRequested(IntakeState.INTAKING));
+    intaking.switchTo(retracting).when(() -> intake.isRequested(IntakeState.RETRACTING));
+    intaking.switchTo(outtaking).when(() -> intake.isRequested(IntakeState.OUTTAKING));
+    outtaking.switchTo(retracting).when(() -> intake.isRequested(IntakeState.RETRACTING));
+    outtaking.switchTo(intaking).when(() -> intake.isRequested(IntakeState.INTAKING));
     retracting.switchTo(retracted).when(() -> intake.isRetracted());
   }
 
-  public boolean isRequested(IntakeState state) {
-    return IntakeState.valueOf(requestedState.getValue()) == state;
-  }
-
-  public boolean isCurrent(IntakeState state) {
-    return IntakeState.valueOf(currentState.getValue()) == state;
-  }
-
-  private void setCurrentState(IntakeState state) {
-    currentState.setValue(state.name());
-  }
-
-  private void setRequestedState(IntakeState state) {
-    requestedState.setValue(state.name());
-  }
-
   public Command outtakingCommand() {
-    return Commands.runOnce(() -> setCurrentState(IntakeState.OUTTAKING))
+    return Commands.runOnce(() -> intake.setCurrentState(IntakeState.OUTTAKING))
         .andThen(() -> intake.setPinionPosition(12))
         .andThen(() -> intake.runSpintake(-0.25));
     // assuming outtaking is just intaking but goes the other way
   }
 
   public Command intakingCommand() {
-    return Commands.runOnce(() -> setCurrentState(IntakeState.INTAKING))
+    return Commands.runOnce(() -> intake.setCurrentState(IntakeState.INTAKING))
         .andThen(() -> intake.setPinionPosition(12))
         .andThen(() -> intake.runSpintake(0.25));
   }
 
   public Command retractingCommand() {
-    return Commands.runOnce(() -> setCurrentState(IntakeState.RETRACTING))
+    return Commands.runOnce(() -> intake.setCurrentState(IntakeState.RETRACTING))
         .andThen(() -> intake.setPinionPosition(0))
         .andThen(() -> intake.runSpintake(0));
   }
 
   public Command retractedCommand() {
-    return Commands.runOnce(() -> setCurrentState(IntakeState.RETRACTED))
+    return Commands.runOnce(() -> intake.setCurrentState(IntakeState.RETRACTED))
         .andThen(() -> intake.setPinionPosition(0))
         .andThen(() -> intake.runSpintake(0));
   }
 
   public Command shouldOuttaking() {
-    return Commands.runOnce(() -> setRequestedState(IntakeState.OUTTAKING));
+    return Commands.runOnce(() -> intake.setRequestedState(IntakeState.OUTTAKING));
   }
 
   public Command shouldIntaking() {
-    return Commands.runOnce(() -> setRequestedState(IntakeState.INTAKING));
+    return Commands.runOnce(() -> intake.setRequestedState(IntakeState.INTAKING));
   }
 
   public Command shouldRetracting() {
-    return Commands.runOnce(() -> setRequestedState(IntakeState.RETRACTING));
+    return Commands.runOnce(() -> intake.setRequestedState(IntakeState.RETRACTING));
   }
 
   public Command shouldRetracted() {
-    return Commands.runOnce(() -> setRequestedState(IntakeState.RETRACTED));
+    return Commands.runOnce(() -> intake.setRequestedState(IntakeState.RETRACTED));
   }
 }

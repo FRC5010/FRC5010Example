@@ -7,6 +7,7 @@ package frc.robot.rebuilt.subsystems.Indexer;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.rebuilt.commands.IndexerCommands.IndexerState;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.sensors.Controller;
 import org.littletonrobotics.junction.Logger;
@@ -77,5 +78,21 @@ public class Indexer extends GenericSubsystem {
   @Override
   public void simulationPeriodic() {
     super.simulationPeriodic();
+  }
+
+  public boolean isRequested(IndexerState state) {
+    return inputs.stateRequested == state;
+  }
+
+  public boolean isCurrent(IndexerState state) {
+    return inputs.stateCurrent == state;
+  }
+
+  public void setCurrentState(IndexerState state) {
+    inputs.stateCurrent = state;
+  }
+
+  public void setRequestedState(IndexerState state) {
+    inputs.stateRequested = state;
   }
 }

@@ -7,6 +7,7 @@ package frc.robot.rebuilt.subsystems.intake;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.rebuilt.commands.IntakeCommands.IntakeState;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.sensors.Controller;
 import org.littletonrobotics.junction.Logger;
@@ -55,5 +56,21 @@ public class Intake extends GenericSubsystem {
     super.periodic();
     io.updateInputs(inputs);
     Logger.processInputs("Intake", inputs);
+  }
+
+  public boolean isRequested(IntakeState state) {
+    return inputs.stateRequested == state;
+  }
+
+  public boolean isCurrent(IntakeState state) {
+    return inputs.stateCurrent == state;
+  }
+
+  public void setCurrentState(IntakeState state) {
+    inputs.stateCurrent = state;
+  }
+
+  public void setRequestedState(IntakeState state) {
+    inputs.stateRequested = state;
   }
 }

@@ -13,6 +13,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.rebuilt.commands.LauncherCommands.LauncherState;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Arm;
@@ -119,5 +120,25 @@ public class Launcher extends GenericSubsystem {
    */
   public boolean isAtGoal() {
     return inputs.flyWheelSpeedAtGoal && inputs.hoodAngleAtGoal && inputs.turretAngleAtGoal;
+  }
+
+  public boolean isRequested(LauncherState state) {
+    return inputs.stateRequested == state;
+  }
+
+  public boolean isCurrent(LauncherState state) {
+    return inputs.stateCurrent == state;
+  }
+
+  public void setCurrentState(LauncherState state) {
+    inputs.stateCurrent = state;
+  }
+
+  public void setRequestedState(LauncherState state) {
+    inputs.stateRequested = state;
+  }
+
+  public LauncherState getCurrentState() {
+    return inputs.stateCurrent;
   }
 }

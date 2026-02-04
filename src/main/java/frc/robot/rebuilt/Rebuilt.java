@@ -4,12 +4,6 @@
 
 package frc.robot.rebuilt;
 
-import org.frc5010.common.arch.GenericRobot;
-import org.frc5010.common.config.ConfigConstants;
-import org.frc5010.common.drive.GenericDrivetrain;
-import org.frc5010.common.sensors.Controller;
-import org.frc5010.common.utils.geometry.AllianceFlipUtil;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.commands.AutoCommands;
@@ -22,6 +16,11 @@ import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import frc.robot.rebuilt.subsystems.intake.Intake;
+import org.frc5010.common.arch.GenericRobot;
+import org.frc5010.common.config.ConfigConstants;
+import org.frc5010.common.drive.GenericDrivetrain;
+import org.frc5010.common.sensors.Controller;
+import org.frc5010.common.utils.geometry.AllianceFlipUtil;
 
 /** This is an example robot class. */
 public class Rebuilt extends GenericRobot {

@@ -3,11 +3,14 @@ package frc.robot.rebuilt.subsystems.intake;
 import static edu.wpi.first.units.Units.Meters;
 
 import edu.wpi.first.units.measure.Distance;
+import frc.robot.rebuilt.commands.IntakeCommands;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface IntakeIO {
   @AutoLog
   public static class IntakeIOInputs {
+    public IntakeCommands.IntakeState stateRequested = IntakeCommands.IntakeState.RETRACTED;
+    public IntakeCommands.IntakeState stateCurrent = IntakeCommands.IntakeState.RETRACTED;
     public double speed = 0.0;
     public Distance position = Meters.of(0.0);
     public int simulatedGamepieces = 0;

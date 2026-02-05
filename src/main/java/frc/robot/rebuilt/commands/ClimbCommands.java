@@ -127,11 +127,10 @@ public class ClimbCommands {
     operator.createStartButton().onTrue(shouldEnableCommand());
 
     // Driver POV-Up enables the climb (requests IDLE)
-    driver.createXButton().onTrue(shouldEnableCommand());
+    driver.createUpPovButton().onTrue(shouldEnableCommand());
 
     // disabled -> idle when the enable command is requested
     disabledState.switchTo(idleState).when(() -> climb.isRequested(ClimbState.IDLE));
-    getOpleftY = () -> operator.getLeftYAxis();
 
     configCommonStates(operator);
   }
@@ -143,8 +142,7 @@ public class ClimbCommands {
     operator.createYButton().onTrue(shouldDescendCommand()).onFalse(shouldStopCommand());
     // lowered -> elevate when requested
 
-    // disabled -> idle when the enable command is requested
-    disabledState.switchTo(idleState).when(() -> climb.isRequested(ClimbState.IDLE));
+    stateMachine.setInitialState(idleState);
 
     configCommonStates(operator);
   }

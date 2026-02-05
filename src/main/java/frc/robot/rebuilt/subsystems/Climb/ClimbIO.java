@@ -12,8 +12,8 @@ public interface ClimbIO {
   @AutoLog
   public static class ClimbIOInputs {
     public Distance climbHeight = Inches.of(0);
-    public ClimbCommands.ClimbState stateRequested = ClimbCommands.ClimbState.IDLE;
-    public ClimbCommands.ClimbState stateCurrent = ClimbCommands.ClimbState.IDLE;
+    public ClimbCommands.ClimbState stateRequested = ClimbCommands.ClimbState.DISABLED;
+    public ClimbCommands.ClimbState stateCurrent = ClimbCommands.ClimbState.DISABLED;
   }
 
   public void runClimb(double speed);

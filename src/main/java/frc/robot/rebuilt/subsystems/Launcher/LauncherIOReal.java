@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Millimeters;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Second;
@@ -107,7 +108,8 @@ public class LauncherIOReal implements LauncherIO {
 
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity) {
     return MetersPerSecond.of(
-        flyWheel.getShooterConfig().getLength().get().magnitude() * (velocity.magnitude()));
+        flyWheel.getShooterConfig().getLength().map(it -> it).orElse(Millimeters.of(1)).in(Meters)
+            * (velocity.in(RotationsPerSecond) * 2.0 * Math.PI));
   }
 
   public Command getHoodSysIdCommand() {

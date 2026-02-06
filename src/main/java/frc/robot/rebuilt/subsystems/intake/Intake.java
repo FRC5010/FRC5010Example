@@ -4,6 +4,7 @@
 
 package frc.robot.rebuilt.subsystems.intake;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -43,8 +44,8 @@ public class Intake extends GenericSubsystem {
             });
   }
 
-  public void setPinionPosition(double position) {
-    io.setPinionPosition(position);
+  public void setHopperAngle(Angle angle) {
+    io.setHopperAngle(angle);
   }
 
   public Boolean isRetracted() {

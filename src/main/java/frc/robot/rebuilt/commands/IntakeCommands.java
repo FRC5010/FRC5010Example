@@ -1,5 +1,7 @@
 package frc.robot.rebuilt.commands;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -58,26 +60,26 @@ public class IntakeCommands {
 
   public Command outtakingCommand() {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.OUTTAKING))
-        .andThen(() -> intake.setPinionPosition(12))
+        .andThen(() -> intake.setHopperAngle(Degrees.of(0.0)))
         .andThen(() -> intake.runSpintake(-0.25));
     // assuming outtaking is just intaking but goes the other way
   }
 
   public Command intakingCommand() {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.INTAKING))
-        .andThen(() -> intake.setPinionPosition(12))
+        .andThen(() -> intake.setHopperAngle(Degrees.of(0.0)))
         .andThen(() -> intake.runSpintake(0.25));
   }
 
   public Command retractingCommand() {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.RETRACTING))
-        .andThen(() -> intake.setPinionPosition(0))
+        .andThen(() -> intake.setHopperAngle(Degrees.of(130)))
         .andThen(() -> intake.runSpintake(0));
   }
 
   public Command retractedCommand() {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.RETRACTED))
-        .andThen(() -> intake.setPinionPosition(0))
+        .andThen(() -> intake.setHopperAngle(Degrees.of(130.0)))
         .andThen(() -> intake.runSpintake(0));
   }
 

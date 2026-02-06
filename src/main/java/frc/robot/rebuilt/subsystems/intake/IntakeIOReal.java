@@ -1,22 +1,21 @@
 package frc.robot.rebuilt.subsystems.intake;
 
-import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Degrees;
 
-import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.Angle;
 import java.util.Map;
-import yams.mechanisms.positional.Elevator;
+import yams.mechanisms.positional.Arm;
 import yams.mechanisms.velocity.FlyWheel;
 
 public class IntakeIOReal implements IntakeIO {
   protected Map<String, Object> devices;
   private FlyWheel spintake;
-  private Elevator intakePinion;
+  private Arm intakeHopper;
 
   public IntakeIOReal(Map<String, Object> devices) {
     this.devices = devices;
     spintake = (FlyWheel) devices.get("spintake");
-    intakePinion = (Elevator) devices.get("pinion");
+    intakeHopper = (Arm) devices.get("hopper");
   }
 
   @Override
@@ -24,18 +23,17 @@ public class IntakeIOReal implements IntakeIO {
     spintake.getMotorController().setDutyCycle(speed);
   }
 
-  public void setPinionPosition(double position) {
-    Distance mydist = Meters.of(position);
-    intakePinion.getMotorController().setPosition(mydist);
+  public void setHopperAngle(Angle angle) {
+    intakeHopper.getMotorController().setPosition(angle);
   }
 
   public Boolean isRetracted() {
-    return (intakePinion.getHeight().isEquivalent(Inches.of(0)));
+    return (intakeHopper.getAngle().isEquivalent(Degrees.of(0.0)));
   }
 
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
-    inputs.position = intakePinion.getMotorController().getMeasurementPosition();
+    inputs.hopperAngle = intakeHopper.getMotorController().getMechanismPosition();
     inputs.speed = spintake.getMotorController().getDutyCycle();
   }
 }

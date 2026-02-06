@@ -4,13 +4,14 @@
 
 package frc.robot.rebuilt.subsystems.Indexer;
 
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.sensors.Controller;
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.commands.IndexerCommands.IndexerState;
-import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.sensors.Controller;
-import org.littletonrobotics.junction.Logger;
 
 public class Indexer extends GenericSubsystem {
   private final IndexerIO io;
@@ -27,16 +28,16 @@ public class Indexer extends GenericSubsystem {
     }
   }
 
-  public void RunSpindexer(double speed) {
-    io.RunSpindexer(speed);
+  public void runSpindexer(double speed) {
+    io.runSpindexer(speed);
   }
 
-  public void RunTransferBack(double speed) {
-    io.RunTransferBack(speed);
+  public void runTransferBack(double speed) {
+    io.runTransferBack(speed);
   }
 
-  public void RunTransferFront(double speed) {
-    io.RunTransferFront(speed);
+  public void runTransferFront(double speed) {
+    io.runTransferFront(speed);
   }
 
   public void ConfigController(Controller controller) {
@@ -59,11 +60,11 @@ public class Indexer extends GenericSubsystem {
   public Command spindexerCommand(double speed) {
     return Commands.run(
             () -> {
-              RunSpindexer(0.25);
+              runSpindexer(0.25);
             })
         .finallyDo(
             () -> {
-              RunSpindexer(0);
+              runSpindexer(0);
             });
   }
 

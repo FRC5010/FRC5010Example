@@ -1,14 +1,16 @@
 package frc.robot.rebuilt.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.rebuilt.Constants;
-import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import java.util.Map;
+
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.arch.StateMachine.State;
 import org.frc5010.common.sensors.Controller;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.rebuilt.Constants;
+import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 
 public class IndexerCommands {
   private Map<String, GenericSubsystem> subsystems;
@@ -18,6 +20,8 @@ public class IndexerCommands {
   private State feedState;
   private State forceState;
   private Indexer indexer;
+
+
 
   public static enum IndexerState {
     IDLE,
@@ -53,8 +57,24 @@ public class IndexerCommands {
     feedState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
     feedState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
     forceState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
+    idleState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
     driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
   }
+
+public Command forceStateCommand() {
+    return Commands.parallel(
+        Commands.runOnce(
+            () -> {
+              indexer.setCurrentState(IndexerState.FORCE);
+              indexer.runSpindexer(0.50);
+              indexer.runTransferFront(0.50);
+              indexer.runTransferBack(0.50);
+            }));
+  }
+
+
+
+
 
   private Command churnStateCommand() {
     return Commands.parallel(

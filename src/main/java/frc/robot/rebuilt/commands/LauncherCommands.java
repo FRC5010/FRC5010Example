@@ -88,6 +88,17 @@ public class LauncherCommands {
     presetState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
 
     operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
+
+    operator.createAButton().whileTrue(towerPresetStateCommand()).onFalse(shouldIdleCommand());
+
+    operator.createBButton().whileTrue(hammerTimePresetStateCommand()).onFalse(shouldIdleCommand());
+
+    operator.createXButton().whileTrue(hubPresetStateCommand()).onFalse(shouldIdleCommand());
+
+    operator
+        .createYButton()
+        .whileTrue(turretForwardPresetStateCommand())
+        .onFalse(shouldIdleCommand());
   }
 
   private Translation2d getTargetPose() {
@@ -169,6 +180,13 @@ public class LauncherCommands {
         .alongWith(
             Commands.run(
                 () -> launcher.usePresets(Degrees.of(20), Degrees.of(0), RPM.of(3500)), launcher));
+  }
+
+  public Command hammerTimePresetStateCommand() {
+    return shouldPresetCommand()
+        .alongWith(
+            Commands.run(
+                () -> launcher.usePresets(Degrees.of(1), Degrees.of(90), RPM.of(5000)), launcher));
   }
 
   public static LauncherState getCurrentState() {

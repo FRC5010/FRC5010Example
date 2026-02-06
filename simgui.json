@@ -114,6 +114,9 @@
         "header": {
           "open": true
         }
+      },
+      "window": {
+        "visible": false
       }
     }
   },
@@ -176,6 +179,7 @@
       "/SmartDashboard/flywheel/mechanism": "Mechanism2d",
       "/SmartDashboard/hood/mechanism": "Mechanism2d",
       "/SmartDashboard/hoodmotor/mechanism": "Mechanism2d",
+      "/SmartDashboard/hopper/mechanism": "Mechanism2d",
       "/SmartDashboard/lifter/mechanism": "Mechanism2d",
       "/SmartDashboard/lowershootermotor/mechanism": "Mechanism2d",
       "/SmartDashboard/navX-Sensor[1]": "Gyro",
@@ -188,11 +192,6 @@
       "/SmartDashboard/winch_motor/mechanism": "Mechanism2d"
     },
     "windows": {
-      "/SmartDashboard/Drive Visual": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/DrivePoseEstimator/Pose Field": {
         "CARPET0": {
           "image": ".\\pictures\\carpet.png",
@@ -904,11 +903,6 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Robot Visual": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/VisionSystemSim-main/Sim Field": {
         "bottom": 1914,
         "height": 8.069275856018066,
@@ -920,7 +914,17 @@
           "visible": true
         }
       },
-      "/SmartDashboard/hoodmotor/mechanism": {
+      "/SmartDashboard/flywheel/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/hood/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/turret/mechanism": {
         "window": {
           "visible": true
         }
@@ -1062,7 +1066,7 @@
       }
     }
   },
-  "NetworkTables Info": {
-    "visible": true
+  "NetworkTables View": {
+    "visible": false
   }
 }

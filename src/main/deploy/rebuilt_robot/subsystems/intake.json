@@ -5,8 +5,8 @@
       "file": "intake/spintake.json"
     },
     {
-      "device": "yams_elevator",
-      "file": "intake/pinion.json"
+      "device": "yams_arm",
+      "file": "intake/hopper.json"
     }
   ]
 }

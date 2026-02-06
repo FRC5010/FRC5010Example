@@ -53,7 +53,19 @@ public class IndexerCommands {
     feedState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
     feedState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
     forceState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
+    idleState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
     driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
+  }
+
+  public Command forceStateCommand() {
+    return Commands.parallel(
+        Commands.runOnce(
+            () -> {
+              indexer.setCurrentState(IndexerState.FORCE);
+              indexer.runSpindexer(0.50);
+              indexer.runTransferFront(0.50);
+              indexer.runTransferBack(0.50);
+            }));
   }
 
   private Command churnStateCommand() {

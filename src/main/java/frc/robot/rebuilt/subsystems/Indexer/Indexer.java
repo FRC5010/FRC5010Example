@@ -4,14 +4,13 @@
 
 package frc.robot.rebuilt.subsystems.Indexer;
 
-import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.sensors.Controller;
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.commands.IndexerCommands.IndexerState;
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.sensors.Controller;
+import org.littletonrobotics.junction.Logger;
 
 public class Indexer extends GenericSubsystem {
   private final IndexerIO io;

@@ -13,11 +13,11 @@ public interface IndexerIO {
     public IndexerCommands.IndexerState stateCurrent = IndexerCommands.IndexerState.IDLE;
   }
 
-  public void RunSpindexer(double speed);
+  public void runSpindexer(double speed);
 
-  public void RunTransferFront(double speed);
+  public void runTransferFront(double speed);
 
-  public void RunTransferBack(double speed);
+  public void runTransferBack(double speed);
 
   public default void updateInputs(IndexerIOInputs inputs) {}
 }

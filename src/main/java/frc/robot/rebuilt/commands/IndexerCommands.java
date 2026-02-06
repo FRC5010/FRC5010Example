@@ -1,16 +1,14 @@
 package frc.robot.rebuilt.commands;
 
-import java.util.Map;
-
-import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.arch.StateMachine;
-import org.frc5010.common.arch.StateMachine.State;
-import org.frc5010.common.sensors.Controller;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
+import java.util.Map;
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.arch.StateMachine;
+import org.frc5010.common.arch.StateMachine.State;
+import org.frc5010.common.sensors.Controller;
 
 public class IndexerCommands {
   private Map<String, GenericSubsystem> subsystems;
@@ -20,8 +18,6 @@ public class IndexerCommands {
   private State feedState;
   private State forceState;
   private Indexer indexer;
-
-
 
   public static enum IndexerState {
     IDLE,
@@ -61,7 +57,7 @@ public class IndexerCommands {
     driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
   }
 
-public Command forceStateCommand() {
+  public Command forceStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
@@ -71,10 +67,6 @@ public Command forceStateCommand() {
               indexer.runTransferBack(0.50);
             }));
   }
-
-
-
-
 
   private Command churnStateCommand() {
     return Commands.parallel(

@@ -98,4 +98,13 @@ public class PercentControlMotor extends GenericFunctionalMotor {
     RoboRioSim.setVInVoltage(
         BatterySim.calculateDefaultBatteryLoadedVoltage(simMotor.getCurrentDrawAmps()));
   }
+
+  public GenericMotorController getMotorcontroller() {
+    throw new UnsupportedOperationException("Unimplemented method 'getMotorcontroller'");
+  }
+
+  public GenericMotorController getDutyCycle() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getDutyCycle'");
+  }
 }

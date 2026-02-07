@@ -15,38 +15,20 @@ public class IndexerIOReal implements IndexerIO {
     this.devices = devices;
   }
 
-  public void RunTransferFront(double speed) {
+  public void runTransferFront(double speed) {
     TransferFront.set(speed);
   }
 
-  public void RunTransferBack(double speed) {
+  public void runTransferBack(double speed) {
     TransferBack.set(speed);
   }
 
-  public void RunSpindexer(double speed) {
+  public void runSpindexer(double speed) {
     Spindexer.set(speed);
   }
 
   @Override
   public void updateInputs(IndexerIOInputs inputs) {
     // TODO: Add update to input values
-  }
-
-  @Override
-  public void runSpindexer(double speed) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'runSpindexer'");
-  }
-
-  @Override
-  public void runTransferFront(double speed) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'runTransferFront'");
-  }
-
-  @Override
-  public void runTransferBack(double speed) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'runTransferBack'");
   }
 }

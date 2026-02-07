@@ -46,15 +46,21 @@ public class IndexerCommands {
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
     driver.createBButton().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
+    driver.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    operator.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    // driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
+    // conflicting actions one changes to Force other Churn
     idleState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
     idleState.switchTo(feedState).when(() -> indexer.isRequested(IndexerState.FEED));
+    idleState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
     churnState.switchTo(feedState).when(() -> indexer.isRequested(IndexerState.FEED));
     churnState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
+    churnState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
     feedState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
     feedState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
+    feedState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
     forceState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
-    idleState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
-    driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
+    forceState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
   }
 
   public static Command forceStateCommand() {
@@ -73,6 +79,9 @@ public class IndexerCommands {
         Commands.runOnce(
             () -> {
               indexer.setCurrentState(IndexerState.CHURN);
+              indexer.runSpindexer(0);
+              indexer.runTransferFront(0.25);
+              indexer.runTransferFront(0.25);
             }));
   }
 
@@ -81,6 +90,9 @@ public class IndexerCommands {
         Commands.runOnce(
             () -> {
               indexer.setCurrentState(IndexerState.IDLE);
+              indexer.runSpindexer(0);
+              indexer.runTransferFront(0);
+              indexer.runTransferFront(0);
             }));
   }
 
@@ -89,6 +101,9 @@ public class IndexerCommands {
         Commands.runOnce(
             () -> {
               indexer.setCurrentState(IndexerState.FEED);
+              indexer.runSpindexer(0.5);
+              indexer.runTransferFront(0.5);
+              indexer.runTransferFront(0.5);
             }));
   }
 
@@ -102,5 +117,9 @@ public class IndexerCommands {
 
   public static Command shouldFeedCommand() {
     return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.FEED));
+  }
+
+  public static Command shouldForceCommand() {
+    return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.FORCE));
   }
 }

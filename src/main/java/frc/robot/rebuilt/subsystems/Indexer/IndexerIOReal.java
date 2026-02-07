@@ -1,7 +1,6 @@
 package frc.robot.rebuilt.subsystems.Indexer;
 
 import java.util.Map;
-
 import org.frc5010.common.motors.function.PercentControlMotor;
 
 public class IndexerIOReal implements IndexerIO {
@@ -21,7 +20,6 @@ public class IndexerIOReal implements IndexerIO {
     inputs.spindexerSpeed = Spindexer.get();
     inputs.transferFrontSpeed = TransferFront.get();
     inputs.transferBackSpeed = TransferBack.get();
-
   }
 
   @Override
@@ -32,7 +30,6 @@ public class IndexerIOReal implements IndexerIO {
   @Override
   public void runTransferFront(double speed) {
     TransferFront.set(speed);
-
   }
 
   @Override

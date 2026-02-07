@@ -14,6 +14,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.LauncherCommands.LauncherState;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
@@ -59,7 +60,7 @@ public class Launcher extends GenericSubsystem {
   @Override
   public void simulationPeriodic() {
     super.simulationPeriodic();
-    io.updateSimulation(this);
+    io.updateSimulation(this, Rebuilt.indexer);
   }
 
   /**
@@ -78,6 +79,10 @@ public class Launcher extends GenericSubsystem {
 
   public void setTurretRotation(Angle angle) {
     io.setTurretRotation(angle);
+  }
+
+  public boolean isShooting() {
+    return inputs.stateCurrent == LauncherState.PREP || inputs.stateCurrent == LauncherState.PRESET;
   }
 
   public Command getHoodSysIdCommand() {

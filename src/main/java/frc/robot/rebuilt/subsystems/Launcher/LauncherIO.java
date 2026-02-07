@@ -12,6 +12,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.commands.LauncherCommands;
+import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import org.littletonrobotics.junction.AutoLog;
 
 /** IO interface for the Launcher subsystem. */
@@ -73,5 +74,5 @@ public interface LauncherIO {
 
   public Command getFlyWheelSysIdCommand();
 
-  public default void updateSimulation(Launcher launcher) {}
+  public default void updateSimulation(Launcher launcher, Indexer indexer) {}
 }

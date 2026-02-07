@@ -9,6 +9,7 @@ package frc.robot.rebuilt.subsystems.Launcher;
 
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
@@ -27,6 +28,8 @@ import org.littletonrobotics.junction.Logger;
 @ExtensionMethod({GeomUtil.class})
 public class ShotCalculator {
   private static ShotCalculator instance;
+  public static Pose3d allianceSideLeft;
+  public static Pose3d hub;
 
   private final LinearFilter turretAngleFilter =
       LinearFilter.movingAverage((int) (0.1 / Constants.loopPeriodSecs));

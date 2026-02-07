@@ -9,6 +9,8 @@ import static edu.wpi.first.units.Units.Degrees;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import frc.robot.rebuilt.Rebuilt;
+import frc.robot.rebuilt.commands.IndexerCommands.IndexerState;
+import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import frc.robot.rebuilt.subsystems.intake.IntakeIOSim;
 import java.util.Map;
 import org.littletonrobotics.junction.Logger;
@@ -23,10 +25,11 @@ public class LauncherIOSim extends LauncherIOReal {
 
   public LauncherIOSim(Map<String, Object> devices) {
     super(devices);
+    IntakeIOSim.intakeSimulation.addGamePiecesToIntake(8); // Start with 5 gamepieces in the intake
   }
 
   @Override
-  public void updateSimulation(Launcher launcher) {
+  public void updateSimulation(Launcher launcher, Indexer indexer) {
     int amount = IntakeIOSim.intakeSimulation.getGamePiecesAmount();
     // Update simulated mechanism states here
     // We should simulate a shot rate of about 10-15 gamepieces per second
@@ -34,24 +37,27 @@ public class LauncherIOSim extends LauncherIOReal {
     // This would mean we try to shoot 25 times per second, and on average shoot about 12-13
     // gamepieces per second.
     if (Math.random() > 0.5 && amount > 0) {
-      if (launcher.isAtGoal() && IntakeIOSim.intakeSimulation.obtainGamePieceFromIntake()) {
-        Pose2d worldPose = Rebuilt.drivetrain.getPoseEstimator().getCurrentPose();
-        gamePieceProjectile =
-            new RebuiltFuelOnFly(
-                    worldPose.getTranslation(),
-                    flyWheel.getRelativeMechanismPosition().toTranslation2d(),
-                    Rebuilt.drivetrain.getFieldVelocity(),
-                    worldPose.getRotation(),
-                    flyWheel.getRelativeMechanismPosition().getMeasureZ(),
-                    getFlyWheelExitSpeed(flyWheel.getSpeed()),
-                    Degrees.of(90.0).minus(hood.getAngle()))
-                .withProjectileTrajectoryDisplayCallBack(
-                    (pose3ds) -> {
-                      Logger.recordOutput(
-                          "Launcher/GamePieceTrajectory", pose3ds.toArray(Pose3d[]::new));
-                    });
-        SimulatedArena.getInstance().addGamePieceProjectile(gamePieceProjectile);
-        // Create a new gamepiece on-the-fly and add it to the field simulation
+      if ((launcher.isAtGoal() && launcher.isShooting())
+          || (indexer.isCurrent(IndexerState.FORCE))) {
+        if (IntakeIOSim.intakeSimulation.obtainGamePieceFromIntake()) {
+          Pose2d worldPose = Rebuilt.drivetrain.getPoseEstimator().getCurrentPose();
+          gamePieceProjectile =
+              new RebuiltFuelOnFly(
+                      worldPose.getTranslation(),
+                      flyWheel.getRelativeMechanismPosition().toTranslation2d(),
+                      Rebuilt.drivetrain.getFieldVelocity(),
+                      worldPose.getRotation(),
+                      flyWheel.getRelativeMechanismPosition().getMeasureZ(),
+                      getFlyWheelExitSpeed(flyWheel.getSpeed()),
+                      Degrees.of(90.0).minus(hood.getAngle()))
+                  .withProjectileTrajectoryDisplayCallBack(
+                      (pose3ds) -> {
+                        Logger.recordOutput(
+                            "Launcher/GamePieceTrajectory", pose3ds.toArray(Pose3d[]::new));
+                      });
+          SimulatedArena.getInstance().addGamePieceProjectile(gamePieceProjectile);
+          // Create a new gamepiece on-the-fly and add it to the field simulation
+        }
       }
     }
   }

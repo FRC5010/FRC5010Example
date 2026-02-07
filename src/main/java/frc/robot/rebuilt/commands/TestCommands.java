@@ -19,7 +19,7 @@ public class TestCommands {
   Indexer indexer;
   Climb climb;
   Intake intake;
-  Launcher launcher;
+  static Launcher launcher;
 
   public TestCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
@@ -40,7 +40,7 @@ public class TestCommands {
     controller.createXButton().onTrue(launcher.getHoodSysIdCommand());
   }
 
-  public Command testLauncherCommand(double speed, double time) {
+  public static Command testLauncherCommand(double speed, double time) {
 
     return (Commands.run(
                 () -> {

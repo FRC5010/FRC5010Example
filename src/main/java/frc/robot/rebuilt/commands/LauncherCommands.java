@@ -105,7 +105,7 @@ public class LauncherCommands {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
   }
 
-  private Command idleStateCommand() {
+  private static Command idleStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
@@ -114,7 +114,7 @@ public class LauncherCommands {
         launcher.stopTrackingCommand());
   }
 
-  private Command lowStateCommand() {
+  private static Command lowStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
@@ -123,7 +123,7 @@ public class LauncherCommands {
         launcher.trackTargetCommand());
   }
 
-  private Command prepStateCommand() {
+  private static Command prepStateCommand() {
     return Commands.parallel(
         Commands.print("Launcher in PREP state"),
         Commands.runOnce(
@@ -133,7 +133,7 @@ public class LauncherCommands {
         launcher.trackTargetCommand());
   }
 
-  private Command presetStateCommand() {
+  private static Command presetStateCommand() {
     return Commands.parallel(
         Commands.print("Launcher in PRESET state"),
         Commands.runOnce(
@@ -143,46 +143,46 @@ public class LauncherCommands {
         launcher.trackTargetCommand());
   }
 
-  public Command shouldIdleCommand() {
+  public static Command shouldIdleCommand() {
     return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.IDLE));
   }
 
-  public Command shouldLowCommand() {
+  public static Command shouldLowCommand() {
     return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.LOW_SPEED));
   }
 
-  public Command shouldPrepCommand() {
+  public static Command shouldPrepCommand() {
     return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.PREP));
   }
 
-  public Command shouldPresetCommand() {
+  public static Command shouldPresetCommand() {
     return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.PRESET));
   }
 
   // Order is Hood Angle, Turret Angle, Flywheel Speed
   // Values are placeholders and need to be tuned
-  public Command hubPresetStateCommand() {
+  public static Command hubPresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
             Commands.run(
                 () -> launcher.usePresets(Degrees.of(30), Degrees.of(0), RPM.of(4000)), launcher));
   }
 
-  public Command towerPresetStateCommand() {
+  public static Command towerPresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
             Commands.run(
                 () -> launcher.usePresets(Degrees.of(45), Degrees.of(15), RPM.of(4500)), launcher));
   }
 
-  public Command turretForwardPresetStateCommand() {
+  public static Command turretForwardPresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
             Commands.run(
                 () -> launcher.usePresets(Degrees.of(20), Degrees.of(0), RPM.of(3500)), launcher));
   }
 
-  public Command hammerTimePresetStateCommand() {
+  public static Command hammerTimePresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
             Commands.run(

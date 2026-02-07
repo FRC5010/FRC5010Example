@@ -14,7 +14,7 @@ import org.frc5010.common.arch.StateMachine.State;
 import org.frc5010.common.sensors.Controller;
 
 public class IntakeCommands {
-  Intake intake;
+  static Intake intake;
   Map<String, GenericSubsystem> subsystems;
   StateMachine intakeStateMachine = new StateMachine("IntakeStateMachine");
   State retracted = intakeStateMachine.addState("retracted", retractedCommand());
@@ -58,44 +58,44 @@ public class IntakeCommands {
     retracting.switchTo(retracted).when(() -> intake.isRetracted());
   }
 
-  public Command outtakingCommand() {
+  public static Command outtakingCommand() {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.OUTTAKING))
         .andThen(() -> intake.setHopperAngle(Degrees.of(0.0)))
         .andThen(() -> intake.runSpintake(-0.25));
     // assuming outtaking is just intaking but goes the other way
   }
 
-  public Command intakingCommand() {
+  public static Command intakingCommand() {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.INTAKING))
         .andThen(() -> intake.setHopperAngle(Degrees.of(0.0)))
         .andThen(() -> intake.runSpintake(0.25));
   }
 
-  public Command retractingCommand() {
+  public static Command retractingCommand() {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.RETRACTING))
         .andThen(() -> intake.setHopperAngle(Degrees.of(130)))
         .andThen(() -> intake.runSpintake(0));
   }
 
-  public Command retractedCommand() {
+  public static Command retractedCommand() {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.RETRACTED))
         .andThen(() -> intake.setHopperAngle(Degrees.of(130.0)))
         .andThen(() -> intake.runSpintake(0));
   }
 
-  public Command shouldOuttaking() {
+  public static Command shouldOuttaking() {
     return Commands.runOnce(() -> intake.setRequestedState(IntakeState.OUTTAKING));
   }
 
-  public Command shouldIntaking() {
+  public static Command shouldIntaking() {
     return Commands.runOnce(() -> intake.setRequestedState(IntakeState.INTAKING));
   }
 
-  public Command shouldRetracting() {
+  public static Command shouldRetracting() {
     return Commands.runOnce(() -> intake.setRequestedState(IntakeState.RETRACTING));
   }
 
-  public Command shouldRetracted() {
+  public static Command shouldRetracted() {
     return Commands.runOnce(() -> intake.setRequestedState(IntakeState.RETRACTED));
   }
 }

@@ -17,7 +17,7 @@ public class IndexerCommands {
   private State churnState;
   private State feedState;
   private State forceState;
-  private Indexer indexer;
+  private static Indexer indexer;
 
   public static enum IndexerState {
     IDLE,
@@ -57,7 +57,7 @@ public class IndexerCommands {
     driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
   }
 
-  public Command forceStateCommand() {
+  public static Command forceStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
@@ -68,7 +68,7 @@ public class IndexerCommands {
             }));
   }
 
-  private Command churnStateCommand() {
+  private static Command churnStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
@@ -76,7 +76,7 @@ public class IndexerCommands {
             }));
   }
 
-  private Command idleStateCommand() {
+  private static Command idleStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
@@ -84,7 +84,7 @@ public class IndexerCommands {
             }));
   }
 
-  private Command feedStateCommand() {
+  private static Command feedStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
@@ -92,15 +92,15 @@ public class IndexerCommands {
             }));
   }
 
-  public Command shouldIdleCommand() {
+  public static Command shouldIdleCommand() {
     return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.IDLE));
   }
 
-  public Command shouldChurnCommand() {
+  public static Command shouldChurnCommand() {
     return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.CHURN));
   }
 
-  public Command shouldFeedCommand() {
+  public static Command shouldFeedCommand() {
     return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.FEED));
   }
 }

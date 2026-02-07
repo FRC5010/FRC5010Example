@@ -13,6 +13,7 @@ import frc.robot.rebuilt.commands.IntakeCommands;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import frc.robot.rebuilt.commands.TestCommands;
 import frc.robot.rebuilt.subsystems.Climb.Climb;
+import frc.robot.rebuilt.subsystems.DriverDisplay.HubStatus;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import frc.robot.rebuilt.subsystems.intake.Intake;
@@ -24,6 +25,7 @@ import org.frc5010.common.utils.geometry.AllianceFlipUtil;
 
 /** This is an example robot class. */
 public class Rebuilt extends GenericRobot {
+  public static HubStatus hubStatus;
   public static GenericDrivetrain drivetrain;
   public static Indexer indexer;
   public static Climb climb;

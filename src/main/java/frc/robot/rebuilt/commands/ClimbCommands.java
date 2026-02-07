@@ -36,7 +36,7 @@ public class ClimbCommands {
     MANUAL
   }
 
-  private Climb climb;
+  private static Climb climb;
   private DoubleSupplier getOpleftY;
 
   public ClimbCommands(Map<String, GenericSubsystem> systems) {
@@ -103,20 +103,20 @@ public class ClimbCommands {
     }
   }
 
-  public Command shouldElevateCommand() {
+  public static Command shouldElevateCommand() {
     return Commands.runOnce(() -> climb.setRequestedState(ClimbState.ELEVATE));
   }
 
-  public Command shouldStopCommand() {
+  public static Command shouldStopCommand() {
     return Commands.runOnce(() -> climb.setRequestedState(ClimbState.IDLE));
   }
 
-  public Command shouldDescendCommand() {
+  public static Command shouldDescendCommand() {
     return Commands.runOnce(() -> climb.setRequestedState(ClimbState.DESCEND));
   }
 
   // New: command to enable the climb (requests IDLE)
-  public Command shouldEnableCommand() {
+  public static Command shouldEnableCommand() {
     return Commands.runOnce(() -> climb.setRequestedState(ClimbState.IDLE));
   }
 

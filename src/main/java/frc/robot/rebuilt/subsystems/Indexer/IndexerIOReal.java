@@ -31,4 +31,22 @@ public class IndexerIOReal implements IndexerIO {
   public void updateInputs(IndexerIOInputs inputs) {
     // TODO: Add update to input values
   }
+
+  @Override
+  public void runSpindexer(double speed) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'runSpindexer'");
+  }
+
+  @Override
+  public void runTransferFront(double speed) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'runTransferFront'");
+  }
+
+  @Override
+  public void runTransferBack(double speed) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'runTransferBack'");
+  }
 }

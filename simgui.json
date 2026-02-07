@@ -923,11 +923,6 @@
         "window": {
           "visible": true
         }
-      },
-      "/SmartDashboard/turret/mechanism": {
-        "window": {
-          "visible": true
-        }
       }
     }
   },
@@ -1065,6 +1060,9 @@
         }
       }
     }
+  },
+  "NetworkTables Info": {
+    "visible": true
   },
   "NetworkTables View": {
     "visible": false

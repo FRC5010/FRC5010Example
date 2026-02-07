@@ -87,7 +87,7 @@ public class LauncherCommands {
     presetState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     presetState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
 
-    driver.createAButton().onTrue(shouldIdleCommand());
+    driver.createAButton().onTrue(shouldLowCommand());
 
     driver.createBButton().onTrue(hammerTimePresetStateCommand());
 
@@ -129,7 +129,6 @@ public class LauncherCommands {
 
   private static Command prepStateCommand() {
     return Commands.parallel(
-        Commands.print("Launcher in PREP state"),
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.PREP);
@@ -139,7 +138,6 @@ public class LauncherCommands {
 
   private static Command presetStateCommand() {
     return Commands.parallel(
-        Commands.print("Launcher in PRESET state"),
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.PRESET);
@@ -168,29 +166,29 @@ public class LauncherCommands {
   public static Command hubPresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
-            Commands.run(
-                () -> launcher.usePresets(Degrees.of(30), Degrees.of(0), RPM.of(4000)), launcher));
+            Commands.runOnce(
+                () -> launcher.usePresets(Degrees.of(30), Degrees.of(0), RPM.of(4000))));
   }
 
   public static Command towerPresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
-            Commands.run(
-                () -> launcher.usePresets(Degrees.of(45), Degrees.of(15), RPM.of(4500)), launcher));
+            Commands.runOnce(
+                () -> launcher.usePresets(Degrees.of(45), Degrees.of(15), RPM.of(4500))));
   }
 
   public static Command turretForwardPresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
-            Commands.run(
-                () -> launcher.usePresets(Degrees.of(20), Degrees.of(0), RPM.of(3500)), launcher));
+            Commands.runOnce(
+                () -> launcher.usePresets(Degrees.of(20), Degrees.of(0), RPM.of(3500))));
   }
 
   public static Command hammerTimePresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
-            Commands.run(
-                () -> launcher.usePresets(Degrees.of(1), Degrees.of(90), RPM.of(5000)), launcher));
+            Commands.runOnce(
+                () -> launcher.usePresets(Degrees.of(1), Degrees.of(90), RPM.of(5000))));
   }
 
   public static LauncherState getCurrentState() {

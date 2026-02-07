@@ -898,10 +898,7 @@
         "left": 245,
         "right": 3942,
         "top": 118,
-        "width": 16.54119300842285,
-        "window": {
-          "visible": true
-        }
+        "width": 16.54119300842285
       },
       "/SmartDashboard/VisionSystemSim-main/Sim Field": {
         "bottom": 1914,
@@ -920,6 +917,11 @@
         }
       },
       "/SmartDashboard/hood/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/turret/mechanism": {
         "window": {
           "visible": true
         }
@@ -1078,8 +1080,5 @@
         }
       }
     }
-  },
-  "NetworkTables Info": {
-    "visible": true
   }
 }

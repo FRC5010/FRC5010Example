@@ -65,11 +65,11 @@
     }
   },
   "lowerHardLimit": {
-    "val": -170,
+    "val": -165,
     "uom": "deg"
   },
   "upperHardLimit": {
-    "val": 170,
+    "val": 165,
     "uom": "deg"
   },
   "startingAngle": {
@@ -77,16 +77,15 @@
     "uom": "deg"
   },
   "lowerSoftLimit": {
-    "val": -170,
+    "val": -160,
     "uom": "deg"
   },
   "upperSoftLimit": {
-    "val": 170,
+    "val": 160,
     "uom": "deg"
   },
   "gearing": [
-    3,
-    4
+    0.03333333
   ],
   "startingPosition": {
     "val": 0,
@@ -97,7 +96,7 @@
     "uom": "in"
   },
   "mass": {
-    "val": 2,
+    "val": 20,
     "uom": "lb"
   }
 }

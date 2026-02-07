@@ -58,7 +58,7 @@ public class Rebuilt extends GenericRobot {
 
   @Override
   public void configureButtonBindings(Controller driver, Controller operator) {
-    if (isButtonsConfigured) {
+    if (!isButtonsConfigured) {
       climbCommands.configureButtonBindings(driver, operator);
       launcherCommands.configureButtonBindings(driver, operator);
       intakecommands.configureButtonBindings(driver);
@@ -70,7 +70,7 @@ public class Rebuilt extends GenericRobot {
   @Override
   public void configureAltButtonBindings(Controller driver, Controller operator) {
     // Add test mode specific button bindings here
-    if (isAltButtonsConfigured) {
+    if (!isAltButtonsConfigured) {
       testCommands.configureButtonBindings(driver);
       isAltButtonsConfigured = true;
     }

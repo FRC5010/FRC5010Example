@@ -28,13 +28,13 @@ public class IndexerCommands {
 
   public IndexerCommands(Map<String, GenericSubsystem> systems) {
     this.subsystems = systems;
-    this.indexer = (Indexer) subsystems.get(Constants.INDEXER);
+    IndexerCommands.indexer = (Indexer) subsystems.get(Constants.INDEXER);
     stateMachine = new StateMachine("IndexStateMachine");
     idleState = stateMachine.addState("idle", idleStateCommand());
     if (indexer != null) {
       churnState = stateMachine.addState("churn", churnStateCommand());
       feedState = stateMachine.addState("feed", feedStateCommand());
-      forceState = stateMachine.addState("", Commands.idle());
+      forceState = stateMachine.addState("force", forceStateCommand());
     }
     stateMachine.setInitialState(idleState);
 
@@ -45,8 +45,8 @@ public class IndexerCommands {
   }
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
-    driver.createRightBumper().onFalse(shouldForceCommand()).onTrue(shouldChurnCommand());
-    operator.createRightBumper().onFalse(shouldForceCommand()).onTrue(shouldChurnCommand());
+    driver.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    operator.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     // driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
     // conflicting actions one changes to Force other Churn
     idleState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
@@ -63,36 +63,33 @@ public class IndexerCommands {
   }
 
   public static Command forceStateCommand() {
-    return Commands.parallel(
-        Commands.runOnce(
-            () -> {
-              indexer.setCurrentState(IndexerState.FORCE);
-              indexer.runSpindexer(0.50);
-              indexer.runTransferFront(0.50);
-              indexer.runTransferBack(0.50);
-            }));
+    return Commands.runOnce(
+        () -> {
+          indexer.setCurrentState(IndexerState.FORCE);
+          indexer.runSpindexer(0.50);
+          indexer.runTransferFront(0.50);
+          indexer.runTransferBack(0.50);
+        });
   }
 
   private static Command churnStateCommand() {
-    return Commands.parallel(
-        Commands.runOnce(
-            () -> {
-              indexer.setCurrentState(IndexerState.CHURN);
-              indexer.runSpindexer(0);
-              indexer.runTransferFront(0.25);
-              indexer.runTransferFront(0.25);
-            }));
+    return Commands.runOnce(
+        () -> {
+          indexer.setCurrentState(IndexerState.CHURN);
+          indexer.runSpindexer(0);
+          indexer.runTransferFront(0.25);
+          indexer.runTransferBack(0.25);
+        });
   }
 
   private static Command idleStateCommand() {
-    return Commands.parallel(
-        Commands.runOnce(
-            () -> {
-              indexer.setCurrentState(IndexerState.IDLE);
-              indexer.runSpindexer(0);
-              indexer.runTransferFront(0);
-              indexer.runTransferBack(0);
-            }));
+    return Commands.runOnce(
+        () -> {
+          indexer.setCurrentState(IndexerState.IDLE);
+          indexer.runSpindexer(0);
+          indexer.runTransferFront(0);
+          indexer.runTransferBack(0);
+        });
   }
 
   private static Command feedStateCommand() {
@@ -102,7 +99,7 @@ public class IndexerCommands {
               indexer.setCurrentState(IndexerState.FEED);
               indexer.runSpindexer(0.5);
               indexer.runTransferFront(0.5);
-              indexer.runTransferFront(0.5);
+              indexer.runTransferBack(0.5);
             }));
   }
 

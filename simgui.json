@@ -954,6 +954,9 @@
         "HubStatus": {
           "open": true
         },
+        "Indexer": {
+          "open": true
+        },
         "Vision": {
           "Camera left": {
             "open": true
@@ -1030,6 +1033,18 @@
         },
         "ExampleRobot": {
           "values": {
+            "open": true
+          }
+        },
+        "Indexer": {
+          "open": true,
+          "spindexer": {
+            "open": true
+          },
+          "transfer_back": {
+            "open": true
+          },
+          "transfer_front": {
             "open": true
           }
         },

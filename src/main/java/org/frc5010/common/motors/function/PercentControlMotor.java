@@ -102,5 +102,4 @@ public class PercentControlMotor extends GenericFunctionalMotor {
   public GenericMotorController getMotorcontroller() {
     throw new UnsupportedOperationException("Unimplemented method 'getMotorcontroller'");
   }
-
 }

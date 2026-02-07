@@ -87,18 +87,22 @@ public class LauncherCommands {
     presetState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     presetState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
 
+    driver.createAButton().onTrue(shouldIdleCommand());
+
+    driver.createBButton().onTrue(hammerTimePresetStateCommand());
+
     operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
 
-    operator.createAButton().whileTrue(towerPresetStateCommand()).onFalse(shouldIdleCommand());
+    operator.createAButton().whileTrue(towerPresetStateCommand()).onFalse(shouldLowCommand());
 
-    operator.createBButton().whileTrue(hammerTimePresetStateCommand()).onFalse(shouldIdleCommand());
+    operator.createBButton().onTrue(hammerTimePresetStateCommand());
 
-    operator.createXButton().whileTrue(hubPresetStateCommand()).onFalse(shouldIdleCommand());
+    operator.createXButton().whileTrue(hubPresetStateCommand()).onFalse(shouldLowCommand());
 
     operator
         .createYButton()
         .whileTrue(turretForwardPresetStateCommand())
-        .onFalse(shouldIdleCommand());
+        .onFalse(shouldLowCommand());
   }
 
   private Translation2d getTargetPose() {

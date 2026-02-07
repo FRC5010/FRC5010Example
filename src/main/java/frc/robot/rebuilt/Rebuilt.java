@@ -37,6 +37,8 @@ public class Rebuilt extends GenericRobot {
   public static IntakeCommands intakecommands;
   public static IndexerCommands indexerCommands;
   public static TestCommands testCommands;
+  private boolean isButtonsConfigured = false;
+  private boolean isAltButtonsConfigured = false;
 
   public Rebuilt(String directory) {
     super(directory);
@@ -56,16 +58,22 @@ public class Rebuilt extends GenericRobot {
 
   @Override
   public void configureButtonBindings(Controller driver, Controller operator) {
-    climbCommands.configureButtonBindings(driver, operator);
-    launcherCommands.configureButtonBindings(driver, operator);
-    intakecommands.configureButtonBindings(driver);
-    indexerCommands.configureButtonBindings(driver, operator);
+    if (isButtonsConfigured) {
+      climbCommands.configureButtonBindings(driver, operator);
+      launcherCommands.configureButtonBindings(driver, operator);
+      intakecommands.configureButtonBindings(driver);
+      indexerCommands.configureButtonBindings(driver, operator);
+      isButtonsConfigured = true;
+    }
   }
 
   @Override
   public void configureAltButtonBindings(Controller driver, Controller operator) {
     // Add test mode specific button bindings here
-    testCommands.configureButtonBindings(driver);
+    if (isAltButtonsConfigured) {
+      testCommands.configureButtonBindings(driver);
+      isAltButtonsConfigured = true;
+    }
   }
 
   @Override

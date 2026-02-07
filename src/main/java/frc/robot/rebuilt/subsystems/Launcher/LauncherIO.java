@@ -50,6 +50,9 @@ public interface LauncherIO {
     public Translation2d robotToTarget = new Translation2d();
 
     public Distance targetDistance = Meters.of(0.0);
+
+    public Angle uniqueCoverage = Degrees.of(0.0);
+    public boolean coverageSatisfiesRange = false;
   }
 
   public default void updateInputs(LauncherIOInputs inputs) {}

@@ -15,13 +15,14 @@ import org.littletonrobotics.junction.Logger;
 public class Indexer extends GenericSubsystem {
   private final IndexerIO io;
   private final IndexerIOInputsAutoLogged inputs = new IndexerIOInputsAutoLogged();
+  ;
 
   /** Creates a new Index. */
   public Indexer() {
     super("indexer.json");
 
     if (RobotBase.isSimulation()) {
-      io = new IndexerIOSim(devices);
+      io = (IndexerIO) new IndexerIOSim(devices);
     } else {
       io = new IndexerIOReal(devices);
     }

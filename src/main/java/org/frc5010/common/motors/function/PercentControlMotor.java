@@ -103,8 +103,4 @@ public class PercentControlMotor extends GenericFunctionalMotor {
     throw new UnsupportedOperationException("Unimplemented method 'getMotorcontroller'");
   }
 
-  public GenericMotorController getDutyCycle() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getDutyCycle'");
-  }
 }

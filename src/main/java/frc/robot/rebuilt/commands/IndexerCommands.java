@@ -92,7 +92,7 @@ public class IndexerCommands {
               indexer.setCurrentState(IndexerState.IDLE);
               indexer.runSpindexer(0);
               indexer.runTransferFront(0);
-              indexer.runTransferFront(0);
+              indexer.runTransferBack(0);
             }));
   }
 

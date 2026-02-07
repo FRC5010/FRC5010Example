@@ -2,6 +2,8 @@ package frc.robot.rebuilt.subsystems.Indexer;
 
 import java.util.Map;
 import org.frc5010.common.motors.function.PercentControlMotor;
+import yams.motorcontrollers.SmartMotorController;
+import yams.motorcontrollers.SmartMotorControllerConfig;
 
 public class IndexerIOReal implements IndexerIO {
   protected Map<String, Object> devices;
@@ -15,20 +17,27 @@ public class IndexerIOReal implements IndexerIO {
     this.devices = devices;
   }
 
-  public void runTransferFront(double speed) {
-    TransferFront.set(speed);
+  @Override
+  public void updateInputs(IndexerIOInputs inputs) {
+    inputs.spindexerSpeed = ((SmartMotorController) Spindexer.getMotorController()).getDutyCycle();
+    inputs.transferFrontSpeed = ((SmartMotorController) TransferFront.getMotorController()).getDutyCycle();
+    inputs.transferBackSpeed = ((SmartMotorController) TransferBack.getMotorController()).getDutyCycle();
+
   }
 
-  public void runTransferBack(double speed) {
-    TransferBack.set(speed);
-  }
-
+  @Override
   public void runSpindexer(double speed) {
     Spindexer.set(speed);
   }
 
   @Override
-  public void updateInputs(IndexerIOInputs inputs) {
-    // TODO: Add update to input values
+  public void runTransferFront(double speed) {
+    ((SmartMotorController) TransferFront.getMotorController()).setDutyCycle(speed);
+
+  }
+
+  @Override
+  public void runTransferBack(double speed) {
+    TransferBack.set(speed);
   }
 }

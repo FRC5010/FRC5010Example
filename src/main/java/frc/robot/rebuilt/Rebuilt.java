@@ -25,7 +25,7 @@ import org.frc5010.common.utils.geometry.AllianceFlipUtil;
 
 /** This is an example robot class. */
 public class Rebuilt extends GenericRobot {
-  public static HubStatus hubStatus;
+  public static HubStatus hubStatus = new HubStatus();
   public static GenericDrivetrain drivetrain;
   public static Indexer indexer;
   public static Climb climb;

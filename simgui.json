@@ -951,6 +951,9 @@
         "Drive": {
           "open": true
         },
+        "HubStatus": {
+          "open": true
+        },
         "Vision": {
           "Camera left": {
             "open": true
@@ -1063,8 +1066,5 @@
   },
   "NetworkTables Info": {
     "visible": true
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }

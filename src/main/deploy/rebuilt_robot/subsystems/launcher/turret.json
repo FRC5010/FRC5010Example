@@ -84,19 +84,13 @@
     "val": 160,
     "uom": "deg"
   },
-  "gearing": [
-    0.03333333
-  ],
-  "startingPosition": {
-    "val": 0,
-    "uom": "deg"
-  },
+  "gearStages": "12:36:40:12:108",
   "radius": {
     "val": 5,
     "uom": "in"
   },
   "mass": {
-    "val": 20,
+    "val": 15,
     "uom": "lb"
   }
 }

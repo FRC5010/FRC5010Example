@@ -94,7 +94,7 @@ public class Launcher extends GenericSubsystem {
   }
 
   public Command getFlyWheelSysIdCommand() {
-    return io.getFlyWheelSysIdCommand();
+    return io.getFlyWheelSysIdCommand(this);
   }
 
   public Command trackTargetCommand() {

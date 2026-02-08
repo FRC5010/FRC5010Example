@@ -24,6 +24,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.motors.SystemIdentification;
 import yams.mechanisms.config.SensorConfig;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
@@ -172,7 +174,16 @@ public class LauncherIOReal implements LauncherIO {
     return turret.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(5));
   }
 
-  public Command getFlyWheelSysIdCommand() {
-    return flyWheel.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(5));
+  // public Command getFlyWheelSysIdCommand() {
+  //   return flyWheel.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(5));
+  // }
+
+  public Command getFlyWheelSysIdCommand(GenericSubsystem launcher) {
+    return SystemIdentification.getSysIdFullCommand(
+        SystemIdentification.rpmSysIdRoutine(
+            flyWheel.getMotorController(), flyWheel.getName(), launcher),
+        5,
+        5,
+        3);
   }
 }

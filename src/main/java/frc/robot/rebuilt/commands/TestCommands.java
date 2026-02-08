@@ -35,9 +35,9 @@ public class TestCommands {
     intake.ConfigController(controller);
     climb.ConfigController(controller);
     controller.createLeftStickButton().whileTrue(testLauncherCommand(4, 1));
-    controller.createBButton().onTrue(launcher.getTurretSysIdCommand());
-    controller.createAButton().onTrue(launcher.getFlyWheelSysIdCommand());
-    controller.createXButton().onTrue(launcher.getHoodSysIdCommand());
+    controller.createBButton().whileTrue(launcher.getTurretSysIdCommand());
+    controller.createAButton().whileTrue(launcher.getFlyWheelSysIdCommand());
+    controller.createXButton().whileTrue(launcher.getHoodSysIdCommand());
   }
 
   public static Command testLauncherCommand(double speed, double time) {

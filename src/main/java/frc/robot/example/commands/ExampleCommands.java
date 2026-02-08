@@ -71,6 +71,8 @@ public class ExampleCommands {
     driver.createLeftBumper().onTrue(shouldShootCommand()).onFalse(shouldPrepCommand());
     driver.createAButton().onTrue(shouldIntakeCommand()).onFalse(shouldUseLowSpeed());
 
+    driver.createBButton().whileTrue(launcher.sysIdPivot());
+
     lowState.switchTo(prepState).when(() -> requestedState == LauncherState.PREP_SHOOT);
     prepState.switchTo(lowState).when(() -> requestedState == LauncherState.LOW_SPEED);
 

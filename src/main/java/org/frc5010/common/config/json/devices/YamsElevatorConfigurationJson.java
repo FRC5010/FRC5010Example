@@ -31,6 +31,7 @@ public class YamsElevatorConfigurationJson implements DeviceConfiguration {
   public UnitValueJson lowerHardLimit = new UnitValueJson(0, DistanceUnit.METERS.toString());
   public UnitValueJson upperHardLimit = new UnitValueJson(0, DistanceUnit.METERS.toString());
   public double[] gearing;
+  public String gearStages = "";
   public UnitValueJson startingPosition = new UnitValueJson(0, DistanceUnit.METERS.toString());
   public UnitValueJson mass = new UnitValueJson(0, MassUnit.POUNDS.toString());
   public UnitValueJson voltageCompensation = new UnitValueJson(12, VoltageUnit.VOLTS.toString());
@@ -69,7 +70,8 @@ public class YamsElevatorConfigurationJson implements DeviceConfiguration {
                 simSystemId.feedForward.a));
 
     YamsConfigCommon.PhysicalParameters physicalParams =
-        new YamsConfigCommon.PhysicalParameters(voltageCompensation, mass, drumRadius, gearing);
+        new YamsConfigCommon.PhysicalParameters(
+            voltageCompensation, mass, drumRadius, gearing, gearStages);
 
     Optional<SmartMotorController> smartMotor =
         YamsConfigCommon.configureSmartMotorController(

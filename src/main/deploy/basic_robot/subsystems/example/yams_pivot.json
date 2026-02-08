@@ -21,7 +21,8 @@
         "val": 0.0,
         "uom": "deg"
       }
-    }
+    },
+    "movementPlane": "XY"
   },
   "motorSystemId": {
     "feedBack": {
@@ -33,6 +34,14 @@
       "s": 0.0,
       "v": 0.0,
       "a": 0.0
+    },
+    "maxVelocity": {
+      "val": 180,
+      "uom": "deg/s"
+    },
+    "maxAcceleration": {
+      "val": 90,
+      "uom": "deg/s^2"
     }
   },
   "simSystemId": {
@@ -45,26 +54,43 @@
       "s": 0.0,
       "v": 0.0,
       "a": 0.0
+    },
+    "maxVelocity": {
+      "val": 180,
+      "uom": "deg/s"
+    },
+    "maxAcceleration": {
+      "val": 90,
+      "uom": "deg/s^2"
     }
   },
+  "lowerHardLimit": {
+    "val": -165,
+    "uom": "deg"
+  },
+  "upperHardLimit": {
+    "val": 165,
+    "uom": "deg"
+  },
+  "startingAngle": {
+    "val": 0,
+    "uom": "deg"
+  },
   "lowerSoftLimit": {
-    "val": -5000,
-    "uom": "rpm"
+    "val": -160,
+    "uom": "deg"
   },
   "upperSoftLimit": {
-    "val": 5000,
-    "uom": "rpm"
+    "val": 160,
+    "uom": "deg"
   },
-  "gearing": [
-    3,
-    4
-  ],
-  "mass": {
-    "val": 5,
-    "uom": "lbs"
-  },
+  "gearStages": "12:36:40:12:108",
   "radius": {
-    "val": 1.925,
+    "val": 5,
     "uom": "in"
+  },
+  "mass": {
+    "val": 20,
+    "uom": "lb"
   }
 }

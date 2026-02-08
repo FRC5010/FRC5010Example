@@ -4,6 +4,9 @@
 
 package frc.robot.example.subsystems;
 
+import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,6 +18,7 @@ import org.frc5010.common.motors.function.AngularControlMotor;
 import org.frc5010.common.motors.function.PercentControlMotor;
 import org.frc5010.common.motors.function.VelocityControlMotor;
 import yams.mechanisms.positional.Arm;
+import yams.mechanisms.positional.Pivot;
 import yams.mechanisms.velocity.FlyWheel;
 
 /** Add your docs here. */
@@ -26,6 +30,7 @@ public class ExampleIOReal implements ExampleIO {
   protected FlyWheel shooter;
   protected Arm arm;
   protected GenericSubsystem parent;
+  protected Pivot pivot;
 
   public ExampleIOReal(Map<String, Object> devices, GenericSubsystem parent) {
     this.devices = devices;
@@ -34,6 +39,7 @@ public class ExampleIOReal implements ExampleIO {
     this.controlledMotor = (VelocityControlMotor) devices.get("velocity_motor");
     this.shooter = (FlyWheel) devices.get("Shooter");
     this.arm = (Arm) devices.get("Hood");
+    this.pivot = (Pivot) devices.get("Turret");
     this.angularMotor = (AngularControlMotor) devices.get("angular_motor");
   }
 
@@ -82,6 +88,23 @@ public class ExampleIOReal implements ExampleIO {
         5,
         3,
         3);
+  }
+
+  public Command sysIdTurret() {
+    return SystemIdentification.getSysIdFullCommand(
+        SystemIdentification.angleSysIdRoutine(
+            pivot.getMotorController(), parent.getName(), parent),
+        5,
+        3,
+        3);
+  }
+
+  public Command sysIdArm() {
+    return arm.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(10));
+  }
+
+  public Command sysIdPivot() {
+    return pivot.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(10));
   }
 
   public Command launchBall() {

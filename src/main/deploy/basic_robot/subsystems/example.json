@@ -17,7 +17,7 @@
       "file": "example/yams_arm.json"
     },
     {
-      "device": "yams_pivot",
+      "device": "yams_turret",
       "file": "example/yams_pivot.json"
     }
   ]

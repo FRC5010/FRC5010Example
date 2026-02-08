@@ -65,6 +65,12 @@ public interface ExampleIO {
 
   public Command sysIdShooter();
 
+  public Command sysIdArm();
+
+  public Command sysIdPivot();
+
+  public Command sysIdTurret();
+
   public default Command addBallToRobot() {
     return Commands.none();
   }

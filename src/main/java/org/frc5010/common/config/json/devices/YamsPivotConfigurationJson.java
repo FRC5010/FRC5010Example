@@ -34,6 +34,7 @@ public class YamsPivotConfigurationJson implements DeviceConfiguration {
   public UnitValueJson lowerSoftLimit = new UnitValueJson(0, AngleUnit.DEGREES.toString());
   public UnitValueJson upperSoftLimit = new UnitValueJson(0, AngleUnit.DEGREES.toString());
   public double[] gearing;
+  public String gearStages = "";
   public UnitValueJson voltageCompensation = new UnitValueJson(12, VoltageUnit.VOLTS.toString());
   public UnitValueJson radius = new UnitValueJson(1, DistanceUnit.INCHES.toString());
   public UnitValueJson mass = new UnitValueJson(1, MassUnit.POUNDS.toString());
@@ -64,7 +65,8 @@ public class YamsPivotConfigurationJson implements DeviceConfiguration {
             .withControlMode(ControlMode.valueOf(motorSystemId.controlMode));
 
     YamsConfigCommon.PhysicalParameters physicalParams =
-        new YamsConfigCommon.PhysicalParameters(voltageCompensation, mass, radius, gearing);
+        new YamsConfigCommon.PhysicalParameters(
+            voltageCompensation, mass, radius, gearing, gearStages);
 
     Optional<SmartMotorController> smartMotor =
         YamsConfigCommon.configureSmartMotorController(

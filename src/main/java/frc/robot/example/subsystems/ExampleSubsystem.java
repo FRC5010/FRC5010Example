@@ -76,6 +76,18 @@ public class ExampleSubsystem extends GenericSubsystem {
     return io.launchBall();
   }
 
+  public Command sysIdArm() {
+    return io.sysIdArm();
+  }
+
+  public Command sysIdPivot() {
+    return io.sysIdPivot();
+  }
+
+  public Command sysIdTurret() {
+    return io.sysIdTurret();
+  }
+
   @Override
   public void periodic() {
     super.periodic();

@@ -8,12 +8,15 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.commands.IntakeCommands.IntakeState;
+import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.sensors.Controller;
 import org.littletonrobotics.junction.Logger;
 
 public class Intake extends GenericSubsystem {
+  private Indexer indexer;
   private IntakeIO io;
   private IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
 
@@ -31,12 +34,10 @@ public class Intake extends GenericSubsystem {
     io.runSpintake(speed);
   }
 
-  public void ConfigController(Controller controller) {}
-
   public Command spintakeCommand(double speed) {
     return Commands.run(
             () -> {
-              runSpintake(.25);
+              runSpintake(speed);
             })
         .finallyDo(
             () -> {
@@ -50,6 +51,20 @@ public class Intake extends GenericSubsystem {
 
   public Boolean isRetracted() {
     return io.isRetracted();
+  }
+
+  public void runHopper(double speed) {
+    io.runHopper(speed);
+  }
+
+  public void configTestControls(Controller controller) {
+    controller
+        .createRightBumper()
+        .whileTrue(indexer.spindexerCommand(0.5).andThen(spintakeCommand(0.5)));
+    controller.createYButton().whileTrue(getHopperSysIdCommand());
+    controller.setRightYAxis(controller.createRightYAxis());
+    Trigger rightYAxis = new Trigger(() -> controller.getRightYAxis() > 0.25);
+    rightYAxis.onTrue(Commands.run(() -> runHopper(0.5)));
   }
 
   @Override
@@ -69,6 +84,10 @@ public class Intake extends GenericSubsystem {
 
   public void setCurrentState(IntakeState state) {
     inputs.stateCurrent = state;
+  }
+
+  public Command getHopperSysIdCommand() {
+    return io.getHopperSysIdCommand();
   }
 
   public void setRequestedState(IntakeState state) {

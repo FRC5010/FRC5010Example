@@ -1,8 +1,11 @@
 package frc.robot.rebuilt.subsystems.intake;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj2.command.Command;
 import java.util.Map;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.velocity.FlyWheel;
@@ -29,6 +32,14 @@ public class IntakeIOReal implements IntakeIO {
 
   public Boolean isRetracted() {
     return (intakeHopper.getAngle().isEquivalent(Degrees.of(0.0)));
+  }
+
+  public Command getHopperSysIdCommand() {
+    return intakeHopper.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
+  }
+
+  public void runHopper(double speed) {
+    intakeHopper.getMotorController().setDutyCycle(speed);
   }
 
   @Override

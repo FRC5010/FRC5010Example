@@ -33,7 +33,7 @@ public class TestCommands {
     launcher.setDefaultCommand(launcher.getDefaultCommand());
 
     indexer.ConfigController(controller);
-    intake.ConfigController(controller);
+    intake.configTestControls(controller);
     climb.ConfigController(controller);
     controller.createLeftStickButton().whileTrue(testLauncherCommand(4, 1));
     controller

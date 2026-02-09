@@ -2,7 +2,7 @@
   "motorSetup": {
     "name": "spintake",
     "controllerType": "talonfx",
-    "motorType": "KrakenX60",
+    "motorType": "NeoVortex",
     "canId": 12,
     "followers": [
       {

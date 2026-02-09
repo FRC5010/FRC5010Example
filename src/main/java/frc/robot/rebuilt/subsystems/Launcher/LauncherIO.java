@@ -75,5 +75,9 @@ public interface LauncherIO {
 
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher);
 
+  public Command getTurretSysIdCommand(GenericSubsystem launcher);
+
+  public void stopAllMotors();
+
   public default void updateSimulation(Launcher launcher, Indexer indexer) {}
 }

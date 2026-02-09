@@ -51,14 +51,14 @@
   },
   "simSystemId": {
     "feedBack": {
-      "p": 4,
+      "p": 0.20043,
       "i": 0.0,
       "d": 0.0
     },
     "feedForward": {
       "s": 0.0,
-      "v": 0.0,
-      "a": 0.0
+      "v": 1.4353,
+      "a": 0.033416
     },
     "maxVelocity": {
       "val": 180,

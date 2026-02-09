@@ -90,11 +90,24 @@ public class Launcher extends GenericSubsystem {
   }
 
   public Command getTurretSysIdCommand() {
-    return io.getTurretSysIdCommand();
+    return io.getTurretSysIdCommand(this);
   }
 
   public Command getFlyWheelSysIdCommand() {
     return io.getFlyWheelSysIdCommand(this);
+  }
+
+  @Override
+  public Command getDefaultCommand() {
+    return Commands.runOnce(
+        () -> {
+          io.stopAllMotors();
+        },
+        this);
+  }
+
+  public void stopAllMotors() {
+    io.stopAllMotors();
   }
 
   public Command trackTargetCommand() {

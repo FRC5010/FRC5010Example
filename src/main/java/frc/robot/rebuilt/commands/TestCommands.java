@@ -30,14 +30,21 @@ public class TestCommands {
   }
 
   public void configureButtonBindings(Controller controller) {
+    launcher.setDefaultCommand(launcher.getDefaultCommand());
 
     indexer.ConfigController(controller);
     intake.ConfigController(controller);
     climb.ConfigController(controller);
     controller.createLeftStickButton().whileTrue(testLauncherCommand(4, 1));
-    controller.createBButton().whileTrue(launcher.getTurretSysIdCommand());
-    controller.createAButton().whileTrue(launcher.getFlyWheelSysIdCommand());
-    controller.createXButton().whileTrue(launcher.getHoodSysIdCommand());
+    controller
+        .createBButton()
+        .whileTrue(launcher.getTurretSysIdCommand().finallyDo(() -> launcher.stopAllMotors()));
+    controller
+        .createAButton()
+        .whileTrue(launcher.getFlyWheelSysIdCommand().finallyDo(() -> launcher.stopAllMotors()));
+    controller
+        .createXButton()
+        .whileTrue(launcher.getHoodSysIdCommand().finallyDo(() -> launcher.stopAllMotors()));
   }
 
   public static Command testLauncherCommand(double speed, double time) {

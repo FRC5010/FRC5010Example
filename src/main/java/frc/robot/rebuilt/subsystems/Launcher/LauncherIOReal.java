@@ -167,16 +167,43 @@ public class LauncherIOReal implements LauncherIO {
   }
 
   public Command getHoodSysIdCommand() {
-    return hood.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(5));
+    return hood.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
 
   public Command getTurretSysIdCommand() {
-    return turret.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(5));
+    return turret.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
 
-  // public Command getFlyWheelSysIdCommand() {
-  //   return flyWheel.sysId(Volts.of(12), Volts.of(1).per(Seconds), Seconds.of(5));
-  // }
+  public Command getTurretSysIdCommand(GenericSubsystem launcher) {
+    return SystemIdentification.getSysIdFullCommand(
+        SystemIdentification.angleSysIdRoutine(
+            turret.getMotorController(), turret.getName(), launcher),
+        5,
+        5,
+        3,
+        () ->
+            turret
+                .isNear(
+                    turret.getMotorController().getConfig().getMechanismUpperLimit().get(),
+                    Degrees.of(10))
+                .getAsBoolean(),
+        () ->
+            turret
+                .isNear(
+                    turret.getMotorController().getConfig().getMechanismLowerLimit().get(),
+                    Degrees.of(10))
+                .getAsBoolean());
+  }
+
+  public void stopAllMotors() {
+    flyWheel.getMotor().setDutyCycle(0);
+    hood.getMotor().setDutyCycle(0);
+    turret.getMotor().setDutyCycle(0);
+  }
+
+  public Command getFlyWheelSysIdCommand() {
+    return flyWheel.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
+  }
 
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(

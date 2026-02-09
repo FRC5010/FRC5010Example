@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
+import java.util.function.BooleanSupplier;
 import org.frc5010.common.sensors.encoder.GenericEncoder;
 import yams.motorcontrollers.SmartMotorController;
 
@@ -160,5 +161,24 @@ public class SystemIdentification {
         .andThen(getSysIdDynamicForward(routine).withTimeout(dynamicTimeout))
         .andThen(Commands.waitSeconds(delay))
         .andThen(getSysIdDynamicBackward(routine).withTimeout(dynamicTimeout));
+  }
+
+  public static Command getSysIdFullCommand(
+      SysIdRoutine routine,
+      double quasistaticTimeout,
+      double dynamicTimeout,
+      double delay,
+      BooleanSupplier isAtMax,
+      BooleanSupplier isAtMin) {
+    return getSysIdQuasistaticForward(routine)
+        .until(isAtMax)
+        .withTimeout(quasistaticTimeout)
+        .andThen(Commands.waitSeconds(delay))
+        .andThen(
+            getSysIdQuasistaticBackward(routine).until(isAtMin).withTimeout(quasistaticTimeout))
+        .andThen(Commands.waitSeconds(delay))
+        .andThen(getSysIdDynamicForward(routine).until(isAtMax).withTimeout(dynamicTimeout))
+        .andThen(Commands.waitSeconds(delay))
+        .andThen(getSysIdDynamicBackward(routine).until(isAtMin).withTimeout(dynamicTimeout));
   }
 }

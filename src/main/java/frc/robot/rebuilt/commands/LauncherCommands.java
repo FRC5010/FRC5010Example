@@ -167,28 +167,28 @@ public class LauncherCommands {
     return shouldPresetCommand()
         .alongWith(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(30), Degrees.of(0), RPM.of(4000))));
+                () -> launcher.usePresets(Degrees.of(30), Degrees.of(0), RPM.of(45000))));
   }
 
   public static Command towerPresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(45), Degrees.of(15), RPM.of(4500))));
+                () -> launcher.usePresets(Degrees.of(45), Degrees.of(15), RPM.of(45500))));
   }
 
   public static Command turretForwardPresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(20), Degrees.of(0), RPM.of(3500))));
+                () -> launcher.usePresets(Degrees.of(90), Degrees.of(0), RPM.of(35500))));
   }
 
   public static Command hammerTimePresetStateCommand() {
     return shouldPresetCommand()
         .alongWith(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(1), Degrees.of(90), RPM.of(5000))));
+                () -> launcher.usePresets(Degrees.of(1), Degrees.of(90), RPM.of(55000))));
   }
 
   public static LauncherState getCurrentState() {

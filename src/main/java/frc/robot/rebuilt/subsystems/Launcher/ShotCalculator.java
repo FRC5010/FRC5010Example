@@ -28,8 +28,6 @@ import org.littletonrobotics.junction.Logger;
 @ExtensionMethod({GeomUtil.class})
 public class ShotCalculator {
   private static ShotCalculator instance;
-  public static Pose3d allianceSideLeft;
-  public static Pose3d hub;
 
   private final LinearFilter turretAngleFilter =
       LinearFilter.movingAverage((int) (0.1 / Constants.loopPeriodSecs));
@@ -42,6 +40,10 @@ public class ShotCalculator {
   private double hoodAngle = Double.NaN;
   private double turretVelocity;
   private double hoodVelocity;
+  private static Translation2d hubTarget = FieldConstants.Hub.topCenterPoint.toTranslation2d();
+  private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
+  private static Translation2d allianceSideRight = FieldConstants.Tower.rightUpright;
+  private static Translation2d currentTarget = hubTarget;
 
   public static ShotCalculator getInstance() {
     if (instance == null) instance = new ShotCalculator();
@@ -120,8 +122,8 @@ public class ShotCalculator {
                 robotRelativeVelocity.omegaRadiansPerSecond * phaseDelay));
 
     // Calculate distance from turret to target
-    Translation2d target =
-        AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
+    Translation2d target = 
+        AllianceFlipUtil.apply(currentTarget);
     Pose2d turretPosition = estimatedPose.transformBy(Launcher.robotToTurret.toTransform2d());
     double turretToTargetDistance = target.getDistance(turretPosition.getTranslation());
 
@@ -185,5 +187,17 @@ public class ShotCalculator {
 
   public void clearShootingParameters() {
     latestParameters = null;
+  }
+
+  public static void setTargetAllianceLeft(){
+    currentTarget = allianceSideLeft;
+  }
+
+  public static void setTargetAllianceRight(){
+    currentTarget = allianceSideRight;
+  }
+
+  public static void setTargetHub(){
+    currentTarget = hubTarget;
   }
 }

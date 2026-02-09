@@ -898,7 +898,10 @@
         "left": 245,
         "right": 3942,
         "top": 118,
-        "width": 16.54119300842285
+        "width": 16.54119300842285,
+        "window": {
+          "visible": true
+        }
       },
       "/SmartDashboard/VisionSystemSim-main/Sim Field": {
         "bottom": 1914,
@@ -953,10 +956,13 @@
         "Drive": {
           "open": true
         },
-        "HubStatus": {
+        "Indexer": {
           "open": true
         },
-        "Indexer": {
+        "Intake": {
+          "open": true
+        },
+        "Launcher": {
           "open": true
         },
         "Vision": {
@@ -1080,5 +1086,8 @@
         }
       }
     }
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

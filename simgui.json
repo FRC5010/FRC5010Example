@@ -1,867 +1,162 @@
 {
   "HALProvider": {
-    "Addressable LEDs": {
-      "0": {
-        "columns": 15,
-        "order": 1
-      },
-      "window": {
-        "visible": true
-      }
-    },
     "Other Devices": {
-      "CANcoder (v6)[16]": {
-        "header": {
-          "open": true
-        }
-      },
       "SPARK MAX [10]": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "SPARK MAX [11]": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "SPARK MAX [11] RELATIVE ENCODER": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "SPARK MAX [12]": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "SPARK MAX [13]": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "SPARK MAX [13] RELATIVE ENCODER": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "SPARK MAX [16]": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "SPARK MAX [16] RELATIVE ENCODER": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "SPARK MAX [5]": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "SPARK MAX [7]": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "SPARK MAX [9]": {
         "header": {
-          "open": true
+          "open": false
         }
       },
-      "Talon FX (v6)[12]": {
+      "Talon FX (v6)[10]": {
         "header": {
           "open": true
         }
       },
-      "Talon FX (v6)[12]/Fwd Limit": {
+      "Talon FX (v6)[10]/Fwd Limit": {
         "header": {
           "open": true
         }
       },
-      "Talon FX (v6)[12]/Rev Limit": {
+      "Talon FX (v6)[10]/Rev Limit": {
         "header": {
           "open": true
         }
       },
-      "Talon FX (v6)[12]/Rotor Sensor": {
+      "Talon FX (v6)[10]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[19]": {
         "header": {
           "open": true
         }
       },
       "Talon FX (v6)[51]": {
         "header": {
+          "open": false
+        }
+      },
+      "Talon FX (v6)[9]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[9]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[9]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[9]/Rotor Sensor": {
+        "header": {
           "open": true
         }
       },
       "Talon FX[50]": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "Talon FX[51]/Integrated Sensor": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "Talon FX[52]/Integrated Sensor": {
         "header": {
-          "open": true
+          "open": false
         }
       },
       "Talon FX[8]/Integrated Sensor": {
         "header": {
-          "open": true
+          "open": false
         }
-      },
-      "window": {
-        "visible": false
       }
     }
   },
   "NTProvider": {
     "types": {
       "/AdvantageKit/RealOutputs/Alerts": "Alerts",
-      "/AdvantageKit/RealOutputs/Encoders": "Alerts",
       "/AdvantageKit/RealOutputs/GenericMechanism/MechVisual": "Mechanism2d",
-      "/AdvantageKit/RealOutputs/IMU": "Alerts",
-      "/AdvantageKit/RealOutputs/JSON": "Alerts",
-      "/AdvantageKit/RealOutputs/Motors": "Alerts",
       "/AdvantageKit/RealOutputs/PathPlanner": "Alerts",
       "/AdvantageKit/RealOutputs/PhotonAlerts": "Alerts",
-      "/AdvantageKit/RealOutputs/Swerve Drive": "Alerts",
       "/FMSInfo": "FMSInfo",
-      "/LiveWindow/SwerveSubsystem": "Subsystem",
-      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
-      "/LiveWindow/Ungrouped/Pigeon 2 [13]": "Gyro",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-      "/Shuffleboard/BabySwerve/Auto Modes": "String Chooser",
-      "/Shuffleboard/ExampleRobot/Auto Modes": "String Chooser",
       "/SmartDashboard/Alerts": "Alerts",
-      "/SmartDashboard/Alpha/Auto Modes": "String Chooser",
-      "/SmartDashboard/Arm/mechanism": "Mechanism2d",
       "/SmartDashboard/Auto Modes": "String Chooser",
-      "/SmartDashboard/Climb/mechanism": "Mechanism2d",
       "/SmartDashboard/Drive Visual": "Mechanism2d",
       "/SmartDashboard/DrivePoseEstimator/Pose Field": "Field2d",
-      "/SmartDashboard/DrivePoseEstimator/values/Pose Field": "Field2d",
-      "/SmartDashboard/Elevator/mechanism": "Mechanism2d",
-      "/SmartDashboard/Encoders": "Alerts",
-      "/SmartDashboard/ExampleRobot/Auto Modes": "String Chooser",
-      "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/Hood/mechanism": "Mechanism2d",
-      "/SmartDashboard/IMU": "Alerts",
-      "/SmartDashboard/JSON": "Alerts",
-      "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/Down": "Command",
-      "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/Up": "Command",
-      "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/ZeroEncoder": "Command",
-      "/SmartDashboard/Mechanisms/Commands/climb.json/Live Tuning": "Command",
-      "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/Down": "Command",
-      "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/LiveTuning": "Command",
-      "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/Up": "Command",
-      "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/ZeroEncoder": "Command",
-      "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/LiveTuning": "Command",
-      "/SmartDashboard/Motors": "Alerts",
       "/SmartDashboard/PathPlanner": "Alerts",
       "/SmartDashboard/PhotonAlerts": "Alerts",
-      "/SmartDashboard/Pigeon 2 (v6) [13]": "Gyro",
-      "/SmartDashboard/Pigeon 2 [13]": "Gyro",
       "/SmartDashboard/Rebuilt/Auto Modes": "String Chooser",
       "/SmartDashboard/Robot Visual": "Mechanism2d",
-      "/SmartDashboard/SendableChooser[0]": "String Chooser",
-      "/SmartDashboard/Shooter/mechanism": "Mechanism2d",
-      "/SmartDashboard/Swerve Drive": "Alerts",
-      "/SmartDashboard/TigerShark/Auto Modes": "String Chooser",
-      "/SmartDashboard/Turret/mechanism": "Mechanism2d",
-      "/SmartDashboard/VisionSystemSim-Vision/Sim Field": "Field2d",
       "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d",
       "/SmartDashboard/flywheel/mechanism": "Mechanism2d",
       "/SmartDashboard/hood/mechanism": "Mechanism2d",
-      "/SmartDashboard/hoodmotor/mechanism": "Mechanism2d",
       "/SmartDashboard/hopper/mechanism": "Mechanism2d",
       "/SmartDashboard/lifter/mechanism": "Mechanism2d",
-      "/SmartDashboard/lowershootermotor/mechanism": "Mechanism2d",
-      "/SmartDashboard/navX-Sensor[1]": "Gyro",
-      "/SmartDashboard/navX-Sensor[4]": "Gyro",
-      "/SmartDashboard/pinion/mechanism": "Mechanism2d",
       "/SmartDashboard/spintake/mechanism": "Mechanism2d",
-      "/SmartDashboard/turret/mechanism": "Mechanism2d",
-      "/SmartDashboard/turretmotor/mechanism": "Mechanism2d",
-      "/SmartDashboard/uppershootermotor/mechanism": "Mechanism2d",
-      "/SmartDashboard/winch_motor/mechanism": "Mechanism2d"
+      "/SmartDashboard/turret/mechanism": "Mechanism2d"
     },
     "windows": {
       "/SmartDashboard/DrivePoseEstimator/Pose Field": {
-        "CARPET0": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET1": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET10": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET11": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET12": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET13": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET14": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET15": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET16": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET17": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET18": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "CARPET19": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET2": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET20": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET21": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET22": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET23": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET24": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET3": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET4": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET5": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET6": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET7": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET8": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "CARPET9": {
-          "image": ".\\pictures\\carpet.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 1": {
-          "image": ".\\pictures\\AT1.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 10": {
-          "image": ".\\pictures\\AT10.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 11": {
-          "image": ".\\pictures\\AT11.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 12": {
-          "image": ".\\pictures\\AT12.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 13": {
-          "image": ".\\pictures\\AT13.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 14": {
-          "image": ".\\pictures\\AT14.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 15": {
-          "image": ".\\pictures\\AT15.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 16": {
-          "image": ".\\pictures\\AT16.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 17": {
-          "image": ".\\pictures\\AT17.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 18": {
-          "image": ".\\pictures\\AT18.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 19": {
-          "image": ".\\pictures\\AT19.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 2": {
-          "image": ".\\pictures\\AT2.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 20": {
-          "image": ".\\pictures\\AT20.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 21": {
-          "image": ".\\pictures\\AT21.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 22": {
-          "image": ".\\pictures\\AT22.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 23": {
-          "image": ".\\pictures\\AT23.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 24": {
-          "image": ".\\pictures\\AT24.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 25": {
-          "image": ".\\pictures\\AT25.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 26": {
-          "image": ".\\pictures\\AT26.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 27": {
-          "image": ".\\pictures\\AT27.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 28": {
-          "image": ".\\pictures\\AT28.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 29": {
-          "image": ".\\pictures\\AT29.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 3": {
-          "image": ".\\pictures\\AT3.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 30": {
-          "image": ".\\pictures\\AT30.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 31": {
-          "image": ".\\pictures\\AT31.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 32": {
-          "image": ".\\pictures\\AT32.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 4": {
-          "image": ".\\pictures\\AT4.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 5": {
-          "image": ".\\pictures\\AT5.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 6": {
-          "image": ".\\pictures\\AT6.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 7": {
-          "image": ".\\pictures\\AT7.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 8": {
-          "image": ".\\pictures\\AT8.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "Field Tag 9": {
-          "image": ".\\pictures\\AT9.png",
-          "length": 0.44999998807907104,
-          "width": 0.44999998807907104
-        },
-        "GPA0": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA1": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA10": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA11": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA12": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA13": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA14": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA15": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA16": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA17": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA18": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA19": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA2": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA20": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA21": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA22": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA23": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA24": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA25": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA26": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA27": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA28": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA29": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA3": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA30": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA31": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA32": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA33": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA34": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA35": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA36": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA37": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA38": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA39": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA4": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA40": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA41": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA42": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA43": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA44": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA45": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA46": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA47": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA48": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA49": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA5": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA50": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA6": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA7": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA8": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPA9": {
-          "image": ".\\pictures\\gpa.png",
-          "length": 0.15000000596046448,
-          "width": 0.15000000596046448
-        },
-        "GPB0": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB1": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB10": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB11": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB12": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB13": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB14": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB15": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB16": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB17": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB18": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB19": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB2": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB20": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB21": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB22": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB23": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB24": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB3": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB4": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB5": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB6": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB7": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB8": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "GPB9": {
-          "length": 0.4000000059604645,
-          "width": 0.4000000059604645
-        },
-        "OdometryPose": {
-          "arrowColor": [
-            255.0,
-            255.0,
-            0.0,
-            255.0
-          ],
-          "color": [
-            224.99996948242188,
-            0.0,
-            255.0,
-            255.0
-          ]
-        },
-        "Robot": {
-          "image": ".\\pictures\\robot.png",
-          "length": 0.8669999837875366,
-          "width": 0.8669999837875366
-        },
         "XModules": {
-          "arrowColor": [
-            0.09611687064170837,
-            0.17414122819900513,
-            0.9803921580314636,
-            255.0
-          ],
-          "arrowSize": 33,
-          "arrowWeight": 3.0,
-          "style": "Hidden"
+          "arrowSize": 0,
+          "arrowWeight": 0.0,
+          "style": ""
         },
         "bottom": 1914,
         "height": 8.069275856018066,
@@ -874,86 +169,33 @@
         }
       },
       "/SmartDashboard/Field": {
-        "OdometryPose": {
-          "arrowColor": [
-            255.0,
-            255.0,
-            0.0,
-            255.0
-          ]
-        },
         "XModules": {
-          "arrowColor": [
-            0.09611687064170837,
-            0.17414122819900513,
-            0.9803921580314636,
-            255.0
-          ],
-          "arrowSize": 33,
-          "arrowWeight": 3.0,
-          "style": "Hidden"
-        },
-        "bottom": 1914,
-        "height": 8.069275856018066,
-        "left": 245,
-        "right": 3942,
-        "top": 118,
-        "width": 16.54119300842285
-      },
-      "/SmartDashboard/VisionSystemSim-main/Sim Field": {
-        "bottom": 1914,
-        "height": 8.069275856018066,
-        "left": 245,
-        "right": 3942,
-        "top": 118,
-        "width": 16.54119300842285,
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/flywheel/mechanism": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/hood/mechanism": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/turret/mechanism": {
-        "window": {
-          "visible": true
+          "arrowSize": 0,
+          "arrowWeight": 0.0,
+          "style": ""
         }
       }
     }
   },
   "NetworkTables": {
-    "Persistent Values": {
-      "open": false
-    },
     "persistent": {
       "Shuffleboard": {
         "BabySwerve": {
           "BabySwerve": {
-            "open": true
+            "open": false
           }
         },
         "ExampleRobot": {
           "ExampleRobot": {
-            "open": true
+            "open": false
           },
-          "open": true
-        },
-        "open": true
+          "open": false
+        }
       }
     },
     "transitory": {
       "AdvantageKit": {
-        "Drive": {
-          "open": true
-        },
-        "HubStatus": {
+        "DriverStation": {
           "open": true
         },
         "Indexer": {
@@ -961,7 +203,7 @@
         },
         "Vision": {
           "Camera left": {
-            "open": true
+            "open": false
           }
         },
         "open": true
@@ -970,72 +212,71 @@
         "Arm": {
           "ArmMotor": {
             "mechanism": {
-              "open": true
+              "open": false
             },
-            "open": true,
+            "open": false,
             "rotor": {
-              "open": true
+              "open": false
             }
           },
-          "open": true
+          "open": false
         },
         "Hood": {
           "HoodMotor": {
-            "open": true
+            "open": false
           }
         },
         "Shooter": {
           "ShooterMotor": {
             "mechanism": {
-              "open": true
+              "open": false
             },
-            "open": true,
+            "open": false,
             "rotor": {
-              "open": true
+              "open": false
             }
           }
-        },
-        "open": true
+        }
       },
       "Shuffleboard": {
         ".metadata": {
-          "open": true
+          "open": false
         },
         "ExampleSubsystem": {
           "percent_motor": {
-            "open": true
+            "open": false
           }
         },
         "Vision": {
           "Camera shooter": {
-            "open": true
+            "open": false
           }
         }
       },
       "SmartDashboard": {
         "Characterization": {
           "Steer": {
-            "open": true
+            "open": false
           },
-          "open": true
+          "open": false
         },
         "ClimbCommands": {
-          "open": true
+          "open": false
         },
         "Drive Feedforward": {
-          "open": true
+          "open": false
         },
         "DrivePoseEstimator": {
           "DrivePoseEstimator": {
-            "open": true
+            "open": false
           },
           "values": {
-            "open": true
+            "open": false
           }
         },
         "ExampleRobot": {
           "values": {
-            "open": true
+            "open": false
           }
         },
         "Indexer": {
@@ -1050,35 +291,52 @@
             "open": true
           }
         },
-        "Wheel Radius Characterization": {
+        "Intake": {
           "open": true
+        },
+        "Wheel Radius Characterization": {
+          "open": false
         },
         "open": true
       },
       "Tuning": {
         "Arm": {
-          "open": true
+          "open": false
         },
         "Elevator": {
           "ElevatorMotor": {
-            "open": true
+            "open": false
           },
-          "open": true
+          "open": false
         },
         "Turret": {
-          "open": true
-        }
+          "open": false
+        },
+        "open": true
       },
       "photonvision": {
+        "open": true,
         "shooter": {
           "Transform3d##v_/photonvision/shooter/targetPose": {
             "Translation3d##v_translation": {
-              "open": true
+              "open": false
             },
-            "open": true
+            "open": false
           }
         }
       }
     }
+  },
+  "NetworkTables Info": {
+    "Clients": {
+      "open": true
+    },
+    "Connections": {
+      "open": true
+    },
+    "Server": {
+      "open": true
+    },
+    "visible": true
   }
 }

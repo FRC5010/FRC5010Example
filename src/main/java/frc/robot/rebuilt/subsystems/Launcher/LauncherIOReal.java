@@ -170,22 +170,19 @@ public class LauncherIOReal implements LauncherIO {
     return hood.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
 
-    public Command getHoodSysIdCommand(GenericSubsystem launcher) {
+  public Command getHoodSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
-        SystemIdentification.angleSysIdRoutine(
-            hood.getMotorController(), hood.getName(), launcher),
+        SystemIdentification.angleSysIdRoutine(hood.getMotorController(), hood.getName(), launcher),
         5,
         5,
         3,
         () ->
-            hood
-                .isNear(
+            hood.isNear(
                     hood.getMotorController().getConfig().getMechanismUpperLimit().get(),
                     Degrees.of(10))
                 .getAsBoolean(),
         () ->
-            hood
-                .isNear(
+            hood.isNear(
                     hood.getMotorController().getConfig().getMechanismLowerLimit().get(),
                     Degrees.of(10))
                 .getAsBoolean());

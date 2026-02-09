@@ -7,6 +7,7 @@ import static edu.wpi.first.units.Units.RPM;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import java.util.Map;
@@ -103,6 +104,12 @@ public class LauncherCommands {
         .createYButton()
         .whileTrue(turretForwardPresetStateCommand())
         .onFalse(shouldLowCommand());
+
+    Trigger readyToFireTrigger =
+        new Trigger(() -> launcher.isCurrent(LauncherState.PREP) && launcher.isAtGoal());
+    readyToFireTrigger
+        .onTrue(IndexerCommands.shouldFeedCommand())
+        .onFalse(IndexerCommands.shouldIdleCommand());
   }
 
   private Translation2d getTargetPose() {

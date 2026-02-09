@@ -32,9 +32,10 @@ public class TestCommands {
   public void configureButtonBindings(Controller controller) {
     launcher.setDefaultCommand(launcher.getDefaultCommand());
 
-    indexer.ConfigController(controller);
-    intake.ConfigController(controller);
-    climb.ConfigController(controller);
+    indexer.configTestController(controller);
+    intake.configTestController(controller);
+    climb.configTestController(controller);
+
     controller.createLeftStickButton().whileTrue(testLauncherCommand(4, 1));
     controller
         .createBButton()

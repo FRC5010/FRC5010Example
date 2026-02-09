@@ -45,6 +45,7 @@ public class IndexerCommands {
   }
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
+
     driver.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     operator.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     // driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
@@ -91,15 +92,15 @@ public class IndexerCommands {
           indexer.runTransferBack(0);
         });
   }
-
+  // run feed command when Launcher State is idle and Operator Right Bumper is pressed
   private static Command feedStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
               indexer.setCurrentState(IndexerState.FEED);
               indexer.runSpindexer(0.5);
-              indexer.runTransferFront(0.5);
-              indexer.runTransferBack(0.5);
+              indexer.runTransferFront(1);
+              indexer.runTransferBack(1);
             }));
   }
 

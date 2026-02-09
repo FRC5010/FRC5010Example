@@ -32,6 +32,11 @@ public class Indexer extends GenericSubsystem {
     io.runSpindexer(speed);
   }
 
+  public void runFeeder(double speed) {
+    io.runTransferBack(speed);
+    io.runTransferFront(speed);
+  }
+
   public void runTransferBack(double speed) {
     io.runTransferBack(speed);
   }
@@ -40,27 +45,26 @@ public class Indexer extends GenericSubsystem {
     io.runTransferFront(speed);
   }
 
-  public void ConfigController(Controller controller) {
-    controller.createAButton().whileTrue(spindexerCommand(.25));
-    // controller.createBButton().whileTrue(feederCommand(.25));
+  public void configTestController(Controller controller) {
+    controller.createLeftBumper().whileTrue((spindexerCommand(.25)).alongWith(feederCommand(0.25)));
   }
-  /*
+
   public Command feederCommand(double speed) {
     return Commands.run(
             () -> {
-              RunFeeder(0.25);
-            })
+              runFeeder(0.25);
+            },
+            this)
         .finallyDo(
             () -> {
-              RunFeeder(0);
+              runFeeder(0);
             });
   }
-  */
 
   public Command spindexerCommand(double speed) {
     return Commands.run(
             () -> {
-              runSpindexer(0.25);
+              runSpindexer(speed);
             })
         .finallyDo(
             () -> {

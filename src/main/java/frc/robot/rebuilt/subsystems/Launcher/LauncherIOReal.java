@@ -201,7 +201,8 @@ public class LauncherIOReal implements LauncherIO {
             hood.isNear(
                     hood.getMotorController().getConfig().getMechanismLowerLimit().get(),
                     Degrees.of(10))
-                .getAsBoolean());
+                .getAsBoolean(),
+        () -> hood.getMotor().setDutyCycle(0));
   }
 
   public Command getTurretSysIdCommand() {
@@ -212,8 +213,8 @@ public class LauncherIOReal implements LauncherIO {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(
             turret.getMotorController(), turret.getName(), launcher),
-        5,
-        5,
+        2,
+        2,
         3,
         () ->
             turret
@@ -226,7 +227,8 @@ public class LauncherIOReal implements LauncherIO {
                 .isNear(
                     turret.getMotorController().getConfig().getMechanismLowerLimit().get(),
                     Degrees.of(10))
-                .getAsBoolean());
+                .getAsBoolean(),
+        () -> turret.getMotor().setDutyCycle(0));
   }
 
   public void stopAllMotors() {

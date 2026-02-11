@@ -169,16 +169,29 @@ public class SystemIdentification {
       double dynamicTimeout,
       double delay,
       BooleanSupplier isAtMax,
-      BooleanSupplier isAtMin) {
+      BooleanSupplier isAtMin,
+      Runnable stopMotor) {
     return getSysIdQuasistaticForward(routine)
         .until(isAtMax)
+        .finallyDo(stopMotor)
         .withTimeout(quasistaticTimeout)
         .andThen(Commands.waitSeconds(delay))
         .andThen(
-            getSysIdQuasistaticBackward(routine).until(isAtMin).withTimeout(quasistaticTimeout))
+            getSysIdQuasistaticBackward(routine)
+                .until(isAtMin)
+                .finallyDo(stopMotor)
+                .withTimeout(quasistaticTimeout))
         .andThen(Commands.waitSeconds(delay))
-        .andThen(getSysIdDynamicForward(routine).until(isAtMax).withTimeout(dynamicTimeout))
+        .andThen(
+            getSysIdDynamicForward(routine)
+                .until(isAtMax)
+                .finallyDo(stopMotor)
+                .withTimeout(dynamicTimeout))
         .andThen(Commands.waitSeconds(delay))
-        .andThen(getSysIdDynamicBackward(routine).until(isAtMin).withTimeout(dynamicTimeout));
+        .andThen(
+            getSysIdDynamicBackward(routine)
+                .until(isAtMin)
+                .finallyDo(stopMotor)
+                .withTimeout(dynamicTimeout));
   }
 }

@@ -41,7 +41,7 @@ import yams.units.EasyCRTConfig;
 public class LauncherIOReal implements LauncherIO {
 
   protected Map<String, Object> devices;
-  private Pivot turret;
+  protected Pivot turret;
   protected Arm hood;
   protected FlyWheel flyWheel;
   protected CANcoder crtEncoder40;

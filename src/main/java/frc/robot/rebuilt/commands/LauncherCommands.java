@@ -148,8 +148,7 @@ public class LauncherCommands {
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.PRESET);
-            }),
-        launcher.trackTargetCommand());
+            }));
   }
 
   public static Command shouldIdleCommand() {
@@ -172,30 +171,32 @@ public class LauncherCommands {
   // Values are placeholders and need to be tuned
   public static Command hubPresetStateCommand() {
     return shouldPresetCommand()
-        .alongWith(
+        .andThen(
             Commands.runOnce(
                 () -> launcher.usePresets(Degrees.of(30), Degrees.of(0), RPM.of(45000))));
   }
 
   public static Command towerPresetStateCommand() {
     return shouldPresetCommand()
-        .alongWith(
+        .andThen(
             Commands.runOnce(
                 () -> launcher.usePresets(Degrees.of(45), Degrees.of(15), RPM.of(45500))));
   }
 
   public static Command turretForwardPresetStateCommand() {
     return shouldPresetCommand()
-        .alongWith(
+        .andThen(
             Commands.runOnce(
                 () -> launcher.usePresets(Degrees.of(90), Degrees.of(0), RPM.of(35500))));
   }
 
   public static Command hammerTimePresetStateCommand() {
     return shouldPresetCommand()
-        .alongWith(
+        .andThen(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(1), Degrees.of(90), RPM.of(55000))));
+                () -> {
+                  launcher.usePresets(Degrees.of(1), Degrees.of(90), RPM.of(55000));
+                }));
   }
 
   public static LauncherState getCurrentState() {

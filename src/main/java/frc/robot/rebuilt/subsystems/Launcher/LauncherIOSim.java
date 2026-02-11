@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Degrees;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.IndexerCommands.IndexerState;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
@@ -46,7 +47,8 @@ public class LauncherIOSim extends LauncherIOReal {
                       worldPose.getTranslation(),
                       flyWheel.getRelativeMechanismPosition().toTranslation2d(),
                       Rebuilt.drivetrain.getFieldVelocity(),
-                      worldPose.getRotation(),
+                      Rotation2d.fromDegrees(
+                          worldPose.getRotation().getMeasure().plus(turret.getAngle()).in(Degrees)),
                       flyWheel.getRelativeMechanismPosition().getMeasureZ(),
                       getFlyWheelExitSpeed(flyWheel.getSpeed()),
                       Degrees.of(90.0).minus(hood.getAngle()))

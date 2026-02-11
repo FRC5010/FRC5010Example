@@ -85,6 +85,7 @@ public class YamsPivotConfigurationJson implements DeviceConfiguration {
                 UnitsParser.parseAngle(lowerHardLimit), UnitsParser.parseAngle(upperHardLimit))
             .withTelemetry(motorSetup.name, TelemetryVerbosity.valueOf(motorSetup.logLevel))
             .withStartingPosition(UnitsParser.parseAngle(startingAngle))
+            .withMechanismPositionConfig(motorSetup.getMechanismPositionConfig())
             .withMOI(UnitsParser.parseDistance(radius), UnitsParser.parseMass(mass));
     Pivot pivot = new Pivot(pivotConfig);
     return pivot;

@@ -31,7 +31,7 @@ public class Intake extends GenericSubsystem {
     io.runSpintake(speed);
   }
 
-  public void Config(Controller controller) {}
+  public void configTestControls(Controller controller) {}
 
   public Command spintakeCommand(double speed) {
     return Commands.run(

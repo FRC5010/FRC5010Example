@@ -47,7 +47,7 @@ public class Climb extends GenericSubsystem {
         this);
   }
 
-  public void configTestController(Controller controller) {
+  public void configTestControls(Controller controller) {
     controller.createBButton().whileTrue(climberCommand(Meters.of(.5)));
   }
 

@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.commands.IndexerCommands.IndexerState;
 import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.sensors.Controller;
 import org.littletonrobotics.junction.Logger;
 
 public class Indexer extends GenericSubsystem {
   private final IndexerIO io;
   private final IndexerIOInputsAutoLogged inputs = new IndexerIOInputsAutoLogged();
-  ;
 
   /** Creates a new Index. */
   public Indexer() {
@@ -45,8 +45,10 @@ public class Indexer extends GenericSubsystem {
     io.runTransferFront(speed);
   }
 
-  public void configTestController(Controller controller) {
-    controller.createLeftBumper().whileTrue((spindexerCommand(.25)).alongWith(feederCommand(0.25)));
+  public void configTestControls(Controller controller) {
+    controller
+        .createRightBumper()
+        .whileTrue((spindexerCommand(.25)).alongWith(feederCommand(0.25)));
   }
 
   public Command feederCommand(double speed) {
@@ -99,5 +101,9 @@ public class Indexer extends GenericSubsystem {
 
   public void setRequestedState(IndexerState state) {
     inputs.stateRequested = state;
+  }
+
+  public void setDefaultCommands(StateMachine stateMachine) {
+    inputs.stateRequested = IndexerState.IDLE;
   }
 }

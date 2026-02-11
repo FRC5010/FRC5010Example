@@ -40,9 +40,9 @@ public class IndexerCommands {
 
     if (indexer != null) {
       stateMachine.addRequirements(indexer);
-      indexer.setDefaultCommand(stateMachine);
     }
   }
+
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
 
@@ -61,6 +61,10 @@ public class IndexerCommands {
     feedState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
     forceState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
     forceState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
+  }
+
+  public void setupDefaultCommands() {
+    indexer.setDefaultCommands(stateMachine);
   }
 
   public static Command forceStateCommand() {
@@ -92,7 +96,9 @@ public class IndexerCommands {
           indexer.runTransferBack(0);
         });
   }
-  // run feed command when Launcher State is idle and Operator Right Bumper is pressed
+
+  // run feed command when Launcher State is idle and Operator Right Bumper is
+  // pressed
   private static Command feedStateCommand() {
     return Commands.parallel(
         Commands.runOnce(

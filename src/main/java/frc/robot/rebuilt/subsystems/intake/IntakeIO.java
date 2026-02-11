@@ -3,6 +3,7 @@ package frc.robot.rebuilt.subsystems.intake;
 import static edu.wpi.first.units.Units.Degrees;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.commands.IntakeCommands;
 import org.littletonrobotics.junction.AutoLog;
 
@@ -21,6 +22,10 @@ public interface IntakeIO {
   public void setHopperAngle(Angle angle);
 
   public Boolean isRetracted();
+
+  public void runHopper(double speed);
+
+  public Command getHopperSysIdCommand();
 
   public default void updateInputs(IntakeIOInputs inputs) {}
 }

@@ -88,6 +88,7 @@ public class YamsArmConfigurationJson implements DeviceConfiguration {
             .withTelemetry(motorSetup.name, TelemetryVerbosity.valueOf(motorSetup.logLevel))
             .withMass(physicalParams.mass)
             .withStartingPosition(UnitsParser.parseAngle(startingAngle))
+            .withMechanismPositionConfig(motorSetup.getMechanismPositionConfig())
             .withHorizontalZero(UnitsParser.parseAngle(horizontalZero));
     Arm arm = new Arm(armConfig);
     return arm;

@@ -77,7 +77,7 @@ public class YamsShooterConfigurationJson implements DeviceConfiguration {
     }
     FlyWheelConfig shooterConfig =
         new FlyWheelConfig(smartMotor.get())
-            // .withMechanismPositionConfig(motorSetup.getMechanismPositionConfig())
+            .withMechanismPositionConfig(motorSetup.getMechanismPositionConfig())
             .withDiameter(UnitsParser.parseDistance(radius).times(2.0))
             .withMass(UnitsParser.parseMass(mass))
             .withUpperSoftLimit(UnitsParser.parseAngularVelocity(upperSoftLimit))

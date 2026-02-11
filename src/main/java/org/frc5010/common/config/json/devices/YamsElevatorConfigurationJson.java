@@ -92,6 +92,7 @@ public class YamsElevatorConfigurationJson implements DeviceConfiguration {
                 UnitsParser.parseDistance(lowerHardLimit),
                 UnitsParser.parseDistance(upperHardLimit))
             .withTelemetry(motorSetup.name, TelemetryVerbosity.valueOf(motorSetup.logLevel))
+            .withMechanismPositionConfig(motorSetup.getMechanismPositionConfig())
             .withMass(UnitsParser.parseMass(mass));
     Elevator elevator = new Elevator(m_config);
     return elevator;

@@ -16,7 +16,9 @@ import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -53,8 +55,9 @@ public class LauncherIOReal implements LauncherIO {
     turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     flyWheel = (FlyWheel) devices.get("flywheel");
-    crtEncoder40 = new CANcoder(1, "canivore");
-    crtEncoder36 = new CANcoder(2, "canivore");
+    CANBus canivoreBus = new CANBus("canivore");
+    crtEncoder40 = new CANcoder(1, canivoreBus);
+    crtEncoder36 = new CANcoder(2, canivoreBus);
     double sensor40Sim = 10;
     double sensor36Sim = 20;
     crtSensor40 =
@@ -100,12 +103,23 @@ public class LauncherIOReal implements LauncherIO {
   @Override()
   public void updateInputs(LauncherIOInputs inputs) {
     ShotCalculator.getInstance().clearShootingParameters();
-    ShotCalculator.ShootingParameters params = ShotCalculator.getInstance().getParameters();
-    if (params != null && params.isValid()) {
+    ShotCalculator.ShootingParameters params =
+        ShotCalculator.getInstance()
+            .getParameters(
+                turret
+                    .getPivotConfig()
+                    .getMechanismPositionConfig()
+                    .getRelativePosition()
+                    .get()
+                    .toTranslation2d(),
+                Rotation2d.fromDegrees(turret.getAngle().in(Degrees)));
+    inputs.isValidCalculation = false;
+    if (params != null) {
+      inputs.isValidCalculation = params.isValid();
       inputs.hoodAngleCalculated = Radian.of(params.hoodAngle());
       inputs.turretAngleCalculated = params.turretAngle().getMeasure();
       inputs.flyWheelSpeedCalculated = RotationsPerSecond.of(params.flywheelSpeed());
-      // TODO: Use parameters to set turret, hood and flywheel desired values
+      inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
     }
 
     inputs.flyWheelSpeedDesired =

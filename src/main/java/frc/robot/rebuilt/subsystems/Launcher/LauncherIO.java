@@ -24,6 +24,8 @@ public interface LauncherIO {
     public LauncherCommands.LauncherState stateRequested = LauncherCommands.LauncherState.IDLE;
     public LauncherCommands.LauncherState stateCurrent = LauncherCommands.LauncherState.IDLE;
 
+    public boolean isValidCalculation = false;
+    public Distance distanceToVirtualTarget = Meters.of(0.0);
     public AngularVelocity flyWheelSpeedDesired = RPM.of(0.0);
 
     public AngularVelocity flyWheelSpeedCalculated = RotationsPerSecond.of(0.0);

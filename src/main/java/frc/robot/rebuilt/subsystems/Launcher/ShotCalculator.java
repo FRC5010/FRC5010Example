@@ -7,16 +7,19 @@
 
 package frc.robot.rebuilt.subsystems.Launcher;
 
+import static edu.wpi.first.units.Units.Meters;
+
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.units.measure.Distance;
 import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.Rebuilt;
 import lombok.experimental.ExtensionMethod;
@@ -44,6 +47,10 @@ public class ShotCalculator {
   private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
   private static Translation2d allianceSideRight = FieldConstants.Tower.rightUpright;
   private static Translation2d currentTarget = hubTarget;
+  private final String targetName = "Target";
+  private final String lookAhead = "Lookahead";
+  private final String virtualTarget = "VirtualTarget";
+  private final String turret = "Turret";
 
   public static ShotCalculator getInstance() {
     if (instance == null) instance = new ShotCalculator();
@@ -56,7 +63,8 @@ public class ShotCalculator {
       double turretVelocity,
       double hoodAngle,
       double hoodVelocity,
-      double flywheelSpeed) {}
+      double flywheelSpeed,
+      Distance distanceToVirtualTarget) {}
 
   // Cache parameters
   private ShootingParameters latestParameters = null;
@@ -106,7 +114,8 @@ public class ShotCalculator {
     timeOfFlightMap.put(1.38, 0.90);
   }
 
-  public ShootingParameters getParameters() {
+  public ShootingParameters getParameters(
+      Translation2d turretRelativePosition, Rotation2d turretRelativeAngle) {
     if (latestParameters != null) {
       return latestParameters;
     }
@@ -122,9 +131,13 @@ public class ShotCalculator {
                 robotRelativeVelocity.omegaRadiansPerSecond * phaseDelay));
 
     // Calculate distance from turret to target
-    Translation2d target = 
-        AllianceFlipUtil.apply(currentTarget);
-    Pose2d turretPosition = estimatedPose.transformBy(Launcher.robotToTurret.toTransform2d());
+    Translation2d target = AllianceFlipUtil.apply(currentTarget);
+    Pose2d turretPosition =
+        estimatedPose.transformBy(
+            new Transform2d(
+                turretRelativePosition.getMeasureX(),
+                turretRelativePosition.getMeasureY(),
+                turretRelativeAngle));
     double turretToTargetDistance = target.getDistance(turretPosition.getTranslation());
 
     // Calculate field relative turret velocity
@@ -176,11 +189,23 @@ public class ShotCalculator {
             turretVelocity,
             hoodAngle,
             hoodVelocity,
-            shotFlywheelSpeedMap.get(lookaheadTurretToTargetDistance));
+            shotFlywheelSpeedMap.get(lookaheadTurretToTargetDistance),
+            Meters.of(lookaheadTurretToTargetDistance));
 
     // Log calculated values
     Logger.recordOutput("ShotCalculator/LookaheadPose", lookaheadPose);
     Logger.recordOutput("ShotCalculator/TurretToTargetDistance", lookaheadTurretToTargetDistance);
+
+    Rebuilt.drivetrain
+        .getField2d()
+        .getObject(targetName)
+        .setPose(new Pose2d(target, target.getAngle()));
+    Rebuilt.drivetrain.getField2d().getObject(lookAhead).setPose(lookaheadPose);
+    Translation2d virtualTargetTranslation =
+        target.minus(lookaheadPose.getTranslation().minus(turretPosition.getTranslation()));
+    Pose2d virtualTargetPose = new Pose2d(virtualTargetTranslation, lastTurretAngle);
+    Rebuilt.drivetrain.getField2d().getObject(virtualTarget).setPose(virtualTargetPose);
+    Rebuilt.drivetrain.getField2d().getObject(turret).setPose(turretPosition);
 
     return latestParameters;
   }
@@ -189,15 +214,15 @@ public class ShotCalculator {
     latestParameters = null;
   }
 
-  public static void setTargetAllianceLeft(){
+  public static void setTargetAllianceLeft() {
     currentTarget = allianceSideLeft;
   }
 
-  public static void setTargetAllianceRight(){
+  public static void setTargetAllianceRight() {
     currentTarget = allianceSideRight;
   }
 
-  public static void setTargetHub(){
+  public static void setTargetHub() {
     currentTarget = hubTarget;
   }
 }

@@ -32,7 +32,10 @@ public class Launcher extends GenericSubsystem {
     super("launcher.json");
     Pivot turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
-    robotToTurret = new Transform3d(turret.getRelativeMechanismPosition(), new Rotation3d());
+    robotToTurret =
+        new Transform3d(
+            turret.getPivotConfig().getMechanismPositionConfig().getRelativePosition().get(),
+            new Rotation3d());
 
     if (RobotBase.isSimulation()) {
       io = new LauncherIOSim(devices);

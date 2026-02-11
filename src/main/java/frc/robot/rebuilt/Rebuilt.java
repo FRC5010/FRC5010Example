@@ -42,7 +42,7 @@ public class Rebuilt extends GenericRobot {
 
   public Rebuilt(String directory) {
     super(directory);
-    AllianceFlipUtil.configure(FieldConstants.FIELD_LENGTH, FieldConstants.FIELD_WIDTH);
+    AllianceFlipUtil.configure(FieldConstants.FIELD_WIDTH, FieldConstants.FIELD_LENGTH);
     indexer = new Indexer();
     climb = new Climb();
     intake = new Intake();
@@ -59,6 +59,7 @@ public class Rebuilt extends GenericRobot {
   @Override
   public void configureButtonBindings(Controller driver, Controller operator) {
     if (!isButtonsConfigured) {
+      drivetrain.configureButtonBindings(driver, operator);
       climbCommands.configureButtonBindings(driver, operator);
       launcherCommands.configureButtonBindings(driver, operator);
       intakecommands.configureButtonBindings(driver);

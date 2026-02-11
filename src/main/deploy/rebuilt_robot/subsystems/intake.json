@@ -1,0 +1,12 @@
+{
+  "devices": [
+    {
+      "device": "yams_shooter",
+      "file": "intake/spintake.json"
+    },
+    {
+      "device": "yams_arm",
+      "file": "intake/hopper.json"
+    }
+  ]
+}

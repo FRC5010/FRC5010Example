@@ -10,12 +10,62 @@
       }
     },
     "Other Devices": {
+      "CANcoder (v6)[16]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [10]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [11]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [11] RELATIVE ENCODER": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [12]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [13]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [13] RELATIVE ENCODER": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [16]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [16] RELATIVE ENCODER": {
+        "header": {
+          "open": true
+        }
+      },
       "SPARK MAX [5]": {
         "header": {
           "open": true
         }
       },
       "SPARK MAX [7]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [9]": {
         "header": {
           "open": true
         }
@@ -64,6 +114,9 @@
         "header": {
           "open": true
         }
+      },
+      "window": {
+        "visible": false
       }
     }
   },
@@ -86,8 +139,10 @@
       "/Shuffleboard/BabySwerve/Auto Modes": "String Chooser",
       "/Shuffleboard/ExampleRobot/Auto Modes": "String Chooser",
       "/SmartDashboard/Alerts": "Alerts",
+      "/SmartDashboard/Alpha/Auto Modes": "String Chooser",
       "/SmartDashboard/Arm/mechanism": "Mechanism2d",
       "/SmartDashboard/Auto Modes": "String Chooser",
+      "/SmartDashboard/Climb/mechanism": "Mechanism2d",
       "/SmartDashboard/Drive Visual": "Mechanism2d",
       "/SmartDashboard/DrivePoseEstimator/Pose Field": "Field2d",
       "/SmartDashboard/DrivePoseEstimator/values/Pose Field": "Field2d",
@@ -98,6 +153,10 @@
       "/SmartDashboard/Hood/mechanism": "Mechanism2d",
       "/SmartDashboard/IMU": "Alerts",
       "/SmartDashboard/JSON": "Alerts",
+      "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/Down": "Command",
+      "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/Up": "Command",
+      "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/ZeroEncoder": "Command",
+      "/SmartDashboard/Mechanisms/Commands/climb.json/Live Tuning": "Command",
       "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/Down": "Command",
       "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/LiveTuning": "Command",
       "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/Up": "Command",
@@ -108,28 +167,31 @@
       "/SmartDashboard/PhotonAlerts": "Alerts",
       "/SmartDashboard/Pigeon 2 (v6) [13]": "Gyro",
       "/SmartDashboard/Pigeon 2 [13]": "Gyro",
+      "/SmartDashboard/Rebuilt/Auto Modes": "String Chooser",
       "/SmartDashboard/Robot Visual": "Mechanism2d",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Shooter/mechanism": "Mechanism2d",
       "/SmartDashboard/Swerve Drive": "Alerts",
+      "/SmartDashboard/TigerShark/Auto Modes": "String Chooser",
       "/SmartDashboard/Turret/mechanism": "Mechanism2d",
       "/SmartDashboard/VisionSystemSim-Vision/Sim Field": "Field2d",
       "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d",
+      "/SmartDashboard/flywheel/mechanism": "Mechanism2d",
+      "/SmartDashboard/hood/mechanism": "Mechanism2d",
       "/SmartDashboard/hoodmotor/mechanism": "Mechanism2d",
+      "/SmartDashboard/hopper/mechanism": "Mechanism2d",
+      "/SmartDashboard/lifter/mechanism": "Mechanism2d",
+      "/SmartDashboard/lowershootermotor/mechanism": "Mechanism2d",
       "/SmartDashboard/navX-Sensor[1]": "Gyro",
-      "/SmartDashboard/navX-Sensor[4]": "Gyro"
+      "/SmartDashboard/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/pinion/mechanism": "Mechanism2d",
+      "/SmartDashboard/spintake/mechanism": "Mechanism2d",
+      "/SmartDashboard/turret/mechanism": "Mechanism2d",
+      "/SmartDashboard/turretmotor/mechanism": "Mechanism2d",
+      "/SmartDashboard/uppershootermotor/mechanism": "Mechanism2d",
+      "/SmartDashboard/winch_motor/mechanism": "Mechanism2d"
     },
     "windows": {
-      "/FMSInfo": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Drive Visual": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/DrivePoseEstimator/Pose Field": {
         "CARPET0": {
           "image": ".\\pictures\\carpet.png",
@@ -811,11 +873,6 @@
           "visible": true
         }
       },
-      "/SmartDashboard/ExampleRobot/Auto Modes": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Field": {
         "OdometryPose": {
           "arrowColor": [
@@ -841,14 +898,7 @@
         "left": 245,
         "right": 3942,
         "top": 118,
-        "width": 16.54119300842285
-      },
-      "/SmartDashboard/Robot Visual": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Shooter/mechanism": {
+        "width": 16.54119300842285,
         "window": {
           "visible": true
         }
@@ -864,7 +914,17 @@
           "visible": true
         }
       },
-      "/SmartDashboard/hoodmotor/mechanism": {
+      "/SmartDashboard/flywheel/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/hood/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/turret/mechanism": {
         "window": {
           "visible": true
         }
@@ -894,6 +954,15 @@
     "transitory": {
       "AdvantageKit": {
         "Drive": {
+          "open": true
+        },
+        "Indexer": {
+          "open": true
+        },
+        "Intake": {
+          "open": true
+        },
+        "Launcher": {
           "open": true
         },
         "Vision": {
@@ -935,6 +1004,9 @@
         "open": true
       },
       "Shuffleboard": {
+        ".metadata": {
+          "open": true
+        },
         "ExampleSubsystem": {
           "percent_motor": {
             "open": true
@@ -953,6 +1025,9 @@
           },
           "open": true
         },
+        "ClimbCommands": {
+          "open": true
+        },
         "Drive Feedforward": {
           "open": true
         },
@@ -966,6 +1041,18 @@
         },
         "ExampleRobot": {
           "values": {
+            "open": true
+          }
+        },
+        "Indexer": {
+          "open": true,
+          "spindexer": {
+            "open": true
+          },
+          "transfer_back": {
+            "open": true
+          },
+          "transfer_front": {
             "open": true
           }
         },
@@ -999,5 +1086,8 @@
         }
       }
     }
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

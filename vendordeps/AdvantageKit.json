@@ -31,5 +31,6 @@
       ]
     }
   ],
-  "cppDependencies": []
+  "cppDependencies": [],
+  "filterNotes": "FIR (Finite Impulse Response): output is finite-length convolution of input with fixed coefficients. Always stable, can be designed for exact linear phase, but may need higher order for sharp filters. IIR (Infinite Impulse Response): uses feedback (recursive) so impulse response is theoretically infinite. More efficient (lower order) but can be unstable and usually has non-linear phase. Choose FIR when linear phase or guaranteed stability is required; choose IIR for lower complexity/latency when phase and slight instability can be managed."
 }

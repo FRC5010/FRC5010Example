@@ -46,9 +46,7 @@ public class Indexer extends GenericSubsystem {
   }
 
   public void configTestControls(Controller controller) {
-    controller
-        .createRightBumper()
-        .whileTrue((spindexerCommand(.25)).alongWith(feederCommand(0.25)));
+    controller.createLeftBumper().whileTrue((spindexerCommand(.25)).alongWith(feederCommand(0.25)));
   }
 
   public Command feederCommand(double speed) {

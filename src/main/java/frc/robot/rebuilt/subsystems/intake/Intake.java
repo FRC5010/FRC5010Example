@@ -62,9 +62,7 @@ public class Intake extends GenericSubsystem {
   }
 
   public void configTestController(Controller controller) {
-    controller
-        .createRightBumper()
-        .whileTrue(indexer.spindexerCommand(0.5).andThen(spintakeCommand(0.5)));
+    controller.createRightBumper().whileTrue(spintakeCommand(0.5));
     controller.createYButton().whileTrue(getHopperSysIdCommand());
     controller.setRightYAxis(controller.createRightYAxis());
     Trigger rightYAxis = new Trigger(() -> controller.getRightYAxis() > 0.25);

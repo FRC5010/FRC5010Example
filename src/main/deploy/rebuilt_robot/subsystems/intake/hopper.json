@@ -4,6 +4,7 @@
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
     "canId": 14,
+    "logLevel": "HIGH",
     "followers": [
       {
         "canId": 20,

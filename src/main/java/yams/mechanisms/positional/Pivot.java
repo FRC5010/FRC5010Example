@@ -361,16 +361,14 @@ public class Pivot extends SmartPositionalMechanism {
       if (m_config.getLowerHardLimit().isPresent()
           && m_dcmotorSim.get().getAngularVelocityRadPerSec() < 0
           && m_smc.getMechanismPosition().lt(m_config.getLowerHardLimit().get())) {
-        m_dcmotorSim.get().setAngularVelocity(0);
         m_smc.setEncoderPosition(m_config.getLowerHardLimit().get());
-        // m_dcmotorSim.get().setState(m_config.getLowerHardLimit().get().in(Degrees), 0);
+        m_dcmotorSim.get().setAngularVelocity(0);
       }
       if (m_config.getUpperHardLimit().isPresent()
           && m_dcmotorSim.get().getAngularVelocityRadPerSec() > 0
           && m_smc.getMechanismPosition().gt(m_config.getUpperHardLimit().get())) {
-        m_dcmotorSim.get().setAngularVelocity(0);
         m_smc.setEncoderPosition(m_config.getUpperHardLimit().get());
-        // m_dcmotorSim.get().setState(m_config.getUpperHardLimit().get().in(Degrees), 0);
+        m_dcmotorSim.get().setAngularVelocity(0);
       }
       RoboRioSim.setVInVoltage(
           BatterySim.calculateDefaultBatteryLoadedVoltage(m_dcmotorSim.get().getCurrentDrawAmps()));

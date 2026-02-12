@@ -54,11 +54,13 @@ public class YamsPivotConfigurationJson implements DeviceConfiguration {
             .withFeedforward(
                 new ArmFeedforward(
                     motorSystemId.feedForward.s,
+                    0,
                     motorSystemId.feedForward.v,
                     motorSystemId.feedForward.a))
             .withFeedforward(
                 new ArmFeedforward(
                     simSystemId.feedForward.s,
+                    0,
                     simSystemId.feedForward.v,
                     simSystemId.feedForward.a))
             .withControlMode(ControlMode.valueOf(motorSystemId.controlMode));

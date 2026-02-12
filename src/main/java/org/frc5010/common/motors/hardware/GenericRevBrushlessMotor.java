@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.Seconds;
 import com.revrobotics.PersistMode;
 import com.revrobotics.REVLibError;
 import com.revrobotics.ResetMode;
+import com.revrobotics.sim.SparkFlexSim;
 import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase;
@@ -52,6 +53,8 @@ public class GenericRevBrushlessMotor implements GenericMotorController {
   protected DCMotor motorSim;
   /** The maximum angular velocity */
   protected AngularVelocity maxRPM;
+  /** MaxOrFlex */
+  protected boolean maxOrFlex;
 
   /** The configuration of the motor */
   protected Motor config;
@@ -70,6 +73,7 @@ public class GenericRevBrushlessMotor implements GenericMotorController {
   private RevSparkController controller;
 
   public GenericRevBrushlessMotor(int port, boolean maxOrFlex) {
+    this.maxOrFlex = maxOrFlex;
     if (maxOrFlex) {
       motor = new SparkMax(port, MotorType.kBrushless);
     } else {
@@ -84,12 +88,13 @@ public class GenericRevBrushlessMotor implements GenericMotorController {
    * @param config the configuration
    * @param currentLimit the current limit
    */
-  public GenericRevBrushlessMotor(int port, Motor config, Current currentLimit) {
-    this(port, config, true);
+  public GenericRevBrushlessMotor(int port, Motor config, Current currentLimit, boolean maxOrFlex) {
+    this(port, config, maxOrFlex);
     setCurrentLimit(currentLimit);
   }
 
   public GenericRevBrushlessMotor(int port, Motor config, boolean maxOrFlex) {
+    this.maxOrFlex = maxOrFlex;
     if (maxOrFlex) {
       motor = new SparkMax(port, MotorType.kBrushless);
     } else {
@@ -118,7 +123,7 @@ public class GenericRevBrushlessMotor implements GenericMotorController {
   @Override
   public GenericMotorController duplicate(int port) {
     GenericMotorController duplicate =
-        new GenericRevBrushlessMotor(port, config, Amps.of(currentLimit));
+        new GenericRevBrushlessMotor(port, config, Amps.of(currentLimit), maxOrFlex);
     return duplicate;
   }
 
@@ -470,7 +475,11 @@ public class GenericRevBrushlessMotor implements GenericMotorController {
   @Override
   public void setMotorSimulationType(DCMotor motorSimulationType) {
     motorSim = motorSimulationType;
-    encoder.setSimulation(new SparkMaxSim(((SparkMax) motor), motorSim));
+    if (maxOrFlex) {
+      encoder.setSimulation(new SparkMaxSim(((SparkMax) motor), motorSim));
+    } else {
+      encoder.setSimulation(new SparkFlexSim(((SparkFlex) motor), motorSim));
+    }
   }
 
   /**

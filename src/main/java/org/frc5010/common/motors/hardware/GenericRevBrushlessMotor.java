@@ -85,12 +85,16 @@ public class GenericRevBrushlessMotor implements GenericMotorController {
    * @param currentLimit the current limit
    */
   public GenericRevBrushlessMotor(int port, Motor config, Current currentLimit) {
-    this(port, config);
+    this(port, config, true);
     setCurrentLimit(currentLimit);
   }
 
-  public GenericRevBrushlessMotor(int port, Motor config) {
-    motor = new SparkMax(port, MotorType.kBrushless);
+  public GenericRevBrushlessMotor(int port, Motor config, boolean maxOrFlex) {
+    if (maxOrFlex) {
+      motor = new SparkMax(port, MotorType.kBrushless);
+    } else {
+      motor = new SparkFlex(port, MotorType.kBrushless);
+    }
     this.config = config;
     factoryDefaults();
     clearStickyFaults();

@@ -32,8 +32,10 @@ public class DeviceConfigReader {
     GenericMotorController motor;
     switch (controller) {
       case "spark":
-      case "sparkflex":
         motor = MotorFactory.Spark(id, Motor.valueOf(type));
+        break;
+      case "sparkflex":
+        motor = MotorFactory.SparkFlex(id, Motor.valueOf(type));
         break;
       case "talonfx":
         motor = MotorFactory.TalonFX(id, Motor.valueOf(type));

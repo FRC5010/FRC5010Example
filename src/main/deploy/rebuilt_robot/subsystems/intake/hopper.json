@@ -30,6 +30,7 @@
       }
     }
   },
+  "controlAlgorithm": "PROFILED",
   "motorSystemId": {
     "feedBack": {
       "p": 4,

@@ -24,6 +24,7 @@
       }
     }
   },
+  "controlAlgorithm": "SIMPLE",
   "motorSystemId": {
     "feedBack": {
       "p": 2.7739E-10,

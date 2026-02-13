@@ -4,6 +4,7 @@
     "controllerType": "sparkflex",
     "motorType": "NeoVortex",
     "canId": 12,
+    "logLevel": "HIGH",
     "followers": [
       {
         "canId": 13,

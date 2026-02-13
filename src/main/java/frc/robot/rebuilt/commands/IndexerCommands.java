@@ -46,8 +46,8 @@ public class IndexerCommands {
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
 
-    driver.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
-    operator.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    driver.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     // driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
     // conflicting actions one changes to Force other Churn
     idleState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));

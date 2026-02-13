@@ -78,16 +78,13 @@
     "val": 5000,
     "uom": "rpm"
   },
-  "gearing": [
-    3,
-    4
-  ],
+  "gearStages": "1:18",
   "mass": {
-    "val": 2,
-    "uom": "kg"
+    "val": 5.1,
+    "uom": "lbs"
   },
   "radius": {
-    "val": 0.05,
-    "uom": "m"
+    "val": 1.975,
+    "uom": "in"
   }
 }

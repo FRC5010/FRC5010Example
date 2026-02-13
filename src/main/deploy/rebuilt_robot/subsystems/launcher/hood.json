@@ -65,39 +65,36 @@
     }
   },
   "length": {
-    "val": 0.234,
-    "uom": "m"
+    "val": 9.466,
+    "uom": "in"
   },
   "lowerHardLimit": {
-    "val": 55,
+    "val": 30,
     "uom": "deg"
   },
   "upperHardLimit": {
-    "val": 100,
+    "val": 60,
     "uom": "deg"
   },
   "startingAngle": {
-    "val": 55,
+    "val": 30,
     "uom": "deg"
   },
   "lowerSoftLimit": {
-    "val": 55,
+    "val": 30,
     "uom": "deg"
   },
   "upperSoftLimit": {
-    "val": 85,
+    "val": 60,
     "uom": "deg"
   },
-  "gearing": [
-    3,
-    4
-  ],
+  "gearStages": "11:28",
   "mass": {
-    "val": 1,
+    "val": 0.25,
     "uom": "lbs"
   },
   "horizontalZero": {
-    "val": 55,
+    "val": 30,
     "uom": "deg"
   }
 }

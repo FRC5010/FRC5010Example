@@ -36,8 +36,11 @@ public class IntakeCommands {
     intakeStateMachine.setInitialState(retracted);
     if (intake != null) {
       intakeStateMachine.addRequirements(intake);
-      intake.setDefaultCommand(intakeStateMachine);
     }
+  }
+
+  public void setupDefaultCommands() {
+    intake.setDefaultCommand(intakeStateMachine);
   }
 
   public void configureButtonBindings(Controller controller) {

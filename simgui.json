@@ -153,10 +153,31 @@
       "/SmartDashboard/Hood/mechanism": "Mechanism2d",
       "/SmartDashboard/IMU": "Alerts",
       "/SmartDashboard/JSON": "Alerts",
+      "/SmartDashboard/Mechanisms/Commands/Climb/Live Tuning": "Command",
       "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/Down": "Command",
       "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/Up": "Command",
       "/SmartDashboard/Mechanisms/Commands/ElevatorMotor/ZeroEncoder": "Command",
+      "/SmartDashboard/Mechanisms/Commands/Intake/Live Tuning": "Command",
+      "/SmartDashboard/Mechanisms/Commands/Launcher/Live Tuning": "Command",
       "/SmartDashboard/Mechanisms/Commands/climb.json/Live Tuning": "Command",
+      "/SmartDashboard/Mechanisms/Commands/flywheelMotor/Down": "Command",
+      "/SmartDashboard/Mechanisms/Commands/flywheelMotor/Up": "Command",
+      "/SmartDashboard/Mechanisms/Commands/flywheelMotor/ZeroEncoder": "Command",
+      "/SmartDashboard/Mechanisms/Commands/hoodMotor/Down": "Command",
+      "/SmartDashboard/Mechanisms/Commands/hoodMotor/Up": "Command",
+      "/SmartDashboard/Mechanisms/Commands/hoodMotor/ZeroEncoder": "Command",
+      "/SmartDashboard/Mechanisms/Commands/hopperMotor/Down": "Command",
+      "/SmartDashboard/Mechanisms/Commands/hopperMotor/Up": "Command",
+      "/SmartDashboard/Mechanisms/Commands/hopperMotor/ZeroEncoder": "Command",
+      "/SmartDashboard/Mechanisms/Commands/lifterMotor/Down": "Command",
+      "/SmartDashboard/Mechanisms/Commands/lifterMotor/Up": "Command",
+      "/SmartDashboard/Mechanisms/Commands/lifterMotor/ZeroEncoder": "Command",
+      "/SmartDashboard/Mechanisms/Commands/spintakeMotor/Down": "Command",
+      "/SmartDashboard/Mechanisms/Commands/spintakeMotor/Up": "Command",
+      "/SmartDashboard/Mechanisms/Commands/spintakeMotor/ZeroEncoder": "Command",
+      "/SmartDashboard/Mechanisms/Commands/turretMotor/Down": "Command",
+      "/SmartDashboard/Mechanisms/Commands/turretMotor/Up": "Command",
+      "/SmartDashboard/Mechanisms/Commands/turretMotor/ZeroEncoder": "Command",
       "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/Down": "Command",
       "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/LiveTuning": "Command",
       "/SmartDashboard/Mechanisms/Shooter/ShooterMotor/Commands/Up": "Command",
@@ -1057,6 +1078,27 @@
           }
         },
         "Wheel Radius Characterization": {
+          "open": true
+        },
+        "flywheel": {
+          "mechanism": {
+            "flywheelRoot": {
+              "flywheel": {
+                "open": true
+              },
+              "flywheel Lower Limit": {
+                "open": true
+              },
+              "flywheel Upper Limit": {
+                "open": true
+              },
+              "open": true
+            },
+            "open": true
+          },
+          "open": true
+        },
+        "hood": {
           "open": true
         },
         "open": true

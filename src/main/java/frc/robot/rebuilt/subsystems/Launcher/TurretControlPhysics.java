@@ -1,0 +1,355 @@
+package frc.robot.rebuilt.subsystems.Launcher;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import java.util.function.DoubleFunction;
+
+public class TurretControlPhysics {
+
+
+  private final Translation2d turretOffsetRobotFrame;
+  private final Rotation2d minTurretAngle;
+  private final Rotation2d maxTurretAngle;
+  private final Rotation2d feedforwardPaddingAngle;
+  private final double settlingTimeGain; // Alpha filter gain (0.0 to 1.0)
+
+  private static final double DERIVATIVE_PROBE_TIME_DELTA = 0.005; // 5ms
+  private static final int MAX_SOLVER_ITERATIONS = 4;
+  private static final double CONVERGENCE_THRESHOLD_SECONDS = 0.001;
+
+
+  private final DoubleFunction<Double> timeOfFlightFunction;
+  private final DoubleFunction<Double> settlingTimeFunction;
+  private final double minEffectiveRangeMeters;
+  private final double maxEffectiveRangeMeters;
+
+
+  public record RobotState(Pose2d pose, ChassisSpeeds velocity, ChassisSpeeds acceleration) {}
+
+  @FunctionalInterface
+  public interface RobotPredictor {
+    RobotState predict(double timeSinceStartSeconds, double lookaheadSeconds);
+  }
+
+  /**
+   * @param turretOffsetRobotFrame Vector from robot center to turret center (Robot Frame).
+   * @param minTurretAngle Minimum physical rotation limit (e.g. -165 deg).
+   * @param maxTurretAngle Maximum physical rotation limit (e.g. +165 deg).
+   * @param feedforwardPaddingAngle Buffer zone near limits where velocity is ramped down.
+   * @param settlingGain Gain for settling time estimation (<1.0 underestimates to prevent
+   *     oscillation).
+   * @param timeOfFlightFunc Function returning projectile flight time (s) given distance (m).
+   * @param settlingTimeFunc Function returning turret settling time (s) given angle error (rad).
+   * @param minRangeMeters Minimum effective shot range.
+   * @param maxRangeMeters Maximum effective shot range.
+   */
+  public TurretControlPhysics(
+      Translation2d turretOffsetRobotFrame,
+      Rotation2d minTurretAngle,
+      Rotation2d maxTurretAngle,
+      Rotation2d feedforwardPaddingAngle,
+      double settlingGain,
+      DoubleFunction<Double> timeOfFlightFunc,
+      DoubleFunction<Double> settlingTimeFunc,
+      double minRangeMeters,
+      double maxRangeMeters) {
+
+    this.turretOffsetRobotFrame = turretOffsetRobotFrame;
+    this.minTurretAngle = minTurretAngle;
+    this.maxTurretAngle = maxTurretAngle;
+    this.feedforwardPaddingAngle = feedforwardPaddingAngle;
+    this.settlingTimeGain = settlingGain;
+    this.timeOfFlightFunction = timeOfFlightFunc;
+    this.settlingTimeFunction = settlingTimeFunc;
+    this.minEffectiveRangeMeters = minRangeMeters;
+    this.maxEffectiveRangeMeters = maxRangeMeters;
+  }
+
+  public enum AimingStatus {
+    READY_TO_FIRE,
+    TARGET_TOO_CLOSE,
+    TARGET_TOO_FAR,
+    IN_DEADZONE,
+    SOLVER_FAILED
+  }
+
+  public record AimingSolution(
+      Translation2d virtualTargetFieldPos,
+      Rotation2d turretFieldHeading,
+      Rotation2d turretLocalHeading,
+      double turretFeedforwardRadPerSec,
+      double effectiveDistanceMeters,
+      double estimatedTimeOfFlight,
+      AimingStatus status,
+      SolverState finalSolverState) {
+    public boolean isPossible() {
+      return status == AimingStatus.READY_TO_FIRE;
+    }
+  }
+
+  /**
+   * Solves for the optimal turret angle and feedforward velocity.
+   *
+   * @param targetFieldPos The field-relative position of the target.
+   * @param currentTurretAngle The current robot-relative angle of the turret.
+   * @param predictor The prediction logic to estimate future robot states.
+   * @return A complete aiming solution including setpoints and status.
+   */
+  public AimingSolution solve(
+      Translation2d targetFieldPos, Rotation2d currentTurretAngle, RobotPredictor predictor) {
+
+
+    SolverState finalState = runNewtonSolver(targetFieldPos, currentTurretAngle, predictor);
+
+    Rotation2d fieldHeading = getAngleFromVector(finalState.vectorToVirtualTarget);
+    Rotation2d localHeading = fieldHeading.minus(finalState.robotStateAtFire.pose().getRotation());
+
+    double feedforwardRadPerSec = calculateKinematicFeedforward(finalState);
+
+    AimingStatus status = AimingStatus.READY_TO_FIRE;
+    double distanceToTarget = finalState.vectorToVirtualTarget.getNorm();
+
+    if (distanceToTarget < minEffectiveRangeMeters) {
+      status = AimingStatus.TARGET_TOO_CLOSE;
+    } else if (distanceToTarget > maxEffectiveRangeMeters) {
+      status = AimingStatus.TARGET_TOO_FAR;
+    } else if (!finalState.hasConverged) {
+      status = AimingStatus.SOLVER_FAILED;
+    }
+
+    double localHeadingRadians = MathUtil.angleModulus(localHeading.getRadians());
+    double minLimitRadians = minTurretAngle.getRadians();
+    double maxLimitRadians = maxTurretAngle.getRadians();
+
+
+    if (localHeadingRadians < minLimitRadians || localHeadingRadians > maxLimitRadians) {
+      status = AimingStatus.IN_DEADZONE;
+
+
+      if (feedforwardRadPerSec > 0.1) {
+        localHeading = minTurretAngle;
+      } else if (feedforwardRadPerSec < -0.1) {
+        localHeading = maxTurretAngle;
+      } else {
+  
+        double distanceToMin =
+            Math.abs(MathUtil.angleModulus(localHeadingRadians - minLimitRadians));
+        double distanceToMax =
+            Math.abs(MathUtil.angleModulus(localHeadingRadians - maxLimitRadians));
+        localHeading = (distanceToMin < distanceToMax) ? minTurretAngle : maxTurretAngle;
+      }
+
+      feedforwardRadPerSec = 0.0;
+
+    } else {
+      feedforwardRadPerSec =
+          applyFeedforwardSafetyPadding(localHeadingRadians, feedforwardRadPerSec);
+    }
+
+    return new AimingSolution(
+        finalState.virtualTargetFieldPos,
+        fieldHeading,
+        localHeading,
+        feedforwardRadPerSec,
+        distanceToTarget,
+        finalState.requiredTimeOfFlight,
+        status,
+        finalState);
+  }
+
+  private double applyFeedforwardSafetyPadding(
+      double currentAngleRadians, double commandedFeedforward) {
+    double minLimitRadians = minTurretAngle.getRadians();
+    double maxLimitRadians = maxTurretAngle.getRadians();
+    double paddingRadians = feedforwardPaddingAngle.getRadians();
+
+    if (commandedFeedforward > 0 && currentAngleRadians > (maxLimitRadians - paddingRadians)) {
+      double distanceToLimit = maxLimitRadians - currentAngleRadians;
+      double scaleFactor = MathUtil.clamp(distanceToLimit / paddingRadians, 0.0, 1.0);
+      return commandedFeedforward * scaleFactor;
+    }
+
+    if (commandedFeedforward < 0 && currentAngleRadians < (minLimitRadians + paddingRadians)) {
+      double distanceToLimit = currentAngleRadians - minLimitRadians;
+      double scaleFactor = MathUtil.clamp(distanceToLimit / paddingRadians, 0.0, 1.0);
+      return commandedFeedforward * scaleFactor;
+    }
+
+    return commandedFeedforward;
+  }
+
+
+  private SolverState runNewtonSolver(
+      Translation2d targetFieldPos, Rotation2d currentTurretAngle, RobotPredictor predictor) {
+
+    double timeFlightGuess = 0.5;
+    SolverState bestState = null;
+
+    for (int i = 0; i < MAX_SOLVER_ITERATIONS; i++) {
+      SolverState stateCurrent =
+          computePhysicsState(timeFlightGuess, targetFieldPos, currentTurretAngle, predictor);
+
+      if (Math.abs(stateCurrent.errorSeconds) < CONVERGENCE_THRESHOLD_SECONDS) {
+        return stateCurrent.markConverged();
+      }
+
+      SolverState stateProbe =
+          computePhysicsState(
+              timeFlightGuess + DERIVATIVE_PROBE_TIME_DELTA,
+              targetFieldPos,
+              currentTurretAngle,
+              predictor);
+
+      double slope =
+          (stateProbe.errorSeconds - stateCurrent.errorSeconds) / DERIVATIVE_PROBE_TIME_DELTA;
+
+      if (Math.abs(slope) < 1e-5) slope = Math.signum(slope) * 1e-5;
+
+      double newGuess = timeFlightGuess - (stateCurrent.errorSeconds / slope);
+      timeFlightGuess = Math.max(0.01, newGuess);
+
+      bestState = stateCurrent;
+    }
+    return bestState;
+  }
+
+  private SolverState computePhysicsState(
+      double timeFlightGuess,
+      Translation2d targetFieldPos,
+      Rotation2d currentTurretAngle,
+      RobotPredictor predictor) {
+
+    RobotState stateNow = predictor.predict(0.0, 0.0);
+
+    Translation2d estimatedVirtualTarget =
+        targetFieldPos.minus(
+            stateNow.velocity() != null
+                ? new Translation2d(
+                        stateNow.velocity().vxMetersPerSecond,
+                        stateNow.velocity().vyMetersPerSecond)
+                    .times(timeFlightGuess)
+                : new Translation2d());
+
+    Rotation2d robotHeadingNow = stateNow.pose().getRotation();
+    Translation2d turretOffsetNow = turretOffsetRobotFrame.rotateBy(robotHeadingNow);
+    Translation2d vectorToEstimatedTarget =
+        estimatedVirtualTarget.minus(stateNow.pose().getTranslation().plus(turretOffsetNow));
+
+    Rotation2d goalAngleLocal = getAngleFromVector(vectorToEstimatedTarget).minus(robotHeadingNow);
+    double angleErrorRadians =
+        Math.abs(MathUtil.angleModulus(goalAngleLocal.minus(currentTurretAngle).getRadians()));
+
+    double estimatedSettlingTime = settlingTimeFunction.apply(angleErrorRadians) * settlingTimeGain;
+
+    RobotState stateAtFire = predictor.predict(0.0, estimatedSettlingTime);
+    Rotation2d headingAtFire = stateAtFire.pose().getRotation();
+    Translation2d turretOffsetAtFire = turretOffsetRobotFrame.rotateBy(headingAtFire);
+
+    double robotAngularVelocity = stateAtFire.velocity().omegaRadiansPerSecond;
+
+    Translation2d tangentialVelocity =
+        new Translation2d(
+            -robotAngularVelocity * turretOffsetAtFire.getY(),
+            robotAngularVelocity * turretOffsetAtFire.getX());
+
+    Translation2d robotLinearVelocity =
+        new Translation2d(
+            stateAtFire.velocity().vxMetersPerSecond, stateAtFire.velocity().vyMetersPerSecond);
+
+    Translation2d inheritedMuzzleVelocity = robotLinearVelocity.plus(tangentialVelocity);
+
+    Translation2d virtualTargetPos =
+        targetFieldPos.minus(inheritedMuzzleVelocity.times(timeFlightGuess));
+
+    Translation2d gunPositionAtFire = stateAtFire.pose().getTranslation().plus(turretOffsetAtFire);
+    Translation2d vectorToVirtualTarget = virtualTargetPos.minus(gunPositionAtFire);
+
+    double distanceToVirtualTarget = vectorToVirtualTarget.getNorm();
+    double requiredTimeOfFlight = timeOfFlightFunction.apply(distanceToVirtualTarget);
+
+    double errorSeconds = timeFlightGuess - requiredTimeOfFlight;
+
+    return new SolverState(
+        errorSeconds,
+        requiredTimeOfFlight,
+        virtualTargetPos,
+        vectorToVirtualTarget,
+        inheritedMuzzleVelocity,
+        stateAtFire,
+        false);
+  }
+
+  private double calculateKinematicFeedforward(SolverState state) {
+    RobotState robotState = state.robotStateAtFire;
+    Rotation2d robotHeading = robotState.pose().getRotation();
+    Translation2d turretOffsetRotated = turretOffsetRobotFrame.rotateBy(robotHeading);
+
+    double robotOmega = robotState.velocity().omegaRadiansPerSecond;
+    double robotAlpha =
+        robotState.acceleration() != null ? robotState.acceleration().omegaRadiansPerSecond : 0.0;
+
+  
+    Translation2d accelTangential =
+        new Translation2d(
+            -robotAlpha * turretOffsetRotated.getY(), robotAlpha * turretOffsetRotated.getX());
+
+    Translation2d accelCentripetal = turretOffsetRotated.times(-(robotOmega * robotOmega));
+
+    Translation2d accelRobotLinear =
+        robotState.acceleration() != null
+            ? new Translation2d(
+                robotState.acceleration().vxMetersPerSecond,
+                robotState.acceleration().vyMetersPerSecond)
+            : new Translation2d();
+
+    Translation2d accelTurretMount = accelRobotLinear.plus(accelTangential).plus(accelCentripetal);
+
+
+    Translation2d velocityVirtualTargetDrift = accelTurretMount.times(-state.requiredTimeOfFlight);
+
+    Translation2d velocityRelative =
+        velocityVirtualTargetDrift.minus(state.inheritedMuzzleVelocity);
+
+
+    double distanceSquared = Math.pow(state.vectorToVirtualTarget.getNorm(), 2);
+
+    if (distanceSquared < 1e-4) return 0.0;
+
+
+    double crossProduct =
+        (state.vectorToVirtualTarget.getX() * velocityRelative.getY())
+            - (state.vectorToVirtualTarget.getY() * velocityRelative.getX());
+
+    double omegaFieldRelative = crossProduct / distanceSquared;
+
+    return omegaFieldRelative - robotOmega;
+  }
+
+  private Rotation2d getAngleFromVector(Translation2d vec) {
+    return new Rotation2d(vec.getX(), vec.getY());
+  }
+
+  public record SolverState(
+      double errorSeconds,
+      double requiredTimeOfFlight,
+      Translation2d virtualTargetFieldPos,
+      Translation2d vectorToVirtualTarget,
+      Translation2d inheritedMuzzleVelocity,
+      RobotState robotStateAtFire,
+      boolean hasConverged) {
+
+    public SolverState markConverged() {
+      return new SolverState(
+          errorSeconds,
+          requiredTimeOfFlight,
+          virtualTargetFieldPos,
+          vectorToVirtualTarget,
+          inheritedMuzzleVelocity,
+          robotStateAtFire,
+          true);
+    }
+  }
+}

@@ -92,6 +92,14 @@ public class LauncherCommands {
 
     driver.createBButton().onTrue(hammerTimePresetStateCommand());
 
+    // driver
+    //     .createRightBumper()
+    //     .onTrue(
+    //         (Command)
+    //             SmartDashboard.getEntry("/Mechanisms/Commands/Launcher/Live Tuning")
+    //                 .getValue()
+    //                 .getValue());
+
     operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
 
     operator.createAButton().whileTrue(towerPresetStateCommand()).onFalse(shouldLowCommand());

@@ -42,6 +42,8 @@ public class Launcher extends GenericSubsystem {
     } else {
       io = new LauncherIOReal(devices);
     }
+
+    io.configureShotCalculator(ShotCalculator.getInstance());
   }
 
   /**

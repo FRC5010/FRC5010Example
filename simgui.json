@@ -987,6 +987,27 @@
         "Wheel Radius Characterization": {
           "open": true
         },
+        "flywheel": {
+          "mechanism": {
+            "flywheelRoot": {
+              "flywheel": {
+                "open": true
+              },
+              "flywheel Lower Limit": {
+                "open": true
+              },
+              "flywheel Upper Limit": {
+                "open": true
+              },
+              "open": true
+            },
+            "open": true
+          },
+          "open": true
+        },
+        "hood": {
+          "open": true
+        },
         "open": true
       },
       "Tuning": {

@@ -63,7 +63,7 @@
       "uom": "deg/s"
     },
     "maxAcceleration": {
-      "val": 360,
+      "val": 10800,
       "uom": "deg/s^2"
     }
   },

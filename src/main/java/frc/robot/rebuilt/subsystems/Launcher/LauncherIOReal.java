@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Radian;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Second;
@@ -118,7 +119,7 @@ public class LauncherIOReal implements LauncherIO {
       inputs.isValidCalculation = params.isValid();
       inputs.hoodAngleCalculated = Radian.of(params.hoodAngle());
       inputs.turretAngleCalculated = params.turretAngle().getMeasure();
-      inputs.flyWheelSpeedCalculated = RotationsPerSecond.of(params.flywheelSpeed());
+      inputs.flyWheelSpeedCalculated = RadiansPerSecond.of(params.flywheelSpeed());
       inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
     }
 
@@ -158,6 +159,17 @@ public class LauncherIOReal implements LauncherIO {
     inputs.robotToTarget = LauncherCommands.getRobotToTarget();
 
     inputs.targetDistance = Meters.of(inputs.robotToTarget.getDistance(new Translation2d()));
+  }
+
+  @Override
+  public void configureShotCalculator(ShotCalculator shotCalculator) {
+    shotCalculator.setShotTables(ShotCalculator.createDefaultTables());
+    shotCalculator.setTurretConstraints(
+        Rotation2d.fromDegrees(
+            turret.getMotorController().getConfig().getMechanismLowerLimit().get().in(Degrees)),
+        Rotation2d.fromDegrees(
+            turret.getMotorController().getConfig().getMechanismUpperLimit().get().in(Degrees)),
+        Rotation2d.fromDegrees(10.0));
   }
 
   public void runShooter(double speed) {

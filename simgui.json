@@ -215,542 +215,434 @@
     "windows": {
       "/SmartDashboard/DrivePoseEstimator/Pose Field": {
         "CARPET0": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET1": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET10": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET11": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET12": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET13": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET14": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET15": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET16": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET17": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET18": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.4000000059604645,
           "width": 0.4000000059604645
         },
         "CARPET19": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET2": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET20": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET21": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET22": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET23": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET24": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET3": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET4": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET5": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET6": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET7": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET8": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "CARPET9": {
-          "image": ".\\pictures\\carpet.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 1": {
-          "image": ".\\pictures\\AT1.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 10": {
-          "image": ".\\pictures\\AT10.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 11": {
-          "image": ".\\pictures\\AT11.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 12": {
-          "image": ".\\pictures\\AT12.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 13": {
-          "image": ".\\pictures\\AT13.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 14": {
-          "image": ".\\pictures\\AT14.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 15": {
-          "image": ".\\pictures\\AT15.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 16": {
-          "image": ".\\pictures\\AT16.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 17": {
-          "image": ".\\pictures\\AT17.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 18": {
-          "image": ".\\pictures\\AT18.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 19": {
-          "image": ".\\pictures\\AT19.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 2": {
-          "image": ".\\pictures\\AT2.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 20": {
-          "image": ".\\pictures\\AT20.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 21": {
-          "image": ".\\pictures\\AT21.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 22": {
-          "image": ".\\pictures\\AT22.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 23": {
-          "image": ".\\pictures\\AT23.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 24": {
-          "image": ".\\pictures\\AT24.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 25": {
-          "image": ".\\pictures\\AT25.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 26": {
-          "image": ".\\pictures\\AT26.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 27": {
-          "image": ".\\pictures\\AT27.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 28": {
-          "image": ".\\pictures\\AT28.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 29": {
-          "image": ".\\pictures\\AT29.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 3": {
-          "image": ".\\pictures\\AT3.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 30": {
-          "image": ".\\pictures\\AT30.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 31": {
-          "image": ".\\pictures\\AT31.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 32": {
-          "image": ".\\pictures\\AT32.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 4": {
-          "image": ".\\pictures\\AT4.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 5": {
-          "image": ".\\pictures\\AT5.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 6": {
-          "image": ".\\pictures\\AT6.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 7": {
-          "image": ".\\pictures\\AT7.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 8": {
-          "image": ".\\pictures\\AT8.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "Field Tag 9": {
-          "image": ".\\pictures\\AT9.png",
           "length": 0.44999998807907104,
           "width": 0.44999998807907104
         },
         "GPA0": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA1": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA10": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA11": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA12": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA13": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA14": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA15": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA16": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA17": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA18": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA19": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA2": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA20": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA21": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA22": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA23": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA24": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA25": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA26": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA27": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA28": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA29": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA3": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA30": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA31": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA32": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA33": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA34": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA35": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA36": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA37": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA38": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA39": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA4": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA40": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA41": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA42": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA43": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA44": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA45": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA46": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA47": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA48": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA49": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA5": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA50": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA6": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA7": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA8": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
         "GPA9": {
-          "image": ".\\pictures\\gpa.png",
           "length": 0.15000000596046448,
           "width": 0.15000000596046448
         },
@@ -869,7 +761,6 @@
           ]
         },
         "Robot": {
-          "image": ".\\pictures\\robot.png",
           "length": 0.8669999837875366,
           "width": 0.8669999837875366
         },
@@ -924,6 +815,11 @@
           "visible": true
         }
       },
+      "/SmartDashboard/Rebuilt/Auto Modes": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/VisionSystemSim-main/Sim Field": {
         "bottom": 1914,
         "height": 8.069275856018066,
@@ -974,9 +870,6 @@
     },
     "transitory": {
       "AdvantageKit": {
-        "Drive": {
-          "open": true
-        },
         "Indexer": {
           "open": true
         },
@@ -990,8 +883,7 @@
           "Camera left": {
             "open": true
           }
-        },
-        "open": true
+        }
       },
       "Mechanisms": {
         "Arm": {
@@ -1077,6 +969,21 @@
             "open": true
           }
         },
+        "Mechanisms": {
+          "Commands": {
+            "Launcher": {
+              "Live Tuning": {
+                "open": true
+              },
+              "open": true
+            },
+            "open": true,
+            "turretMotor": {
+              "open": true
+            }
+          },
+          "open": true
+        },
         "Wheel Radius Characterization": {
           "open": true
         },
@@ -1115,6 +1022,28 @@
         },
         "Turret": {
           "open": true
+        },
+        "open": true,
+        "turret": {
+          "open": true,
+          "turretMotor": {
+            "closedloop": {
+              "feedback": {
+                "open": true
+              },
+              "feedforward": {
+                "open": true
+              },
+              "motionprofile": {
+                "open": true
+              },
+              "open": true,
+              "setpoint": {
+                "open": true
+              }
+            },
+            "open": true
+          }
         }
       },
       "photonvision": {

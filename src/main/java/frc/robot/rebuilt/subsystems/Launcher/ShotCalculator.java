@@ -22,6 +22,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Distance;
 import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.Rebuilt;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.DoubleFunction;
 import lombok.experimental.ExtensionMethod;
 import org.frc5010.common.constants.Constants;
 import org.frc5010.common.utils.geometry.AllianceFlipUtil;
@@ -43,6 +46,14 @@ public class ShotCalculator {
   private double hoodAngle = Double.NaN;
   private double turretVelocity;
   private double hoodVelocity;
+  private TurretControlPhysics turretControlPhysics;
+  private Translation2d cachedTurretOffset;
+  private Rotation2d minTurretAngle = Rotation2d.fromDegrees(-165.0);
+  private Rotation2d maxTurretAngle = Rotation2d.fromDegrees(165.0);
+  private Rotation2d feedforwardPaddingAngle = Rotation2d.fromDegrees(10.0);
+  private double settlingGain = 0.85;
+  private DoubleFunction<Double> settlingTimeFunction =
+      (angleError) -> Math.abs(angleError) / Math.toRadians(1080.0);
   private static Translation2d hubTarget = FieldConstants.Hub.topCenterPoint.toTranslation2d();
   private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
   private static Translation2d allianceSideRight = FieldConstants.Tower.rightUpright;
@@ -79,39 +90,230 @@ public class ShotCalculator {
   private static final InterpolatingDoubleTreeMap timeOfFlightMap =
       new InterpolatingDoubleTreeMap();
 
+  public record ShotTables(
+      Map<Double, Rotation2d> hoodAngles,
+      Map<Double, Double> flywheelSpeeds,
+      Map<Double, Double> timeOfFlightSeconds,
+      double minDistanceMeters,
+      double maxDistanceMeters,
+      double phaseDelaySeconds) {
+    public ShotTables withPhaseDelaySeconds(double newPhaseDelaySeconds) {
+      return new ShotTables(
+          hoodAngles,
+          flywheelSpeeds,
+          timeOfFlightSeconds,
+          minDistanceMeters,
+          maxDistanceMeters,
+          newPhaseDelaySeconds);
+    }
+  }
+
+  public record BallisticConfig(
+      double minDistanceMeters,
+      double maxDistanceMeters,
+      double distanceStepMeters,
+      Rotation2d minHoodAngle,
+      Rotation2d maxHoodAngle,
+      Rotation2d hoodAngleStep,
+      double minFlywheelRadPerSec,
+      double maxFlywheelRadPerSec,
+      double wheelRadiusMeters,
+      double launchHeightMeters,
+      double targetHeightMeters,
+      double phaseDelaySeconds,
+      double gravityMetersPerSecondSquared,
+      double hoodAngleReferenceRadians) {}
+
   static {
-    minDistance = 1.34;
-    maxDistance = 5.60;
-    phaseDelay = 0.03;
+    applyShotTables(createDefaultTables());
+  }
 
-    // TODO: Populate these maps with real data
-    shotHoodAngleMap.put(1.34, Rotation2d.fromDegrees(19.0));
-    shotHoodAngleMap.put(1.78, Rotation2d.fromDegrees(19.0));
-    shotHoodAngleMap.put(2.17, Rotation2d.fromDegrees(24.0));
-    shotHoodAngleMap.put(2.81, Rotation2d.fromDegrees(27.0));
-    shotHoodAngleMap.put(3.82, Rotation2d.fromDegrees(29.0));
-    shotHoodAngleMap.put(4.09, Rotation2d.fromDegrees(30.0));
-    shotHoodAngleMap.put(4.40, Rotation2d.fromDegrees(31.0));
-    shotHoodAngleMap.put(4.77, Rotation2d.fromDegrees(32.0));
-    shotHoodAngleMap.put(5.57, Rotation2d.fromDegrees(32.0));
-    shotHoodAngleMap.put(5.60, Rotation2d.fromDegrees(35.0));
+  public static ShotTables createDefaultTables() {
+    return new ShotTables(
+        Map.ofEntries(
+            Map.entry(1.34, Rotation2d.fromDegrees(19.0)),
+            Map.entry(1.78, Rotation2d.fromDegrees(19.0)),
+            Map.entry(2.17, Rotation2d.fromDegrees(24.0)),
+            Map.entry(2.81, Rotation2d.fromDegrees(27.0)),
+            Map.entry(3.82, Rotation2d.fromDegrees(29.0)),
+            Map.entry(4.09, Rotation2d.fromDegrees(30.0)),
+            Map.entry(4.40, Rotation2d.fromDegrees(31.0)),
+            Map.entry(4.77, Rotation2d.fromDegrees(32.0)),
+            Map.entry(5.57, Rotation2d.fromDegrees(32.0)),
+            Map.entry(5.60, Rotation2d.fromDegrees(35.0))),
+        Map.ofEntries(
+            Map.entry(1.34, 210.0),
+            Map.entry(1.78, 220.0),
+            Map.entry(2.17, 220.0),
+            Map.entry(2.81, 230.0),
+            Map.entry(3.82, 250.0),
+            Map.entry(4.09, 255.0),
+            Map.entry(4.40, 260.0),
+            Map.entry(4.77, 265.0),
+            Map.entry(5.57, 275.0),
+            Map.entry(5.60, 290.0)),
+        Map.ofEntries(
+            Map.entry(5.68, 1.16),
+            Map.entry(4.55, 1.12),
+            Map.entry(3.15, 1.11),
+            Map.entry(1.88, 1.09),
+            Map.entry(1.38, 0.90)),
+        1.34,
+        5.60,
+        0.03);
+  }
 
-    shotFlywheelSpeedMap.put(1.34, 210.0);
-    shotFlywheelSpeedMap.put(1.78, 220.0);
-    shotFlywheelSpeedMap.put(2.17, 220.0);
-    shotFlywheelSpeedMap.put(2.81, 230.0);
-    shotFlywheelSpeedMap.put(3.82, 250.0);
-    shotFlywheelSpeedMap.put(4.09, 255.0);
-    shotFlywheelSpeedMap.put(4.40, 260.0);
-    shotFlywheelSpeedMap.put(4.77, 265.0);
-    shotFlywheelSpeedMap.put(5.57, 275.0);
-    shotFlywheelSpeedMap.put(5.60, 290.0);
+  public static ShotTables createBallisticTables(BallisticConfig config) {
+    if (config == null || config.wheelRadiusMeters() <= 0.0) {
+      return createDefaultTables();
+    }
 
-    timeOfFlightMap.put(5.68, 1.16);
-    timeOfFlightMap.put(4.55, 1.12);
-    timeOfFlightMap.put(3.15, 1.11);
-    timeOfFlightMap.put(1.88, 1.09);
-    timeOfFlightMap.put(1.38, 0.90);
+    Map<Double, Rotation2d> hoodAngles = new TreeMap<>();
+    Map<Double, Double> flywheelSpeeds = new TreeMap<>();
+    Map<Double, Double> timeOfFlight = new TreeMap<>();
+
+    double minValid = Double.POSITIVE_INFINITY;
+    double maxValid = 0.0;
+    double minDistance = config.minDistanceMeters();
+    double maxDistance = config.maxDistanceMeters();
+    double distanceStep = Math.max(config.distanceStepMeters(), 0.05);
+    double angleStep = Math.max(config.hoodAngleStep().getRadians(), Math.toRadians(0.25));
+    double hoodReference = config.hoodAngleReferenceRadians();
+    double minAngle = hoodReference - config.maxHoodAngle().getRadians();
+    double maxAngle = hoodReference - config.minHoodAngle().getRadians();
+    double gravity = config.gravityMetersPerSecondSquared();
+    double heightDelta = config.targetHeightMeters() - config.launchHeightMeters();
+
+    for (double distance = minDistance; distance <= maxDistance + 1e-6; distance += distanceStep) {
+      BallisticSolution solution =
+          solveBallistic(
+              distance,
+              heightDelta,
+              gravity,
+              minAngle,
+              maxAngle,
+              angleStep,
+              config.wheelRadiusMeters(),
+              config.minFlywheelRadPerSec(),
+              config.maxFlywheelRadPerSec());
+      if (solution == null) {
+        continue;
+      }
+      hoodAngles.put(distance, Rotation2d.fromRadians(hoodReference - solution.angleRadians()));
+      flywheelSpeeds.put(distance, solution.flywheelRadPerSec());
+      timeOfFlight.put(distance, solution.timeOfFlightSeconds());
+      minValid = Math.min(minValid, distance);
+      maxValid = Math.max(maxValid, distance);
+    }
+
+    if (hoodAngles.isEmpty()) {
+      return createDefaultTables();
+    }
+
+    double minRange = Double.isFinite(minValid) ? minValid : minDistance;
+    double maxRange = maxValid > 0.0 ? maxValid : maxDistance;
+
+    return new ShotTables(
+        hoodAngles, flywheelSpeeds, timeOfFlight, minRange, maxRange, config.phaseDelaySeconds());
+  }
+
+  private record BallisticSolution(
+      double angleRadians, double flywheelRadPerSec, double timeOfFlightSeconds) {}
+
+  private static BallisticSolution solveBallistic(
+      double distanceMeters,
+      double heightDeltaMeters,
+      double gravityMetersPerSecondSquared,
+      double minAngleRadians,
+      double maxAngleRadians,
+      double angleStepRadians,
+      double wheelRadiusMeters,
+      double minFlywheelRadPerSec,
+      double maxFlywheelRadPerSec) {
+    double bestFlywheel = Double.POSITIVE_INFINITY;
+    double bestAngle = 0.0;
+    double bestTime = 0.0;
+
+    for (double angle = minAngleRadians;
+        angle <= maxAngleRadians + 1e-6;
+        angle += angleStepRadians) {
+      double cos = Math.cos(angle);
+      double tan = Math.tan(angle);
+      double denominator = distanceMeters * tan - heightDeltaMeters;
+      if (denominator <= 0.0 || Math.abs(cos) < 1e-6) {
+        continue;
+      }
+
+      double velocitySquared =
+          gravityMetersPerSecondSquared
+              * distanceMeters
+              * distanceMeters
+              / (2.0 * cos * cos * denominator);
+      if (velocitySquared <= 0.0) {
+        continue;
+      }
+
+      double velocity = Math.sqrt(velocitySquared);
+      double flywheelRadPerSec = velocity / wheelRadiusMeters;
+      if (flywheelRadPerSec < minFlywheelRadPerSec || flywheelRadPerSec > maxFlywheelRadPerSec) {
+        continue;
+      }
+
+      if (flywheelRadPerSec < bestFlywheel) {
+        bestFlywheel = flywheelRadPerSec;
+        bestAngle = angle;
+        bestTime = distanceMeters / (velocity * cos);
+      }
+    }
+
+    if (!Double.isFinite(bestFlywheel)) {
+      return null;
+    }
+
+    return new BallisticSolution(bestAngle, bestFlywheel, bestTime);
+  }
+
+  public void setShotTables(ShotTables tables) {
+    applyShotTables(tables);
+    latestParameters = null;
+    turretControlPhysics = null;
+  }
+
+  private static void applyShotTables(ShotTables tables) {
+    if (tables == null) {
+      return;
+    }
+    shotHoodAngleMap.clear();
+    tables.hoodAngles().forEach(shotHoodAngleMap::put);
+    shotFlywheelSpeedMap.clear();
+    tables.flywheelSpeeds().forEach(shotFlywheelSpeedMap::put);
+    timeOfFlightMap.clear();
+    tables.timeOfFlightSeconds().forEach(timeOfFlightMap::put);
+    minDistance = tables.minDistanceMeters();
+    maxDistance = tables.maxDistanceMeters();
+    phaseDelay = tables.phaseDelaySeconds();
+  }
+
+  public void setTurretConstraints(
+      Rotation2d minAngle, Rotation2d maxAngle, Rotation2d paddingAngle) {
+    if (minAngle != null) {
+      minTurretAngle = minAngle;
+    }
+    if (maxAngle != null) {
+      maxTurretAngle = maxAngle;
+    }
+    if (paddingAngle != null) {
+      feedforwardPaddingAngle = paddingAngle;
+    }
+    turretControlPhysics = null;
+  }
+
+  public void setSettlingTimeFunction(DoubleFunction<Double> function, double newSettlingGain) {
+    if (function != null) {
+      settlingTimeFunction = function;
+    }
+    settlingGain = newSettlingGain;
+    turretControlPhysics = null;
   }
 
   public ShootingParameters getParameters(
@@ -123,55 +325,43 @@ public class ShotCalculator {
     // Calculate estimated pose while accounting for phase delay
     Pose2d estimatedPose = Rebuilt.drivetrain.getPoseEstimator().getCurrentPose();
     ChassisSpeeds robotRelativeVelocity = Rebuilt.drivetrain.getRobotVelocity();
-    estimatedPose =
+    Pose2d phaseDelayedPose =
         estimatedPose.exp(
             new Twist2d(
                 robotRelativeVelocity.vxMetersPerSecond * phaseDelay,
                 robotRelativeVelocity.vyMetersPerSecond * phaseDelay,
                 robotRelativeVelocity.omegaRadiansPerSecond * phaseDelay));
 
-    // Calculate distance from turret to target
     Translation2d target = AllianceFlipUtil.apply(currentTarget);
     Pose2d turretPosition =
-        estimatedPose.transformBy(
+        phaseDelayedPose.transformBy(
             new Transform2d(
                 turretRelativePosition.getMeasureX(),
                 turretRelativePosition.getMeasureY(),
                 turretRelativeAngle));
-    double turretToTargetDistance = target.getDistance(turretPosition.getTranslation());
 
-    // Calculate field relative turret velocity
-    ChassisSpeeds robotVelocity = Rebuilt.drivetrain.getFieldVelocity();
-    double robotAngle = estimatedPose.getRotation().getRadians();
-    double turretVelocityX =
-        robotVelocity.vxMetersPerSecond
-            + robotVelocity.omegaRadiansPerSecond
-                * (Launcher.robotToTurret.getY() * Math.cos(robotAngle)
-                    - Launcher.robotToTurret.getX() * Math.sin(robotAngle));
-    double turretVelocityY =
-        robotVelocity.vyMetersPerSecond
-            + robotVelocity.omegaRadiansPerSecond
-                * (Launcher.robotToTurret.getX() * Math.cos(robotAngle)
-                    - Launcher.robotToTurret.getY() * Math.sin(robotAngle));
+    TurretControlPhysics physics = getTurretControlPhysics(turretRelativePosition);
+    TurretControlPhysics.AimingSolution solution =
+        physics.solve(
+            target,
+            turretRelativeAngle,
+            (timeSinceStartSeconds, lookaheadSeconds) -> {
+              Pose2d predictedPose =
+                  phaseDelayedPose.exp(
+                      new Twist2d(
+                          robotRelativeVelocity.vxMetersPerSecond * lookaheadSeconds,
+                          robotRelativeVelocity.vyMetersPerSecond * lookaheadSeconds,
+                          robotRelativeVelocity.omegaRadiansPerSecond * lookaheadSeconds));
+              return new TurretControlPhysics.RobotState(
+                  predictedPose, Rebuilt.drivetrain.getFieldVelocity(), null);
+            });
 
-    // Account for imparted velocity by robot (turret) to offset
-    double timeOfFlight;
-    Pose2d lookaheadPose = turretPosition;
-    double lookaheadTurretToTargetDistance = turretToTargetDistance;
-    for (int i = 0; i < 20; i++) {
-      timeOfFlight = timeOfFlightMap.get(lookaheadTurretToTargetDistance);
-      double offsetX = turretVelocityX * timeOfFlight;
-      double offsetY = turretVelocityY * timeOfFlight;
-      lookaheadPose =
-          new Pose2d(
-              turretPosition.getTranslation().plus(new Translation2d(offsetX, offsetY)),
-              turretPosition.getRotation());
-      lookaheadTurretToTargetDistance = target.getDistance(lookaheadPose.getTranslation());
-    }
+    double distanceToVirtualTarget = solution.effectiveDistanceMeters();
+    Rotation2d hoodSetpoint = shotHoodAngleMap.get(distanceToVirtualTarget);
+    Double flywheelSpeed = shotFlywheelSpeedMap.get(distanceToVirtualTarget);
 
-    // Calculate parameters accounted for imparted velocity
-    turretAngle = target.minus(lookaheadPose.getTranslation()).getAngle();
-    hoodAngle = shotHoodAngleMap.get(lookaheadTurretToTargetDistance).getRadians();
+    turretAngle = solution.turretLocalHeading();
+    hoodAngle = hoodSetpoint != null ? hoodSetpoint.getRadians() : 0.0;
     if (lastTurretAngle == null) lastTurretAngle = turretAngle;
     if (Double.isNaN(lastHoodAngle)) lastHoodAngle = hoodAngle;
     turretVelocity =
@@ -183,27 +373,40 @@ public class ShotCalculator {
     lastHoodAngle = hoodAngle;
     latestParameters =
         new ShootingParameters(
-            lookaheadTurretToTargetDistance >= minDistance
-                && lookaheadTurretToTargetDistance <= maxDistance,
+            solution.isPossible(),
             turretAngle,
             turretVelocity,
             hoodAngle,
             hoodVelocity,
-            shotFlywheelSpeedMap.get(lookaheadTurretToTargetDistance),
-            Meters.of(lookaheadTurretToTargetDistance));
+            flywheelSpeed != null ? flywheelSpeed : 0.0,
+            Meters.of(distanceToVirtualTarget));
 
     // Log calculated values
-    Logger.recordOutput("ShotCalculator/LookaheadPose", lookaheadPose);
-    Logger.recordOutput("ShotCalculator/TurretToTargetDistance", lookaheadTurretToTargetDistance);
+    Logger.recordOutput("ShotCalculator/AimingStatus", solution.status().toString());
+    Logger.recordOutput(
+        "ShotCalculator/TurretToTargetDistance", solution.effectiveDistanceMeters());
+    Logger.recordOutput(
+        "ShotCalculator/VirtualTargetFieldPosition",
+        new Pose2d(solution.finalSolverState().virtualTargetFieldPos(), turretAngle));
 
     Rebuilt.drivetrain
         .getField2d()
         .getObject(targetName)
         .setPose(new Pose2d(target, target.getAngle()));
-    Rebuilt.drivetrain.getField2d().getObject(lookAhead).setPose(lookaheadPose);
-    Translation2d virtualTargetTranslation =
-        target.minus(lookaheadPose.getTranslation().minus(turretPosition.getTranslation()));
-    Pose2d virtualTargetPose = new Pose2d(virtualTargetTranslation, lastTurretAngle);
+    Pose2d lookaheadRobotPose =
+        phaseDelayedPose.exp(
+            new Twist2d(
+                robotRelativeVelocity.vxMetersPerSecond * solution.estimatedTimeOfFlight(),
+                robotRelativeVelocity.vyMetersPerSecond * solution.estimatedTimeOfFlight(),
+                robotRelativeVelocity.omegaRadiansPerSecond * solution.estimatedTimeOfFlight()));
+    Pose2d lookaheadTurretPose =
+        lookaheadRobotPose.transformBy(
+            new Transform2d(
+                turretRelativePosition.getMeasureX(),
+                turretRelativePosition.getMeasureY(),
+                turretRelativeAngle));
+    Rebuilt.drivetrain.getField2d().getObject(lookAhead).setPose(lookaheadTurretPose);
+    Pose2d virtualTargetPose = new Pose2d(solution.virtualTargetFieldPos(), turretAngle);
     Rebuilt.drivetrain.getField2d().getObject(virtualTarget).setPose(virtualTargetPose);
     Rebuilt.drivetrain.getField2d().getObject(turret).setPose(turretPosition);
 
@@ -224,5 +427,30 @@ public class ShotCalculator {
 
   public static void setTargetHub() {
     currentTarget = hubTarget;
+  }
+
+  private TurretControlPhysics getTurretControlPhysics(Translation2d turretOffset) {
+    if (turretControlPhysics == null
+        || cachedTurretOffset == null
+        || !cachedTurretOffset.equals(turretOffset)) {
+      cachedTurretOffset = turretOffset;
+      turretControlPhysics =
+          new TurretControlPhysics(
+              turretOffset,
+              minTurretAngle,
+              maxTurretAngle,
+              feedforwardPaddingAngle,
+              settlingGain,
+              this::getTimeOfFlightSeconds,
+              settlingTimeFunction,
+              minDistance,
+              maxDistance);
+    }
+    return turretControlPhysics;
+  }
+
+  private double getTimeOfFlightSeconds(double distanceMeters) {
+    Double time = timeOfFlightMap.get(distanceMeters);
+    return time != null ? time : 0.0;
   }
 }

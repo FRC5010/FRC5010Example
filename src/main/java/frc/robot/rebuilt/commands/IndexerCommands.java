@@ -8,7 +8,9 @@ import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.arch.StateMachine.State;
+import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.sensors.Controller;
+import org.frc5010.common.subsystems.LEDStrip;
 
 public class IndexerCommands {
   private Map<String, GenericSubsystem> subsystems;
@@ -94,6 +96,7 @@ public class IndexerCommands {
           indexer.runSpindexer(0);
           indexer.runTransferFront(0);
           indexer.runTransferBack(0);
+          LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
         });
   }
 
@@ -107,6 +110,7 @@ public class IndexerCommands {
               indexer.runSpindexer(0.5);
               indexer.runTransferFront(1);
               indexer.runTransferBack(1);
+              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(25));
             }));
   }
 

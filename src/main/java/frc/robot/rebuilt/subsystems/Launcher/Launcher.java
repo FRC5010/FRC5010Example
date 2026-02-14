@@ -123,6 +123,14 @@ public class Launcher extends GenericSubsystem {
           io.setFlyWheelVelocity(inputs.flyWheelSpeedCalculated);
         });
   }
+   public Command trackTargetLowCommand() {
+    return Commands.run(
+        () -> {
+          io.setHoodAngleLow();
+          io.setTurretRotation(inputs.turretAngleCalculated);
+          io.setFlyWheelVelocity(inputs.flyWheelSpeedCalculated);
+        });
+  }
 
   public Command trackTargetCommand(double speed) {
     return Commands.run(

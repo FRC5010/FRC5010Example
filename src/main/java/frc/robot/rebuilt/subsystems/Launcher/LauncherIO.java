@@ -67,6 +67,8 @@ public interface LauncherIO {
 
   public void setHoodAngle(Angle angle);
 
+  public void setHoodAngleLow();
+
   public void setTurretRotation(Angle angle);
 
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity);

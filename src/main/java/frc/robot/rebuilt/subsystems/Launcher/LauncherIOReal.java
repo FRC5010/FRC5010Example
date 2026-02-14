@@ -24,12 +24,16 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.motors.SystemIdentification;
+import org.frc5010.common.subsystems.LEDStrip;
+
 import yams.mechanisms.config.SensorConfig;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
@@ -182,6 +186,11 @@ public class LauncherIOReal implements LauncherIO {
 
   public void setHoodAngle(Angle angle) {
     hood.getMotorController().setPosition(angle);
+  }
+
+  public void setHoodAngleLow(){
+    hood.getMotorController().setPosition(hood.getArmConfig().getLowerHardLimit().orElse(Degrees.of(30)));
+    LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
   }
 
   public void setTurretRotation(Angle angle) {

@@ -81,5 +81,7 @@ public interface LauncherIO {
 
   public void stopAllMotors();
 
+  public default void configureShotCalculator(ShotCalculator shotCalculator) {}
+
   public default void updateSimulation(Launcher launcher, Indexer indexer) {}
 }

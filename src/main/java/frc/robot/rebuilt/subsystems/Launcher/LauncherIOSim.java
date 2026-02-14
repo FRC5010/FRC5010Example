@@ -5,10 +5,14 @@
 package frc.robot.rebuilt.subsystems.Launcher;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.IndexerCommands.IndexerState;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
@@ -30,6 +34,48 @@ public class LauncherIOSim extends LauncherIOReal {
   }
 
   @Override
+  public void configureShotCalculator(ShotCalculator shotCalculator) {
+    super.configureShotCalculator(shotCalculator);
+    double circumferenceMeters = flyWheel.getShooterConfig().getCircumference().in(Meters);
+    double wheelRadiusMeters = circumferenceMeters / (2.0 * Math.PI);
+    double minFlywheelRadPerSec =
+        flyWheel.getShooterConfig().getLowerSoftLimit().orElse(RPM.of(0.0)).in(RadiansPerSecond);
+    double maxFlywheelRadPerSec =
+        flyWheel.getShooterConfig().getUpperSoftLimit().orElse(RPM.of(5000.0)).in(RadiansPerSecond);
+
+    Rotation2d minHoodAngle =
+        Rotation2d.fromDegrees(
+            hood.getMotorController().getConfig().getMechanismLowerLimit().get().in(Degrees));
+    Rotation2d maxHoodAngle =
+        Rotation2d.fromDegrees(
+            hood.getMotorController().getConfig().getMechanismUpperLimit().get().in(Degrees));
+    Rotation2d hoodStep = Rotation2d.fromDegrees(0.5);
+
+    double launchHeight = flyWheel.getRelativeMechanismPosition().getZ();
+    double targetHeight = FieldConstants.Hub.height;
+
+    ShotCalculator.BallisticConfig config =
+        new ShotCalculator.BallisticConfig(
+            1.0,
+            6.0,
+            0.1,
+            minHoodAngle,
+            maxHoodAngle,
+            hoodStep,
+            minFlywheelRadPerSec,
+            maxFlywheelRadPerSec,
+            wheelRadiusMeters,
+            launchHeight,
+            targetHeight,
+            0.0,
+            9.80665,
+            Math.toRadians(90.0));
+
+    ShotCalculator.ShotTables simTables = ShotCalculator.createBallisticTables(config);
+    shotCalculator.setShotTables(simTables);
+  }
+
+  @Override
   public void updateSimulation(Launcher launcher, Indexer indexer) {
     int amount = IntakeIOSim.intakeSimulation.getGamePiecesAmount();
     // Update simulated mechanism states here
@@ -38,8 +84,7 @@ public class LauncherIOSim extends LauncherIOReal {
     // This would mean we try to shoot 25 times per second, and on average shoot about 12-13
     // gamepieces per second.
     if (Math.random() > 0.5 && amount > 0) {
-      if ((launcher.isAtGoal() && launcher.isShooting())
-          || (indexer.isCurrent(IndexerState.FORCE))) {
+      if ((true && launcher.isShooting()) || (indexer.isCurrent(IndexerState.FORCE))) {
         if (IntakeIOSim.intakeSimulation.obtainGamePieceFromIntake()) {
           Pose2d worldPose = Rebuilt.drivetrain.getPoseEstimator().getCurrentPose();
           gamePieceProjectile =

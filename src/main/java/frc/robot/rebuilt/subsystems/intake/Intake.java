@@ -57,16 +57,12 @@ public class Intake extends GenericSubsystem {
     io.runHopper(speed);
   }
 
-  public void setupDefaultCommands() {
-    setDefaultCommand(Commands.runOnce(() -> setRequestedState(IntakeState.RETRACTED)));
-  }
-
   public void configTestController(Controller controller) {
     controller.createRightBumper().whileTrue(spintakeCommand(0.5));
     controller.createYButton().whileTrue(getHopperSysIdCommand());
     controller.setRightYAxis(controller.createRightYAxis());
-    Trigger rightYAxis = new Trigger(() -> controller.getRightYAxis() > 0.25);
-    rightYAxis.onTrue(Commands.runOnce(() -> runHopper(0.5)));
+    Trigger rightYAxis = new Trigger(() -> controller.getRightYAxis() > 0.01);
+    rightYAxis.whileTrue(Commands.run(() -> runHopper(controller.getRightYAxis())));
   }
 
   @Override

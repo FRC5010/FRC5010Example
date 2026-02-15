@@ -17,7 +17,7 @@ public class Indexer extends GenericSubsystem {
   private final IndexerIO io;
   private final IndexerIOInputsAutoLogged inputs = new IndexerIOInputsAutoLogged();
 
-  /** Creates a new Index. */
+  /** Creates a new Index and selects the IO to real or simulated. */
   public Indexer() {
     super("indexer.json");
 
@@ -48,7 +48,7 @@ public class Indexer extends GenericSubsystem {
   public void configTestControls(Controller controller) {
     controller.createLeftBumper().whileTrue((spindexerCommand(.25)).alongWith(feederCommand(0.25)));
   }
-
+/**Command that runs the feeder at a given speed and stops when done*/
   public Command feederCommand(double speed) {
     return Commands.run(
             () -> {
@@ -60,7 +60,7 @@ public class Indexer extends GenericSubsystem {
               runFeeder(0);
             });
   }
-
+/**returns a command that runs the spindexer at a set speed and stops when done */
   public Command spindexerCommand(double speed) {
     return Commands.run(
             () -> {
@@ -84,6 +84,7 @@ public class Indexer extends GenericSubsystem {
   public void simulationPeriodic() {
     super.simulationPeriodic();
   }
+
 
   public boolean isRequested(IndexerState state) {
     return inputs.stateRequested == state;

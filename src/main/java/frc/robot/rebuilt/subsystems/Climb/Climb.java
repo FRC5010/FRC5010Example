@@ -14,11 +14,11 @@ import frc.robot.rebuilt.commands.ClimbCommands.ClimbState;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.sensors.Controller;
 import org.littletonrobotics.junction.Logger;
-
+/** The class climb controlls the climb*/
 public class Climb extends GenericSubsystem {
   private final ClimbIO io;
   private final ClimbIOInputsAutoLogged inputs = new ClimbIOInputsAutoLogged();
-
+/**Creates the climb subsystem and chooses the IO*/
   public Climb() {
     super("climb.json");
     if (RobotBase.isSimulation()) {
@@ -27,7 +27,7 @@ public class Climb extends GenericSubsystem {
       io = new ClimbIOReal(devices);
     }
   }
-
+/** Sets a command that holds the climb at a given height*/
   public Command climberCommand(Distance height) {
     return Commands.run(
             () -> {
@@ -35,10 +35,11 @@ public class Climb extends GenericSubsystem {
             })
         .finallyDo(
             () -> {
+            /**Resets to 0 when inactive */
               setClimbHeight(Meters.of(0));
             });
   }
-
+/** Sets the climber io to idle*/
   public Command idleCommand() {
     return Commands.runOnce(
         () -> {

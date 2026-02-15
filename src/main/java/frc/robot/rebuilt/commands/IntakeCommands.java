@@ -21,7 +21,7 @@ public class IntakeCommands {
   State outtaking = intakeStateMachine.addState("outtaking", outtakingCommand());
   State retracting = intakeStateMachine.addState("retracting", retractingCommand());
   State intaking = intakeStateMachine.addState("intaking", intakingCommand());
-
+/** Declaring states of the intake */
   public static enum IntakeState {
     RETRACTED,
     RETRACTING,

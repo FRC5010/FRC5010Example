@@ -3,10 +3,10 @@
   "use": "apriltag",
   "type": "photonvision",
   "column": 0,
-  "x": -0.33,
-  "y": -0.33,
-  "z": 0.5,
+  "x": -0.281,
+  "y": -0.31,
+  "z": 0.225,
   "roll": 0,
-  "pitch": 0,
-  "yaw": 180
+  "pitch": -30,
+  "yaw": -90
 }

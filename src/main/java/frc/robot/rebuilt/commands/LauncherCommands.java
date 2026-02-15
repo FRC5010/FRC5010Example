@@ -5,7 +5,6 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -132,7 +131,6 @@ public class LauncherCommands {
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.IDLE);
-            
             }),
         launcher.stopTrackingCommand());
   }
@@ -142,7 +140,8 @@ public class LauncherCommands {
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.LOW_SPEED);
-              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
+              LEDStrip.changeSegmentPattern(
+                  ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
             }),
         launcher.trackTargetCommand());
   }
@@ -151,11 +150,11 @@ public class LauncherCommands {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
-              launcher.setCurrentState(LauncherState.PREP); 
-              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
+              launcher.setCurrentState(LauncherState.PREP);
+              LEDStrip.changeSegmentPattern(
+                  ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
             }),
         launcher.trackTargetCommand());
-      
   }
 
   private static Command presetStateCommand() {

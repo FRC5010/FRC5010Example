@@ -33,7 +33,6 @@ import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.motors.SystemIdentification;
 import org.frc5010.common.subsystems.LEDStrip;
-
 import yams.mechanisms.config.SensorConfig;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
@@ -188,8 +187,9 @@ public class LauncherIOReal implements LauncherIO {
     hood.getMotorController().setPosition(angle);
   }
 
-  public void setHoodAngleLow(){
-    hood.getMotorController().setPosition(hood.getArmConfig().getLowerHardLimit().orElse(Degrees.of(30)));
+  public void setHoodAngleLow() {
+    hood.getMotorController()
+        .setPosition(hood.getArmConfig().getLowerHardLimit().orElse(Degrees.of(30)));
     LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
   }
 

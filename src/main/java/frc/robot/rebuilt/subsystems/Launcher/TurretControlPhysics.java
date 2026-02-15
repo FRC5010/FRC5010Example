@@ -9,7 +9,6 @@ import java.util.function.DoubleFunction;
 
 public class TurretControlPhysics {
 
-
   private final Translation2d turretOffsetRobotFrame;
   private final Rotation2d minTurretAngle;
   private final Rotation2d maxTurretAngle;
@@ -20,12 +19,10 @@ public class TurretControlPhysics {
   private static final int MAX_SOLVER_ITERATIONS = 4;
   private static final double CONVERGENCE_THRESHOLD_SECONDS = 0.001;
 
-
   private final DoubleFunction<Double> timeOfFlightFunction;
   private final DoubleFunction<Double> settlingTimeFunction;
   private final double minEffectiveRangeMeters;
   private final double maxEffectiveRangeMeters;
-
 
   public record RobotState(Pose2d pose, ChassisSpeeds velocity, ChassisSpeeds acceleration) {}
 
@@ -101,7 +98,6 @@ public class TurretControlPhysics {
   public AimingSolution solve(
       Translation2d targetFieldPos, Rotation2d currentTurretAngle, RobotPredictor predictor) {
 
-
     SolverState finalState = runNewtonSolver(targetFieldPos, currentTurretAngle, predictor);
 
     Rotation2d fieldHeading = getAngleFromVector(finalState.vectorToVirtualTarget);
@@ -124,17 +120,15 @@ public class TurretControlPhysics {
     double minLimitRadians = minTurretAngle.getRadians();
     double maxLimitRadians = maxTurretAngle.getRadians();
 
-
     if (localHeadingRadians < minLimitRadians || localHeadingRadians > maxLimitRadians) {
       status = AimingStatus.IN_DEADZONE;
-
 
       if (feedforwardRadPerSec > 0.1) {
         localHeading = minTurretAngle;
       } else if (feedforwardRadPerSec < -0.1) {
         localHeading = maxTurretAngle;
       } else {
-  
+
         double distanceToMin =
             Math.abs(MathUtil.angleModulus(localHeadingRadians - minLimitRadians));
         double distanceToMax =
@@ -180,7 +174,6 @@ public class TurretControlPhysics {
 
     return commandedFeedforward;
   }
-
 
   private SolverState runNewtonSolver(
       Translation2d targetFieldPos, Rotation2d currentTurretAngle, RobotPredictor predictor) {
@@ -291,7 +284,6 @@ public class TurretControlPhysics {
     double robotAlpha =
         robotState.acceleration() != null ? robotState.acceleration().omegaRadiansPerSecond : 0.0;
 
-  
     Translation2d accelTangential =
         new Translation2d(
             -robotAlpha * turretOffsetRotated.getY(), robotAlpha * turretOffsetRotated.getX());
@@ -307,17 +299,14 @@ public class TurretControlPhysics {
 
     Translation2d accelTurretMount = accelRobotLinear.plus(accelTangential).plus(accelCentripetal);
 
-
     Translation2d velocityVirtualTargetDrift = accelTurretMount.times(-state.requiredTimeOfFlight);
 
     Translation2d velocityRelative =
         velocityVirtualTargetDrift.minus(state.inheritedMuzzleVelocity);
 
-
     double distanceSquared = Math.pow(state.vectorToVirtualTarget.getNorm(), 2);
 
     if (distanceSquared < 1e-4) return 0.0;
-
 
     double crossProduct =
         (state.vectorToVirtualTarget.getX() * velocityRelative.getY())

@@ -110,7 +110,8 @@ public class IndexerCommands {
               indexer.runSpindexer(0.5);
               indexer.runTransferFront(1);
               indexer.runTransferBack(1);
-              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(25));
+              LEDStrip.changeSegmentPattern(
+                  ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(25));
             }));
   }
 

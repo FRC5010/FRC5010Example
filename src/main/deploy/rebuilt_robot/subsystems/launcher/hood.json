@@ -3,7 +3,7 @@
     "name": "hood",
     "controllerType": "talonfx",
     "motorType": "KrakenX44",
-    "canId": 18,
+    "canId": 19,
     "logLevel": "HIGH",
     "robotToMotor": {
       "x": {

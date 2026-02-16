@@ -1,8 +1,8 @@
 {
   "motorSetup": {
     "name": "spintake",
-    "controllerType": "talonfx",
-    "motorType": "KrakenX44",
+    "controllerType": "sparkflex",
+    "motorType": "NeoVortex",
     "canId": 12,
     "logLevel": "HIGH",
     "followers": [

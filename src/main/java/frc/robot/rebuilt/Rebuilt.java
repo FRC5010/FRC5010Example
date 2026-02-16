@@ -44,7 +44,7 @@ public class Rebuilt extends GenericRobot {
     super(directory);
     AllianceFlipUtil.configure(FieldConstants.FIELD_WIDTH, FieldConstants.FIELD_LENGTH);
     indexer = new Indexer();
-    climb = new Climb();
+    // climb = new Climb();
     intake = new Intake();
     launcher = new Launcher();
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);

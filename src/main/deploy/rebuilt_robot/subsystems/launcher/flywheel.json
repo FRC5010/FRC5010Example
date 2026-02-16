@@ -3,11 +3,11 @@
     "name": "flywheel",
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
-    "canId": 15,
+    "canId": 16,
     "logLevel": "HIGH",
     "followers": [
       {
-        "canId": 16,
+        "canId": 17,
         "inverted": true
       }
     ],

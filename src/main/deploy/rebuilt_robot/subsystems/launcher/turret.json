@@ -3,7 +3,7 @@
     "name": "turret",
     "controllerType": "talonfx",
     "motorType": "KrakenX44",
-    "canId": 17,
+    "canId": 18,
     "logLevel": "HIGH",
     "canBus": "canivore",
     "robotToMotor": {

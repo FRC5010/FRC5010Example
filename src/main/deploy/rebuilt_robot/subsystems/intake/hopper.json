@@ -7,7 +7,7 @@
     "logLevel": "HIGH",
     "followers": [
       {
-        "canId": 20,
+        "canId": 15,
         "inverted": true
       }
     ],

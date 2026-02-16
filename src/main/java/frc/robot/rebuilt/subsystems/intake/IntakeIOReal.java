@@ -11,12 +11,12 @@ import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.motors.SystemIdentification;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.velocity.FlyWheel;
-
+/** Sets the IO to Real */
 public class IntakeIOReal implements IntakeIO {
   protected Map<String, Object> devices;
   private FlyWheel spintake;
   private Arm intakeHopper;
-
+/** method to create the spintake and hopper */
   public IntakeIOReal(Map<String, Object> devices) {
     this.devices = devices;
     spintake = (FlyWheel) devices.get("spintake");
@@ -39,7 +39,7 @@ public class IntakeIOReal implements IntakeIO {
   public Command getHopperSysIdCommand() {
     return intakeHopper.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
-
+/** Getting sysid */
   public Command getHopperSysIdCommand(GenericSubsystem intake) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(
@@ -65,7 +65,7 @@ public class IntakeIOReal implements IntakeIO {
   public void runHopper(double speed) {
     intakeHopper.getMotorController().setDutyCycle(speed);
   }
-
+/** updates the hopper based on the angle and speed */
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
     inputs.hopperAngle = intakeHopper.getMotorController().getMechanismPosition();

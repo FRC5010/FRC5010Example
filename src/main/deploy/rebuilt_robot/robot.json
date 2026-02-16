@@ -1,9 +1,9 @@
 {
   "userConfig": "competition_mode.json",
   "driveType": "AKIT_SWERVE_DRIVE",
-  "trackWidth": 2,
+  "trackWidth": 22,
   "trackWidthUom": "in",
-  "wheelBase": 18.5,
+  "wheelBase": 22,
   "wheelBaseUom": "in",
   "wheelDiameter": 0.103386904,
   "wheelDiameterUom": "m",

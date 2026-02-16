@@ -49,9 +49,9 @@
   },
   "simSystemId": {
     "feedBack": {
-      "p": 2.35,
+      "p": 7,
       "i": 0.0,
-      "d": 0.626
+      "d": 8.0
     },
     "feedForward": {
       "s": 0.030215,

@@ -54,7 +54,7 @@ public class LauncherIOReal implements LauncherIO {
   protected final Sensor crtSensor40;
   protected final Sensor crtSensor36;
   protected EasyCRT easyCrtSolver;
-
+/** Initializes the launcher hardware, encoders, simulated sensors, and angle solver */
   public LauncherIOReal(Map<String, Object> devices) {
     this.devices = devices;
     turret = (Pivot) devices.get("turret");
@@ -106,6 +106,7 @@ public class LauncherIOReal implements LauncherIO {
   }
 
   @Override()
+  /** Updating launcher sensor data, calculates shot parameters, and populates input telemetry */
   public void updateInputs(LauncherIOInputs inputs) {
     ShotCalculator.getInstance().clearShootingParameters();
     ShotCalculator.ShootingParameters params =
@@ -126,7 +127,7 @@ public class LauncherIOReal implements LauncherIO {
       inputs.flyWheelSpeedCalculated = RadiansPerSecond.of(params.flywheelSpeed());
       inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
     }
-
+/** Reads the desired flywheel, hood, and turret setpoints */
     inputs.flyWheelSpeedDesired =
         flyWheel
             .getMotorController()
@@ -164,7 +165,7 @@ public class LauncherIOReal implements LauncherIO {
 
     inputs.targetDistance = Meters.of(inputs.robotToTarget.getDistance(new Translation2d()));
   }
-
+/** Configuring the shot calculator with limits and constraints */
   @Override
   public void configureShotCalculator(ShotCalculator shotCalculator) {
     shotCalculator.setShotTables(ShotCalculator.createDefaultTables());
@@ -207,6 +208,7 @@ public class LauncherIOReal implements LauncherIO {
     return hood.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
 
+/** Runs sysid for the cahracterized hood motor and stops at limits */
   public Command getHoodSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(hood.getMotorController(), hood.getName(), launcher),
@@ -229,7 +231,7 @@ public class LauncherIOReal implements LauncherIO {
   public Command getTurretSysIdCommand() {
     return turret.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
-
+/** Characterizes the turret */
   public Command getTurretSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(
@@ -251,7 +253,7 @@ public class LauncherIOReal implements LauncherIO {
                 .getAsBoolean(),
         () -> turret.getMotor().setDutyCycle(0));
   }
-
+/** Sets all motors to idle */
   public void stopAllMotors() {
     flyWheel.getMotor().setDutyCycle(0);
     hood.getMotor().setDutyCycle(0);
@@ -261,7 +263,7 @@ public class LauncherIOReal implements LauncherIO {
   public Command getFlyWheelSysIdCommand() {
     return flyWheel.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
-
+/** returns a sysid command for the flywheel */
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.rpmSysIdRoutine(

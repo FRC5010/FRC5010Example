@@ -56,7 +56,7 @@ public class Intake extends GenericSubsystem {
   public void runHopper(double speed) {
     io.runHopper(speed);
   }
-/**Configures test controller bindings for the spintake, hopper, and sysid control */
+/**Configures test controller bindings for the spintake, hopper control, and sysid  */
   public void configTestController(Controller controller) {
     controller.createRightBumper().whileTrue(spintakeCommand(0.5));
     controller.createYButton().whileTrue(getHopperSysIdCommand());
@@ -64,7 +64,7 @@ public class Intake extends GenericSubsystem {
     Trigger rightYAxis = new Trigger(() -> controller.getRightYAxis() > 0.01);
     rightYAxis.whileTrue(Commands.run(() -> runHopper(controller.getRightYAxis())));
   }
-/**Updates inputs from the io periodically and logs them into the scheduler cycle*/
+/**Updates intake inputs from the io periodically and logs them each robot cycle*/
   @Override
   public void periodic() {
     super.periodic();

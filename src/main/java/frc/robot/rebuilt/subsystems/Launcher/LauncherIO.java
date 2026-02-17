@@ -75,9 +75,13 @@ public interface LauncherIO {
 
   public Command getHoodSysIdCommand();
 
+  public Command getHoodSysIdCommand(GenericSubsystem launcher);
+
   public Command getTurretSysIdCommand();
 
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher);
+
+  public Command getFlyWheelSysIdCommand();
 
   public Command getTurretSysIdCommand(GenericSubsystem launcher);
 

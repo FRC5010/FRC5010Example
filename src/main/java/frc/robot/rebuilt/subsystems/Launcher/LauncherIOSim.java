@@ -30,7 +30,8 @@ public class LauncherIOSim extends LauncherIOReal {
 
   public LauncherIOSim(Map<String, Object> devices) {
     super(devices);
-    IntakeIOSim.intakeSimulation.addGamePiecesToIntake(8); // Start with 5 gamepieces in the intake
+    // IntakeIOSim.intakeSimulation.addGamePiecesToIntake(8); // Start with 5 gamepieces in the
+    // intake
   }
 
   @Override
@@ -77,7 +78,7 @@ public class LauncherIOSim extends LauncherIOReal {
 
   @Override
   public void updateSimulation(Launcher launcher, Indexer indexer) {
-    int amount = IntakeIOSim.intakeSimulation.getGamePiecesAmount();
+    int amount = 0; // IntakeIOSim.intakeSimulation.getGamePiecesAmount();
     // Update simulated mechanism states here
     // We should simulate a shot rate of about 10-15 gamepieces per second
     // Every other time this is called, determine a randome number and if > 0.5, shoot a gamepiece.

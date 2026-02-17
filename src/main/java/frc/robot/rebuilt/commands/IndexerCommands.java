@@ -128,6 +128,9 @@ public class IndexerCommands {
   }
 
   public static Command shouldForceCommand() {
-    return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.FORCE));
+    return Commands.runOnce(
+        () -> {
+          indexer.setRequestedState(IndexerState.FORCE);
+        });
   }
 }

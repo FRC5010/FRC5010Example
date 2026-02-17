@@ -4,6 +4,7 @@
     "controllerType": "talonfx",
     "motorType": "KrakenX44",
     "canId": 18,
+    "inverted": true,
     "logLevel": "HIGH",
     "canBus": "canivore",
     "robotToMotor": {
@@ -26,17 +27,17 @@
     },
     "movementPlane": "XY"
   },
-  "controlAlgorithm": "PROFILED",
+  "controlAlgorithm": "SIMPLE",
   "motorSystemId": {
     "feedBack": {
-      "p": 1.1494,
+      "p": 15,
       "i": 0.0,
-      "d": 0.0
+      "d": 2
     },
     "feedForward": {
-      "s": 0.030215,
-      "v": 0.00087341,
-      "a": 0.98956
+      "s": 0.56547,
+      "v": 1.637,
+      "a": 0.53217
     },
     "maxVelocity": {
       "val": 1080,
@@ -87,7 +88,7 @@
     "val": 150,
     "uom": "deg"
   },
-  "gearStages": "12:36:40:12:108",
+  "gearStages": "30:1",
   "radius": {
     "val": 5,
     "uom": "in"

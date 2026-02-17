@@ -4,6 +4,7 @@
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
     "canId": 16,
+    "inverted": true,
     "logLevel": "HIGH",
     "followers": [
       {
@@ -37,9 +38,9 @@
       "d": 0.0
     },
     "feedForward": {
-      "s": 0.0,
-      "v": 0.0,
-      "a": 0.0
+      "s": 0.066854,
+      "v": 2.1962,
+      "a": 0.38848
     },
     "maxVelocity": {
       "val": 180,
@@ -57,9 +58,9 @@
       "d": 0.0
     },
     "feedForward": {
-      "s": 0.0,
-      "v": 0.02,
-      "a": 155.15
+      "s": 0.066854,
+      "v": 2.1962,
+      "a": 0.38848
     },
     "maxVelocity": {
       "val": 180,
@@ -78,7 +79,7 @@
     "val": 5000,
     "uom": "rpm"
   },
-  "gearStages": "1:18",
+  "gearStages": "18:1",
   "mass": {
     "val": 5.1,
     "uom": "lbs"

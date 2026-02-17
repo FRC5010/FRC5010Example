@@ -24,12 +24,12 @@
       }
     }
   },
-  "controlAlgorithm": "PROFILED",
+  "controlAlgorithm": "SIMPLE",
   "motorSystemId": {
     "feedBack": {
-      "p": 4,
+      "p": 100,
       "i": 0.0,
-      "d": 0.0
+      "d": 7
     },
     "feedForward": {
       "s": 0.0,
@@ -74,7 +74,7 @@
     "uom": "deg"
   },
   "upperHardLimit": {
-    "val": 60,
+    "val": 50,
     "uom": "deg"
   },
   "startingAngle": {
@@ -86,10 +86,10 @@
     "uom": "deg"
   },
   "upperSoftLimit": {
-    "val": 60,
+    "val": 50,
     "uom": "deg"
   },
-  "gearStages": "11:28",
+  "gearStages": "1015:33",
   "mass": {
     "val": 0.25,
     "uom": "lbs"

@@ -62,7 +62,7 @@ public class LauncherCommands {
     idleState = stateMachine.addState("IDLE", idleStateCommand());
     lowState = stateMachine.addState("LOW-SPEED", lowStateCommand());
     prepState = stateMachine.addState("PREP-SHOOT", prepStateCommand());
-    stateMachine.setInitialState(lowState);
+    stateMachine.setInitialState(idleState);
   }
 
   public void setDefaultCommands() {
@@ -109,7 +109,6 @@ public class LauncherCommands {
     operator.createBButton().onTrue(hammerTimePresetStateCommand());
 
     operator.createXButton().whileTrue(hubPresetStateCommand()).onFalse(shouldLowCommand());
-
     operator
         .createYButton()
         .whileTrue(turretForwardPresetStateCommand())
@@ -209,7 +208,7 @@ public class LauncherCommands {
         .andThen(
             Commands.runOnce(
                 () -> {
-                  launcher.usePresets(Degrees.of(1), Degrees.of(90), RPM.of(300));
+                  launcher.usePresets(Degrees.of(31), Degrees.of(90), RPM.of(300));
                 }));
   }
 

@@ -45,13 +45,13 @@ public class Rebuilt extends GenericRobot {
     AllianceFlipUtil.configure(FieldConstants.FIELD_WIDTH, FieldConstants.FIELD_LENGTH);
     indexer = new Indexer();
     // climb = new Climb();
-    // intake = new Intake();
+    intake = new Intake();
     launcher = new Launcher();
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
     testCommands = new TestCommands(subsystems);
     climbCommands = new ClimbCommands(subsystems);
     launcherCommands = new LauncherCommands(subsystems);
-    // intakecommands = new IntakeCommands(subsystems);
+    intakecommands = new IntakeCommands(subsystems);
     indexerCommands = new IndexerCommands(subsystems);
     autocommands = new AutoCommands(subsystems);
   }
@@ -62,7 +62,7 @@ public class Rebuilt extends GenericRobot {
       drivetrain.configureButtonBindings(driver, operator);
       climbCommands.configureButtonBindings(driver, operator);
       launcherCommands.configureButtonBindings(driver, operator);
-      // intakecommands.configureButtonBindings(driver);
+      intakecommands.configureButtonBindings(driver);
       indexerCommands.configureButtonBindings(driver, operator);
       isButtonsConfigured = true;
     }
@@ -82,6 +82,7 @@ public class Rebuilt extends GenericRobot {
     drivetrain.setDefaultCommand(drivetrain.createDefaultCommand(driver));
     launcherCommands.setDefaultCommands();
     indexerCommands.setupDefaultCommands();
+    intakecommands.setupDefaultCommands();
   }
 
   @Override

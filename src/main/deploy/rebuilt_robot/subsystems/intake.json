@@ -1,8 +1,12 @@
 {
   "devices": [
     {
-      "device": "yams_shooter",
-      "file": "intake/spintake.json"
+      "device": "percent_motor",
+      "file": "intake/spintake_lead.json"
+    },
+    {
+      "device": "percent_motor",
+      "file": "intake/spintake_follow.json"
     },
     {
       "device": "yams_arm",

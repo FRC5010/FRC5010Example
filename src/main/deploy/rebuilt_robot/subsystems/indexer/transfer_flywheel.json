@@ -1,18 +1,35 @@
 {
   "motorSetup": {
-    "name": "hopper",
+    "name": "transfer",
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
-    "canId": 14,
-    "logLevel": "HIGH",
+    "canId": 10,
+    "logLevel": "LOW",
     "followers": [
       {
-        "canId": 15,
+        "canId": 11,
         "inverted": true
       }
-    ]
+    ],
+    "robotToMotor": {
+      "x": {
+        "val": -5.872,
+        "uom": "in"
+      },
+      "y": {
+        "val": 4.8,
+        "uom": "in"
+      },
+      "z": {
+        "val": 14.466,
+        "uom": "in"
+      },
+      "rotation": {
+        "val": 0.0,
+        "uom": "deg"
+      }
+    }
   },
-  "controlAlgorithm": "PROFILED",
   "motorSystemId": {
     "feedBack": {
       "p": 4,
@@ -53,37 +70,21 @@
       "uom": "deg/s^2"
     }
   },
-  "length": {
-    "val": 0.234,
-    "uom": "m"
-  },
-  "lowerHardLimit": {
-    "val": 0,
-    "uom": "deg"
-  },
-  "upperHardLimit": {
-    "val": 120,
-    "uom": "deg"
-  },
-  "startingAngle": {
-    "val": 0,
-    "uom": "deg"
-  },
   "lowerSoftLimit": {
     "val": 0,
-    "uom": "deg"
+    "uom": "rpm"
   },
   "upperSoftLimit": {
-    "val": 120,
-    "uom": "deg"
+    "val": 5000,
+    "uom": "rpm"
   },
-  "gearStages": "1:5",
+  "gearStages": "1:1",
   "mass": {
-    "val": 1,
-    "uom": "lbs"
+    "val": 2,
+    "uom": "kg"
   },
-  "horizontalZero": {
-    "val": 0,
-    "uom": "deg"
+  "radius": {
+    "val": 0.05,
+    "uom": "m"
   }
 }

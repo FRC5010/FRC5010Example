@@ -9,23 +9,28 @@ import edu.wpi.first.wpilibj2.command.Command;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.motors.SystemIdentification;
+import org.frc5010.common.motors.function.PercentControlMotor;
 import yams.mechanisms.positional.Arm;
-import yams.mechanisms.velocity.FlyWheel;
 
 public class IntakeIOReal implements IntakeIO {
   protected Map<String, Object> devices;
-  private FlyWheel spintake;
+  // private FlyWheel spintake;
+  private PercentControlMotor spinTakeLead;
+  private PercentControlMotor spinTakeFollow;
   private Arm intakeHopper;
 
   public IntakeIOReal(Map<String, Object> devices) {
     this.devices = devices;
-    spintake = (FlyWheel) devices.get("spintake");
+    // spintake = (FlyWheel) devices.get("spintake");
+    spinTakeLead = (PercentControlMotor) devices.get("spintakeLead");
+    spinTakeFollow = (PercentControlMotor) devices.get("spintakeFollow");
+    spinTakeLead.setFollow(spinTakeFollow, true);
     intakeHopper = (Arm) devices.get("hopper");
   }
 
   @Override
   public void runSpintake(double speed) {
-    spintake.getMotorController().setDutyCycle(speed);
+    spinTakeLead.set(speed);
   }
 
   public void setHopperAngle(Angle angle) {
@@ -69,6 +74,6 @@ public class IntakeIOReal implements IntakeIO {
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
     inputs.hopperAngle = intakeHopper.getMotorController().getMechanismPosition();
-    inputs.speed = spintake.getMotorController().getDutyCycle();
+    inputs.speed = spinTakeLead.get();
   }
 }

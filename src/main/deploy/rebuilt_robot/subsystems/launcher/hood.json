@@ -4,25 +4,7 @@
     "controllerType": "talonfx",
     "motorType": "KrakenX44",
     "canId": 19,
-    "logLevel": "HIGH",
-    "robotToMotor": {
-      "x": {
-        "val": -8.2,
-        "uom": "in"
-      },
-      "y": {
-        "val": 10.104,
-        "uom": "in"
-      },
-      "z": {
-        "val": 15.786,
-        "uom": "in"
-      },
-      "rotation": {
-        "val": 0.0,
-        "uom": "deg"
-      }
-    }
+    "logLevel": "HIGH"
   },
   "controlAlgorithm": "SIMPLE",
   "motorSystemId": {

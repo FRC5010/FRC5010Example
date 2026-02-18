@@ -64,8 +64,8 @@ public class LauncherIOReal implements LauncherIO {
     CANBus canivoreBus = new CANBus("canivore");
     crtEncoder40 = new CANcoder(21, canivoreBus);
     crtEncoder36 = new CANcoder(22, canivoreBus);
-    double sensor40Sim = 0.5;
-    double sensor36Sim = 0.5;
+    double sensor40Sim = 0.391;
+    double sensor36Sim = 0.274;
     crtSensor40 =
         new SensorConfig("CRT sensor 40")
             .withField("angle", () -> crtEncoder40.getAbsolutePosition().getValueAsDouble(), 0.0)
@@ -87,7 +87,7 @@ public class LauncherIOReal implements LauncherIO {
                 /* encoder1Pinion */ 40,
                 /* encoder2Pinion */ 36)
             .withAbsoluteEncoderOffsets(
-                Rotations.of(0.391), Rotations.of(0.274)) // set after mechanical zero
+                Rotations.of(-0.391), Rotations.of(-0.274)) // set after mechanical zero
             .withMechanismRange(Degrees.of(-165), Degrees.of(165)) // -360 deg to +720 deg
             .withMatchTolerance(Rotations.of(0.06)) // ~1.08 deg at encoder2 for the example ratio
             .withAbsoluteEncoderInversions(true, false)

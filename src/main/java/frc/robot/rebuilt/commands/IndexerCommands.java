@@ -50,7 +50,7 @@ public class IndexerCommands {
                     indexer.setCurrentState(IndexerState.FORCE);
                     indexer.runSpindexer(0.50);
                     indexer.runTransferFront(0.50);
-                    indexer.runTransferBack(0.50);
+                    //                    indexer.runTransferBack(0.50);
                   },
                   indexer));
     }
@@ -107,7 +107,7 @@ public class IndexerCommands {
           indexer.setCurrentState(IndexerState.FORCE);
           indexer.runSpindexer(0.50);
           indexer.runTransferFront(0.50);
-          indexer.runTransferBack(0.50);
+          //          indexer.runTransferBack(0.50);
         },
         indexer);
   }
@@ -118,7 +118,7 @@ public class IndexerCommands {
           indexer.setCurrentState(IndexerState.CHURN);
           indexer.runSpindexer(0);
           indexer.runTransferFront(0.25);
-          indexer.runTransferBack(0.25);
+          //          indexer.runTransferBack(0.25);
         },
         indexer);
   }
@@ -129,7 +129,7 @@ public class IndexerCommands {
           indexer.setCurrentState(IndexerState.IDLE);
           indexer.runSpindexer(0);
           indexer.runTransferFront(0);
-          indexer.runTransferBack(0);
+          //          indexer.runTransferBack(0);
           LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
         },
         indexer);
@@ -144,7 +144,7 @@ public class IndexerCommands {
               indexer.setCurrentState(IndexerState.FEED);
               indexer.runSpindexer(0.5);
               indexer.runTransferFront(1);
-              indexer.runTransferBack(1);
+              //              indexer.runTransferBack(1);
               LEDStrip.changeSegmentPattern(
                   ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(25));
             },

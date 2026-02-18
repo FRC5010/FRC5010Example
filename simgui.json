@@ -1190,6 +1190,11 @@
           "visible": true
         }
       },
+      "/SmartDashboard/hopper/mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/turret/mechanism": {
         "window": {
           "visible": true
@@ -1354,14 +1359,13 @@
     }
   },
   "NetworkTables Info": {
-    "Clients": {
-      "open": true
-    },
     "Connections": {
       "open": true
     },
     "Server": {
-      "open": true
+      "Subscribers": {
+        "open": true
+      }
     },
     "visible": true
   }

@@ -58,6 +58,9 @@ public class IntakeCommands {
     intaking.switchTo(outtaking).when(() -> intake.isRequested(IntakeState.OUTTAKING));
     outtaking.switchTo(retracting).when(() -> intake.isRequested(IntakeState.RETRACTING));
     outtaking.switchTo(intaking).when(() -> intake.isRequested(IntakeState.INTAKING));
+    retracting.switchTo(outtaking).when(() -> intake.isRequested(IntakeState.OUTTAKING));
+    retracted.switchTo(outtaking).when(() -> intake.isRequested(IntakeState.OUTTAKING));
+
     retracting.switchTo(retracted).when(() -> intake.isRetracted());
   }
 

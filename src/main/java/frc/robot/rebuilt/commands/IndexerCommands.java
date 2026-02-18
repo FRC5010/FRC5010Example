@@ -83,6 +83,8 @@ public class IndexerCommands {
 
     driver.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    driver.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldFeedCommand());
+    operator.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldFeedCommand());
     configureTriggerStates();
   }
 

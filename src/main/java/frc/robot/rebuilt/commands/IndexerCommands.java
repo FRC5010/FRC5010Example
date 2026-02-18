@@ -13,6 +13,7 @@ import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
 
 public class IndexerCommands {
+  /** creates possible states of the indexer */
   private Map<String, GenericSubsystem> subsystems;
   private StateMachine stateMachine;
   private State idleState;
@@ -20,14 +21,14 @@ public class IndexerCommands {
   private State feedState;
   private State forceState;
   private static Indexer indexer;
-
+/** defines possible states of the indexer */
   public static enum IndexerState {
     IDLE,
     CHURN,
     FORCE,
     FEED
   }
-
+/** creates commands for the indexer at different states */
   public IndexerCommands(Map<String, GenericSubsystem> systems) {
     this.subsystems = systems;
     IndexerCommands.indexer = (Indexer) subsystems.get(Constants.INDEXER);
@@ -68,7 +69,9 @@ public class IndexerCommands {
   public void setupDefaultCommands() {
     indexer.setDefaultCommands(stateMachine);
   }
-
+/** defines command behavio for the force state
+ * stops the indexer and runs the transfer at 50%
+ */
   public static Command forceStateCommand() {
     return Commands.runOnce(
         () -> {
@@ -78,7 +81,9 @@ public class IndexerCommands {
           indexer.runTransferBack(0.50);
         });
   }
-
+/** defines command behavior for the churn state 
+ * stops the indexer and runs the transfer at 25%
+*/
   private static Command churnStateCommand() {
     return Commands.runOnce(
         () -> {
@@ -88,7 +93,9 @@ public class IndexerCommands {
           indexer.runTransferBack(0.25);
         });
   }
-
+/** defines command behavior for the idle state
+ * stops all motors and sets the LED patters to rainbow
+ */
   private static Command idleStateCommand() {
     return Commands.runOnce(
         () -> {

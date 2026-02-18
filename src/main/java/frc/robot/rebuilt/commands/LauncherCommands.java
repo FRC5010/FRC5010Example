@@ -20,7 +20,7 @@ import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
-
+/** Sets the class for launcher commands */
 public class LauncherCommands {
 
   private StateMachine stateMachine;
@@ -37,7 +37,7 @@ public class LauncherCommands {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
   }
   // public static Angle getHoodAngle(Distance toTarget) {} Placeholder for now
-
+/** declares possible states for the launcher */
   public static enum LauncherState {
     IDLE,
     LOW_SPEED,
@@ -49,8 +49,9 @@ public class LauncherCommands {
       return this.name();
     }
   }
-
+/** creates the launcher commands */
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {
+    /**  */
     this.subsystems = subsystems;
     launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
     launcher.setCurrentState(LauncherState.IDLE);

@@ -54,6 +54,7 @@ public class LauncherIOReal implements LauncherIO {
   protected final Sensor crtSensor40;
   protected final Sensor crtSensor36;
   protected EasyCRT easyCrtSolver;
+  EasyCRTConfig easyCrt;
 
   public LauncherIOReal(Map<String, Object> devices) {
     this.devices = devices;
@@ -63,8 +64,8 @@ public class LauncherIOReal implements LauncherIO {
     CANBus canivoreBus = new CANBus("canivore");
     crtEncoder40 = new CANcoder(21, canivoreBus);
     crtEncoder36 = new CANcoder(22, canivoreBus);
-    double sensor40Sim = 10;
-    double sensor36Sim = 20;
+    double sensor40Sim = 0.5;
+    double sensor36Sim = 0.5;
     crtSensor40 =
         new SensorConfig("CRT sensor 40")
             .withField("angle", () -> crtEncoder40.getAbsolutePosition().getValueAsDouble(), 0.0)
@@ -76,7 +77,7 @@ public class LauncherIOReal implements LauncherIO {
             .withSimulatedValue("angle", Seconds.of(0), Seconds.of(0.5), sensor36Sim)
             .getSensor();
 
-    EasyCRTConfig easyCrt =
+    easyCrt =
         new EasyCRTConfig(
                 () -> Rotations.of(crtSensor40.getAsDouble("angle")),
                 () -> Rotations.of(crtSensor36.getAsDouble("angle")))
@@ -86,7 +87,7 @@ public class LauncherIOReal implements LauncherIO {
                 /* encoder1Pinion */ 40,
                 /* encoder2Pinion */ 36)
             .withAbsoluteEncoderOffsets(
-                Rotations.of(0.5934), Rotations.of(-0.4092)) // set after mechanical zero
+                Rotations.of(0.391), Rotations.of(0.274)) // set after mechanical zero
             .withMechanismRange(Degrees.of(-165), Degrees.of(165)) // -360 deg to +720 deg
             .withMatchTolerance(Rotations.of(0.06)) // ~1.08 deg at encoder2 for the example ratio
             .withAbsoluteEncoderInversions(true, false)
@@ -115,9 +116,14 @@ public class LauncherIOReal implements LauncherIO {
   @Override()
   public void updateInputs(LauncherIOInputs inputs) {
     SmartDashboard.putNumber("Encoder 40", crtSensor40.getAsDouble("angle"));
+    SmartDashboard.putNumber("EasyCRT Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
     SmartDashboard.putNumber("Encoder 36", crtSensor36.getAsDouble("angle"));
+    SmartDashboard.putNumber("EasyCRT Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
     Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
     SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
+    SmartDashboard.putString("CRT Status", easyCrtSolver.getLastStatus().name());
+    SmartDashboard.putNumber("CRT Error Rot", easyCrtSolver.getLastErrorRotations());
+
     ShotCalculator.getInstance().clearShootingParameters();
     ShotCalculator.ShootingParameters params =
         ShotCalculator.getInstance()

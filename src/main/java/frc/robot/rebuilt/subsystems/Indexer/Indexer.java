@@ -86,11 +86,11 @@ public class Indexer extends GenericSubsystem {
   }
 
   public boolean isRequested(IndexerState state) {
-    return inputs.stateRequested == state;
+    return inputs.stateRequested.compareTo(state) == 0;
   }
 
   public boolean isCurrent(IndexerState state) {
-    return inputs.stateCurrent == state;
+    return inputs.stateCurrent.compareTo(state) == 0;
   }
 
   public void setCurrentState(IndexerState state) {

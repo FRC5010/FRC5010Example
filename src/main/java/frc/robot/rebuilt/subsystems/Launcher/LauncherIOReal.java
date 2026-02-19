@@ -19,6 +19,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
@@ -28,10 +29,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.Constants;
+import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.config.ConfigConstants;
+import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.motors.SystemIdentification;
 import org.frc5010.common.subsystems.LEDStrip;
 import yams.mechanisms.config.SensorConfig;
@@ -48,6 +51,7 @@ public class LauncherIOReal implements LauncherIO {
   protected Map<String, Object> devices;
   protected Pivot turret;
   protected Arm hood;
+  protected GenericDrivetrain drivetrain;
   protected FlyWheel flyWheel;
   protected CANcoder crtEncoder40;
   protected CANcoder crtEncoder36;
@@ -56,8 +60,9 @@ public class LauncherIOReal implements LauncherIO {
   protected EasyCRT easyCrtSolver;
   EasyCRTConfig easyCrt;
 
-  public LauncherIOReal(Map<String, Object> devices) {
+  public LauncherIOReal(Map<String, Object> devices, Map<String, GenericSubsystem> subsystems) {
     this.devices = devices;
+    drivetrain = (GenericDrivetrain) devices.get(ConfigConstants.DRIVETRAIN);
     turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     flyWheel = (FlyWheel) devices.get("flywheel");
@@ -202,6 +207,9 @@ public class LauncherIOReal implements LauncherIO {
   }
 
   public void setHoodAngle(Angle angle) {
+    if (!isNearTrench()) {
+      hood.getMotorController().setPosition(Degrees.of(31.0));
+    }
     hood.getMotorController().setPosition(angle);
   }
 
@@ -278,6 +286,21 @@ public class LauncherIOReal implements LauncherIO {
 
   public Command getFlyWheelSysIdCommand() {
     return flyWheel.sysId(Volts.of(8), Volts.of(0.5).per(Seconds), Seconds.of(8));
+  }
+
+  private boolean isNearTrench() {
+    Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
+    double currentX = current.getX();
+    double currentY = current.getY();
+    double trenchLeftX = FieldConstants.TrenchZoneTop.nearAllianceLeftDanger.getX();
+    double trenchLeftY = FieldConstants.TrenchZoneTop.nearAllianceLeftDanger.getY();
+    double trenchRightX = FieldConstants.TrenchZoneTop.nearAllianceRightDanger.getX();
+    boolean nearAllianceTop =
+        ((currentX > trenchLeftX && currentX < trenchRightX) && currentY > trenchLeftY);
+    SmartDashboard.putBoolean("Near Top Alliance", nearAllianceTop);
+    if (nearAllianceTop) return true;
+
+    return false;
   }
 
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher) {

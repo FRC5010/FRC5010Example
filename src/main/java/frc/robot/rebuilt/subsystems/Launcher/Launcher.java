@@ -30,6 +30,7 @@ public class Launcher extends GenericSubsystem {
   /** Creates a new Launcher. */
   public Launcher() {
     super("launcher.json");
+
     Pivot turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     robotToTurret =

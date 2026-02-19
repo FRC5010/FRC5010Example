@@ -24,6 +24,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -268,6 +269,20 @@ public class LauncherIOReal implements LauncherIO {
                     Degrees.of(10))
                 .getAsBoolean(),
         () -> turret.getMotor().setDutyCycle(0));
+  }
+
+  public Command getHoodCharacterizationCommand(GenericSubsystem launcher) {
+    return SystemIdentification.feedforwardCharacterization(
+        launcher,
+        (Voltage voltage) -> hood.getMotor().setVoltage(voltage),
+        () -> hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
+  }
+
+  public Command getTurretCharacterizationCommand(GenericSubsystem launcher) {
+    return SystemIdentification.feedforwardCharacterization(
+        launcher,
+        (Voltage voltage) -> turret.getMotor().setVoltage(voltage),
+        () -> turret.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
   }
 
   public void stopAllMotors() {

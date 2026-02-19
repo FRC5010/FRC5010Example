@@ -88,6 +88,10 @@ public class Intake extends GenericSubsystem {
     return io.getHopperSysIdCommand();
   }
 
+  public Command getHopperCharacterizationCommand() {
+    return io.getHopperCharacterizationCommand(this);
+  }
+
   public void setRequestedState(IntakeState state) {
     inputs.stateRequested = state;
   }

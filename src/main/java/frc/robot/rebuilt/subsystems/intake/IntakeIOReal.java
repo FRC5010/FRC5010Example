@@ -1,10 +1,12 @@
 package frc.robot.rebuilt.subsystems.intake;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
@@ -65,6 +67,13 @@ public class IntakeIOReal implements IntakeIO {
                     Degrees.of(10))
                 .getAsBoolean(),
         () -> intakeHopper.getMotor().setDutyCycle(0));
+  }
+
+  public Command getHopperCharacterizationCommand(GenericSubsystem intake) {
+    return SystemIdentification.feedforwardCharacterization(
+        intake,
+        (Voltage voltage) -> intakeHopper.getMotor().setVoltage(voltage),
+        () -> intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
   }
 
   public void runHopper(double speed) {

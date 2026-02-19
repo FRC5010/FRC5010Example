@@ -512,14 +512,12 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
         "PRO: Swerve Drive Feedforward Characterization",
         AkitDriveCommands.feedforwardCharacterization(
             drivetrain,
-            this,
             (Voltage voltage) -> runCharacterization(voltage.in(Volts)),
             () -> getDriveFFCharacterizationVelocity()));
     selectableCommand.addOption(
         "PRO: Swerve Steer Feedforward Characterization",
         AkitDriveCommands.feedforwardCharacterization(
             drivetrain,
-            this,
             (Voltage voltage) -> runSteerCharacterization(voltage.in(Volts)),
             () -> getSteerFFCharacterizationVelocity()));
 

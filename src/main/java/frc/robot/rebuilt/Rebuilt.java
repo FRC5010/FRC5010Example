@@ -100,5 +100,7 @@ public class Rebuilt extends GenericRobot {
     super.buildAutoCommands();
     selectableCommand.addOption("Do Nothing", Commands.none());
     drivetrain.addAutoCommands(selectableCommand);
+    autocommands.configureNamedCommands();
+    autocommands.configureCharacterizationCommands(selectableCommand);
   }
 }

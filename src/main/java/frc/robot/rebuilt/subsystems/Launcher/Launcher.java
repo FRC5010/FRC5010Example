@@ -102,6 +102,14 @@ public class Launcher extends GenericSubsystem {
     return io.getFlyWheelSysIdCommand(this);
   }
 
+  public Command getHoodCharacterizationCommand() {
+    return io.getHoodCharacterizationCommand(this);
+  }
+
+  public Command getTurretCharacterizationCommand() {
+    return io.getTurretCharacterizationCommand(this);
+  }
+
   @Override
   public Command getDefaultCommand() {
     return Commands.runOnce(

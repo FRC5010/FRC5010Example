@@ -88,7 +88,7 @@ public class LauncherIOReal implements LauncherIO {
                 /* encoder2Pinion */ 36)
             .withAbsoluteEncoderOffsets(
                 Rotations.of(-0.391), Rotations.of(-0.274)) // set after mechanical zero
-            .withMechanismRange(Degrees.of(-165), Degrees.of(165)) // -360 deg to +720 deg
+            .withMechanismRange(Degrees.of(-168), Degrees.of(173)) // -360 deg to +720 deg
             .withMatchTolerance(Rotations.of(0.06)) // ~1.08 deg at encoder2 for the example ratio
             .withAbsoluteEncoderInversions(true, false)
             .withCrtGearRecommendationConstraints(

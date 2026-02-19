@@ -1,21 +1,40 @@
 {
   "motorSetup": {
-    "name": "hood",
+    "name": "transfer",
     "controllerType": "talonfx",
-    "motorType": "KrakenX44",
-    "canId": 19,
-    "logLevel": "HIGH",
-    "currentLimit": {
-      "val": 60,
-      "uom": "amps"
+    "motorType": "KrakenX60",
+    "canId": 10,
+    "logLevel": "LOW",
+    "followers": [
+      {
+        "canId": 11,
+        "inverted": true
+      }
+    ],
+    "robotToMotor": {
+      "x": {
+        "val": -5.872,
+        "uom": "in"
+      },
+      "y": {
+        "val": 4.8,
+        "uom": "in"
+      },
+      "z": {
+        "val": 14.466,
+        "uom": "in"
+      },
+      "rotation": {
+        "val": 0.0,
+        "uom": "deg"
+      }
     }
   },
-  "controlAlgorithm": "SIMPLE",
   "motorSystemId": {
     "feedBack": {
-      "p": 200,
+      "p": 4,
       "i": 0.0,
-      "d": 7
+      "d": 0.0
     },
     "feedForward": {
       "s": 0.0,
@@ -51,37 +70,21 @@
       "uom": "deg/s^2"
     }
   },
-  "length": {
-    "val": 9.466,
-    "uom": "in"
-  },
-  "lowerHardLimit": {
-    "val": 30,
-    "uom": "deg"
-  },
-  "upperHardLimit": {
-    "val": 50,
-    "uom": "deg"
-  },
-  "startingAngle": {
-    "val": 30,
-    "uom": "deg"
-  },
   "lowerSoftLimit": {
-    "val": 30,
-    "uom": "deg"
+    "val": 0,
+    "uom": "rpm"
   },
   "upperSoftLimit": {
-    "val": 50,
-    "uom": "deg"
+    "val": 5000,
+    "uom": "rpm"
   },
-  "gearStages": "1015:33",
+  "gearStages": "1:1",
   "mass": {
-    "val": 0.25,
-    "uom": "lbs"
+    "val": 2,
+    "uom": "kg"
   },
-  "horizontalZero": {
-    "val": 30,
-    "uom": "deg"
+  "radius": {
+    "val": 0.05,
+    "uom": "m"
   }
 }

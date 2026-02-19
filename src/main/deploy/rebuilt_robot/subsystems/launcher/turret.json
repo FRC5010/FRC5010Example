@@ -3,7 +3,8 @@
     "name": "turret",
     "controllerType": "talonfx",
     "motorType": "KrakenX44",
-    "canId": 17,
+    "canId": 18,
+    "inverted": true,
     "logLevel": "HIGH",
     "canBus": "canivore",
     "robotToMotor": {
@@ -26,17 +27,17 @@
     },
     "movementPlane": "XY"
   },
-  "controlAlgorithm": "PROFILED",
+  "controlAlgorithm": "SIMPLE",
   "motorSystemId": {
     "feedBack": {
-      "p": 1.1494,
+      "p": 225,
       "i": 0.0,
-      "d": 0.0
+      "d": 50
     },
     "feedForward": {
-      "s": 0.030215,
-      "v": 0.00087341,
-      "a": 0.98956
+      "s": 0.56547,
+      "v": 1.637,
+      "a": 0.53217
     },
     "maxVelocity": {
       "val": 1080,
@@ -49,14 +50,14 @@
   },
   "simSystemId": {
     "feedBack": {
-      "p": 2.35,
+      "p": 7,
       "i": 0.0,
-      "d": 0.626
+      "d": 8.0
     },
     "feedForward": {
-      "s": 0,
-      "v": 0,
-      "a": 0
+      "s": 0.030215,
+      "v": 0.00087341,
+      "a": 0.98956
     },
     "maxVelocity": {
       "val": 1080,
@@ -87,7 +88,7 @@
     "val": 150,
     "uom": "deg"
   },
-  "gearStages": "12:36:40:12:108",
+  "gearStages": "30:1",
   "radius": {
     "val": 5,
     "uom": "in"

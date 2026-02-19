@@ -66,7 +66,7 @@ public class SystemIdentification {
       SmartMotorController motor, String motorName, SubsystemBase subsystemBase) {
 
     return new SysIdRoutine(
-        new Config(Volts.of(1).div(Seconds.of(1)), Volts.of(1), Seconds.of(10)),
+        new Config(Volts.of(1).div(Seconds.of(1)), Volts.of(4), Seconds.of(10)),
         new SysIdRoutine.Mechanism(
             (Voltage voltage) ->
                 motor.setDutyCycle(voltage.in(Volts) / RobotController.getBatteryVoltage()),
@@ -87,7 +87,7 @@ public class SystemIdentification {
       SmartMotorController motor, String motorName, SubsystemBase subsystemBase) {
 
     return new SysIdRoutine(
-        new Config(Volts.of(1).div(Seconds.of(1)), Volts.of(1), Seconds.of(10)),
+        new Config(Volts.of(1).div(Seconds.of(1)), Volts.of(4), Seconds.of(10)),
         new SysIdRoutine.Mechanism(
             (Voltage voltage) ->
                 motor.setDutyCycle(voltage.in(Volts) / RobotController.getBatteryVoltage()),

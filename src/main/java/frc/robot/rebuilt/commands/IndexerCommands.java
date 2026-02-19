@@ -2,7 +2,9 @@ package frc.robot.rebuilt.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
+import frc.robot.rebuilt.commands.IndexerCommands.IndexerState;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
@@ -32,18 +34,49 @@ public class IndexerCommands {
   public IndexerCommands(Map<String, GenericSubsystem> systems) {
     this.subsystems = systems;
     IndexerCommands.indexer = (Indexer) subsystems.get(Constants.INDEXER);
+    // configureStateMachine();
+  }
+
+  private void configureStateMachine() {
     stateMachine = new StateMachine("IndexStateMachine");
     idleState = stateMachine.addState("idle", idleStateCommand());
     if (indexer != null) {
       churnState = stateMachine.addState("churn", churnStateCommand());
       feedState = stateMachine.addState("feed", feedStateCommand());
-      forceState = stateMachine.addState("force", forceStateCommand());
+      forceState =
+          stateMachine.addState(
+              "force",
+              Commands.runOnce(
+                  () -> {
+                    indexer.setCurrentState(IndexerState.FORCE);
+                    indexer.runSpindexer(0.50);
+                    indexer.runTransferFront(0.50);
+                    //                    indexer.runTransferBack(0.50);
+                  },
+                  indexer));
     }
+    idleState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
+    idleState.switchTo(feedState).when(() -> indexer.isRequested(IndexerState.FEED));
+    idleState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
+    churnState.switchTo(feedState).when(() -> indexer.isRequested(IndexerState.FEED));
+    churnState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
+    churnState
+        .switchTo(forceState)
+        .when(
+            () -> {
+              return indexer.isRequested(IndexerState.FORCE);
+            });
+    feedState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
+    feedState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
+    feedState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
+    forceState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
+    forceState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
     stateMachine.setInitialState(idleState);
 
     if (indexer != null) {
       stateMachine.addRequirements(indexer);
     }
+    indexer.setDefaultCommands(stateMachine);
   }
 
   // TODO: Adjust Button Inputs
@@ -51,19 +84,20 @@ public class IndexerCommands {
 
     driver.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
-    // driver.createRightBumper().onTrue(shouldChurnCommand()).onFalse(shouldIdleCommand());
-    // conflicting actions one changes to Force other Churn
-    idleState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
-    idleState.switchTo(feedState).when(() -> indexer.isRequested(IndexerState.FEED));
-    idleState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
-    churnState.switchTo(feedState).when(() -> indexer.isRequested(IndexerState.FEED));
-    churnState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
-    churnState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
-    feedState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
-    feedState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
-    feedState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
-    forceState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
-    forceState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
+    driver.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldFeedCommand());
+    operator.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldFeedCommand());
+    configureTriggerStates();
+  }
+
+  private void configureTriggerStates() {
+    Trigger feedTrigger = new Trigger(() -> indexer.isRequested(IndexerState.FEED));
+    Trigger forceTrigger = new Trigger(() -> indexer.isRequested(IndexerState.FORCE));
+    Trigger idleTrigger = new Trigger(() -> indexer.isRequested(IndexerState.IDLE));
+    Trigger churnTrigger = new Trigger(() -> indexer.isRequested(IndexerState.CHURN));
+    feedTrigger.onTrue(feedStateCommand());
+    forceTrigger.onTrue(forceStateCommand());
+    idleTrigger.onTrue(idleStateCommand());
+    churnTrigger.onTrue(churnStateCommand());
   }
 
   public void setupDefaultCommands() {
@@ -78,8 +112,9 @@ public class IndexerCommands {
           indexer.setCurrentState(IndexerState.FORCE);
           indexer.runSpindexer(0.50);
           indexer.runTransferFront(0.50);
-          indexer.runTransferBack(0.50);
-        });
+          //          indexer.runTransferBack(0.50);
+        },
+        indexer);
   }
 /** defines command behavior for the churn state 
  * stops the indexer and runs the transfer at 25%
@@ -90,8 +125,9 @@ public class IndexerCommands {
           indexer.setCurrentState(IndexerState.CHURN);
           indexer.runSpindexer(0);
           indexer.runTransferFront(0.25);
-          indexer.runTransferBack(0.25);
-        });
+          //          indexer.runTransferBack(0.25);
+        },
+        indexer);
   }
 /** defines command behavior for the idle state
  * stops all motors and sets the LED patters to rainbow
@@ -102,9 +138,10 @@ public class IndexerCommands {
           indexer.setCurrentState(IndexerState.IDLE);
           indexer.runSpindexer(0);
           indexer.runTransferFront(0);
-          indexer.runTransferBack(0);
+          //          indexer.runTransferBack(0);
           LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
-        });
+        },
+        indexer);
   }
 
   // run feed command when Launcher State is idle and Operator Right Bumper is
@@ -116,9 +153,11 @@ public class IndexerCommands {
               indexer.setCurrentState(IndexerState.FEED);
               indexer.runSpindexer(0.5);
               indexer.runTransferFront(1);
-              indexer.runTransferBack(1);
-              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(25));
-            }));
+              //              indexer.runTransferBack(1);
+              LEDStrip.changeSegmentPattern(
+                  ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(25));
+            },
+            indexer));
   }
 
   public static Command shouldIdleCommand() {
@@ -134,6 +173,9 @@ public class IndexerCommands {
   }
 
   public static Command shouldForceCommand() {
-    return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.FORCE));
+    return Commands.runOnce(
+        () -> {
+          indexer.setRequestedState(IndexerState.FORCE);
+        });
   }
 }

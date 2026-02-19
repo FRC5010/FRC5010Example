@@ -24,6 +24,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.Constants;
@@ -33,7 +34,6 @@ import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.motors.SystemIdentification;
 import org.frc5010.common.subsystems.LEDStrip;
-
 import yams.mechanisms.config.SensorConfig;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
@@ -55,16 +55,18 @@ public class LauncherIOReal implements LauncherIO {
   protected final Sensor crtSensor36;
   protected EasyCRT easyCrtSolver;
 /** Initializes the launcher hardware, encoders, simulated sensors, and angle solver */
+  EasyCRTConfig easyCrt;
+
   public LauncherIOReal(Map<String, Object> devices) {
     this.devices = devices;
     turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     flyWheel = (FlyWheel) devices.get("flywheel");
     CANBus canivoreBus = new CANBus("canivore");
-    crtEncoder40 = new CANcoder(1, canivoreBus);
-    crtEncoder36 = new CANcoder(2, canivoreBus);
-    double sensor40Sim = 10;
-    double sensor36Sim = 20;
+    crtEncoder40 = new CANcoder(21, canivoreBus);
+    crtEncoder36 = new CANcoder(22, canivoreBus);
+    double sensor40Sim = 0.391;
+    double sensor36Sim = 0.274;
     crtSensor40 =
         new SensorConfig("CRT sensor 40")
             .withField("angle", () -> crtEncoder40.getAbsolutePosition().getValueAsDouble(), 0.0)
@@ -76,20 +78,20 @@ public class LauncherIOReal implements LauncherIO {
             .withSimulatedValue("angle", Seconds.of(0), Seconds.of(0.5), sensor36Sim)
             .getSensor();
 
-    EasyCRTConfig easyCrt =
+    easyCrt =
         new EasyCRTConfig(
-                () -> Degrees.of(crtSensor40.getAsDouble("angle")),
-                () -> Degrees.of(crtSensor36.getAsDouble("angle")))
+                () -> Rotations.of(crtSensor40.getAsDouble("angle")),
+                () -> Rotations.of(crtSensor36.getAsDouble("angle")))
             .withCommonDriveGear(
                 /* commonRatio (mech:drive) */ 30.0,
                 /* driveGearTeeth */ 12,
                 /* encoder1Pinion */ 40,
                 /* encoder2Pinion */ 36)
             .withAbsoluteEncoderOffsets(
-                Rotations.of(0.0), Rotations.of(0.0)) // set after mechanical zero
-            .withMechanismRange(Degrees.of(-165), Degrees.of(165)) // -360 deg to +720 deg
+                Rotations.of(-0.391), Rotations.of(-0.274)) // set after mechanical zero
+            .withMechanismRange(Degrees.of(-168), Degrees.of(173)) // -360 deg to +720 deg
             .withMatchTolerance(Rotations.of(0.06)) // ~1.08 deg at encoder2 for the example ratio
-            .withAbsoluteEncoderInversions(false, false)
+            .withAbsoluteEncoderInversions(true, false)
             .withCrtGearRecommendationConstraints(
                 /* coverageMargin */ 1.2,
                 /* minTeeth */ 15,
@@ -98,16 +100,32 @@ public class LauncherIOReal implements LauncherIO {
 
     easyCrtSolver = new EasyCRT(easyCrt);
     // // Test Values
-    // SmartDashboard.putNumber(
-    //     "Unique Coverage", easyCrt.getUniqueCoverage().orElse(Degrees.of(0.0)).in(Degrees));
-    // SmartDashboard.putBoolean("Coverage Satisfies Range", easyCrt.coverageSatisfiesRange());
-
-    turret.setAngle(easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0)));
+    SmartDashboard.putNumber(
+        "Unique Coverage", easyCrt.getUniqueCoverage().orElse(Degrees.of(0.0)).in(Degrees));
+    SmartDashboard.putBoolean("Coverage Satisfies Range", easyCrt.coverageSatisfiesRange());
+    SmartDashboard.putNumber("EasyCRT Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
+    SmartDashboard.putNumber(
+        "EasyCRT Enc 1 Ratio", easyCrt.getEncoder1RotationsPerMechanismRotation());
+    SmartDashboard.putNumber("EasyCRT Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
+    SmartDashboard.putNumber(
+        "EasyCRT Enc 2 Ratio", easyCrt.getEncoder2RotationsPerMechanismRotation());
+    Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
+    SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
+    turret.setAngle(calculatedAngle);
   }
 
   @Override()
   /** Updating launcher sensor data, calculates shot parameters, and populates input telemetry */
   public void updateInputs(LauncherIOInputs inputs) {
+    SmartDashboard.putNumber("Encoder 40", crtSensor40.getAsDouble("angle"));
+    SmartDashboard.putNumber("EasyCRT Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
+    SmartDashboard.putNumber("Encoder 36", crtSensor36.getAsDouble("angle"));
+    SmartDashboard.putNumber("EasyCRT Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
+    Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
+    SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
+    SmartDashboard.putString("CRT Status", easyCrtSolver.getLastStatus().name());
+    SmartDashboard.putNumber("CRT Error Rot", easyCrtSolver.getLastErrorRotations());
+
     ShotCalculator.getInstance().clearShootingParameters();
     ShotCalculator.ShootingParameters params =
         ShotCalculator.getInstance()
@@ -189,8 +207,9 @@ public class LauncherIOReal implements LauncherIO {
     hood.getMotorController().setPosition(angle);
   }
 
-  public void setHoodAngleLow(){
-    hood.getMotorController().setPosition(hood.getArmConfig().getLowerHardLimit().orElse(Degrees.of(30)));
+  public void setHoodAngleLow() {
+    hood.getMotorController()
+        .setPosition(hood.getArmConfig().getLowerHardLimit().orElse(Degrees.of(30)));
     LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
   }
 
@@ -213,7 +232,7 @@ public class LauncherIOReal implements LauncherIO {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(hood.getMotorController(), hood.getName(), launcher),
         5,
-        5,
+        3,
         3,
         () ->
             hood.isNear(
@@ -236,8 +255,8 @@ public class LauncherIOReal implements LauncherIO {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(
             turret.getMotorController(), turret.getName(), launcher),
-        2,
-        2,
+        5,
+        3.5,
         3,
         () ->
             turret
@@ -261,15 +280,15 @@ public class LauncherIOReal implements LauncherIO {
   }
 
   public Command getFlyWheelSysIdCommand() {
-    return flyWheel.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
+    return flyWheel.sysId(Volts.of(8), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
 /** returns a sysid command for the flywheel */
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.rpmSysIdRoutine(
             flyWheel.getMotorController(), flyWheel.getName(), launcher),
-        5,
-        5,
+        8,
+        3,
         3);
   }
 }

@@ -12,6 +12,7 @@ public class IndexerIOReal implements IndexerIO {
     Spindexer = (PercentControlMotor) devices.get("spindexer");
     TransferFront = (PercentControlMotor) devices.get("transfer_front");
     TransferBack = (PercentControlMotor) devices.get("transfer_back");
+    TransferFront.setFollow(TransferBack, true);
     this.devices = devices;
   }
 /** Updates indexer input values with current motor speed*/

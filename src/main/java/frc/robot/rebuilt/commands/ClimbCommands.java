@@ -44,6 +44,9 @@ public class ClimbCommands {
 
     // Create a simple state machine for climb and set it as the default command for the Climb
     climb = (Climb) subsystems.get(Constants.CLIMB);
+    if (null == climb) {
+      return;
+    }
     stateMachine = new StateMachine("ClimbStateMachine");
     // a simple idle state; transitions will be added in configureButtonBindings
     idleState =
@@ -121,6 +124,9 @@ public class ClimbCommands {
   }
 
   public void configureButtonBindings(Controller driver, Controller operator) {
+    if (null == climb) {
+      return;
+    }
 
     // Bind the "enable climb" button to transition DISABLED -> IDLE when pressed.
     // Change createStartButton() to whatever button you prefer on your controller.

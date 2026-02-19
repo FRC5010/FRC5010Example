@@ -4,7 +4,7 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Constants;
-//import frc.robot.rebuilt.subsystems.Climb.Climb;
+// import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import frc.robot.rebuilt.subsystems.intake.Intake;
@@ -17,14 +17,14 @@ public class TestCommands {
   private Map<String, GenericSubsystem> subsystems;
 
   Indexer indexer;
-  //Climb climb;
+  // Climb climb;
   Intake intake;
   static Launcher launcher;
 
   public TestCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
     indexer = (Indexer) subsystems.get(Constants.INDEXER);
-    //climb = (Climb) subsystems.get(Constants.CLIMB);
+    // climb = (Climb) subsystems.get(Constants.CLIMB);
     intake = (Intake) subsystems.get(Constants.INTAKE);
     launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
   }
@@ -33,8 +33,8 @@ public class TestCommands {
     launcher.setDefaultCommand(launcher.getDefaultCommand());
 
     indexer.configTestControls(controller);
-    intake.configTestController(controller);
-    //climb.configTestControls(controller);
+    // intake.configTestController(controller);
+    // climb.configTestControls(controller);
     controller.createLeftStickButton().whileTrue(testLauncherCommand(4, 1));
     controller
         .createBButton()

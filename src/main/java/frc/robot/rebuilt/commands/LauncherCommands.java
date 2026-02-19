@@ -5,7 +5,6 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -64,7 +63,7 @@ public class LauncherCommands {
     idleState = stateMachine.addState("IDLE", idleStateCommand());
     lowState = stateMachine.addState("LOW-SPEED", lowStateCommand());
     prepState = stateMachine.addState("PREP-SHOOT", prepStateCommand());
-    stateMachine.setInitialState(lowState);
+    stateMachine.setInitialState(idleState);
   }
 
   public void setDefaultCommands() {
@@ -111,7 +110,6 @@ public class LauncherCommands {
     operator.createBButton().onTrue(hammerTimePresetStateCommand());
 
     operator.createXButton().whileTrue(hubPresetStateCommand()).onFalse(shouldLowCommand());
-
     operator
         .createYButton()
         .whileTrue(turretForwardPresetStateCommand())
@@ -133,7 +131,6 @@ public class LauncherCommands {
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.IDLE);
-            
             }),
         launcher.stopTrackingCommand());
   }
@@ -143,7 +140,8 @@ public class LauncherCommands {
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.LOW_SPEED);
-              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
+              LEDStrip.changeSegmentPattern(
+                  ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
             }),
         launcher.trackTargetCommand());
   }
@@ -152,11 +150,11 @@ public class LauncherCommands {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
-              launcher.setCurrentState(LauncherState.PREP); 
-              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
+              launcher.setCurrentState(LauncherState.PREP);
+              LEDStrip.changeSegmentPattern(
+                  ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
             }),
         launcher.trackTargetCommand());
-      
   }
 
   private static Command presetStateCommand() {
@@ -189,21 +187,21 @@ public class LauncherCommands {
     return shouldPresetCommand()
         .andThen(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(30), Degrees.of(0), RPM.of(45000))));
+                () -> launcher.usePresets(Degrees.of(30), Degrees.of(0), RPM.of(300))));
   }
 
   public static Command towerPresetStateCommand() {
     return shouldPresetCommand()
         .andThen(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(45), Degrees.of(15), RPM.of(45500))));
+                () -> launcher.usePresets(Degrees.of(45), Degrees.of(15), RPM.of(400))));
   }
 
   public static Command turretForwardPresetStateCommand() {
     return shouldPresetCommand()
         .andThen(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(90), Degrees.of(0), RPM.of(35500))));
+                () -> launcher.usePresets(Degrees.of(90), Degrees.of(0), RPM.of(500))));
   }
 
   public static Command hammerTimePresetStateCommand() {
@@ -211,7 +209,7 @@ public class LauncherCommands {
         .andThen(
             Commands.runOnce(
                 () -> {
-                  launcher.usePresets(Degrees.of(1), Degrees.of(90), RPM.of(55000));
+                  launcher.usePresets(Degrees.of(31), Degrees.of(90), RPM.of(300));
                 }));
   }
 

@@ -91,7 +91,7 @@ public class Launcher extends GenericSubsystem {
   }
 
   public Command getHoodSysIdCommand() {
-    return io.getHoodSysIdCommand();
+    return io.getHoodSysIdCommand(this);
   }
 
   public Command getTurretSysIdCommand() {

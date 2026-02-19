@@ -7,30 +7,12 @@
     "logLevel": "HIGH",
     "followers": [
       {
-        "canId": 20,
+        "canId": 15,
         "inverted": true
       }
-    ],
-    "robotToMotor": {
-      "x": {
-        "val": -8.2,
-        "uom": "in"
-      },
-      "y": {
-        "val": 10.104,
-        "uom": "in"
-      },
-      "z": {
-        "val": 15.786,
-        "uom": "in"
-      },
-      "rotation": {
-        "val": 0.0,
-        "uom": "deg"
-      }
-    }
+    ]
   },
-  "controlAlgorithm": "PROFILED",
+  "controlAlgorithm": "SIMPLE",
   "motorSystemId": {
     "feedBack": {
       "p": 4,
@@ -53,9 +35,9 @@
   },
   "simSystemId": {
     "feedBack": {
-      "p": 4,
-      "i": 0.0,
-      "d": 0.0
+      "p": 6.28,
+      "i": 0.62,
+      "d": 2.01
     },
     "feedForward": {
       "s": 0.0,
@@ -84,7 +66,7 @@
     "uom": "deg"
   },
   "startingAngle": {
-    "val": 0,
+    "val": 120,
     "uom": "deg"
   },
   "lowerSoftLimit": {

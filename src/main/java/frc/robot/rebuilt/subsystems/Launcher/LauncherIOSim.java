@@ -30,7 +30,9 @@ public class LauncherIOSim extends LauncherIOReal {
 /** Initializes the simulated launcher */
   public LauncherIOSim(Map<String, Object> devices) {
     super(devices);
-    IntakeIOSim.intakeSimulation.addGamePiecesToIntake(8); // Start with 5 gamepieces in the intake
+    IntakeIOSim.intakeSimulation.addGamePiecesToIntake(8);
+    // Start with 8 gamepieces in the
+    // intake
   }
 
   @Override

@@ -1272,6 +1272,15 @@
             }
           }
         },
+        "flywheel": {
+          "open": true
+        },
+        "hopper": {
+          "hopperMotor": {
+            "open": true
+          },
+          "open": true
+        },
         "open": true
       },
       "Shuffleboard": {
@@ -1328,6 +1337,18 @@
           }
         },
         "Wheel Radius Characterization": {
+          "open": true
+        },
+        "hood": {
+          "open": true
+        },
+        "hopper": {
+          "mechanism": {
+            "hopperRoot": {
+              "open": true
+            },
+            "open": true
+          },
           "open": true
         },
         "open": true

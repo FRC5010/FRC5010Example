@@ -7,8 +7,6 @@ package frc.robot.rebuilt.subsystems.Launcher;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RPM;
 
-import java.util.Map;
-
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.units.measure.Angle;
@@ -28,13 +26,11 @@ public class Launcher extends GenericSubsystem {
   private final Arm hood;
   private final LauncherIOInputsAutoLogged inputs = new LauncherIOInputsAutoLogged();
   public static Transform3d robotToTurret = new Transform3d();
-  private Map<String, GenericSubsystem> subsystems;
 
   /** Creates a new Launcher. */
-  public Launcher(Map<String, GenericSubsystem> subsystems) {
+  public Launcher() {
     super("launcher.json");
 
-    this.subsystems = subsystems;
     Pivot turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     robotToTurret =
@@ -43,9 +39,9 @@ public class Launcher extends GenericSubsystem {
             new Rotation3d());
 
     if (RobotBase.isSimulation()) {
-      io = new LauncherIOSim(devices, subsystems);
+      io = new LauncherIOSim(devices);
     } else {
-      io = new LauncherIOReal(devices, subsystems);
+      io = new LauncherIOReal(devices);
     }
 
     io.configureShotCalculator(ShotCalculator.getInstance());

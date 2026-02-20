@@ -49,23 +49,20 @@ import yams.units.EasyCRTConfig;
 public class LauncherIOReal implements LauncherIO {
 
   protected Map<String, Object> devices;
-  protected Map<String, GenericSubsystem> subsystems;
   protected Pivot turret;
   protected Arm hood;
+  protected GenericDrivetrain drivetrain;
   protected FlyWheel flyWheel;
   protected CANcoder crtEncoder40;
   protected CANcoder crtEncoder36;
   protected final Sensor crtSensor40;
   protected final Sensor crtSensor36;
   protected EasyCRT easyCrtSolver;
-  private static GenericDrivetrain drivetrain;
   EasyCRTConfig easyCrt;
 
   public LauncherIOReal(Map<String, Object> devices, Map<String, GenericSubsystem> subsystems) {
     this.devices = devices;
-    this.subsystems = subsystems;
-
-    drivetrain = (GenericDrivetrain) this.subsystems.get(ConfigConstants.DRIVETRAIN);
+    drivetrain = (GenericDrivetrain) devices.get(ConfigConstants.DRIVETRAIN);
     turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     flyWheel = (FlyWheel) devices.get("flywheel");

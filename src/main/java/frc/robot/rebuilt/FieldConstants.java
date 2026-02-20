@@ -36,7 +36,7 @@ public class FieldConstants {
   public static final Distance FIELD_LENGTH = Meters.of(fieldLength);
   public static final Distance FIELD_WIDTH = Meters.of(fieldWidth);
   public static final Translation2d TRENCH_HALF_WIDTH =
-      new Translation2d(Meters.of(1.0), Meters.of(0.0));
+      new Translation2d(Meters.of(1.5), Meters.of(0));
   /**
    * Officially defined and relevant vertical lines found on the field (defined by X-axis offset)
    */

@@ -15,7 +15,7 @@ import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
 
 public class IndexerCommands {
-  /** creates possible states of the indexer */
+  /** declares variables that will later hold state objects */
   private Map<String, GenericSubsystem> subsystems;
   private StateMachine stateMachine;
   private State idleState;
@@ -30,17 +30,18 @@ public class IndexerCommands {
     FORCE,
     FEED
   }
-/** creates commands for the indexer at different states */
+/** Stores the subsystem map and retrieves the indexer instance */
   public IndexerCommands(Map<String, GenericSubsystem> systems) {
     this.subsystems = systems;
     IndexerCommands.indexer = (Indexer) subsystems.get(Constants.INDEXER);
     // configureStateMachine();
   }
-
+/** Configures the state machine */
   private void configureStateMachine() {
     stateMachine = new StateMachine("IndexStateMachine");
     idleState = stateMachine.addState("idle", idleStateCommand());
     if (indexer != null) {
+      /** Adds churn, force, and feed states if there is an indexer */
       churnState = stateMachine.addState("churn", churnStateCommand());
       feedState = stateMachine.addState("feed", feedStateCommand());
       forceState =
@@ -55,6 +56,7 @@ public class IndexerCommands {
                   },
                   indexer));
     }
+    /** Switches from idle state when the indexer is requested and defines transition conditions*/
     idleState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
     idleState.switchTo(feedState).when(() -> indexer.isRequested(IndexerState.FEED));
     idleState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
@@ -66,6 +68,7 @@ public class IndexerCommands {
             () -> {
               return indexer.isRequested(IndexerState.FORCE);
             });
+    /** Defines transitions for feed and force states */
     feedState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
     feedState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
     feedState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
@@ -81,7 +84,7 @@ public class IndexerCommands {
 
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
-
+    /** Configures bumpers */
     driver.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     driver.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldFeedCommand());
@@ -90,6 +93,7 @@ public class IndexerCommands {
   }
 
   private void configureTriggerStates() {
+    /** Configures new triggers */
     Trigger feedTrigger = new Trigger(() -> indexer.isRequested(IndexerState.FEED));
     Trigger forceTrigger = new Trigger(() -> indexer.isRequested(IndexerState.FORCE));
     Trigger idleTrigger = new Trigger(() -> indexer.isRequested(IndexerState.IDLE));

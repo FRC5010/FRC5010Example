@@ -24,6 +24,7 @@ import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.utils.geometry.AllianceFlipUtil;
 
 /** This is an example robot class. */
+/** Long's correction: Main robot class that initializes subsystems and commands */
 public class Rebuilt extends GenericRobot {
   public static HubStatus hubStatus = new HubStatus();
   public static GenericDrivetrain drivetrain;
@@ -43,11 +44,14 @@ public class Rebuilt extends GenericRobot {
   public Rebuilt(String directory) {
     super(directory);
     AllianceFlipUtil.configure(FieldConstants.FIELD_WIDTH, FieldConstants.FIELD_LENGTH);
+    /** creating robot subsystems */
     indexer = new Indexer();
     // climb = new Climb();
     intake = new Intake();
     launcher = new Launcher();
+    /** retrieves the drive train from the subsystem map and casts it to generic drive train*/
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
+    /** creates command containers */
     testCommands = new TestCommands(subsystems);
     climbCommands = new ClimbCommands(subsystems);
     launcherCommands = new LauncherCommands(subsystems);
@@ -57,6 +61,7 @@ public class Rebuilt extends GenericRobot {
   }
 
   @Override
+  /** Configures buttons with commands */
   public void configureButtonBindings(Controller driver, Controller operator) {
     if (!isButtonsConfigured) {
       drivetrain.configureButtonBindings(driver, operator);
@@ -78,6 +83,7 @@ public class Rebuilt extends GenericRobot {
   }
 
   @Override
+  /** Assigns default commands for each subsystem */
   public void setupDefaultCommands(Controller driver, Controller operator) {
     drivetrain.setDefaultCommand(drivetrain.createDefaultCommand(driver));
     launcherCommands.setDefaultCommands();
@@ -96,6 +102,7 @@ public class Rebuilt extends GenericRobot {
   }
 
   @Override
+  /** Creates and registers available auto comands */
   public void buildAutoCommands() {
     super.buildAutoCommands();
     selectableCommand.addOption("Do Nothing", Commands.none());

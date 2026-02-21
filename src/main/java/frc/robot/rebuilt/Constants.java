@@ -1,7 +1,11 @@
 package frc.robot.rebuilt;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inch;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
@@ -22,5 +26,8 @@ public class Constants {
     public static final double SHOOTER_TOLERANCE_RPM = 50.0;
     public static final double HOOD_ANGLE_TOLERANCE_DEGREES = 1.0;
     public static final double TURRET_ANGLE_TOLERANCE_DEGREES = 1.0;
+    public static final Angle LOW_HOOD_ANGLE = Degrees.of(31);
+    public static final Angle TURRET_FORWARD = Degrees.of(0);
+    public static final AngularVelocity LOW_FLYWHEEL_RPM = RotationsPerSecond.of(300);
   }
 }

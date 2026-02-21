@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.LauncherCommands.LauncherState;
+import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Arm;
@@ -26,10 +27,13 @@ public class Launcher extends GenericSubsystem {
   private final Arm hood;
   private final LauncherIOInputsAutoLogged inputs = new LauncherIOInputsAutoLogged();
   public static Transform3d robotToTurret = new Transform3d();
+  private Map<String, GenericSubsystem> subsystems;
 
   /** Creates a new Launcher. */
-  public Launcher() {
+  public Launcher(Map<String, GenericSubsystem> subsystems) {
     super("launcher.json");
+
+    this.subsystems = subsystems;
     Pivot turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     robotToTurret =
@@ -38,9 +42,9 @@ public class Launcher extends GenericSubsystem {
             new Rotation3d());
 
     if (RobotBase.isSimulation()) {
-      io = new LauncherIOSim(devices);
+      io = new LauncherIOSim(devices, subsystems);
     } else {
-      io = new LauncherIOReal(devices);
+      io = new LauncherIOReal(devices, subsystems);
     }
 
     io.configureShotCalculator(ShotCalculator.getInstance());

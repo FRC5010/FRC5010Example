@@ -19,6 +19,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
@@ -29,10 +30,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.Constants;
+import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.config.ConfigConstants;
+import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.motors.SystemIdentification;
 import org.frc5010.common.subsystems.LEDStrip;
 import yams.mechanisms.config.SensorConfig;
@@ -49,6 +52,7 @@ public class LauncherIOReal implements LauncherIO {
   protected Map<String, Object> devices;
   protected Pivot turret;
   protected Arm hood;
+  protected GenericDrivetrain drivetrain;
   protected FlyWheel flyWheel;
   protected CANcoder crtEncoder40;
   protected CANcoder crtEncoder36;
@@ -57,8 +61,9 @@ public class LauncherIOReal implements LauncherIO {
   protected EasyCRT easyCrtSolver;
   EasyCRTConfig easyCrt;
 
-  public LauncherIOReal(Map<String, Object> devices) {
+  public LauncherIOReal(Map<String, Object> devices, Map<String, GenericSubsystem> subsystems) {
     this.devices = devices;
+    drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
     turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     flyWheel = (FlyWheel) devices.get("flywheel");
@@ -181,6 +186,9 @@ public class LauncherIOReal implements LauncherIO {
     inputs.robotToTarget = LauncherCommands.getRobotToTarget();
 
     inputs.targetDistance = Meters.of(inputs.robotToTarget.getDistance(new Translation2d()));
+
+    // Log trench detection every cycle
+    isNearTrench();
   }
 
   @Override
@@ -203,7 +211,11 @@ public class LauncherIOReal implements LauncherIO {
   }
 
   public void setHoodAngle(Angle angle) {
-    hood.getMotorController().setPosition(angle);
+    if (isNearTrench()) {
+      hood.getMotorController().setPosition(Degrees.of(31.0));
+    } else {
+      hood.getMotorController().setPosition(angle);
+    }
   }
 
   public void setHoodAngleLow() {
@@ -293,6 +305,51 @@ public class LauncherIOReal implements LauncherIO {
 
   public Command getFlyWheelSysIdCommand() {
     return flyWheel.sysId(Volts.of(8), Volts.of(0.5).per(Seconds), Seconds.of(8));
+  }
+
+  private boolean isNearTrench() {
+    Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
+    double currentX = current.getX();
+    double currentY = current.getY();
+
+    double topTrenchLeftX = FieldConstants.TrenchZoneTop.nearAllianceLeftDanger.getX();
+    double topTrenchRightX = FieldConstants.TrenchZoneTop.nearAllianceRightDanger.getX();
+
+    double topTrenchY = FieldConstants.TrenchZoneTop.nearAllianceLeftDanger.getY();
+
+    double topOppTrenchLeftX = FieldConstants.TrenchZoneTop.oppAllianceLeftDanger.getX();
+    double topOppTrenchRightX = FieldConstants.TrenchZoneTop.oppAllianceRightDanger.getX();
+
+    double lowerTrenchLeftX = FieldConstants.TrenchZoneBottom.nearAllianceLeftDanger.getX();
+    double lowerTrenchRightX = FieldConstants.TrenchZoneBottom.nearAllianceRightDanger.getX();
+
+    double lowerTrenchY = FieldConstants.TrenchZoneBottom.oppAllianceLeftDanger.getY();
+
+    double lowerOppTrenchLeftX = FieldConstants.TrenchZoneBottom.oppAllianceLeftDanger.getX();
+    double lowerOppTrenchRightX = FieldConstants.TrenchZoneBottom.oppAllianceRightDanger.getX();
+
+    boolean nearAllianceTop =
+        ((currentX > topTrenchLeftX && currentX < topTrenchRightX) && currentY > topTrenchY);
+
+    boolean nearOppAllianceTop =
+        ((currentX > topOppTrenchLeftX && currentX < topOppTrenchRightX) && currentY > topTrenchY);
+
+    boolean nearAllianceBottom =
+        ((currentX > lowerTrenchLeftX && currentX < lowerTrenchRightX) && currentY < lowerTrenchY);
+
+    boolean nearOppAllianceBottom =
+        ((currentX > lowerOppTrenchLeftX && currentX < lowerOppTrenchRightX)
+            && currentY < lowerTrenchY);
+
+    SmartDashboard.putBoolean("Near Top Opp Alliance", nearOppAllianceTop);
+    SmartDashboard.putBoolean("Near Top Alliance", nearAllianceTop);
+    SmartDashboard.putBoolean("Near Bottom Opp Alliance", nearOppAllianceBottom);
+    SmartDashboard.putBoolean("Near Bottom Alliance", nearAllianceBottom);
+
+    if (nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom)
+      return true;
+
+    return false;
   }
 
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher) {

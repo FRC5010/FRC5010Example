@@ -46,7 +46,7 @@ public class Rebuilt extends GenericRobot {
     indexer = new Indexer();
     // climb = new Climb();
     intake = new Intake();
-    launcher = new Launcher();
+    launcher = new Launcher(subsystems);
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
     testCommands = new TestCommands(subsystems);
     climbCommands = new ClimbCommands(subsystems);

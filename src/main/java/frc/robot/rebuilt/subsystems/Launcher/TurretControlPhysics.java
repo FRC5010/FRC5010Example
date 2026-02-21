@@ -107,7 +107,7 @@ public class TurretControlPhysics {
 
     AimingStatus status = AimingStatus.READY_TO_FIRE;
     double distanceToTarget = finalState.vectorToVirtualTarget.getNorm();
-/** Checks the distance to the target for effective shooting range */
+/** CHECK: Checks the distance to the target for effective shooting range */
     if (distanceToTarget < minEffectiveRangeMeters) {
       status = AimingStatus.TARGET_TOO_CLOSE;
     } else if (distanceToTarget > maxEffectiveRangeMeters) {
@@ -142,7 +142,7 @@ public class TurretControlPhysics {
       feedforwardRadPerSec =
           applyFeedforwardSafetyPadding(localHeadingRadians, feedforwardRadPerSec);
     }
-/** Returns aiming solution */
+/** CHECK: Returns aiming solution */
     return new AimingSolution(
         finalState.virtualTargetFieldPos,
         fieldHeading,
@@ -153,7 +153,7 @@ public class TurretControlPhysics {
         status,
         finalState);
   }
-/** Defines the randians and adjust feedforward velocity near limits */
+/** CHECK: Defines the randians and adjust feedforward velocity near limits */
   private double applyFeedforwardSafetyPadding(
       double currentAngleRadians, double commandedFeedforward) {
     double minLimitRadians = minTurretAngle.getRadians();
@@ -208,7 +208,7 @@ public class TurretControlPhysics {
     }
     return bestState;
   }
-
+/** Initializes parameters needed for computing the physical state of the solver */
   private SolverState computePhysicsState(
       double timeFlightGuess,
       Translation2d targetFieldPos,
@@ -225,12 +225,12 @@ public class TurretControlPhysics {
                         stateNow.velocity().vyMetersPerSecond)
                     .times(timeFlightGuess)
                 : new Translation2d());
-
+/** Computes the robot heading, turret offset, and vector from the turret to the estimated target */
     Rotation2d robotHeadingNow = stateNow.pose().getRotation();
     Translation2d turretOffsetNow = turretOffsetRobotFrame.rotateBy(robotHeadingNow);
     Translation2d vectorToEstimatedTarget =
         estimatedVirtualTarget.minus(stateNow.pose().getTranslation().plus(turretOffsetNow));
-
+/** Gets the angle to the goal */
     Rotation2d goalAngleLocal = getAngleFromVector(vectorToEstimatedTarget).minus(robotHeadingNow);
     double angleErrorRadians =
         Math.abs(MathUtil.angleModulus(goalAngleLocal.minus(currentTurretAngle).getRadians()));

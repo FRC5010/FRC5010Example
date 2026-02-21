@@ -20,7 +20,7 @@ public class Intake extends GenericSubsystem {
   private IntakeIO io;
   private IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
 
-  /** Creates a new Intake and selects the IO. */
+  /** Creates a new Intake and selects the IO */
   public Intake() {
     super("intake.json");
     if (RobotBase.isSimulation()) {
@@ -33,7 +33,7 @@ public class Intake extends GenericSubsystem {
   public void runSpintake(double speed) {
     io.runSpintake(speed);
   }
-/**Creates a command that runs the spintake at the given speed and stops when done*/
+/** Creates a command that runs the spintake at the given speed and stops when done */
   public Command spintakeCommand(double speed) {
     return Commands.run(
             () -> {
@@ -56,7 +56,7 @@ public class Intake extends GenericSubsystem {
   public void runHopper(double speed) {
     io.runHopper(speed);
   }
-/**Configures test controller bindings for the spintake, hopper control, and sysid  */
+/** Configures test controller bindings for the spintake, hopper control, and sysid  */
   public void configTestController(Controller controller) {
     controller.createRightBumper().whileTrue(spintakeCommand(0.5));
     controller.createYButton().whileTrue(getHopperSysIdCommand());

@@ -164,6 +164,7 @@ public class HubTracker {
    *   <li>{@link Shift#ENDGAME} (130-160 sec)
    * </ul>
    */
+  /** Configures the start and end times of shifts and stores ActiveType and*/
   public enum Shift {
     AUTO(0, 20, ActiveType.BOTH),
     TRANSITION(20, 30, ActiveType.BOTH),
@@ -176,14 +177,14 @@ public class HubTracker {
     final int startTime;
     final int endTime;
     final ActiveType activeType;
-
+/**  Constructs a shift with the range of time and active type constraints */
     private Shift(int startTime, int endTime, ActiveType activeType) {
       this.startTime = startTime;
       this.endTime = endTime;
       this.activeType = activeType;
     }
   }
-/** Defines constraints for the active hub tracker */
+/** Defines possible states and types for the active hub tracker */
   private enum ActiveType {
     BOTH,
     AUTO_WINNER,

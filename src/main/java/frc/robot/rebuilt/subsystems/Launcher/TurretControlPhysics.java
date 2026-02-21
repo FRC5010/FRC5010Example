@@ -8,7 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import java.util.function.DoubleFunction;
 
 public class TurretControlPhysics {
-
+  /** Configures parameters and physical contraints for turret aiming calculations */
   private final Translation2d turretOffsetRobotFrame;
   private final Rotation2d minTurretAngle;
   private final Rotation2d maxTurretAngle;
@@ -43,6 +43,7 @@ public class TurretControlPhysics {
    * @param minRangeMeters Minimum effective shot range.
    * @param maxRangeMeters Maximum effective shot range.
    */
+
   public TurretControlPhysics(
       Translation2d turretOffsetRobotFrame,
       Rotation2d minTurretAngle,
@@ -53,7 +54,6 @@ public class TurretControlPhysics {
       DoubleFunction<Double> settlingTimeFunc,
       double minRangeMeters,
       double maxRangeMeters) {
-
     this.turretOffsetRobotFrame = turretOffsetRobotFrame;
     this.minTurretAngle = minTurretAngle;
     this.maxTurretAngle = maxTurretAngle;
@@ -64,7 +64,7 @@ public class TurretControlPhysics {
     this.minEffectiveRangeMeters = minRangeMeters;
     this.maxEffectiveRangeMeters = maxRangeMeters;
   }
-
+/** Defines possible states for the aiming status*/
   public enum AimingStatus {
     READY_TO_FIRE,
     TARGET_TOO_CLOSE,
@@ -72,7 +72,7 @@ public class TurretControlPhysics {
     IN_DEADZONE,
     SOLVER_FAILED
   }
-
+/** Defines data representing for the solver result */
   public record AimingSolution(
       Translation2d virtualTargetFieldPos,
       Rotation2d turretFieldHeading,
@@ -107,7 +107,7 @@ public class TurretControlPhysics {
 
     AimingStatus status = AimingStatus.READY_TO_FIRE;
     double distanceToTarget = finalState.vectorToVirtualTarget.getNorm();
-
+/** Checks the distance to the target for effective shooting range */
     if (distanceToTarget < minEffectiveRangeMeters) {
       status = AimingStatus.TARGET_TOO_CLOSE;
     } else if (distanceToTarget > maxEffectiveRangeMeters) {

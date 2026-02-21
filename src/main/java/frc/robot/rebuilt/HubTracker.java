@@ -183,7 +183,7 @@ public class HubTracker {
       this.activeType = activeType;
     }
   }
-
+/** Defines constraints for the active hub tracker */
   private enum ActiveType {
     BOTH,
     AUTO_WINNER,

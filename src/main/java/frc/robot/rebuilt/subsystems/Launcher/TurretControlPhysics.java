@@ -122,7 +122,7 @@ public class TurretControlPhysics {
 
     if (localHeadingRadians < minLimitRadians || localHeadingRadians > maxLimitRadians) {
       status = AimingStatus.IN_DEADZONE;
-
+/** Sets the turret angle depending on the feed forward speed */
       if (feedforwardRadPerSec > 0.1) {
         localHeading = minTurretAngle;
       } else if (feedforwardRadPerSec < -0.1) {

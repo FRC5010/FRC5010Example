@@ -81,30 +81,31 @@ public class LauncherCommands {
     idleState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     idleState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
     idleState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
+    idleState.switchTo(hammerTimeState).when(() -> launcher.isRequested(LauncherState.HAMMERTIME));
 
     lowState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
     lowState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
     lowState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
+    lowState.switchTo(hammerTimeState).when(() -> launcher.isRequested(LauncherState.HAMMERTIME));
 
     prepState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     prepState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
     prepState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
+    prepState.switchTo(hammerTimeState).when(() -> launcher.isRequested(LauncherState.HAMMERTIME));
 
     presetState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
     presetState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     presetState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
+    presetState
+        .switchTo(hammerTimeState)
+        .when(() -> launcher.isRequested(LauncherState.HAMMERTIME));
+
+    // Hammer Time is a special case since it's a toggle state
+    hammerTimeState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
 
     driver.createAButton().onTrue(shouldLowCommand());
 
     driver.createBButton().onTrue(shouldHammerTimeCommand());
-
-    // driver
-    //     .createRightBumper()
-    //     .onTrue(
-    //         (Command)
-    //             SmartDashboard.getEntry("/Mechanisms/Commands/Launcher/Live Tuning")
-    //                 .getValue()
-    //                 .getValue());
 
     operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
 
@@ -185,11 +186,14 @@ public class LauncherCommands {
   }
 
   public static Command shouldHammerTimeCommand() {
-    if (launcher.getCurrentState() == LauncherState.HAMMERTIME) {
-      return shouldLowCommand();
-    } else {
-      return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.HAMMERTIME));
-    }
+    return Commands.runOnce(
+        () -> {
+          if (launcher.getCurrentState() == LauncherState.HAMMERTIME) {
+            launcher.setRequestedState(LauncherState.LOW_SPEED);
+          } else {
+            launcher.setRequestedState(LauncherState.HAMMERTIME);
+          }
+        });
   }
 
   // Order is Hood Angle, Turret Angle, Flywheel Speed

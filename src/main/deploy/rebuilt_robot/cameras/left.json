@@ -3,9 +3,9 @@
   "use": "apriltag",
   "type": "photonvision",
   "column": 0,
-  "x": -0.2794,
-  "y": 0.31,
-  "z": 0.225,
+  "x": -0.267274,
+  "y": 0.310972,
+  "z": 0.237805,
   "roll": 0,
   "pitch": -30,
   "yaw": 25

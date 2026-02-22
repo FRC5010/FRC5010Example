@@ -1,5 +1,5 @@
 {
-  "name": "rear",
+  "name": "rear-prometheus",
   "use": "apriltag",
   "type": "photonvision",
   "column": 0,
@@ -8,5 +8,5 @@
   "z": 0.232,
   "roll": 0,
   "pitch": -30,
-  "yaw": 180
+  "yaw": 185
 }

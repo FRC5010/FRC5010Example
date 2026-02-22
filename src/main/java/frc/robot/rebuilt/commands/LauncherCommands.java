@@ -232,7 +232,7 @@ public class LauncherCommands {
               launcher.setCurrentState(LauncherState.HAMMERTIME);
               launcher.usePresets(
                   Constants.LauncherConstants.LOW_HOOD_ANGLE,
-                  Degrees.of(90),
+                  Degrees.of(0),
                   Constants.LauncherConstants.LOW_FLYWHEEL_RPM);
             }));
   }

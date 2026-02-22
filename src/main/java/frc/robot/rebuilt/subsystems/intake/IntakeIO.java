@@ -15,6 +15,7 @@ public interface IntakeIO {
     public IntakeCommands.IntakeState stateCurrent = IntakeCommands.IntakeState.RETRACTED;
     public double speed = 0.0;
     public Angle hopperAngle = Degrees.of(0.0);
+    public double hopperAngleDouble = 0.0;
     public int simulatedGamepieces = 0;
   }
 
@@ -22,7 +23,9 @@ public interface IntakeIO {
 
   public void setHopperAngle(Angle angle);
 
-  public Boolean isRetracted();
+  public boolean isRetracted();
+
+  public boolean isDeployed();
 
   public void runHopper(double speed);
 

@@ -49,8 +49,12 @@ public class Intake extends GenericSubsystem {
     io.setHopperAngle(angle);
   }
 
-  public Boolean isRetracted() {
+  public boolean isRetracted() {
     return io.isRetracted();
+  }
+
+  public boolean isDeployed() {
+    return io.isDeployed();
   }
 
   public void runHopper(double speed) {

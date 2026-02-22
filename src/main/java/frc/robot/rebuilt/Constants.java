@@ -8,9 +8,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import frc.robot.rebuilt.subsystems.Climb.Climb;
-import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
-import frc.robot.rebuilt.subsystems.intake.Intake;
 
 public class Constants {
   public static final String INDEXER = Indexer.class.getSimpleName();
@@ -28,6 +26,22 @@ public class Constants {
     public static final double TURRET_ANGLE_TOLERANCE_DEGREES = 1.0;
     public static final Angle LOW_HOOD_ANGLE = Degrees.of(31);
     public static final Angle TURRET_FORWARD = Degrees.of(0);
-    public static final AngularVelocity LOW_FLYWHEEL_RPM = RotationsPerSecond.of(300);
+    public static final AngularVelocity LOW_FLYWHEEL_RPM = RotationsPerSecond.of(1);
+  }
+
+  public static class Indexer {
+    public static final double SPINDEXER_SPEED = 0.5;
+    public static final double TRANSFER_SPEED = 0.6;
+    public static final double TRANSFER_CHURN = 0.25;
+  }
+
+  public static class Intake {
+    public static final double HOPPER_GO_OUT = -0.1;
+    public static final double HOPPER_GO_IN = 0.1;
+    public static final double HOPPER_OUT = -0.03;
+    public static final double INTAKE_IN = 0.35;
+    public static final double INTAKE_OUT = -0.35;
+    public static final double INTAKE_MAX_IN = 0.8;
+    public static final double INTAKE_MAX_OUT = -0.8;
   }
 }

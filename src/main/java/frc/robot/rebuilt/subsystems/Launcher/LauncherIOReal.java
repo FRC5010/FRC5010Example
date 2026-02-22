@@ -116,7 +116,9 @@ public class LauncherIOReal implements LauncherIO {
         "EasyCRT Enc 2 Ratio", easyCrt.getEncoder2RotationsPerMechanismRotation());
     Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
     SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
-    turret.setAngle(calculatedAngle);
+    SmartDashboard.putString("CRT Status", easyCrtSolver.getLastStatus().name());
+    SmartDashboard.putNumber("CRT Error Rot", easyCrtSolver.getLastErrorRotations());
+    turret.getMotor().setEncoderPosition(calculatedAngle);
   }
 
   @Override()
@@ -126,9 +128,9 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putNumber("Encoder 36", crtSensor36.getAsDouble("angle"));
     SmartDashboard.putNumber("EasyCRT Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
     Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
-    SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
-    SmartDashboard.putString("CRT Status", easyCrtSolver.getLastStatus().name());
-    SmartDashboard.putNumber("CRT Error Rot", easyCrtSolver.getLastErrorRotations());
+    // SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
+    // SmartDashboard.putString("CRT Status", easyCrtSolver.getLastStatus().name());
+    // SmartDashboard.putNumber("CRT Error Rot", easyCrtSolver.getLastErrorRotations());
 
     ShotCalculator.getInstance().clearShootingParameters();
     ShotCalculator.ShootingParameters params =
@@ -146,7 +148,7 @@ public class LauncherIOReal implements LauncherIO {
       inputs.isValidCalculation = params.isValid();
       inputs.hoodAngleCalculated = Radian.of(params.hoodAngle());
       inputs.turretAngleCalculated = params.turretAngle().getMeasure();
-      inputs.flyWheelSpeedCalculated = RadiansPerSecond.of(params.flywheelSpeed());
+      inputs.flyWheelSpeedCalculated = RadiansPerSecond.of(params.flywheelSpeed() / 25.0);
       inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
     }
 

@@ -1,5 +1,5 @@
 {
-  "name": "left",
+  "name": "left-bagel",
   "use": "apriltag",
   "type": "photonvision",
   "column": 0,
@@ -8,5 +8,5 @@
   "z": 0.225,
   "roll": 0,
   "pitch": -30,
-  "yaw": 90
+  "yaw": 25
 }

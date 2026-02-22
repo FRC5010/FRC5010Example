@@ -5,6 +5,11 @@
     "motorType": "KrakenX60",
     "canId": 14,
     "logLevel": "HIGH",
+    "inverted": true,
+    "currentLimit": {
+      "val": 60,
+      "uom": "amps"
+    },
     "followers": [
       {
         "canId": 15,
@@ -77,7 +82,7 @@
     "val": 120,
     "uom": "deg"
   },
-  "gearStages": "1:5",
+  "gearStages": "23:1",
   "mass": {
     "val": 1,
     "uom": "lbs"

@@ -16,31 +16,37 @@ import yams.mechanisms.positional.Arm;
 
 public class IntakeIOReal implements IntakeIO {
   protected Map<String, Object> devices;
-  // private FlyWheel spintake;
-  private PercentControlMotor spinTakeLead;
+  // private FlyWheel spintakeLead;
+  private PercentControlMotor spintakeLead;
   private PercentControlMotor spinTakeFollow;
   private Arm intakeHopper;
 
   public IntakeIOReal(Map<String, Object> devices) {
     this.devices = devices;
-    // spintake = (FlyWheel) devices.get("spintake");
-    spinTakeLead = (PercentControlMotor) devices.get("spintakeLead");
+    // spintakeLead = (FlyWheel) devices.get("spintake");
+    spintakeLead = (PercentControlMotor) devices.get("spintakeLead");
     spinTakeFollow = (PercentControlMotor) devices.get("spintakeFollow");
-    spinTakeLead.setFollow(spinTakeFollow, true);
+    spintakeLead.invert(false);
+    spinTakeFollow.setFollow(spintakeLead, true);
     intakeHopper = (Arm) devices.get("hopper");
   }
 
   @Override
   public void runSpintake(double speed) {
-    spinTakeLead.set(speed);
+    // spintakeLead.getMotor().setDutyCycle(speed);
+    spintakeLead.set(speed);
   }
 
   public void setHopperAngle(Angle angle) {
     intakeHopper.getMotorController().setPosition(angle);
   }
 
-  public Boolean isRetracted() {
-    return (intakeHopper.getAngle().isEquivalent(Degrees.of(0.0)));
+  public boolean isRetracted() {
+    return (intakeHopper.getAngle().isNear(Degrees.of(120), Degrees.of(10)));
+  }
+
+  public boolean isDeployed() {
+    return (intakeHopper.getAngle().isNear(Degrees.of(0.0), Degrees.of(10)));
   }
 
   public Command getHopperSysIdCommand() {
@@ -83,6 +89,8 @@ public class IntakeIOReal implements IntakeIO {
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
     inputs.hopperAngle = intakeHopper.getMotorController().getMechanismPosition();
-    inputs.speed = spinTakeLead.get();
+    inputs.hopperAngleDouble = inputs.hopperAngle.in(Degrees);
+    inputs.speed = spintakeLead.get();
+    // inputs.speed = spintakeLead.getMotor().getDutyCycle();
   }
 }

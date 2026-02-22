@@ -14,6 +14,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.LauncherCommands.LauncherState;
 import java.util.Map;
@@ -164,7 +165,7 @@ public class Launcher extends GenericSubsystem {
     return Commands.runOnce(
         () -> {
           setTurretRotation(Degrees.of(0));
-          setHoodAngle(Degrees.of(0));
+          setHoodAngle(Constants.LauncherConstants.LOW_HOOD_ANGLE);
           runShooter(0);
         });
   }

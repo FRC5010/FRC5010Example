@@ -80,8 +80,8 @@ public class IndexerCommands {
 
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
-    driver.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
-    operator.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    driver.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    // operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     configureTriggerStates();
   }
 
@@ -115,7 +115,7 @@ public class IndexerCommands {
     return Commands.runOnce(
         () -> {
           indexer.setCurrentState(IndexerState.CHURN);
-          indexer.runSpindexer(0);
+          indexer.runSpindexer(-0.1);
           indexer.runTransferFront(Constants.Indexer.TRANSFER_CHURN);
           //          indexer.runTransferBack(0.25);
         },

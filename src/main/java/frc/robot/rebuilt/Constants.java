@@ -28,10 +28,10 @@ public class Constants {
     public static final AngularVelocity LOW_FLYWHEEL_RPM = RotationsPerSecond.of(1);
 
     public static final Angle HUB_HOOD_ANGLE = LOW_HOOD_ANGLE;
-    public static final AngularVelocity HUB_FLYWHEEL_RPM = RotationsPerSecond.of(2);
+    public static final AngularVelocity HUB_FLYWHEEL_RPM = RotationsPerSecond.of(1.25);
 
     public static final Angle TOWER_HOOD_ANGLE = Degrees.of(40);
-    public static final AngularVelocity TOWER_FLYWHEEL_RPM = RotationsPerSecond.of(3);
+    public static final AngularVelocity TOWER_FLYWHEEL_RPM = RotationsPerSecond.of(1.5);
 
     public static final Angle TURRET_FORWARD = Degrees.of(0);
     public static final AngularVelocity FWD_FLYWHEEL_RPM = LOW_FLYWHEEL_RPM;
@@ -47,9 +47,9 @@ public class Constants {
   public static class Intake {
     public static final double HOPPER_GO_OUT = -0.1;
     public static final double HOPPER_GO_IN = 0.1;
-    public static final double HOPPER_OUT = -0.03;
-    public static final double INTAKE_IN = 0.35;
-    public static final double INTAKE_OUT = -0.35;
+    public static final double HOPPER_OUT = 0.00;
+    public static final double INTAKE_IN = 0.0;
+    public static final double INTAKE_OUT = -0.0;
     public static final double INTAKE_MAX_IN = 0.8;
     public static final double INTAKE_MAX_OUT = -0.8;
   }

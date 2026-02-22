@@ -1,6 +1,7 @@
 package frc.robot.rebuilt.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import frc.robot.rebuilt.subsystems.intake.Intake;
@@ -28,5 +29,16 @@ public class AutoCommands {
     selectableCommand.addOption(
         "PRO: Launcher Turret Characterization",
         ((Launcher) subsystems.get(Constants.LAUNCHER)).getTurretCharacterizationCommand());
+  }
+
+  public void configureBasicAutoCommands(LoggedDashboardChooser<Command> selectableCommand) {
+    selectableCommand.addOption(
+        "Shoot Preload Only",
+        Commands.sequence(
+            IntakeCommands.shouldIntaking(),
+            Commands.waitSeconds(2),
+            LauncherCommands.shouldPrepCommand(),
+            Commands.waitSeconds(2),
+            IndexerCommands.shouldForceCommand()));
   }
 }

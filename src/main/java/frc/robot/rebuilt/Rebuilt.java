@@ -59,6 +59,7 @@ public class Rebuilt extends GenericRobot {
   @Override
   public void configureButtonBindings(Controller driver, Controller operator) {
     if (!isButtonsConfigured) {
+      driver.createYButton().onTrue(Commands.runOnce(() -> drivetrain.toggleFieldOrientedDrive()));
       drivetrain.configureButtonBindings(driver, operator);
       climbCommands.configureButtonBindings(driver, operator);
       launcherCommands.configureButtonBindings(driver, operator);

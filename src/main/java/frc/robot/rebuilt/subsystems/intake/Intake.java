@@ -4,6 +4,8 @@
 
 package frc.robot.rebuilt.subsystems.intake;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -98,5 +100,13 @@ public class Intake extends GenericSubsystem {
 
   public void setRequestedState(IntakeState state) {
     inputs.stateRequested = state;
+  }
+
+  public void setHopperDeployed() {
+    io.setHopperPosition(Degrees.of(0));
+  }
+
+  public void setHopperRetracted() {
+    io.setHopperPosition(Degrees.of(120));
   }
 }

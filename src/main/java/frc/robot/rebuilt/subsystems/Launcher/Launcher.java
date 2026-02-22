@@ -209,8 +209,8 @@ public class Launcher extends GenericSubsystem {
   public Command increaseHoodAngleCommand() {
     return Commands.runOnce(
         () -> {
-          Angle newAngle = hood.getAngle().plus(Degrees.of(0.5));
-          if (newAngle.lt(hood.getMotorController().getConfig().getMechanismUpperLimit().get())) {
+          Angle newAngle = inputs.hoodAngleActual.plus(Degrees.of(0.5));
+          if (newAngle.lt(Degrees.of(60))) {
             io.setHoodAngle(newAngle);
           }
         });
@@ -219,8 +219,8 @@ public class Launcher extends GenericSubsystem {
   public Command decreaseHoodAngleCommand() {
     return Commands.runOnce(
         () -> {
-          Angle newAngle = hood.getAngle().minus(Degrees.of(0.5));
-          if (newAngle.gt(hood.getMotorController().getConfig().getMechanismLowerLimit().get())) {
+          Angle newAngle = inputs.hoodAngleActual.minus(Degrees.of(0.5));
+          if (newAngle.gt(Degrees.of(30))) {
             io.setHoodAngle(newAngle);
           }
         });

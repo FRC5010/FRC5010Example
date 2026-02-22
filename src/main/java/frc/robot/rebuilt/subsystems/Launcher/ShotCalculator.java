@@ -352,8 +352,9 @@ public class ShotCalculator {
                           robotRelativeVelocity.vxMetersPerSecond * lookaheadSeconds,
                           robotRelativeVelocity.vyMetersPerSecond * lookaheadSeconds,
                           robotRelativeVelocity.omegaRadiansPerSecond * lookaheadSeconds));
-              return new TurretControlPhysics.RobotState(
-                  predictedPose, Rebuilt.drivetrain.getFieldVelocity(), null);
+              ChassisSpeeds fieldVelocity = Rebuilt.drivetrain.getFieldVelocity();
+
+              return new TurretControlPhysics.RobotState(predictedPose, fieldVelocity, null);
             });
 
     double distanceToVirtualTarget = solution.effectiveDistanceMeters();

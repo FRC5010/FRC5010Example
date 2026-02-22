@@ -16,12 +16,15 @@ public interface IntakeIO {
     public double speed = 0.0;
     public Angle hopperAngle = Degrees.of(0.0);
     public double hopperAngleDouble = 0.0;
+    public double hopperAmps = 0;
     public int simulatedGamepieces = 0;
   }
 
   public void runSpintake(double speed);
 
   public void setHopperAngle(Angle angle);
+
+  public void setHopperPosition(Angle angle);
 
   public boolean isRetracted();
 

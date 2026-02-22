@@ -53,8 +53,9 @@ public class IntakeCommands {
             .createLeftTrigger()
             .limit(Constants.Intake.INTAKE_MAX_IN)); // Axis are positive only hence IN
     Trigger leftTrigger = new Trigger(() -> controller.getLeftTrigger() > 0.25);
-    controller.createLeftBumper().onTrue(shouldRetracting()).onFalse(shouldRetracted());
-
+    controller.createRightBumper().onTrue(shouldRetracting()).onFalse(shouldRetracted());
+    controller.createStartButton().onTrue(Commands.run(() -> intake.setHopperRetracted()));
+    controller.createBackButton().onTrue(Commands.run(() -> intake.setHopperDeployed()));
     outtaking =
         intakeStateMachine.addState(
             "outtaking", outtakingCommand(() -> controller.getLeftTrigger()));
@@ -91,26 +92,20 @@ public class IntakeCommands {
   public static Command outtakingCommand(DoubleSupplier speed) {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.OUTTAKING))
         // .andThen(() -> intake.setHopperAngle(Degrees.of(0.0)))
-        .andThen(
-            Commands.run(
-                () ->
-                    intake.runSpintake(
-                        Math.max(
-                            Constants.Intake.INTAKE_MAX_OUT,
-                            Math.min(-speed.getAsDouble(), Constants.Intake.INTAKE_OUT)))));
+        .andThen(Commands.run(() -> intake.runSpintake(-speed.getAsDouble())));
+    // Math.max(
+    //     Constants.Intake.INTAKE_MAX_OUT,
+    //     Math.min(-speed.getAsDouble(), Constants.Intake.INTAKE_OUT)))));
     // assuming outtaking is just intaking but goes the other way
   }
 
   public static Command intakingCommand(DoubleSupplier speed) {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.INTAKING))
         // .andThen(() -> intake.setHopperAngle(Degrees.of(0.0)))
-        .andThen(
-            Commands.run(
-                () ->
-                    intake.runSpintake(
-                        Math.min(
-                            Constants.Intake.INTAKE_MAX_IN,
-                            Math.max(speed.getAsDouble(), Constants.Intake.INTAKE_IN)))));
+        .andThen(Commands.run(() -> intake.runSpintake(speed.getAsDouble())));
+    // Math.min(
+    //     Constants.Intake.INTAKE_MAX_IN,
+    //     Math.max(speed.getAsDouble(), Constants.Intake.INTAKE_IN)))));
   }
 
   public static Command deployingCommand() {

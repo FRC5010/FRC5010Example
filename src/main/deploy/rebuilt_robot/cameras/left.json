@@ -2,11 +2,12 @@
   "name": "left-bagel",
   "use": "apriltag",
   "type": "photonvision",
+  "strategy": "LOWEST_AMBIGUITY",
   "column": 0,
   "x": -0.267274,
   "y": 0.310972,
   "z": 0.237805,
   "roll": 0,
   "pitch": -30,
-  "yaw": 25
+  "yaw": 65
 }

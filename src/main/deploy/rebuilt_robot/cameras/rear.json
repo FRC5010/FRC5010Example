@@ -2,6 +2,7 @@
   "name": "rear-prometheus",
   "use": "apriltag",
   "type": "photonvision",
+  "strategy": "LOWEST_AMBIGUITY",
   "column": 0,
   "x": -0.316347,
   "y": 0.218577,

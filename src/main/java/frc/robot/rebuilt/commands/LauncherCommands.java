@@ -2,7 +2,6 @@ package frc.robot.rebuilt.commands;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.util.Color;
@@ -124,6 +123,13 @@ public class LauncherCommands {
     readyToFireTrigger
         .onTrue(IndexerCommands.shouldFeedCommand())
         .onFalse(IndexerCommands.shouldIdleCommand());
+
+    driver.createUpPovButton().onTrue(launcher.increaseHoodAngleCommand());
+    driver.createDownPovButton().onTrue(launcher.decreaseHoodAngleCommand());
+    driver.createLeftPovButton().onTrue(launcher.decreaseFlywheelSpeedCommand());
+    driver.createRightPovButton().onTrue(launcher.increaseFlywheelSpeedCommand());
+    operator.createLeftPovButton().onTrue(launcher.decreaseTurretAngleCommand());
+    operator.createRightPovButton().onTrue(launcher.increaseTurretAngleCommand());
   }
 
   private Translation2d getTargetPose() {
@@ -204,7 +210,9 @@ public class LauncherCommands {
             Commands.runOnce(
                 () ->
                     launcher.usePresets(
-                        Degrees.of(30), Constants.LauncherConstants.TURRET_FORWARD, RPM.of(300))));
+                        Constants.Launcher.HUB_HOOD_ANGLE,
+                        Constants.Launcher.TURRET_FORWARD,
+                        Constants.Launcher.HUB_FLYWHEEL_RPM)));
   }
 
   public static Command towerPresetStateCommand() {
@@ -213,7 +221,9 @@ public class LauncherCommands {
             Commands.runOnce(
                 () ->
                     launcher.usePresets(
-                        Degrees.of(45), Constants.LauncherConstants.TURRET_FORWARD, RPM.of(400))));
+                        Constants.Launcher.TOWER_HOOD_ANGLE,
+                        Constants.Launcher.TURRET_FORWARD,
+                        Constants.Launcher.TOWER_FLYWHEEL_RPM)));
   }
 
   public static Command turretForwardPresetStateCommand() {
@@ -222,7 +232,9 @@ public class LauncherCommands {
             Commands.runOnce(
                 () ->
                     launcher.usePresets(
-                        Degrees.of(50), Constants.LauncherConstants.TURRET_FORWARD, RPM.of(500))));
+                        Constants.Launcher.FWD_HOOD_ANGLE,
+                        Constants.Launcher.TURRET_FORWARD,
+                        Constants.Launcher.FWD_FLYWHEEL_RPM)));
   }
 
   public static Command hammerTimeStateCommand() {
@@ -231,9 +243,9 @@ public class LauncherCommands {
             () -> {
               launcher.setCurrentState(LauncherState.HAMMERTIME);
               launcher.usePresets(
-                  Constants.LauncherConstants.LOW_HOOD_ANGLE,
+                  Constants.Launcher.LOW_HOOD_ANGLE,
                   Degrees.of(0),
-                  Constants.LauncherConstants.LOW_FLYWHEEL_RPM);
+                  Constants.Launcher.LOW_FLYWHEEL_RPM);
             }));
   }
 

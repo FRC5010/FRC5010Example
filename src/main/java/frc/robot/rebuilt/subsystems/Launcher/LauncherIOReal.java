@@ -10,7 +10,6 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Radian;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Second;
@@ -127,7 +126,7 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putNumber("EasyCRT Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
     SmartDashboard.putNumber("Encoder 36", crtSensor36.getAsDouble("angle"));
     SmartDashboard.putNumber("EasyCRT Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
-    Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
+    // Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
     // SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
     // SmartDashboard.putString("CRT Status", easyCrtSolver.getLastStatus().name());
     // SmartDashboard.putNumber("CRT Error Rot", easyCrtSolver.getLastErrorRotations());
@@ -148,7 +147,7 @@ public class LauncherIOReal implements LauncherIO {
       inputs.isValidCalculation = params.isValid();
       inputs.hoodAngleCalculated = Radian.of(params.hoodAngle());
       inputs.turretAngleCalculated = params.turretAngle().getMeasure();
-      inputs.flyWheelSpeedCalculated = RadiansPerSecond.of(params.flywheelSpeed() / 25.0);
+      inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed() * 0.5);
       inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
     }
 
@@ -172,13 +171,11 @@ public class LauncherIOReal implements LauncherIO {
     inputs.turretAngleError = inputs.turretAngleActual.minus(inputs.turretAngleDesired).in(Degrees);
 
     inputs.flyWheelSpeedAtGoal =
-        Math.abs(inputs.flyWheelSpeedError.in(RPM))
-            <= Constants.LauncherConstants.SHOOTER_TOLERANCE_RPM;
+        Math.abs(inputs.flyWheelSpeedError.in(RPM)) <= Constants.Launcher.SHOOTER_TOLERANCE_RPM;
     inputs.flyWheelSpeedAtGoal =
-        Math.abs(inputs.hoodAngleError) <= Constants.LauncherConstants.HOOD_ANGLE_TOLERANCE_DEGREES;
+        Math.abs(inputs.hoodAngleError) <= Constants.Launcher.HOOD_ANGLE_TOLERANCE_DEGREES;
     inputs.turretAngleAtGoal =
-        Math.abs(inputs.turretAngleError)
-            <= Constants.LauncherConstants.TURRET_ANGLE_TOLERANCE_DEGREES;
+        Math.abs(inputs.turretAngleError) <= Constants.Launcher.TURRET_ANGLE_TOLERANCE_DEGREES;
 
     inputs.hoodVelocity = hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second));
     inputs.turretVelocity =

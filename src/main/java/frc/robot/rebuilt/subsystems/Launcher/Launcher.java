@@ -36,7 +36,7 @@ public class Launcher extends GenericSubsystem {
         new Transform3d(
             turret.getPivotConfig().getMechanismPositionConfig().getRelativePosition().get(),
             new Rotation3d());
-/**Chooses the io to be real or simulated*/
+/** Chooses the io to be real or simulated*/
     if (RobotBase.isSimulation()) {
       io = new LauncherIOSim(devices);
     } else {

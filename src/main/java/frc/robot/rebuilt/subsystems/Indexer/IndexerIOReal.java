@@ -3,38 +3,45 @@ package frc.robot.rebuilt.subsystems.indexer;
 import java.util.Map;
 import org.frc5010.common.motors.function.PercentControlMotor;
 /** Implements the hardware Indexer IO */
+import yams.mechanisms.velocity.FlyWheel;
+
 public class IndexerIOReal implements IndexerIO {
   protected Map<String, Object> devices;
-  private PercentControlMotor Spindexer;
-  private PercentControlMotor TransferFront, TransferBack;
+  private PercentControlMotor spindexer;
+  // private PercentControlMotor transferFront, transferBack;
+  private FlyWheel transferFront;
 
   public IndexerIOReal(Map<String, Object> devices) {
-    Spindexer = (PercentControlMotor) devices.get("spindexer");
-    TransferFront = (PercentControlMotor) devices.get("transfer_front");
-    TransferBack = (PercentControlMotor) devices.get("transfer_back");
-    TransferFront.setFollow(TransferBack, true);
+    spindexer = (PercentControlMotor) devices.get("spindexer");
+    transferFront = (FlyWheel) devices.get("transfer");
+    // transferFront = (PercentControlMotor) devices.get("transfer_front");
+    // transferBack = (PercentControlMotor) devices.get("transfer_back");
+    // transferFront.invert(true);
+    // transferFront.setFollow(transferBack, false);
     this.devices = devices;
   }
 /** Updates indexer input values with current motor speed*/
   @Override
   public void updateInputs(IndexerIOInputs inputs) {
-    inputs.spindexerSpeed = Spindexer.get();
-    inputs.transferFrontSpeed = TransferFront.get();
-    inputs.transferBackSpeed = TransferBack.get();
+    inputs.spindexerSpeed = spindexer.get();
+    inputs.transferFrontSpeed = transferFront.getMotor().getDutyCycle();
+    // inputs.transferFrontSpeed = transferFront.get();
+    // inputs.transferBackSpeed = transferBack.get();
   }
 /** Sets the spindexer motor speed */
   @Override
   public void runSpindexer(double speed) {
-    Spindexer.set(speed);
+    spindexer.set(speed);
   }
 /** Sets the front transfer motor speed*/
   @Override
   public void runTransferFront(double speed) {
-    TransferFront.set(speed);
+    // transferFront.set(speed);
+    transferFront.getMotor().setDutyCycle(speed);
   }
-/** Sets the back transfer motor speed */
-  @Override
-  public void runTransferBack(double speed) {
-    TransferBack.set(speed);
-  }
+
+  // @Override
+  // public void runTransferBack(double speed) {
+  //   transferBack.set(speed);
+  // }
 }

@@ -153,11 +153,11 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
         driveVelocity,
         driveAppliedVolts,
         driveCurrent,
-        turnAbsolutePosition,
         turnVelocity,
         turnAppliedVolts,
+        turnAbsolutePosition,
         turnCurrent);
-    ParentDevice.optimizeBusUtilizationForAll(driveTalon, turnTalon);
+    ParentDevice.optimizeBusUtilizationForAll(driveTalon, turnTalon, cancoder);
   }
 
   @Override

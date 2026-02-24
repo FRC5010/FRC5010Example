@@ -48,8 +48,7 @@ public class Rebuilt extends GenericRobot {
     indexer = new Indexer();
     // climb = new Climb();
     intake = new Intake();
-    launcher = new Launcher();
-    /** retrieves the drive train from the subsystem map and casts it to generic drive train*/
+    launcher = new Launcher(subsystems);
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
     /** creates command containers */
     testCommands = new TestCommands(subsystems);
@@ -64,6 +63,7 @@ public class Rebuilt extends GenericRobot {
   /** Configures buttons with commands */
   public void configureButtonBindings(Controller driver, Controller operator) {
     if (!isButtonsConfigured) {
+      driver.createYButton().onTrue(Commands.runOnce(() -> drivetrain.toggleFieldOrientedDrive()));
       drivetrain.configureButtonBindings(driver, operator);
       climbCommands.configureButtonBindings(driver, operator);
       launcherCommands.configureButtonBindings(driver, operator);
@@ -107,5 +107,7 @@ public class Rebuilt extends GenericRobot {
     super.buildAutoCommands();
     selectableCommand.addOption("Do Nothing", Commands.none());
     drivetrain.addAutoCommands(selectableCommand);
+    autocommands.configureNamedCommands();
+    autocommands.configureCharacterizationCommands(selectableCommand);
   }
 }

@@ -149,6 +149,8 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
       Logger.recordOutput("SwerveStates/SetpointsOptimized", new SwerveModuleState[] {});
     }
 
+    getChassisSpeeds();
+
     // Update odometry
     double[] sampleTimestamps =
         modules[0].getOdometryTimestamps(); // All signals are sampled together
@@ -266,6 +268,7 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
     for (int i = 0; i < 4; i++) {
       states[i] = modules[i].getState();
     }
+    Logger.recordOutput("SwerveStates/Measured", states);
     return states;
   }
 
@@ -282,7 +285,9 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
   /** Returns the measured chassis speeds of the robot. */
   @AutoLogOutput(key = "SwerveChassisSpeeds/Measured")
   private ChassisSpeeds getChassisSpeeds() {
-    return kinematics.toChassisSpeeds(getModuleStates());
+    ChassisSpeeds speeds = kinematics.toChassisSpeeds(getModuleStates());
+    Logger.recordOutput("SwerveChassisSpeeds/Measured", speeds);
+    return speeds;
   }
 
   /** Returns the position of each module in radians. */
@@ -365,7 +370,8 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
 
   @Override
   public ChassisSpeeds getFieldVelocity() {
-    return ChassisSpeeds.fromFieldRelativeSpeeds(getChassisSpeeds(), gyroInputs.yawPosition);
+    return ChassisSpeeds.fromFieldRelativeSpeeds(
+        getChassisSpeeds(), gyroInputs.yawPosition.times(-1));
   }
 
   @Override
@@ -512,14 +518,12 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
         "PRO: Swerve Drive Feedforward Characterization",
         AkitDriveCommands.feedforwardCharacterization(
             drivetrain,
-            this,
             (Voltage voltage) -> runCharacterization(voltage.in(Volts)),
             () -> getDriveFFCharacterizationVelocity()));
     selectableCommand.addOption(
         "PRO: Swerve Steer Feedforward Characterization",
         AkitDriveCommands.feedforwardCharacterization(
             drivetrain,
-            this,
             (Voltage voltage) -> runSteerCharacterization(voltage.in(Volts)),
             () -> getSteerFFCharacterizationVelocity()));
 

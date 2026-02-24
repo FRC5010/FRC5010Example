@@ -73,9 +73,13 @@ public interface LauncherIO {
 
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity);
 
+  public Command getHoodCharacterizationCommand(GenericSubsystem launcher);
+
   public Command getHoodSysIdCommand();
 
   public Command getHoodSysIdCommand(GenericSubsystem launcher);
+
+  public Command getTurretCharacterizationCommand(GenericSubsystem launcher);
 
   public Command getTurretSysIdCommand();
 

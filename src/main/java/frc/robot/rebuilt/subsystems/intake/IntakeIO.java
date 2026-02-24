@@ -5,6 +5,7 @@ import static edu.wpi.first.units.Units.Degrees;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.commands.IntakeCommands;
+import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface IntakeIO {
@@ -14,6 +15,8 @@ public interface IntakeIO {
     public IntakeCommands.IntakeState stateCurrent = IntakeCommands.IntakeState.RETRACTED;
     public double speed = 0.0;
     public Angle hopperAngle = Degrees.of(0.0);
+    public double hopperAngleDouble = 0.0;
+    public double hopperAmps = 0;
     public int simulatedGamepieces = 0;
   }
 
@@ -21,11 +24,17 @@ public interface IntakeIO {
 
   public void setHopperAngle(Angle angle);
 
-  public Boolean isRetracted();
+  public void setHopperPosition(Angle angle);
+
+  public boolean isRetracted();
+
+  public boolean isDeployed();
 
   public void runHopper(double speed);
 
   public Command getHopperSysIdCommand();
+
+  public Command getHopperCharacterizationCommand(GenericSubsystem intake);
 
   public default void updateInputs(IntakeIOInputs inputs) {}
 }

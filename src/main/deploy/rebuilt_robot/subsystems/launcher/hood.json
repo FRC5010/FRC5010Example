@@ -4,12 +4,16 @@
     "controllerType": "talonfx",
     "motorType": "KrakenX44",
     "canId": 19,
-    "logLevel": "HIGH"
+    "logLevel": "HIGH",
+    "currentLimit": {
+      "val": 60,
+      "uom": "amps"
+    }
   },
   "controlAlgorithm": "SIMPLE",
   "motorSystemId": {
     "feedBack": {
-      "p": 100,
+      "p": 200,
       "i": 0.0,
       "d": 7
     },

@@ -47,9 +47,9 @@
     },
     "steerMotorControl": {
       "feedBack": {
-        "p": 100,
+        "p": 30,
         "i": 0.0,
-        "d": 0.5
+        "d": 0.03
       },
       "feedForward": {
         "s": 0.3245401421882499,

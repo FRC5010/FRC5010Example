@@ -10,6 +10,7 @@ import java.util.function.DoubleFunction;
 public class TurretControlPhysics {
   /** Defines configuration parameters and physical constraints for turret aiming calculations */
   private final Translation2d turretOffsetRobotFrame;
+
   private final Rotation2d minTurretAngle;
   private final Rotation2d maxTurretAngle;
   private final Rotation2d feedforwardPaddingAngle;
@@ -43,7 +44,6 @@ public class TurretControlPhysics {
    * @param minRangeMeters Minimum effective shot range.
    * @param maxRangeMeters Maximum effective shot range.
    */
-
   public TurretControlPhysics(
       Translation2d turretOffsetRobotFrame,
       Rotation2d minTurretAngle,
@@ -64,7 +64,7 @@ public class TurretControlPhysics {
     this.minEffectiveRangeMeters = minRangeMeters;
     this.maxEffectiveRangeMeters = maxRangeMeters;
   }
-/** Defines possible states for the aiming status*/
+  /** Defines possible states for the aiming status */
   public enum AimingStatus {
     READY_TO_FIRE,
     TARGET_TOO_CLOSE,
@@ -72,7 +72,7 @@ public class TurretControlPhysics {
     IN_DEADZONE,
     SOLVER_FAILED
   }
-/** Defines data representing for the solver result */
+  /** Defines data representing for the solver result */
   public record AimingSolution(
       Translation2d virtualTargetFieldPos,
       Rotation2d turretFieldHeading,
@@ -107,7 +107,7 @@ public class TurretControlPhysics {
 
     AimingStatus status = AimingStatus.READY_TO_FIRE;
     double distanceToTarget = finalState.vectorToVirtualTarget.getNorm();
-/** Checks the distance to the target for effective shooting range */
+    /** Checks the distance to the target for effective shooting range */
     if (distanceToTarget < minEffectiveRangeMeters) {
       status = AimingStatus.TARGET_TOO_CLOSE;
     } else if (distanceToTarget > maxEffectiveRangeMeters) {
@@ -122,13 +122,13 @@ public class TurretControlPhysics {
 
     if (localHeadingRadians < minLimitRadians || localHeadingRadians > maxLimitRadians) {
       status = AimingStatus.IN_DEADZONE;
-/** If the  angle is outside limits, then it clamps to the nearest valid limit */
+      /** If the angle is outside limits, then it clamps to the nearest valid limit */
       if (feedforwardRadPerSec > 0.1) {
         localHeading = minTurretAngle;
       } else if (feedforwardRadPerSec < -0.1) {
         localHeading = maxTurretAngle;
       } else {
-/** Sets the turret closest angle limit if the feed forward is near zero*/
+        /** Sets the turret closest angle limit if the feed forward is near zero */
         double distanceToMin =
             Math.abs(MathUtil.angleModulus(localHeadingRadians - minLimitRadians));
         double distanceToMax =
@@ -153,7 +153,7 @@ public class TurretControlPhysics {
         status,
         finalState);
   }
-/** Scales feedforward when the turret is near mechanical limits */
+  /** Scales feedforward when the turret is near mechanical limits */
   private double applyFeedforwardSafetyPadding(
       double currentAngleRadians, double commandedFeedforward) {
     double minLimitRadians = minTurretAngle.getRadians();
@@ -174,13 +174,18 @@ public class TurretControlPhysics {
 
     return commandedFeedforward;
   }
-/** Runs the Newton solver to converge the right time of flight so the launcher can shoot when moving */
+  /**
+   * Runs the Newton solver to converge the right time of flight so the launcher can shoot when
+   * moving
+   */
   private SolverState runNewtonSolver(
       Translation2d targetFieldPos, Rotation2d currentTurretAngle, RobotPredictor predictor) {
 
     double timeFlightGuess = 0.5;
     SolverState bestState = null;
-/** Computes the physics state for the current guess for the Newton solver at the current state */
+    /**
+     * Computes the physics state for the current guess for the Newton solver at the current state
+     */
     for (int i = 0; i < MAX_SOLVER_ITERATIONS; i++) {
       SolverState stateCurrent =
           computePhysicsState(timeFlightGuess, targetFieldPos, currentTurretAngle, predictor);
@@ -188,7 +193,7 @@ public class TurretControlPhysics {
       if (Math.abs(stateCurrent.errorSeconds) < CONVERGENCE_THRESHOLD_SECONDS) {
         return stateCurrent.markConverged();
       }
-/** Computes the solver state for the derivative probe */
+      /** Computes the solver state for the derivative probe */
       SolverState stateProbe =
           computePhysicsState(
               timeFlightGuess + DERIVATIVE_PROBE_TIME_DELTA,
@@ -208,7 +213,7 @@ public class TurretControlPhysics {
     }
     return bestState;
   }
-/** Computes and returns a solver state */
+  /** Computes and returns a solver state */
   private SolverState computePhysicsState(
       double timeFlightGuess,
       Translation2d targetFieldPos,
@@ -225,12 +230,14 @@ public class TurretControlPhysics {
                         stateNow.velocity().vyMetersPerSecond)
                     .times(timeFlightGuess)
                 : new Translation2d());
-/** Computes the robot heading, turret offset, and vector from the turret to the estimated target */
+    /**
+     * Computes the robot heading, turret offset, and vector from the turret to the estimated target
+     */
     Rotation2d robotHeadingNow = stateNow.pose().getRotation();
     Translation2d turretOffsetNow = turretOffsetRobotFrame.rotateBy(robotHeadingNow);
     Translation2d vectorToEstimatedTarget =
         estimatedVirtualTarget.minus(stateNow.pose().getTranslation().plus(turretOffsetNow));
-/** Computes the angle to the estimated target */
+    /** Computes the angle to the estimated target */
     Rotation2d goalAngleLocal = getAngleFromVector(vectorToEstimatedTarget).minus(robotHeadingNow);
     double angleErrorRadians =
         Math.abs(MathUtil.angleModulus(goalAngleLocal.minus(currentTurretAngle).getRadians()));
@@ -264,7 +271,7 @@ public class TurretControlPhysics {
     double requiredTimeOfFlight = timeOfFlightFunction.apply(distanceToVirtualTarget);
 
     double errorSeconds = timeFlightGuess - requiredTimeOfFlight;
-/** Returns a fully constructed solver state */
+    /** Returns a fully constructed solver state */
     return new SolverState(
         errorSeconds,
         requiredTimeOfFlight,
@@ -274,7 +281,7 @@ public class TurretControlPhysics {
         stateAtFire,
         false);
   }
-/** Computes the kinematic feed forward caused by robot rotation and acceleration */
+  /** Computes the kinematic feed forward caused by robot rotation and acceleration */
   private double calculateKinematicFeedforward(SolverState state) {
     RobotState robotState = state.robotStateAtFire;
     Rotation2d robotHeading = robotState.pose().getRotation();
@@ -289,7 +296,10 @@ public class TurretControlPhysics {
             -robotAlpha * turretOffsetRotated.getY(), robotAlpha * turretOffsetRotated.getX());
 
     Translation2d accelCentripetal = turretOffsetRotated.times(-(robotOmega * robotOmega));
-/** Converts the robot's acceleration into a 2D vector and defaults it to 0 is no data is available*/
+    /**
+     * Converts the robot's acceleration into a 2D vector and defaults it to 0 is no data is
+     * available
+     */
     Translation2d accelRobotLinear =
         robotState.acceleration() != null
             ? new Translation2d(
@@ -320,7 +330,7 @@ public class TurretControlPhysics {
   private Rotation2d getAngleFromVector(Translation2d vec) {
     return new Rotation2d(vec.getX(), vec.getY());
   }
-/** Packages physics data from the newton solver into one immutable object */
+  /** Packages physics data from the newton solver into one immutable object */
   public record SolverState(
       double errorSeconds,
       double requiredTimeOfFlight,
@@ -329,7 +339,7 @@ public class TurretControlPhysics {
       Translation2d inheritedMuzzleVelocity,
       RobotState robotStateAtFire,
       boolean hasConverged) {
-/** Returns the new solver state that has converged */
+    /** Returns the new solver state that has converged */
     public SolverState markConverged() {
       return new SolverState(
           errorSeconds,

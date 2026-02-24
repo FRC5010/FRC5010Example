@@ -46,7 +46,7 @@ public class LauncherIOSim extends LauncherIOReal {
         flyWheel.getShooterConfig().getLowerSoftLimit().orElse(RPM.of(0.0)).in(RadiansPerSecond);
     double maxFlywheelRadPerSec =
         flyWheel.getShooterConfig().getUpperSoftLimit().orElse(RPM.of(5000.0)).in(RadiansPerSecond);
-/** Reads the hood angle limits */
+    /** Reads the hood angle limits */
     Rotation2d minHoodAngle =
         Rotation2d.fromDegrees(
             hood.getMotorController().getConfig().getMechanismLowerLimit().get().in(Degrees));
@@ -57,7 +57,7 @@ public class LauncherIOSim extends LauncherIOReal {
 
     double launchHeight = flyWheel.getRelativeMechanismPosition().getZ();
     double targetHeight = FieldConstants.Hub.height;
-/** Creates ballistic configuration for the shot calculator */
+    /** Creates ballistic configuration for the shot calculator */
     ShotCalculator.BallisticConfig config =
         new ShotCalculator.BallisticConfig(
             1.0,

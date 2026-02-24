@@ -14,7 +14,7 @@ public class Constants {
   public static final String CLIMB = Climb.class.getSimpleName();
   public static final String INTAKE = Intake.class.getSimpleName();
   public static final String LAUNCHER = Launcher.class.getSimpleName();
-/** Defines the maxinum distance for the climb */
+  /** Defines the maxinum distance for the climb */
   public static class ClimbConstants {
     public static final Distance MAX = Inch.of(27);
   }

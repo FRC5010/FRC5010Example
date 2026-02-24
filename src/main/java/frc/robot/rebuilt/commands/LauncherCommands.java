@@ -4,7 +4,6 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -19,6 +18,7 @@ import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
+
 /** defines commands and state launcher logic for the launcher */
 public class LauncherCommands {
 
@@ -37,7 +37,7 @@ public class LauncherCommands {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
   }
   // public static Angle getHoodAngle(Distance toTarget) {} Placeholder for now
-/** declares possible states for the launcher */
+  /** declares possible states for the launcher */
   public static enum LauncherState {
     IDLE,
     LOW_SPEED,
@@ -50,7 +50,7 @@ public class LauncherCommands {
       return this.name();
     }
   }
-/** initializes the launcher state machine and adds states */
+  /** initializes the launcher state machine and adds states */
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
     launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
@@ -58,7 +58,7 @@ public class LauncherCommands {
     launcher.setRequestedState(LauncherState.IDLE);
 
     drivetrain = (GenericDrivetrain) this.subsystems.get(ConfigConstants.DRIVETRAIN);
-/** adds possible states of the launcher */
+    /** adds possible states of the launcher */
     stateMachine = new StateMachine("LauncherStateMachine");
     presetState = stateMachine.addState("PRESET-SHOOT", presetStateCommand());
     idleState = stateMachine.addState("IDLE", idleStateCommand());
@@ -68,7 +68,7 @@ public class LauncherCommands {
 
     stateMachine.setInitialState(idleState);
   }
-/** sets the state machine as the default command of the launcher */
+  /** sets the state machine as the default command of the launcher */
   public void setDefaultCommands() {
     if (launcher != null) {
       stateMachine.addRequirements(launcher);
@@ -77,7 +77,7 @@ public class LauncherCommands {
   }
 
   public void configureButtonBindings(Controller driver, Controller operator) {
-/** defines launcher state transitions */
+    /** defines launcher state transitions */
     idleState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     idleState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
     idleState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
@@ -136,38 +136,38 @@ public class LauncherCommands {
   private Translation2d getTargetPose() {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
   }
-/** creates command behavior for the IDLE launcher state */
+  /** creates command behavior for the IDLE launcher state */
   private static Command idleStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.IDLE);
-            
             }),
         launcher.stopTrackingCommand());
   }
-/** creates command behavior for when the launcher is at low speed */
+  /** creates command behavior for when the launcher is at low speed */
   private static Command lowStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.LOW_SPEED);
-              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
+              LEDStrip.changeSegmentPattern(
+                  ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
             }),
         launcher.trackTargetCommand());
   }
-/** creates command behavior when the launcher is at prep state */
+  /** creates command behavior when the launcher is at prep state */
   private static Command prepStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
-              launcher.setCurrentState(LauncherState.PREP); 
-              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
+              launcher.setCurrentState(LauncherState.PREP);
+              LEDStrip.changeSegmentPattern(
+                  ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
             }),
         launcher.trackTargetCommand());
-      
   }
-/** creates command behavior for when the launcher is at preset */
+  /** creates command behavior for when the launcher is at preset */
   private static Command presetStateCommand() {
     return Commands.parallel(
         Commands.runOnce(

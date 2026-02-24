@@ -41,7 +41,7 @@ public class Launcher extends GenericSubsystem {
         new Transform3d(
             turret.getPivotConfig().getMechanismPositionConfig().getRelativePosition().get(),
             new Rotation3d());
-/** Chooses the io to be real or simulated*/
+    /** Chooses the io to be real or simulated */
     if (RobotBase.isSimulation()) {
       io = new LauncherIOSim(devices, subsystems);
     } else {
@@ -127,7 +127,7 @@ public class Launcher extends GenericSubsystem {
   public void stopAllMotors() {
     io.stopAllMotors();
   }
-/** Command that aims the launcher using hood turret and flywheel values from calculations */
+  /** Command that aims the launcher using hood turret and flywheel values from calculations */
   public Command trackTargetCommand() {
     return Commands.run(
         () -> {
@@ -136,8 +136,8 @@ public class Launcher extends GenericSubsystem {
           io.setFlyWheelVelocity(inputs.flyWheelSpeedCalculated);
         });
   }
-  /** Aims the launcher and spins the flywheel*/
-   public Command trackTargetLowCommand() {
+  /** Aims the launcher and spins the flywheel */
+  public Command trackTargetLowCommand() {
     return Commands.run(
         () -> {
           io.setHoodAngleLow();
@@ -145,7 +145,7 @@ public class Launcher extends GenericSubsystem {
           io.setFlyWheelVelocity(inputs.flyWheelSpeedCalculated);
         });
   }
-/**saims the turret and sets the flywheel to a given speed */
+  /** saims the turret and sets the flywheel to a given speed */
   public Command trackTargetCommand(double speed) {
     return Commands.run(
         () -> {
@@ -199,7 +199,7 @@ public class Launcher extends GenericSubsystem {
   public LauncherState getCurrentState() {
     return inputs.stateCurrent;
   }
-/**Applies the hood and turret angle, and the flywheel speed*/
+  /** Applies the hood and turret angle, and the flywheel speed */
   public void usePresets(Angle hoodAngle, Angle turretAngle, AngularVelocity flywheelSpeed) {
     io.setHoodAngle(hoodAngle);
     io.setTurretRotation(turretAngle);

@@ -68,7 +68,7 @@ public class ShotCalculator {
     if (instance == null) instance = new ShotCalculator();
     return instance;
   }
-/** Stores calculated shooting parameters */
+  /** Stores calculated shooting parameters */
   public record ShootingParameters(
       boolean isValid,
       Rotation2d turretAngle,
@@ -98,7 +98,7 @@ public class ShotCalculator {
       double minDistanceMeters,
       double maxDistanceMeters,
       double phaseDelaySeconds) {
-/** returns a copy of ShotTables with updated phase delay */
+    /** returns a copy of ShotTables with updated phase delay */
     public ShotTables withPhaseDelaySeconds(double newPhaseDelaySeconds) {
       return new ShotTables(
           hoodAngles,
@@ -109,7 +109,7 @@ public class ShotCalculator {
           newPhaseDelaySeconds);
     }
   }
-/** Stores configuration values for generating ballistic shot tables*/
+  /** Stores configuration values for generating ballistic shot tables */
   public record BallisticConfig(
       double minDistanceMeters,
       double maxDistanceMeters,
@@ -129,7 +129,7 @@ public class ShotCalculator {
   static {
     applyShotTables(createDefaultTables());
   }
-/** Creates default hood angle, flywheel speeds, and time of light tables */
+  /** Creates default hood angle, flywheel speeds, and time of light tables */
   public static ShotTables createDefaultTables() {
     return new ShotTables(
         Map.ofEntries(

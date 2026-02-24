@@ -16,11 +16,11 @@ public class IntakeCommands {
   static Intake intake;
   Map<String, GenericSubsystem> subsystems;
   StateMachine intakeStateMachine = new StateMachine("IntakeStateMachine");
+  /** Declaring states of the intake */
   State retracted = intakeStateMachine.addState("retracted", retractedCommand());
+
   State outtaking;
   State retracting = intakeStateMachine.addState("retracting", retractingCommand());
-  State intaking = intakeStateMachine.addState("intaking", intakingCommand());
-/** Declaring states of the intake */
   State deploying = intakeStateMachine.addState("deploying", deployingCommand());
   State intaking;
 

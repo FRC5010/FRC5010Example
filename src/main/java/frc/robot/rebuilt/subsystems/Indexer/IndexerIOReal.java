@@ -1,10 +1,10 @@
-package frc.robot.rebuilt.subsystems.indexer;
+package frc.robot.rebuilt.subsystems.Indexer;
 
 import java.util.Map;
 import org.frc5010.common.motors.function.PercentControlMotor;
-/** Implements the hardware Indexer IO */
 import yams.mechanisms.velocity.FlyWheel;
 
+/** Implements the hardware Indexer IO */
 public class IndexerIOReal implements IndexerIO {
   protected Map<String, Object> devices;
   private PercentControlMotor spindexer;
@@ -20,7 +20,7 @@ public class IndexerIOReal implements IndexerIO {
     // transferFront.setFollow(transferBack, false);
     this.devices = devices;
   }
-/** Updates indexer input values with current motor speed*/
+  /** Updates indexer input values with current motor speed */
   @Override
   public void updateInputs(IndexerIOInputs inputs) {
     inputs.spindexerSpeed = spindexer.get();
@@ -28,12 +28,12 @@ public class IndexerIOReal implements IndexerIO {
     // inputs.transferFrontSpeed = transferFront.get();
     // inputs.transferBackSpeed = transferBack.get();
   }
-/** Sets the spindexer motor speed */
+  /** Sets the spindexer motor speed */
   @Override
   public void runSpindexer(double speed) {
     spindexer.set(speed);
   }
-/** Sets the front transfer motor speed*/
+  /** Sets the front transfer motor speed */
   @Override
   public void runTransferFront(double speed) {
     // transferFront.set(speed);

@@ -58,7 +58,7 @@ public class LauncherIOReal implements LauncherIO {
   protected final Sensor crtSensor40;
   protected final Sensor crtSensor36;
   protected EasyCRT easyCrtSolver;
-/** Initializes the launcher hardware, encoders, simulated sensors, and angle solver */
+  /** Initializes the launcher hardware, encoders, simulated sensors, and angle solver */
   EasyCRTConfig easyCrt;
 
   public LauncherIOReal(Map<String, Object> devices, Map<String, GenericSubsystem> subsystems) {
@@ -153,7 +153,7 @@ public class LauncherIOReal implements LauncherIO {
       inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed() * 0.45);
       inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
     }
-/** Reads the desired flywheel, hood, and turret setpoints */
+    /** Reads the desired flywheel, hood, and turret setpoints */
     inputs.flyWheelSpeedDesired =
         flyWheel
             .getMotorController()
@@ -192,7 +192,7 @@ public class LauncherIOReal implements LauncherIO {
     // Log trench detection every cycle
     isNearTrench();
   }
-/** Configuring the shot calculator with limits and constraints */
+  /** Configuring the shot calculator with limits and constraints */
   @Override
   public void configureShotCalculator(ShotCalculator shotCalculator) {
     shotCalculator.setShotTables(ShotCalculator.createDefaultTables());
@@ -240,7 +240,7 @@ public class LauncherIOReal implements LauncherIO {
     return hood.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
 
-/** Runs sysid for the cahracterized hood motor and stops at limits */
+  /** Runs sysid for the cahracterized hood motor and stops at limits */
   public Command getHoodSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(hood.getMotorController(), hood.getName(), launcher),
@@ -263,7 +263,7 @@ public class LauncherIOReal implements LauncherIO {
   public Command getTurretSysIdCommand() {
     return turret.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
-/** Characterizes the turret */
+  /** Characterizes the turret */
   public Command getTurretSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(

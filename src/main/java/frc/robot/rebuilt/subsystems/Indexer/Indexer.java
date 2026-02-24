@@ -47,7 +47,7 @@ public class Indexer extends GenericSubsystem {
   public void configTestControls(Controller controller) {
     controller.createLeftBumper().whileTrue((spindexerCommand(.25)).alongWith(feederCommand(0.25)));
   }
-/**Command that runs the feeder at a given speed and stops when done*/
+  /** Command that runs the feeder at a given speed and stops when done */
   public Command feederCommand(double speed) {
     return Commands.run(
             () -> {
@@ -59,7 +59,7 @@ public class Indexer extends GenericSubsystem {
               runFeeder(0);
             });
   }
-/**returns a command that runs the spindexer at a set speed and stops when done */
+  /** returns a command that runs the spindexer at a set speed and stops when done */
   public Command spindexerCommand(double speed) {
     return Commands.run(
             () -> {
@@ -83,7 +83,6 @@ public class Indexer extends GenericSubsystem {
   public void simulationPeriodic() {
     super.simulationPeriodic();
   }
-
 
   public boolean isRequested(IndexerState state) {
     return inputs.stateRequested.compareTo(state) == 0;

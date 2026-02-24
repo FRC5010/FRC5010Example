@@ -5,10 +5,11 @@
     "motorType": "KrakenX60",
     "canId": 10,
     "logLevel": "LOW",
+    "inverted": true,
     "followers": [
       {
         "canId": 11,
-        "inverted": true
+        "inverted": false
       }
     ],
     "robotToMotor": {

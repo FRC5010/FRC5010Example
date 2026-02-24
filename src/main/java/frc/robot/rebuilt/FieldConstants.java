@@ -23,6 +23,7 @@ import org.frc5010.common.vision.AprilTags;
  * perspective of the blue alliance station
  */
 public class FieldConstants {
+
   public static final FieldType fieldType = FieldType.ANDYMARK;
 
   // AprilTag related constants
@@ -34,6 +35,8 @@ public class FieldConstants {
   public static final double fieldWidth = AprilTags.aprilTagFieldLayout.getFieldWidth();
   public static final Distance FIELD_LENGTH = Meters.of(fieldLength);
   public static final Distance FIELD_WIDTH = Meters.of(fieldWidth);
+  public static final Translation2d TRENCH_HALF_WIDTH =
+      new Translation2d(Meters.of(1.5), Meters.of(0));
   /**
    * Officially defined and relevant vertical lines found on the field (defined by X-axis offset)
    */
@@ -200,6 +203,34 @@ public class FieldConstants {
         new Translation3d(LinesVertical.oppHubCenter, fieldWidth, openingHeight);
     public static final Translation3d oppOpeningTopRight =
         new Translation3d(LinesVertical.oppHubCenter, fieldWidth - openingWidth, openingHeight);
+  }
+
+  public static class TrenchZoneTop {
+    public static Translation2d nearAlliance = LeftTrench.openingTopRight.toTranslation2d();
+    public static Translation2d nearAllianceLeftDanger =
+        LeftTrench.openingTopRight.toTranslation2d().minus(TRENCH_HALF_WIDTH);
+    public static Translation2d nearAllianceRightDanger =
+        LeftTrench.openingTopRight.toTranslation2d().plus(TRENCH_HALF_WIDTH);
+
+    public static Translation2d oppAlliance = LeftTrench.oppOpeningTopRight.toTranslation2d();
+    public static Translation2d oppAllianceLeftDanger =
+        LeftTrench.oppOpeningTopRight.toTranslation2d().minus(TRENCH_HALF_WIDTH);
+    public static Translation2d oppAllianceRightDanger =
+        LeftTrench.oppOpeningTopRight.toTranslation2d().plus(TRENCH_HALF_WIDTH);
+  }
+
+  public static class TrenchZoneBottom {
+    public static Translation2d nearAlliance = RightTrench.openingTopRight.toTranslation2d();
+    public static Translation2d nearAllianceLeftDanger =
+        RightTrench.openingTopRight.toTranslation2d().minus(TRENCH_HALF_WIDTH);
+    public static Translation2d nearAllianceRightDanger =
+        RightTrench.openingTopRight.toTranslation2d().plus(TRENCH_HALF_WIDTH);
+
+    public static Translation2d oppAlliance = RightTrench.openingTopLeft.toTranslation2d();
+    public static Translation2d oppAllianceLeftDanger =
+        RightTrench.oppOpeningTopLeft.toTranslation2d().minus(TRENCH_HALF_WIDTH);
+    public static Translation2d oppAllianceRightDanger =
+        RightTrench.oppOpeningTopLeft.toTranslation2d().plus(TRENCH_HALF_WIDTH);
   }
 
   public static class RightTrench {

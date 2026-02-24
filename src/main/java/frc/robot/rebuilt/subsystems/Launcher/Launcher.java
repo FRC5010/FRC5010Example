@@ -14,8 +14,10 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.LauncherCommands.LauncherState;
+import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Arm;
@@ -26,10 +28,13 @@ public class Launcher extends GenericSubsystem {
   private final Arm hood;
   private final LauncherIOInputsAutoLogged inputs = new LauncherIOInputsAutoLogged();
   public static Transform3d robotToTurret = new Transform3d();
+  private Map<String, GenericSubsystem> subsystems;
 
   /** Creates a new Launcher. */
-  public Launcher() {
+  public Launcher(Map<String, GenericSubsystem> subsystems) {
     super("launcher.json");
+
+    this.subsystems = subsystems;
     Pivot turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     robotToTurret =
@@ -38,9 +43,9 @@ public class Launcher extends GenericSubsystem {
             new Rotation3d());
 
     if (RobotBase.isSimulation()) {
-      io = new LauncherIOSim(devices);
+      io = new LauncherIOSim(devices, subsystems);
     } else {
-      io = new LauncherIOReal(devices);
+      io = new LauncherIOReal(devices, subsystems);
     }
 
     io.configureShotCalculator(ShotCalculator.getInstance());
@@ -102,6 +107,14 @@ public class Launcher extends GenericSubsystem {
     return io.getFlyWheelSysIdCommand(this);
   }
 
+  public Command getHoodCharacterizationCommand() {
+    return io.getHoodCharacterizationCommand(this);
+  }
+
+  public Command getTurretCharacterizationCommand() {
+    return io.getTurretCharacterizationCommand(this);
+  }
+
   @Override
   public Command getDefaultCommand() {
     return Commands.runOnce(
@@ -152,7 +165,7 @@ public class Launcher extends GenericSubsystem {
     return Commands.runOnce(
         () -> {
           setTurretRotation(Degrees.of(0));
-          setHoodAngle(Degrees.of(0));
+          setHoodAngle(Constants.Launcher.LOW_HOOD_ANGLE);
           runShooter(0);
         });
   }
@@ -191,5 +204,65 @@ public class Launcher extends GenericSubsystem {
     io.setHoodAngle(hoodAngle);
     io.setTurretRotation(turretAngle);
     io.setFlyWheelVelocity(flywheelSpeed);
+  }
+
+  public Command increaseHoodAngleCommand() {
+    return Commands.runOnce(
+        () -> {
+          Angle newAngle = inputs.hoodAngleActual.plus(Degrees.of(0.5));
+          if (newAngle.lt(Degrees.of(60))) {
+            io.setHoodAngle(newAngle);
+          }
+        });
+  }
+
+  public Command decreaseHoodAngleCommand() {
+    return Commands.runOnce(
+        () -> {
+          Angle newAngle = inputs.hoodAngleActual.minus(Degrees.of(0.5));
+          if (newAngle.gt(Degrees.of(30))) {
+            io.setHoodAngle(newAngle);
+          }
+        });
+  }
+
+  public Command decreaseFlywheelSpeedCommand() {
+    return Commands.runOnce(
+        () -> {
+          AngularVelocity newSpeed = inputs.flyWheelSpeedActual.minus(RPM.of(10));
+          if (newSpeed.gt(RPM.of(0))) {
+            io.setFlyWheelVelocity(newSpeed);
+          }
+        });
+  }
+
+  public Command increaseFlywheelSpeedCommand() {
+    return Commands.runOnce(
+        () -> {
+          AngularVelocity newSpeed = inputs.flyWheelSpeedActual.plus(RPM.of(10));
+          if (newSpeed.lt(RPM.of(300))) { // Assuming 300 RPM as the upper limit
+            io.setFlyWheelVelocity(newSpeed);
+          }
+        });
+  }
+
+  public Command decreaseTurretAngleCommand() {
+    return Commands.runOnce(
+        () -> {
+          Angle newAngle = inputs.turretAngleActual.minus(Degrees.of(1));
+          if (newAngle.gt(Degrees.of(-90))) { // Assuming -90 degrees as the left limit
+            io.setTurretRotation(newAngle);
+          }
+        });
+  }
+
+  public Command increaseTurretAngleCommand() {
+    return Commands.runOnce(
+        () -> {
+          Angle newAngle = inputs.turretAngleActual.plus(Degrees.of(1));
+          if (newAngle.lt(Degrees.of(90))) { // Assuming 90 degrees as the right limit
+            io.setTurretRotation(newAngle);
+          }
+        });
   }
 }

@@ -18,6 +18,7 @@ import frc.robot.rebuilt.commands.IndexerCommands.IndexerState;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import frc.robot.rebuilt.subsystems.intake.IntakeIOSim;
 import java.util.Map;
+import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
 import swervelib.simulation.ironmaple.simulation.SimulatedArena;
 import swervelib.simulation.ironmaple.simulation.gamepieces.GamePieceProjectile;
@@ -28,8 +29,8 @@ public class LauncherIOSim extends LauncherIOReal {
   protected GamePieceProjectile gamePieceProjectile;
   protected Map<String, Object> devices;
 
-  public LauncherIOSim(Map<String, Object> devices) {
-    super(devices);
+  public LauncherIOSim(Map<String, Object> devices, Map<String, GenericSubsystem> subsystems) {
+    super(devices, subsystems);
     IntakeIOSim.intakeSimulation.addGamePiecesToIntake(8);
     // Start with 8 gamepieces in the
     // intake

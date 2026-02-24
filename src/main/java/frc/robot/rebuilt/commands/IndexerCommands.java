@@ -80,11 +80,8 @@ public class IndexerCommands {
 
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
-
     driver.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
-    operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
-    driver.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldFeedCommand());
-    operator.createRightBumper().onTrue(shouldForceCommand()).onFalse(shouldFeedCommand());
+    // operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     configureTriggerStates();
   }
 
@@ -107,8 +104,8 @@ public class IndexerCommands {
     return Commands.runOnce(
         () -> {
           indexer.setCurrentState(IndexerState.FORCE);
-          indexer.runSpindexer(0.50);
-          indexer.runTransferFront(0.50);
+          indexer.runSpindexer(Constants.Indexer.SPINDEXER_SPEED);
+          indexer.runTransferFront(Constants.Indexer.TRANSFER_SPEED);
           //          indexer.runTransferBack(0.50);
         },
         indexer);
@@ -118,8 +115,8 @@ public class IndexerCommands {
     return Commands.runOnce(
         () -> {
           indexer.setCurrentState(IndexerState.CHURN);
-          indexer.runSpindexer(0);
-          indexer.runTransferFront(0.25);
+          indexer.runSpindexer(-0.1);
+          indexer.runTransferFront(Constants.Indexer.TRANSFER_CHURN);
           //          indexer.runTransferBack(0.25);
         },
         indexer);
@@ -144,8 +141,8 @@ public class IndexerCommands {
         Commands.runOnce(
             () -> {
               indexer.setCurrentState(IndexerState.FEED);
-              indexer.runSpindexer(0.5);
-              indexer.runTransferFront(1);
+              indexer.runSpindexer(Constants.Indexer.SPINDEXER_SPEED);
+              indexer.runTransferFront(Constants.Indexer.TRANSFER_SPEED);
               //              indexer.runTransferBack(1);
               LEDStrip.changeSegmentPattern(
                   ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(25));

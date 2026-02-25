@@ -225,17 +225,17 @@ public class LauncherIOReal implements LauncherIO {
         .setPosition(hood.getArmConfig().getLowerHardLimit().orElse(Degrees.of(30)));
     LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
   }
-
+/** Sets the angle of the turret based on the motor request */
   public void setTurretRotation(Angle angle) {
     turret.getMotorController().setPosition(angle);
   }
-
+/** Converts the flywheel angular velocity into speed */
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity) {
     return MetersPerSecond.of(
         flyWheel.getShooterConfig().getCircumference().in(Meters)
             * (velocity.in(RotationsPerSecond)));
   }
-
+/** Returns SysId command for the hood */
   public Command getHoodSysIdCommand() {
     return hood.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }

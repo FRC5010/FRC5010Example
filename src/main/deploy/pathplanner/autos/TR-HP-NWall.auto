@@ -5,27 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "shoot 8"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "editititited"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": null
+            "pathName": "SRT-HP"
           }
         },
         {
@@ -35,9 +17,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "climb"
+            "pathName": "HP-I"
           }
         }
       ]

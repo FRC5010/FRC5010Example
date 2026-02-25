@@ -33,13 +33,13 @@
   },
   "motorSystemId": {
     "feedBack": {
-      "p": 4,
+      "p": 5,
       "i": 0.0,
       "d": 0.0
     },
     "feedForward": {
       "s": 0.066854,
-      "v": 2.1962,
+      "v": 2.1,
       "a": 0.38848
     },
     "maxVelocity": {

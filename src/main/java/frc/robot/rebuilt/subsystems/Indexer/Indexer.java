@@ -33,13 +33,12 @@ public class Indexer extends GenericSubsystem {
   }
 
   public void runFeeder(double speed) {
-    io.runTransferBack(speed);
     io.runTransferFront(speed);
   }
 
-  public void runTransferBack(double speed) {
-    io.runTransferBack(speed);
-  }
+  // public void runTransferBack(double speed) {
+  //   io.runTransferBack(speed);
+  // }
 
   public void runTransferFront(double speed) {
     io.runTransferFront(speed);

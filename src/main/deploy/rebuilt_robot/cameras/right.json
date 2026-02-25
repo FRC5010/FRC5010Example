@@ -1,12 +1,13 @@
 {
-  "name": "right",
+  "name": "right-raikou",
   "use": "apriltag",
   "type": "photonvision",
+  "strategy": "LOWEST_AMBIGUITY",
   "column": 0,
-  "x": -0.281,
-  "y": -0.31,
-  "z": 0.225,
+  "x": -0.262626,
+  "y": -0.321135,
+  "z": 0.237805,
   "roll": 0,
   "pitch": -30,
-  "yaw": -90
+  "yaw": -65
 }

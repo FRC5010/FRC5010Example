@@ -4,6 +4,8 @@
 
 package frc.robot.rebuilt.subsystems.intake;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,7 +35,7 @@ public class Intake extends GenericSubsystem {
   public void runSpintake(double speed) {
     io.runSpintake(speed);
   }
-/** Creates a command that runs the spintake at the given speed and stops when done */
+  /** Creates a command that runs the spintake at the given speed and stops when done */
   public Command spintakeCommand(double speed) {
     return Commands.run(
             () -> {
@@ -49,14 +51,18 @@ public class Intake extends GenericSubsystem {
     io.setHopperAngle(angle);
   }
 
-  public Boolean isRetracted() {
+  public boolean isRetracted() {
     return io.isRetracted();
+  }
+
+  public boolean isDeployed() {
+    return io.isDeployed();
   }
 
   public void runHopper(double speed) {
     io.runHopper(speed);
   }
-/** Configures test controller bindings for the spintake, hopper control, and sysid  */
+  /** Configures test controller bindings for the spintake, hopper control, and sysid */
   public void configTestController(Controller controller) {
     controller.createRightBumper().whileTrue(spintakeCommand(0.5));
     controller.createYButton().whileTrue(getHopperSysIdCommand());
@@ -64,7 +70,7 @@ public class Intake extends GenericSubsystem {
     Trigger rightYAxis = new Trigger(() -> controller.getRightYAxis() > 0.01);
     rightYAxis.whileTrue(Commands.run(() -> runHopper(controller.getRightYAxis())));
   }
-/**Updates intake inputs from the io periodically and logs them each robot cycle*/
+  /** Updates intake inputs from the io periodically and logs them each robot cycle */
   @Override
   public void periodic() {
     super.periodic();
@@ -88,7 +94,19 @@ public class Intake extends GenericSubsystem {
     return io.getHopperSysIdCommand();
   }
 
+  public Command getHopperCharacterizationCommand() {
+    return io.getHopperCharacterizationCommand(this);
+  }
+
   public void setRequestedState(IntakeState state) {
     inputs.stateRequested = state;
+  }
+
+  public void setHopperDeployed() {
+    io.setHopperPosition(Degrees.of(0));
+  }
+
+  public void setHopperRetracted() {
+    io.setHopperPosition(Degrees.of(120));
   }
 }

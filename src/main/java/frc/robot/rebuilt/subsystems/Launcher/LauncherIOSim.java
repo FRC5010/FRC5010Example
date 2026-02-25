@@ -18,6 +18,7 @@ import frc.robot.rebuilt.commands.IndexerCommands.IndexerState;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import frc.robot.rebuilt.subsystems.intake.IntakeIOSim;
 import java.util.Map;
+import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
 import swervelib.simulation.ironmaple.simulation.SimulatedArena;
 import swervelib.simulation.ironmaple.simulation.gamepieces.GamePieceProjectile;
@@ -27,9 +28,9 @@ import swervelib.simulation.ironmaple.simulation.seasonspecific.rebuilt2026.Rebu
 public class LauncherIOSim extends LauncherIOReal {
   protected GamePieceProjectile gamePieceProjectile;
   protected Map<String, Object> devices;
-/** Initializes the simulated launcher */
-  public LauncherIOSim(Map<String, Object> devices) {
-    super(devices);
+
+  public LauncherIOSim(Map<String, Object> devices, Map<String, GenericSubsystem> subsystems) {
+    super(devices, subsystems);
     IntakeIOSim.intakeSimulation.addGamePiecesToIntake(8);
     // Start with 8 gamepieces in the
     // intake
@@ -45,7 +46,7 @@ public class LauncherIOSim extends LauncherIOReal {
         flyWheel.getShooterConfig().getLowerSoftLimit().orElse(RPM.of(0.0)).in(RadiansPerSecond);
     double maxFlywheelRadPerSec =
         flyWheel.getShooterConfig().getUpperSoftLimit().orElse(RPM.of(5000.0)).in(RadiansPerSecond);
-/** Reads the hood angle limits */
+    /** Reads the hood angle limits */
     Rotation2d minHoodAngle =
         Rotation2d.fromDegrees(
             hood.getMotorController().getConfig().getMechanismLowerLimit().get().in(Degrees));
@@ -56,7 +57,7 @@ public class LauncherIOSim extends LauncherIOReal {
 
     double launchHeight = flyWheel.getRelativeMechanismPosition().getZ();
     double targetHeight = FieldConstants.Hub.height;
-/** Creates ballistic configuration for the shot calculator */
+    /** Creates ballistic configuration for the shot calculator */
     ShotCalculator.BallisticConfig config =
         new ShotCalculator.BallisticConfig(
             1.0,

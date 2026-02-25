@@ -68,7 +68,7 @@ public class ShotCalculator {
     if (instance == null) instance = new ShotCalculator();
     return instance;
   }
-/** Stores calculated shooting parameters */
+  /** Stores calculated shooting parameters */
   public record ShootingParameters(
       boolean isValid,
       Rotation2d turretAngle,
@@ -98,7 +98,7 @@ public class ShotCalculator {
       double minDistanceMeters,
       double maxDistanceMeters,
       double phaseDelaySeconds) {
-/** returns a copy of ShotTables with updated phase delay */
+    /** returns a copy of ShotTables with updated phase delay */
     public ShotTables withPhaseDelaySeconds(double newPhaseDelaySeconds) {
       return new ShotTables(
           hoodAngles,
@@ -109,7 +109,7 @@ public class ShotCalculator {
           newPhaseDelaySeconds);
     }
   }
-/** Stores configuration values for generating ballistic shot tables*/
+  /** Stores configuration values for generating ballistic shot tables */
   public record BallisticConfig(
       double minDistanceMeters,
       double maxDistanceMeters,
@@ -129,20 +129,20 @@ public class ShotCalculator {
   static {
     applyShotTables(createDefaultTables());
   }
-/** Creates default hood angle, flywheel speeds, and time of light tables */
+  /** Creates default hood angle, flywheel speeds, and time of light tables */
   public static ShotTables createDefaultTables() {
     return new ShotTables(
         Map.ofEntries(
-            Map.entry(1.34, Rotation2d.fromDegrees(19.0)),
-            Map.entry(1.78, Rotation2d.fromDegrees(19.0)),
-            Map.entry(2.17, Rotation2d.fromDegrees(24.0)),
-            Map.entry(2.81, Rotation2d.fromDegrees(27.0)),
-            Map.entry(3.82, Rotation2d.fromDegrees(29.0)),
-            Map.entry(4.09, Rotation2d.fromDegrees(30.0)),
-            Map.entry(4.40, Rotation2d.fromDegrees(31.0)),
-            Map.entry(4.77, Rotation2d.fromDegrees(32.0)),
-            Map.entry(5.57, Rotation2d.fromDegrees(32.0)),
-            Map.entry(5.60, Rotation2d.fromDegrees(35.0))),
+            Map.entry(1.34, Rotation2d.fromDegrees(31.0)),
+            Map.entry(1.78, Rotation2d.fromDegrees(31.0)),
+            Map.entry(2.17, Rotation2d.fromDegrees(36.0)),
+            Map.entry(2.81, Rotation2d.fromDegrees(39.0)),
+            Map.entry(3.82, Rotation2d.fromDegrees(41.0)),
+            Map.entry(4.09, Rotation2d.fromDegrees(42.0)),
+            Map.entry(4.40, Rotation2d.fromDegrees(43.0)),
+            Map.entry(4.77, Rotation2d.fromDegrees(44.0)),
+            Map.entry(5.57, Rotation2d.fromDegrees(44.0)),
+            Map.entry(5.60, Rotation2d.fromDegrees(47.0))),
         Map.ofEntries(
             Map.entry(1.34, 210.0),
             Map.entry(1.78, 220.0),
@@ -354,8 +354,9 @@ public class ShotCalculator {
                           robotRelativeVelocity.vxMetersPerSecond * lookaheadSeconds,
                           robotRelativeVelocity.vyMetersPerSecond * lookaheadSeconds,
                           robotRelativeVelocity.omegaRadiansPerSecond * lookaheadSeconds));
-              return new TurretControlPhysics.RobotState(
-                  predictedPose, Rebuilt.drivetrain.getFieldVelocity(), null);
+              ChassisSpeeds fieldVelocity = Rebuilt.drivetrain.getFieldVelocity();
+
+              return new TurretControlPhysics.RobotState(predictedPose, fieldVelocity, null);
             });
 
     double distanceToVirtualTarget = solution.effectiveDistanceMeters();

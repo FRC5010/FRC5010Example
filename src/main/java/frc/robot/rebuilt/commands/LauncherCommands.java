@@ -2,10 +2,8 @@ package frc.robot.rebuilt.commands;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -20,6 +18,7 @@ import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
+
 /** defines commands and state launcher logic for the launcher */
 public class LauncherCommands {
 
@@ -28,6 +27,7 @@ public class LauncherCommands {
   private State lowState;
   private State prepState;
   private State presetState;
+  private State hammerTimeState;
   private static Launcher launcher;
   private static GenericDrivetrain drivetrain;
   private Map<String, GenericSubsystem> subsystems;
@@ -37,11 +37,12 @@ public class LauncherCommands {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
   }
   // public static Angle getHoodAngle(Distance toTarget) {} Placeholder for now
-/** declares possible states for the launcher */
+  /** declares possible states for the launcher */
   public static enum LauncherState {
     IDLE,
     LOW_SPEED,
     PREP,
+    HAMMERTIME,
     PRESET;
 
     @Override
@@ -49,7 +50,7 @@ public class LauncherCommands {
       return this.name();
     }
   }
-/** initializes the launcher state machine and adds states */
+  /** initializes the launcher state machine and adds states */
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
     launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
@@ -57,15 +58,17 @@ public class LauncherCommands {
     launcher.setRequestedState(LauncherState.IDLE);
 
     drivetrain = (GenericDrivetrain) this.subsystems.get(ConfigConstants.DRIVETRAIN);
-/** adds possible states of the launcher */
+    /** adds possible states of the launcher */
     stateMachine = new StateMachine("LauncherStateMachine");
     presetState = stateMachine.addState("PRESET-SHOOT", presetStateCommand());
     idleState = stateMachine.addState("IDLE", idleStateCommand());
     lowState = stateMachine.addState("LOW-SPEED", lowStateCommand());
     prepState = stateMachine.addState("PREP-SHOOT", prepStateCommand());
-    stateMachine.setInitialState(lowState);
+    hammerTimeState = stateMachine.addState("HAMMER-TIME", hammerTimeStateCommand());
+
+    stateMachine.setInitialState(idleState);
   }
-/** sets the state machine as the default command of the launcher */
+  /** sets the state machine as the default command of the launcher */
   public void setDefaultCommands() {
     if (launcher != null) {
       stateMachine.addRequirements(launcher);
@@ -74,90 +77,97 @@ public class LauncherCommands {
   }
 
   public void configureButtonBindings(Controller driver, Controller operator) {
-/** defines launcher state transitions */
+    /** defines launcher state transitions */
     idleState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     idleState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
     idleState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
+    idleState.switchTo(hammerTimeState).when(() -> launcher.isRequested(LauncherState.HAMMERTIME));
 
     lowState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
     lowState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
     lowState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
+    lowState.switchTo(hammerTimeState).when(() -> launcher.isRequested(LauncherState.HAMMERTIME));
 
     prepState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     prepState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
     prepState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
+    prepState.switchTo(hammerTimeState).when(() -> launcher.isRequested(LauncherState.HAMMERTIME));
 
     presetState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
     presetState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     presetState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
+    presetState
+        .switchTo(hammerTimeState)
+        .when(() -> launcher.isRequested(LauncherState.HAMMERTIME));
+
+    // Hammer Time is a special case since it's a toggle state
+    hammerTimeState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
 
     driver.createAButton().onTrue(shouldLowCommand());
 
-    driver.createBButton().onTrue(hammerTimePresetStateCommand());
-
-    // driver
-    //     .createRightBumper()
-    //     .onTrue(
-    //         (Command)
-    //             SmartDashboard.getEntry("/Mechanisms/Commands/Launcher/Live Tuning")
-    //                 .getValue()
-    //                 .getValue());
+    driver.createBButton().onTrue(shouldHammerTimeCommand());
 
     operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
 
-    operator.createAButton().whileTrue(towerPresetStateCommand()).onFalse(shouldLowCommand());
+    operator.createAButton().whileTrue(towerPresetStateCommand()).onFalse(shouldIdleCommand());
 
-    operator.createBButton().onTrue(hammerTimePresetStateCommand());
+    operator.createBButton().onTrue(shouldHammerTimeCommand());
 
-    operator.createXButton().whileTrue(hubPresetStateCommand()).onFalse(shouldLowCommand());
-
+    operator.createXButton().whileTrue(hubPresetStateCommand()).onFalse(shouldIdleCommand());
     operator
         .createYButton()
         .whileTrue(turretForwardPresetStateCommand())
-        .onFalse(shouldLowCommand());
-/** defines when the launcher is ready to fire */
+        .onFalse(shouldIdleCommand());
+
     Trigger readyToFireTrigger =
         new Trigger(() -> launcher.isCurrent(LauncherState.PREP) && launcher.isAtGoal());
     readyToFireTrigger
         .onTrue(IndexerCommands.shouldFeedCommand())
         .onFalse(IndexerCommands.shouldIdleCommand());
+
+    driver.createUpPovButton().onTrue(launcher.increaseHoodAngleCommand());
+    driver.createDownPovButton().onTrue(launcher.decreaseHoodAngleCommand());
+    driver.createLeftPovButton().onTrue(launcher.decreaseFlywheelSpeedCommand());
+    driver.createRightPovButton().onTrue(launcher.increaseFlywheelSpeedCommand());
+    operator.createLeftPovButton().onTrue(launcher.decreaseTurretAngleCommand());
+    operator.createRightPovButton().onTrue(launcher.increaseTurretAngleCommand());
   }
 
   private Translation2d getTargetPose() {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
   }
-/** creates command behavior for the IDLE launcher state */
+  /** creates command behavior for the IDLE launcher state */
   private static Command idleStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.IDLE);
-            
             }),
         launcher.stopTrackingCommand());
   }
-/** creates command behavior for when the launcher is at low speed */
+  /** creates command behavior for when the launcher is at low speed */
   private static Command lowStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
               launcher.setCurrentState(LauncherState.LOW_SPEED);
-              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
+              LEDStrip.changeSegmentPattern(
+                  ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
             }),
         launcher.trackTargetCommand());
   }
-/** creates command behavior when the launcher is at prep state */
+  /** creates command behavior when the launcher is at prep state */
   private static Command prepStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
             () -> {
-              launcher.setCurrentState(LauncherState.PREP); 
-              LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
+              launcher.setCurrentState(LauncherState.PREP);
+              LEDStrip.changeSegmentPattern(
+                  ConfigConstants.ALL_LEDS, LEDStrip.getRainbowPattern(0));
             }),
         launcher.trackTargetCommand());
-      
   }
-/** creates command behavior for when the launcher is at preset */
+  /** creates command behavior for when the launcher is at preset */
   private static Command presetStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
@@ -182,36 +192,66 @@ public class LauncherCommands {
     return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.PRESET));
   }
 
+  public static Command shouldHammerTimeCommand() {
+    return Commands.runOnce(
+        () -> {
+          if (launcher.getCurrentState() == LauncherState.HAMMERTIME) {
+            launcher.setRequestedState(LauncherState.LOW_SPEED);
+          } else {
+            launcher.setRequestedState(LauncherState.HAMMERTIME);
+          }
+        });
+  }
+
   // Order is Hood Angle, Turret Angle, Flywheel Speed
   // Values are placeholders and need to be tuned
   public static Command hubPresetStateCommand() {
     return shouldPresetCommand()
         .andThen(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(30), Degrees.of(0), RPM.of(45000))));
+                () ->
+                    launcher.usePresets(
+                        Constants.Launcher.HUB_HOOD_ANGLE,
+                        Constants.Launcher.TURRET_FORWARD,
+                        Constants.Launcher.HUB_FLYWHEEL_RPM)));
   }
 
   public static Command towerPresetStateCommand() {
     return shouldPresetCommand()
         .andThen(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(45), Degrees.of(15), RPM.of(45500))));
+                () ->
+                    launcher.usePresets(
+                        Constants.Launcher.TOWER_HOOD_ANGLE,
+                        Constants.Launcher.TURRET_FORWARD,
+                        Constants.Launcher.TOWER_FLYWHEEL_RPM)));
   }
 
   public static Command turretForwardPresetStateCommand() {
     return shouldPresetCommand()
         .andThen(
             Commands.runOnce(
-                () -> launcher.usePresets(Degrees.of(90), Degrees.of(0), RPM.of(35500))));
+                () ->
+                    launcher.usePresets(
+                        Constants.Launcher.FWD_HOOD_ANGLE,
+                        Constants.Launcher.TURRET_FORWARD,
+                        Constants.Launcher.FWD_FLYWHEEL_RPM)));
   }
 
-  public static Command hammerTimePresetStateCommand() {
-    return shouldPresetCommand()
-        .andThen(
-            Commands.runOnce(
-                () -> {
-                  launcher.usePresets(Degrees.of(1), Degrees.of(90), RPM.of(55000));
-                }));
+  public static Command hammerTimeStateCommand() {
+    return Commands.parallel(
+        Commands.run(
+            () -> {
+              launcher.setCurrentState(LauncherState.HAMMERTIME);
+              launcher.usePresets(
+                  Constants.Launcher.LOW_HOOD_ANGLE,
+                  Degrees.of(0),
+                  Constants.Launcher.LOW_FLYWHEEL_RPM);
+            }));
+  }
+
+  private boolean isNotHammerTime() {
+    return !launcher.isCurrent(LauncherState.HAMMERTIME);
   }
 
   public static LauncherState getCurrentState() {

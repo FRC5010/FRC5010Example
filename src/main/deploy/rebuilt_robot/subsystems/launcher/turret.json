@@ -69,11 +69,11 @@
     }
   },
   "lowerHardLimit": {
-    "val": -165,
+    "val": -90,
     "uom": "deg"
   },
   "upperHardLimit": {
-    "val": 165,
+    "val": 90,
     "uom": "deg"
   },
   "startingAngle": {
@@ -81,11 +81,11 @@
     "uom": "deg"
   },
   "lowerSoftLimit": {
-    "val": -150,
+    "val": -90,
     "uom": "deg"
   },
   "upperSoftLimit": {
-    "val": 150,
+    "val": 90,
     "uom": "deg"
   },
   "gearStages": "30:1",

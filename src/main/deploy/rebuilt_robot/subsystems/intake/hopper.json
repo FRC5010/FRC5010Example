@@ -71,7 +71,7 @@
     "uom": "deg"
   },
   "startingAngle": {
-    "val": 120,
+    "val": 0,
     "uom": "deg"
   },
   "lowerSoftLimit": {

@@ -17,9 +17,17 @@ public class IntakeCommands {
   Map<String, GenericSubsystem> subsystems;
   StateMachine intakeStateMachine = new StateMachine("IntakeStateMachine");
   State retracted = intakeStateMachine.addState("retracted", retractedCommand());
-  State outtaking;
   State retracting = intakeStateMachine.addState("retracting", retractingCommand());
   State deploying = intakeStateMachine.addState("deploying", deployingCommand());
+  State deployed =
+      intakeStateMachine.addState(
+          "deployed",
+          Commands.run(
+              () -> {
+                intake.setCurrentState(IntakeState.DEPLOYED);
+                intake.runHopper(0);
+              }));
+  State outtaking;
   State intaking;
 
   public static enum IntakeState {
@@ -27,7 +35,8 @@ public class IntakeCommands {
     RETRACTING,
     DEPLOYING,
     INTAKING,
-    OUTTAKING;
+    OUTTAKING,
+    DEPLOYED;
   }
 
   public IntakeCommands(Map<String, GenericSubsystem> subsystems) {
@@ -53,9 +62,15 @@ public class IntakeCommands {
             .createLeftTrigger()
             .limit(Constants.Intake.INTAKE_MAX_IN)); // Axis are positive only hence IN
     Trigger leftTrigger = new Trigger(() -> controller.getLeftTrigger() > 0.25);
+
+    rightTrigger.onTrue(shouldIntaking());
+    leftTrigger.onTrue(shouldOuttaking());
+
     controller.createRightBumper().onTrue(shouldRetracting()).onFalse(shouldRetracted());
+
     controller.createStartButton().onTrue(Commands.run(() -> intake.setHopperRetracted()));
     controller.createBackButton().onTrue(Commands.run(() -> intake.setHopperDeployed()));
+
     outtaking =
         intakeStateMachine.addState(
             "outtaking", outtakingCommand(() -> controller.getLeftTrigger()));
@@ -64,8 +79,9 @@ public class IntakeCommands {
         intakeStateMachine.addState(
             "intaking", intakingCommand(() -> controller.getRightTrigger()));
 
-    rightTrigger.onTrue(shouldIntaking());
-    leftTrigger.onTrue(shouldOuttaking());
+    deployed.switchTo(retracting).when(() -> intake.isRequested(IntakeState.RETRACTING));
+    deployed.switchTo(outtaking).when(() -> intake.isRequested(IntakeState.OUTTAKING));
+    deployed.switchTo(intaking).when(() -> intake.isRequested(IntakeState.INTAKING));
 
     retracted.switchTo(deploying).when(() -> intake.isRequested(IntakeState.INTAKING));
     deploying
@@ -87,6 +103,13 @@ public class IntakeCommands {
         .when(() -> intake.isDeployed() && intake.isRequested(IntakeState.OUTTAKING));
 
     retracting.switchTo(retracted).when(() -> intake.isRetracted());
+    deployed.switchTo(retracted).when(() -> intake.isRetracted());
+
+    deploying.switchTo(deployed).when(() -> intake.isRequested(IntakeState.DEPLOYED));
+    outtaking.switchTo(deployed).when(() -> intake.isRequested(IntakeState.DEPLOYED));
+    intaking.switchTo(deployed).when(() -> intake.isRequested(IntakeState.DEPLOYED));
+    retracted.switchTo(deployed).when(() -> intake.isRequested(IntakeState.DEPLOYED));
+    retracting.switchTo(deployed).when(() -> intake.isRequested(IntakeState.DEPLOYED));
   }
 
   public static Command outtakingCommand(DoubleSupplier speed) {

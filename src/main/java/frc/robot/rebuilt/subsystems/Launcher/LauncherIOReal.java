@@ -203,15 +203,15 @@ public class LauncherIOReal implements LauncherIO {
             turret.getMotorController().getConfig().getMechanismUpperLimit().get().in(Degrees)),
         Rotation2d.fromDegrees(10.0));
   }
-
+/** Sets the flywheel motor's duty cycle */
   public void runShooter(double speed) {
     flyWheel.getMotor().setDutyCycle(speed);
   }
-
+/** Sets the flywheel motor's angular velocity */
   public void setFlyWheelVelocity(AngularVelocity speed) {
     flyWheel.getMotor().setVelocity(speed);
   }
-
+/** Sets the hood angle and overrides the requested angle  if the hood is near the trench */
   public void setHoodAngle(Angle angle) {
     if (isNearTrench()) {
       hood.getMotorController().setPosition(Degrees.of(31.0));
@@ -219,7 +219,7 @@ public class LauncherIOReal implements LauncherIO {
       hood.getMotorController().setPosition(angle);
     }
   }
-
+/** Sets the low hard limit  to 30 degrees and updates LED's */
   public void setHoodAngleLow() {
     hood.getMotorController()
         .setPosition(hood.getArmConfig().getLowerHardLimit().orElse(Degrees.of(30)));

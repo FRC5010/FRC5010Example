@@ -183,15 +183,15 @@ public class Launcher extends GenericSubsystem {
   public boolean isRequested(LauncherState state) {
     return inputs.stateRequested == state;
   }
-
+/** Checks if the current launcher maches the given state */
   public boolean isCurrent(LauncherState state) {
     return inputs.stateCurrent == state;
   }
-
+/** Updates the launcher's current state */
   public void setCurrentState(LauncherState state) {
     inputs.stateCurrent = state;
   }
-
+/** Sets the launcher's requested state to transition to */
   public void setRequestedState(LauncherState state) {
     inputs.stateRequested = state;
   }

@@ -200,6 +200,16 @@ public class Launcher extends GenericSubsystem {
     return inputs.stateCurrent;
   }
 
+  public void setPreTrenchState() {
+    if (!isNearTrench()) {
+      inputs.preTrenchState = getCurrentState();
+    }
+  }
+
+  public LauncherState getPreTrenchState() {
+    return inputs.preTrenchState;
+  }
+
   public boolean isNearTrench() {
     return io.isNearTrench();
   }

@@ -123,9 +123,10 @@ public class LauncherCommands {
     readyToFireTrigger
         .onTrue(IndexerCommands.shouldFeedCommand())
         .onFalse(IndexerCommands.shouldIdleCommand());
-    
+
     Trigger isTrenchTrigger = new Trigger(() -> launcher.isNearTrench());
-    isTrenchTrigger.onTrue(shouldHammerTimeCommand()).onFalse(shouldLowCommand());
+    isTrenchTrigger.onTrue(shouldHammerTimeCommand()).onFalse(loadPreTrenchState());
+    launcher.setPreTrenchState();
 
     driver.createUpPovButton().onTrue(launcher.increaseHoodAngleCommand());
     driver.createDownPovButton().onTrue(launcher.decreaseHoodAngleCommand());
@@ -252,8 +253,8 @@ public class LauncherCommands {
             }));
   }
 
-  private boolean isNotHammerTime() {
-    return !launcher.isCurrent(LauncherState.HAMMERTIME);
+  public Command loadPreTrenchState() {
+    return Commands.run(() -> launcher.setCurrentState(launcher.getPreTrenchState()));
   }
 
   public static LauncherState getCurrentState() {

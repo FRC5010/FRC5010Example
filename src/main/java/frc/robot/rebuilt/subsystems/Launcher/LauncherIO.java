@@ -12,6 +12,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.commands.LauncherCommands;
+import frc.robot.rebuilt.commands.LauncherCommands.LauncherState;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.AutoLog;
@@ -57,6 +58,8 @@ public interface LauncherIO {
 
     public Angle uniqueCoverage = Degrees.of(0.0);
     public boolean coverageSatisfiesRange = false;
+
+    public LauncherState preTrenchState = LauncherState.IDLE;
   }
 
   public default void updateInputs(LauncherIOInputs inputs) {}
@@ -94,6 +97,6 @@ public interface LauncherIO {
   public default void configureShotCalculator(ShotCalculator shotCalculator) {}
 
   public default void updateSimulation(Launcher launcher, Indexer indexer) {}
-  
+
   public boolean isNearTrench();
 }

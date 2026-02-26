@@ -37,5 +37,4 @@ public interface IntakeIO {
   public Command getHopperCharacterizationCommand(GenericSubsystem intake);
 
   public default void updateInputs(IntakeIOInputs inputs) {}
-  
 }

@@ -194,8 +194,11 @@ public class LauncherIOReal implements LauncherIO {
 
     inputs.targetDistance = Meters.of(inputs.robotToTarget.getDistance(new Translation2d()));
 
-    // Log trench detection every cycle
+
+
+    
     isNearTrench();
+    
   }
 
   @Override

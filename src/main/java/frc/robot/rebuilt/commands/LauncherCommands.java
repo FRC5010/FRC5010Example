@@ -123,6 +123,9 @@ public class LauncherCommands {
     readyToFireTrigger
         .onTrue(IndexerCommands.shouldFeedCommand())
         .onFalse(IndexerCommands.shouldIdleCommand());
+    
+    Trigger isTrenchTrigger = new Trigger(() -> launcher.isNearTrench());
+    isTrenchTrigger.onTrue(shouldHammerTimeCommand()).onFalse(shouldLowCommand());
 
     driver.createUpPovButton().onTrue(launcher.increaseHoodAngleCommand());
     driver.createDownPovButton().onTrue(launcher.decreaseHoodAngleCommand());

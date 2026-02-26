@@ -94,4 +94,6 @@ public interface LauncherIO {
   public default void configureShotCalculator(ShotCalculator shotCalculator) {}
 
   public default void updateSimulation(Launcher launcher, Indexer indexer) {}
+  
+  public boolean isNearTrench();
 }

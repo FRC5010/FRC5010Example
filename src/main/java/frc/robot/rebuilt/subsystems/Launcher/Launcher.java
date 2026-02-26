@@ -200,6 +200,10 @@ public class Launcher extends GenericSubsystem {
     return inputs.stateCurrent;
   }
 
+  public boolean isNearTrench() {
+    return io.isNearTrench();
+  }
+
   public void usePresets(Angle hoodAngle, Angle turretAngle, AngularVelocity flywheelSpeed) {
     io.setHoodAngle(hoodAngle);
     io.setTurretRotation(turretAngle);

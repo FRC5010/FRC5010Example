@@ -146,4 +146,8 @@ public class IntakeCommands {
   public static Command shouldRetracted() {
     return Commands.runOnce(() -> intake.setRequestedState(IntakeState.RETRACTED));
   }
+
+  public static Command shouldDeploying() {
+    return Commands.runOnce(() -> intake.setRequestedState(IntakeState.DEPLOYING));
+  }
 }

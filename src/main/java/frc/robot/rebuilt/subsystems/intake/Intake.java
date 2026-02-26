@@ -90,6 +90,10 @@ public class Intake extends GenericSubsystem {
     inputs.stateCurrent = state;
   }
 
+  public IntakeState getCurrentState() {
+    return inputs.stateCurrent;
+  }
+
   public Command getHopperSysIdCommand() {
     return io.getHopperSysIdCommand();
   }

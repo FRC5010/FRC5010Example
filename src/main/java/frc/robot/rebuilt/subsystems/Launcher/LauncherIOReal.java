@@ -30,7 +30,9 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.FieldConstants;
+import frc.robot.rebuilt.commands.IntakeCommands.IntakeState;
 import frc.robot.rebuilt.commands.LauncherCommands;
+import frc.robot.rebuilt.subsystems.intake.Intake;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.config.ConfigConstants;
@@ -59,10 +61,15 @@ public class LauncherIOReal implements LauncherIO {
   protected final Sensor crtSensor36;
   protected EasyCRT easyCrtSolver;
   EasyCRTConfig easyCrt;
+  private boolean isNearTrench = false;
+  private IntakeState lastState = IntakeState.RETRACTED;
+
+  protected Intake intake;
 
   public LauncherIOReal(Map<String, Object> devices, Map<String, GenericSubsystem> subsystems) {
     this.devices = devices;
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
+    intake = (Intake) subsystems.get(Constants.INTAKE);
     turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     flyWheel = (FlyWheel) devices.get("flywheel");
@@ -307,7 +314,7 @@ public class LauncherIOReal implements LauncherIO {
     return flyWheel.sysId(Volts.of(8), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
 
-  private boolean isNearTrench() {
+  public boolean isNearTrench() {
     Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
     double currentX = current.getX();
     double currentY = current.getY();
@@ -346,10 +353,7 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putBoolean("Near Bottom Opp Alliance", nearOppAllianceBottom);
     SmartDashboard.putBoolean("Near Bottom Alliance", nearAllianceBottom);
 
-    if (nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom)
-      return true;
-
-    return false;
+    return nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom;
   }
 
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher) {

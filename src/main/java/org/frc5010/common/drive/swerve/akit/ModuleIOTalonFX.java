@@ -1,6 +1,5 @@
 package org.frc5010.common.drive.swerve.akit;
 
-import static edu.wpi.first.units.Units.Meters;
 import static org.frc5010.common.drive.swerve.akit.util.PhoenixUtil.tryUntilOk;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -69,13 +68,10 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
   private final Debouncer turnConnectedDebounce = new Debouncer(0.5);
   private final Debouncer turnEncoderConnectedDebounce = new Debouncer(0.5);
 
-  private final AkitSwerveConfig config;
-
   protected ModuleIOTalonFX(
       AkitSwerveConfig config,
       SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>
           constants) {
-    this.config = config;
     this.constants = constants;
 
     driveTalon = new TalonFX(constants.DriveMotorId, config.getCANBus());
@@ -166,9 +162,6 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
 
   @Override
   public void updateInputs(ModuleIOInputs inputs) {
-    if (null != config && null != config.getWheelDiameter()) {
-      inputs.wheelRadiusMeters = config.getWheelDiameter().div(2.0).in(Meters);
-    }
     // Refresh all signals
     var driveStatus = BaseStatusSignal.refreshAll(driveVelocity, driveAppliedVolts, driveCurrent);
     var turnStatus = BaseStatusSignal.refreshAll(turnVelocity, turnAppliedVolts, turnCurrent);
@@ -176,10 +169,8 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
 
     // Update drive inputs
     inputs.driveConnected = driveConnectedDebounce.calculate(driveStatus.isOK());
-    inputs.drivePositionRad =
-        Units.rotationsToRadians(drivePosition.getValueAsDouble()) / constants.DriveMotorGearRatio;
-    inputs.driveVelocityRadPerSec =
-        Units.rotationsToRadians(driveVelocity.getValueAsDouble()) / constants.DriveMotorGearRatio;
+    inputs.drivePositionRad = Units.rotationsToRadians(drivePosition.getValueAsDouble());
+    inputs.driveVelocityRadPerSec = Units.rotationsToRadians(driveVelocity.getValueAsDouble());
     inputs.driveAppliedVolts = driveAppliedVolts.getValueAsDouble();
     inputs.driveCurrentAmps = driveCurrent.getValueAsDouble();
 

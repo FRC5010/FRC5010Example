@@ -46,7 +46,7 @@ public class Intake extends GenericSubsystem {
             });
   }
 
-  public void setHopperAngle(Angle angle) {
+  public void setDesiredHopperAngle(Angle angle) {
     io.setHopperAngle(angle);
   }
 
@@ -109,5 +109,13 @@ public class Intake extends GenericSubsystem {
   public void setHopperRetracted() {
     io.setHopperPosition(Degrees.of(120));
     setRequestedState(IntakeCommands.IntakeState.RETRACTED);
+  }
+
+  public boolean isHopperMoving() {
+    return io.isHopperMoving();
+  }
+
+  public void setHopperPosition(Angle angle) {
+    io.setHopperPosition(angle);
   }
 }

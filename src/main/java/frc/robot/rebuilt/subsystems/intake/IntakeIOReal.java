@@ -46,6 +46,12 @@ public class IntakeIOReal implements IntakeIO {
     intakeHopper.getMotor().setEncoderPosition(angle);
   }
 
+  public boolean isHopperMoving() {
+    return Math.abs(
+            intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)))
+        > 0.5;
+  }
+
   public boolean isRetracted() {
     return (intakeHopper.getAngle().isNear(Degrees.of(120), Degrees.of(10)));
   }

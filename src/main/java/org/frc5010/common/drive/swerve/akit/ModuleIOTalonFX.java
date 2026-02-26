@@ -1,5 +1,6 @@
 package org.frc5010.common.drive.swerve.akit;
 
+import static edu.wpi.first.units.Units.Meters;
 import static org.frc5010.common.drive.swerve.akit.util.PhoenixUtil.tryUntilOk;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -68,10 +69,13 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
   private final Debouncer turnConnectedDebounce = new Debouncer(0.5);
   private final Debouncer turnEncoderConnectedDebounce = new Debouncer(0.5);
 
+  private final AkitSwerveConfig config;
+
   protected ModuleIOTalonFX(
       AkitSwerveConfig config,
       SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>
           constants) {
+    this.config = config;
     this.constants = constants;
 
     driveTalon = new TalonFX(constants.DriveMotorId, config.getCANBus());
@@ -162,11 +166,12 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
 
   @Override
   public void updateInputs(ModuleIOInputs inputs) {
+    if (null != config && null != config.getWheelDiameter()) {
+      inputs.wheelRadiusMeters = config.getWheelDiameter().div(2.0).in(Meters);
+    }
     // Refresh all signals
-    var driveStatus =
-        BaseStatusSignal.refreshAll(drivePosition, driveVelocity, driveAppliedVolts, driveCurrent);
-    var turnStatus =
-        BaseStatusSignal.refreshAll(turnPosition, turnVelocity, turnAppliedVolts, turnCurrent);
+    var driveStatus = BaseStatusSignal.refreshAll(driveVelocity, driveAppliedVolts, driveCurrent);
+    var turnStatus = BaseStatusSignal.refreshAll(turnVelocity, turnAppliedVolts, turnCurrent);
     var turnEncoderStatus = BaseStatusSignal.refreshAll(turnAbsolutePosition);
 
     // Update drive inputs

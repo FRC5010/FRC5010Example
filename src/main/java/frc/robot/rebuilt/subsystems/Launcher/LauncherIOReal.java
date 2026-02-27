@@ -285,21 +285,21 @@ public class LauncherIOReal implements LauncherIO {
                 .getAsBoolean(),
         () -> turret.getMotor().setDutyCycle(0));
   }
-
+  /** Applies voltage and measures hood velocity to characterize the feed forward */
   public Command getHoodCharacterizationCommand(GenericSubsystem launcher) {
     return SystemIdentification.feedforwardCharacterization(
         launcher,
         (Voltage voltage) -> hood.getMotor().setVoltage(voltage),
         () -> hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
   }
-
+/** Applies voltage and measures turret velocity to characterize the feedfoward */
   public Command getTurretCharacterizationCommand(GenericSubsystem launcher) {
     return SystemIdentification.feedforwardCharacterization(
         launcher,
         (Voltage voltage) -> turret.getMotor().setVoltage(voltage),
         () -> turret.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
   }
-
+/** sets the flywheel, hood, and turret motor duty cycles to 0, which stops the motors */
   public void stopAllMotors() {
     flyWheel.getMotor().setDutyCycle(0);
     hood.getMotor().setDutyCycle(0);

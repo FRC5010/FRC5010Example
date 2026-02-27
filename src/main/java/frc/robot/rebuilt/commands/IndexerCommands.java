@@ -39,42 +39,28 @@ public class IndexerCommands {
   private void configureStateMachine() {
     stateMachine = new StateMachine("IndexStateMachine");
     idleState = stateMachine.addState("idle", idleStateCommand());
+
     if (indexer != null) {
       churnState = stateMachine.addState("churn", churnStateCommand());
       feedState = stateMachine.addState("feed", feedStateCommand());
-      forceState =
-          stateMachine.addState(
-              "force",
-              Commands.runOnce(
-                  () -> {
-                    indexer.setCurrentState(IndexerState.FORCE);
-                    indexer.runSpindexer(0.50);
-                    indexer.runTransferFront(0.50);
-                    //                    indexer.runTransferBack(0.50);
-                  },
-                  indexer));
-    }
-    idleState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
-    idleState.switchTo(feedState).when(() -> indexer.isRequested(IndexerState.FEED));
-    idleState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
-    churnState.switchTo(feedState).when(() -> indexer.isRequested(IndexerState.FEED));
-    churnState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
-    churnState
-        .switchTo(forceState)
-        .when(
-            () -> {
-              return indexer.isRequested(IndexerState.FORCE);
-            });
-    feedState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
-    feedState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
-    feedState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
-    forceState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
-    forceState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
-    stateMachine.setInitialState(idleState);
-
-    if (indexer != null) {
+      forceState = stateMachine.addState("force", forceStateCommand());
       stateMachine.addRequirements(indexer);
     }
+
+    // Consolidated request-based transitions
+    addRequestedTransition(idleState, churnState, IndexerState.CHURN);
+    addRequestedTransition(idleState, feedState, IndexerState.FEED);
+    addRequestedTransition(idleState, forceState, IndexerState.FORCE);
+    addRequestedTransition(churnState, feedState, IndexerState.FEED);
+    addRequestedTransition(churnState, idleState, IndexerState.IDLE);
+    addRequestedTransition(churnState, forceState, IndexerState.FORCE);
+    addRequestedTransition(feedState, idleState, IndexerState.IDLE);
+    addRequestedTransition(feedState, churnState, IndexerState.CHURN);
+    addRequestedTransition(feedState, forceState, IndexerState.FORCE);
+    addRequestedTransition(forceState, idleState, IndexerState.IDLE);
+    addRequestedTransition(forceState, churnState, IndexerState.CHURN);
+
+    stateMachine.setInitialState(idleState);
     indexer.setDefaultCommands(stateMachine);
   }
 
@@ -86,14 +72,20 @@ public class IndexerCommands {
   }
 
   private void configureTriggerStates() {
-    Trigger feedTrigger = new Trigger(() -> indexer.isRequested(IndexerState.FEED));
-    Trigger forceTrigger = new Trigger(() -> indexer.isRequested(IndexerState.FORCE));
-    Trigger idleTrigger = new Trigger(() -> indexer.isRequested(IndexerState.IDLE));
-    Trigger churnTrigger = new Trigger(() -> indexer.isRequested(IndexerState.CHURN));
-    feedTrigger.onTrue(feedStateCommand());
-    forceTrigger.onTrue(forceStateCommand());
-    idleTrigger.onTrue(idleStateCommand());
-    churnTrigger.onTrue(churnStateCommand());
+    // Map requested states to their commands and wire triggers in a compact loop
+    java.util.Map<IndexerState, Command> stateToCommand =
+        java.util.Map.of(
+            IndexerState.FEED, feedStateCommand(),
+            IndexerState.FORCE, forceStateCommand(),
+            IndexerState.IDLE, idleStateCommand(),
+            IndexerState.CHURN, churnStateCommand());
+
+    stateToCommand.forEach((state, cmd) -> new Trigger(() -> indexer.isRequested(state)).onTrue(cmd));
+  }
+
+  // Small helper to reduce duplicate switchTo(...).when(...) boilerplate
+  private void addRequestedTransition(State from, State to, IndexerState request) {
+    from.switchTo(to).when(() -> indexer.isRequested(request));
   }
 
   public void setupDefaultCommands() {

@@ -207,12 +207,23 @@
       "/SmartDashboard/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/pinion/mechanism": "Mechanism2d",
       "/SmartDashboard/spintake/mechanism": "Mechanism2d",
+      "/SmartDashboard/transfer/mechanism": "Mechanism2d",
       "/SmartDashboard/turret/mechanism": "Mechanism2d",
       "/SmartDashboard/turretmotor/mechanism": "Mechanism2d",
       "/SmartDashboard/uppershootermotor/mechanism": "Mechanism2d",
       "/SmartDashboard/winch_motor/mechanism": "Mechanism2d"
     },
     "windows": {
+      "/AdvantageKit/RealOutputs/PathPlanner": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Auto Modes": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/DrivePoseEstimator/Pose Field": {
         "CARPET0": {
           "image": ".\\pictures\\carpet.png",

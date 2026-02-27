@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TR-HP"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot "
+            "pathName": "BL-DEP"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "HP-NWall"
+            "pathName": "DEP-CL"
           }
         }
       ]

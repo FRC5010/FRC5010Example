@@ -11,15 +11,15 @@
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "shoot "
+            "waitTime": 3.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "HP-NWall"
+            "pathName": "HP-CR"
           }
         }
       ]

@@ -370,7 +370,7 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
 
   @Override
   public ChassisSpeeds getFieldVelocity() {
-    return ChassisSpeeds.fromFieldRelativeSpeeds(getChassisSpeeds(), gyroInputs.yawPosition);
+    return ChassisSpeeds.fromRobotRelativeSpeeds(getChassisSpeeds(), gyroInputs.yawPosition);
   }
 
   @Override

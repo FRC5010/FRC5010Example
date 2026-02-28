@@ -365,7 +365,7 @@ public class LauncherIOReal implements LauncherIO {
             FieldConstants.fieldWidth);
     Translation2d topRightMidTrenchCorner =
         new Translation2d(
-            FieldConstants.TrenchZoneBottom.oppAlliance.getX()
+            FieldConstants.TrenchZoneTop.oppAlliance.getX()
                 - 1 / 2 * FieldConstants.RightTrench.depth,
             FieldConstants.fieldWidth);
     Translation2d bottomRightMidTrenchCorner =

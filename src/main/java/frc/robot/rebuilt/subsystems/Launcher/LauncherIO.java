@@ -58,8 +58,6 @@ public interface LauncherIO {
 
     public Angle uniqueCoverage = Degrees.of(0.0);
     public boolean coverageSatisfiesRange = false;
-
-    public LauncherState preTrenchState = LauncherState.IDLE;
   }
 
   public default void updateInputs(LauncherIOInputs inputs) {}

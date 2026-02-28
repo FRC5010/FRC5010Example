@@ -42,11 +42,11 @@ public interface LauncherIO {
     public boolean flyWheelSpeedAtGoal = false;
     public boolean hoodAngleAtGoal = false;
     public boolean turretAngleAtGoal = false;
-    /** Initializes the hood and turret angle error to 0 degrees and the flywheel speed error to 0 RPM */
+    /** Initializes the hood and turret angle errors to 0 and the flywheel speed error to 0 RPM */
     public AngularVelocity flyWheelSpeedError = RPM.of(0.0);
     public double hoodAngleError = 0.0;
     public double turretAngleError = 0.0;
-/** Intiializes the hood and turret velocity to 0 RPM and the flywheel motor output to 0 */
+/** Intiializes the hood and turret velocities to 0 and the flywheel motor output to 0 */
     public double hoodVelocity = 0.0;
     public double turretVelocity = 0.0;
     public double flyWheelMotorOutput = 0.0;

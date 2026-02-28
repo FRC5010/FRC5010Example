@@ -27,9 +27,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "launcherPrep"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 7.8
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "launcherPrep"
+                      }
+                    }
+                  ]
                 }
               }
             ]

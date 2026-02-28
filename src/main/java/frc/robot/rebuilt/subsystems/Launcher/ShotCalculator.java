@@ -273,6 +273,102 @@ public class ShotCalculator {
     return new BallisticSolution(bestAngle, bestFlywheel, bestTime);
   }
 
+  /**
+   * Get the interpolated hood angle (degrees) from the current lookup table for a given distance.
+   *
+   * @param distanceMeters distance to target in meters
+   * @return hood angle in degrees from the lookup table, or NaN if unavailable
+   */
+  public double getLookupHoodAngleDegrees(double distanceMeters) {
+    Rotation2d value = shotHoodAngleMap.get(distanceMeters);
+    return value != null ? value.getDegrees() : Double.NaN;
+  }
+
+  /**
+   * Get the interpolated flywheel speed from the current lookup table for a given distance.
+   *
+   * @param distanceMeters distance to target in meters
+   * @return flywheel speed from the lookup table, or NaN if unavailable
+   */
+  public double getLookupFlywheelSpeed(double distanceMeters) {
+    Double value = shotFlywheelSpeedMap.get(distanceMeters);
+    return value != null ? value : Double.NaN;
+  }
+
+  /**
+   * Compute a ballistic guess for the given distance using the stored ballistic config. Returns
+   * null if no ballistic config has been provided.
+   *
+   * @param distanceMeters distance to target in meters
+   * @return a double[] of {hoodAngleDegrees, flywheelSpeed, timeOfFlightSeconds}, or null
+   */
+  public double[] getBallisticGuess(double distanceMeters) {
+    if (ballisticConfig == null) {
+      return null;
+    }
+    double hoodReference = ballisticConfig.hoodAngleReferenceRadians();
+    double minAngle = hoodReference - ballisticConfig.maxHoodAngle().getRadians();
+    double maxAngle = hoodReference - ballisticConfig.minHoodAngle().getRadians();
+    double angleStep = Math.max(ballisticConfig.hoodAngleStep().getRadians(), Math.toRadians(0.25));
+    double heightDelta =
+        ballisticConfig.targetHeightMeters() - ballisticConfig.launchHeightMeters();
+    BallisticSolution solution =
+        solveBallistic(
+            distanceMeters,
+            heightDelta,
+            ballisticConfig.gravityMetersPerSecondSquared(),
+            minAngle,
+            maxAngle,
+            angleStep,
+            ballisticConfig.wheelRadiusMeters(),
+            ballisticConfig.minFlywheelRadPerSec(),
+            ballisticConfig.maxFlywheelRadPerSec());
+    if (solution == null) {
+      return null;
+    }
+    double hoodAngleDegrees = Math.toDegrees(hoodReference - solution.angleRadians());
+    return new double[] {
+      hoodAngleDegrees, solution.flywheelRadPerSec(), solution.timeOfFlightSeconds()
+    };
+  }
+
+  /**
+   * Add or update a single data point in the live lookup tables.
+   *
+   * @param distanceMeters the distance key
+   * @param hoodAngleDegrees hood angle in degrees
+   * @param flywheelSpeed flywheel speed value
+   * @param timeOfFlightSeconds estimated time-of-flight in seconds
+   */
+  public void addDataPoint(
+      double distanceMeters,
+      double hoodAngleDegrees,
+      double flywheelSpeed,
+      double timeOfFlightSeconds) {
+    shotHoodAngleMap.put(distanceMeters, Rotation2d.fromDegrees(hoodAngleDegrees));
+    shotFlywheelSpeedMap.put(distanceMeters, flywheelSpeed);
+    timeOfFlightMap.put(distanceMeters, timeOfFlightSeconds);
+    if (distanceMeters < minDistance) {
+      minDistance = distanceMeters;
+    }
+    if (distanceMeters > maxDistance) {
+      maxDistance = distanceMeters;
+    }
+    latestParameters = null;
+    turretControlPhysics = null;
+  }
+
+  /** Store a ballistic config so that ballistic guesses can be computed on demand. */
+  private BallisticConfig ballisticConfig;
+
+  public void setBallisticConfig(BallisticConfig config) {
+    this.ballisticConfig = config;
+  }
+
+  public BallisticConfig getBallisticConfig() {
+    return ballisticConfig;
+  }
+
   public void setShotTables(ShotTables tables) {
     applyShotTables(tables);
     latestParameters = null;
@@ -389,6 +485,7 @@ public class ShotCalculator {
     Logger.recordOutput(
         "ShotCalculator/VirtualTargetFieldPosition",
         new Pose2d(solution.finalSolverState().virtualTargetFieldPos(), turretAngle));
+    Logger.recordOutput("ShotCalculator/FieldVelocity", Rebuilt.drivetrain.getFieldVelocity());
 
     Rebuilt.drivetrain
         .getField2d()

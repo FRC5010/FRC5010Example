@@ -19,6 +19,7 @@ import static edu.wpi.first.units.Units.Volts;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
@@ -217,7 +218,7 @@ public class LauncherIOReal implements LauncherIO {
   }
 
   public void setHoodAngle(Angle angle) {
-      hood.getMotorController().setPosition(angle);
+    hood.getMotorController().setPosition(angle);
   }
 
   public void setHoodAngleLow() {
@@ -348,7 +349,55 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putBoolean("Near Bottom Opp Alliance", nearOppAllianceBottom);
     SmartDashboard.putBoolean("Near Bottom Alliance", nearAllianceBottom);
 
+    determineTarget();
+
     return nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom;
+  }
+
+  public void determineTarget() {
+    Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
+
+    Translation2d allianceCornerOrigin = new Translation2d(0, 0);
+    Translation2d AllianceCornerTrench =
+        new Translation2d(
+            FieldConstants.TrenchZoneBottom.nearAlliance.getX()
+                - 1 / 2 * FieldConstants.LeftTrench.depth,
+            FieldConstants.fieldWidth);
+    Translation2d topRightMidTrenchCorner =
+        new Translation2d(
+            FieldConstants.TrenchZoneBottom.oppAlliance.getX()
+                - 1 / 2 * FieldConstants.RightTrench.depth,
+            FieldConstants.fieldWidth);
+    Translation2d bottomRightMidTrenchCorner =
+        new Translation2d(
+            FieldConstants.TrenchZoneTop.oppAlliance.getX()
+                - 1 / 2 * FieldConstants.LeftTrench.depth,
+            0);
+    Translation2d oppTopRightOrigin =
+        new Translation2d(FieldConstants.fieldLength, FieldConstants.fieldWidth);
+    Translation2d oppBottemRightOrigin = new Translation2d(FieldConstants.fieldLength, 0);
+
+    Rectangle2d allianceField = new Rectangle2d(allianceCornerOrigin, AllianceCornerTrench);
+    Rectangle2d upperMidField =
+        new Rectangle2d(FieldConstants.Hub.farLeftCorner, topRightMidTrenchCorner);
+    Rectangle2d lowerMidField =
+        new Rectangle2d(FieldConstants.Hub.farRightCorner, bottomRightMidTrenchCorner);
+    Rectangle2d oppUpperField =
+        new Rectangle2d(FieldConstants.Hub.oppFarLeftCorner, oppTopRightOrigin);
+    Rectangle2d oppLowerField =
+        new Rectangle2d(FieldConstants.Hub.oppFarRightCorner, oppBottemRightOrigin);
+
+    Boolean inAllianceField = allianceField.contains(current.getTranslation());
+    Boolean inUpperMidField = upperMidField.contains(current.getTranslation());
+    Boolean inLowerMidField = lowerMidField.contains(current.getTranslation());
+    Boolean inOppUpperField = oppUpperField.contains(current.getTranslation());
+    Boolean inOppLowerField = oppLowerField.contains(current.getTranslation());
+
+    SmartDashboard.putBoolean("In Alliance Field", inAllianceField);
+    SmartDashboard.putBoolean("In Upper Mid Field", inUpperMidField);
+    SmartDashboard.putBoolean("In Lower Mid Field", inLowerMidField);
+    SmartDashboard.putBoolean("In Opp Upper Field", inOppUpperField);
+    SmartDashboard.putBoolean("In Opp Lower Field", inOppLowerField);
   }
 
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher) {

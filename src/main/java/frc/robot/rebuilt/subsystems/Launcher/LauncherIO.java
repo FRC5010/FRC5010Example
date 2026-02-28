@@ -99,4 +99,6 @@ public interface LauncherIO {
   public default void updateSimulation(Launcher launcher, Indexer indexer) {}
 
   public boolean isNearTrench();
+
+  public void determineTarget();
 }

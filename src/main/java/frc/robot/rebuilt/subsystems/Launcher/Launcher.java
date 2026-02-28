@@ -206,7 +206,7 @@ public class Launcher extends GenericSubsystem {
 
   public boolean isNearTrench() {
     boolean nearTrench = io.isNearTrench();
-    if (nearTrench && getCurrentState() != LauncherState.AUTO_HAMMERTIME) {
+    if (nearTrench && (getCurrentState() != LauncherState.AUTO_HAMMERTIME)) {
       inputs.preTrenchState = getCurrentState();
       if (getCurrentState() == LauncherState.PRESET) {
         inputs.preTrenchState = LauncherState.LOW_SPEED;

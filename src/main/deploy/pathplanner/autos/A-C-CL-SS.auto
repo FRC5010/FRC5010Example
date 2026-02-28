@@ -5,27 +5,27 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "RSTS"
+            "name": "intakeIntake"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "shoot 8"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot "
+            "waitTime": 2.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "DTI"
+            "pathName": "C-CL"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launcherPrep"
           }
         }
       ]

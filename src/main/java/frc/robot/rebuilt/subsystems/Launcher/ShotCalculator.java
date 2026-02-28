@@ -33,6 +33,7 @@ import org.frc5010.common.utils.geometry.GeomUtil;
 import org.littletonrobotics.junction.Logger;
 
 @ExtensionMethod({GeomUtil.class})
+/** Calculates the turret and hood angle, and the flywheel speed for shooting */
 public class ShotCalculator {
   private static ShotCalculator instance;
 
@@ -68,7 +69,7 @@ public class ShotCalculator {
     if (instance == null) instance = new ShotCalculator();
     return instance;
   }
-
+  /** Stores calculated shooting parameters */
   public record ShootingParameters(
       boolean isValid,
       Rotation2d turretAngle,
@@ -99,6 +100,7 @@ public class ShotCalculator {
       double minDistanceMeters,
       double maxDistanceMeters,
       double phaseDelaySeconds) {
+    /** returns a copy of ShotTables with updated phase delay */
     public ShotTables withPhaseDelaySeconds(double newPhaseDelaySeconds) {
       return new ShotTables(
           hoodAngles,
@@ -109,7 +111,7 @@ public class ShotCalculator {
           newPhaseDelaySeconds);
     }
   }
-
+  /** Stores configuration values for generating ballistic shot tables */
   public record BallisticConfig(
       double minDistanceMeters,
       double maxDistanceMeters,
@@ -129,7 +131,7 @@ public class ShotCalculator {
   static {
     applyShotTables(createDefaultTables());
   }
-
+  /** Creates default hood angle, flywheel speeds, and time of light tables */
   public static ShotTables createDefaultTables() {
     return new ShotTables(
         Map.ofEntries(

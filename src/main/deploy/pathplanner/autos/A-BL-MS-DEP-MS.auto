@@ -7,13 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shoot 8"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "editititited"
+            "name": "intakeIntake"
           }
         },
         {
@@ -23,15 +17,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "shoot "
+            "pathName": "BL-DEP"
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "climb"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "DEP-CL"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "launcherPrep"
+                }
+              }
+            ]
           }
         }
       ]

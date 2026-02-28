@@ -7,31 +7,25 @@
         {
           "type": "named",
           "data": {
-            "name": "shoot 8"
+            "name": "intakeIntake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "lose collecting"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "lose collecting climb"
+            "pathName": "C-CR"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "shoot "
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "climb"
+            "name": "launcherPrep"
           }
         }
       ]

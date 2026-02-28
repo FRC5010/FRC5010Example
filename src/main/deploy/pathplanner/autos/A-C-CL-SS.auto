@@ -7,19 +7,25 @@
         {
           "type": "named",
           "data": {
-            "name": "shoot 8"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": null
+            "name": "intakeIntake"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C-CL"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launcherPrep"
           }
         }
       ]

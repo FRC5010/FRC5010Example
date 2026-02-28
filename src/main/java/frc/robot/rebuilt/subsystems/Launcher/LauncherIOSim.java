@@ -75,6 +75,7 @@ public class LauncherIOSim extends LauncherIOReal {
             9.80665,
             Math.toRadians(90.0));
 
+    shotCalculator.setBallisticConfig(config);
     ShotCalculator.ShotTables simTables = ShotCalculator.createBallisticTables(config);
     shotCalculator.setShotTables(simTables);
   }

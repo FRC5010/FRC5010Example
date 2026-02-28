@@ -205,7 +205,73 @@ public class Launcher extends GenericSubsystem {
     io.setTurretRotation(turretAngle);
     io.setFlyWheelVelocity(flywheelSpeed);
   }
-/** Increases the hood angle by 0.5 degrees and makes sure it does not go above 60 degrees */
+
+  // ---- Actual (measured) value getters for tuning/telemetry ----
+
+  /** Get the actual hood angle as measured by the encoder. */
+  public Angle getHoodAngleActual() {
+    return inputs.hoodAngleActual;
+  }
+
+  /** Get the actual turret angle as measured by the encoder. */
+  public Angle getTurretAngleActual() {
+    return inputs.turretAngleActual;
+  }
+
+  /** Get the actual flywheel speed as measured by the encoder. */
+  public AngularVelocity getFlywheelSpeedActual() {
+    return inputs.flyWheelSpeedActual;
+  }
+
+  // ---- Desired (setpoint) value getters for tuning/telemetry ----
+
+  /** Get the desired hood angle setpoint. */
+  public Angle getHoodAngleDesired() {
+    return inputs.hoodAngleDesired;
+  }
+
+  /** Get the desired turret angle setpoint. */
+  public Angle getTurretAngleDesired() {
+    return inputs.turretAngleDesired;
+  }
+
+  /** Get the desired flywheel speed setpoint. */
+  public AngularVelocity getFlywheelSpeedDesired() {
+    return inputs.flyWheelSpeedDesired;
+  }
+
+  // ---- Error and at-goal getters for tuning/telemetry ----
+
+  /** Get the flywheel speed error (actual - desired). */
+  public AngularVelocity getFlywheelSpeedError() {
+    return inputs.flyWheelSpeedError;
+  }
+
+  /** Get the hood angle error in degrees (actual - desired). */
+  public double getHoodAngleError() {
+    return inputs.hoodAngleError;
+  }
+
+  /** Get the turret angle error in degrees (actual - desired). */
+  public double getTurretAngleError() {
+    return inputs.turretAngleError;
+  }
+
+  /** Whether the flywheel speed is within tolerance of the setpoint. */
+  public boolean isFlywheelAtGoal() {
+    return inputs.flyWheelSpeedAtGoal;
+  }
+
+  /** Whether the hood angle is within tolerance of the setpoint. */
+  public boolean isHoodAtGoal() {
+    return inputs.hoodAngleAtGoal;
+  }
+
+  /** Whether the turret angle is within tolerance of the setpoint. */
+  public boolean isTurretAtGoal() {
+    return inputs.turretAngleAtGoal;
+  }
+
   public Command increaseHoodAngleCommand() {
     return Commands.runOnce(
         () -> {

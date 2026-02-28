@@ -13,6 +13,7 @@ import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.motors.SystemIdentification;
 import org.frc5010.common.motors.function.PercentControlMotor;
+import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Arm;
 
 public class IntakeIOReal implements IntakeIO {
@@ -27,8 +28,8 @@ public class IntakeIOReal implements IntakeIO {
     // spintakeLead = (FlyWheel) devices.get("spintake");
     spintakeLead = (PercentControlMotor) devices.get("spintakeLead");
     spinTakeFollow = (PercentControlMotor) devices.get("spintakeFollow");
-    spintakeLead.invert(false);
-    spinTakeFollow.setFollow(spintakeLead, true);
+    spintakeLead.invert(true);
+    spinTakeFollow.setFollow(spintakeLead, false);
     intakeHopper = (Arm) devices.get("hopper");
   }
 
@@ -44,6 +45,13 @@ public class IntakeIOReal implements IntakeIO {
 
   public void setHopperPosition(Angle angle) {
     intakeHopper.getMotor().setEncoderPosition(angle);
+  }
+
+  public boolean isHopperMoving() {
+
+    return Math.abs(
+            intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)))
+        > 1.0;
   }
 
   public boolean isRetracted() {
@@ -93,6 +101,10 @@ public class IntakeIOReal implements IntakeIO {
   /** updates the input structure with the current hopper and intake speed */
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
+    Logger.recordOutput(
+        "Hopper Velocity",
+        intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
+    Logger.recordOutput("Hopper MOving", isHopperMoving());
     inputs.hopperAngle = intakeHopper.getMotorController().getMechanismPosition();
     inputs.hopperAngleDouble = inputs.hopperAngle.in(Degrees);
     inputs.speed = spintakeLead.get();

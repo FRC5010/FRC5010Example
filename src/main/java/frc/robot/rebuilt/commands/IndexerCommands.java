@@ -35,6 +35,7 @@ public class IndexerCommands {
   public IndexerCommands(Map<String, GenericSubsystem> systems) {
     this.subsystems = systems;
     IndexerCommands.indexer = (Indexer) subsystems.get(Constants.INDEXER);
+    configureTriggerStates();
     // configureStateMachine();
   }
   /** Configures the state machine */
@@ -88,7 +89,6 @@ public class IndexerCommands {
     /** Configures bumpers */
     driver.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     // operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
-    configureTriggerStates();
   }
 
   private void configureTriggerStates() {

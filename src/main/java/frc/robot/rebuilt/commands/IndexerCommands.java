@@ -15,32 +15,35 @@ import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
 
 public class IndexerCommands {
+  /** declares variables that will later hold state objects */
   private Map<String, GenericSubsystem> subsystems;
+
   private StateMachine stateMachine;
   private State idleState;
   private State churnState;
   private State feedState;
   private State forceState;
   private static Indexer indexer;
-
+  /** defines possible states of the indexer */
   public static enum IndexerState {
     IDLE,
     CHURN,
     FORCE,
     FEED
   }
-
+  /** Stores the subsystem map and retrieves the indexer instance */
   public IndexerCommands(Map<String, GenericSubsystem> systems) {
     this.subsystems = systems;
     IndexerCommands.indexer = (Indexer) subsystems.get(Constants.INDEXER);
     configureTriggerStates();
     // configureStateMachine();
   }
-
+  /** Configures the state machine */
   private void configureStateMachine() {
     stateMachine = new StateMachine("IndexStateMachine");
     idleState = stateMachine.addState("idle", idleStateCommand());
     if (indexer != null) {
+      /** Adds churn, force, and feed states if there is an indexer */
       churnState = stateMachine.addState("churn", churnStateCommand());
       feedState = stateMachine.addState("feed", feedStateCommand());
       forceState =
@@ -55,6 +58,7 @@ public class IndexerCommands {
                   },
                   indexer));
     }
+    /** Switches from idle state when the indexer is requested and defines transition conditions */
     idleState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
     idleState.switchTo(feedState).when(() -> indexer.isRequested(IndexerState.FEED));
     idleState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
@@ -66,6 +70,7 @@ public class IndexerCommands {
             () -> {
               return indexer.isRequested(IndexerState.FORCE);
             });
+    /** Defines transitions for feed and force states */
     feedState.switchTo(idleState).when(() -> indexer.isRequested(IndexerState.IDLE));
     feedState.switchTo(churnState).when(() -> indexer.isRequested(IndexerState.CHURN));
     feedState.switchTo(forceState).when(() -> indexer.isRequested(IndexerState.FORCE));
@@ -81,11 +86,13 @@ public class IndexerCommands {
 
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
+    /** Configures bumpers */
     driver.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     // operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
   }
 
   private void configureTriggerStates() {
+    /** Configures new triggers */
     Trigger feedTrigger = new Trigger(() -> indexer.isRequested(IndexerState.FEED));
     Trigger forceTrigger = new Trigger(() -> indexer.isRequested(IndexerState.FORCE));
     Trigger idleTrigger = new Trigger(() -> indexer.isRequested(IndexerState.IDLE));
@@ -99,7 +106,7 @@ public class IndexerCommands {
   public void setupDefaultCommands() {
     indexer.setDefaultCommands(stateMachine);
   }
-
+  /** defines command behavio for the force state stops the indexer and runs the transfer at 50% */
   public static Command forceStateCommand() {
     return Commands.runOnce(
         () -> {
@@ -110,7 +117,7 @@ public class IndexerCommands {
         },
         indexer);
   }
-
+  /** defines command behavior for the churn state stops the indexer and runs the transfer at 25% */
   private static Command churnStateCommand() {
     return Commands.runOnce(
         () -> {
@@ -121,7 +128,10 @@ public class IndexerCommands {
         },
         indexer);
   }
-
+  /**
+   * defines command behavior for the idle state stops all motors and sets the LED patters to
+   * rainbow
+   */
   private static Command idleStateCommand() {
     return Commands.runOnce(
         () -> {
@@ -149,15 +159,15 @@ public class IndexerCommands {
             },
             indexer));
   }
-
+/** Requests the indexer to enter the idle state */
   public static Command shouldIdleCommand() {
     return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.IDLE));
   }
-
+/**  Requests the indexer to enter the churn state */
   public static Command shouldChurnCommand() {
     return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.CHURN));
   }
-
+/**  Requests the indexer to enter the feed state */
   public static Command shouldFeedCommand() {
     return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.FEED));
   }

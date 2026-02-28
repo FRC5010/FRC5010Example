@@ -159,15 +159,15 @@ public class IndexerCommands {
             },
             indexer));
   }
-
+/** Requests the indexer to enter the idle state */
   public static Command shouldIdleCommand() {
     return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.IDLE));
   }
-
+/**  Requests the indexer to enter the churn state */
   public static Command shouldChurnCommand() {
     return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.CHURN));
   }
-
+/**  Requests the indexer to enter the feed state */
   public static Command shouldFeedCommand() {
     return Commands.runOnce(() -> indexer.setRequestedState(IndexerState.FEED));
   }

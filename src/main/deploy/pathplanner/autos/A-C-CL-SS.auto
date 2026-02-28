@@ -5,15 +5,27 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "intakeIntake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "TL-CTR"
+            "pathName": "C-CL"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "towerForwardPreset"
+            "name": "launcherPrep"
           }
         }
       ]

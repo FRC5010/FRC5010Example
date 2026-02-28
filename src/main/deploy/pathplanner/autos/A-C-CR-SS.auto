@@ -5,21 +5,27 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "BR-HP"
+            "name": "intakeIntake"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 2.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "HP-CR"
+            "pathName": "C-CR"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launcherPrep"
           }
         }
       ]

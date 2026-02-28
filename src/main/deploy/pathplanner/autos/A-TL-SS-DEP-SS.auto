@@ -5,6 +5,18 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "intakeIntake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "TL-Dep"
@@ -14,6 +26,12 @@
           "type": "path",
           "data": {
             "pathName": "DEP-CL"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launcherPrep"
           }
         }
       ]

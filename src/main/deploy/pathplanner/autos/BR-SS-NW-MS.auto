@@ -5,21 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "shoot 8"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "BR-NW"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 3.0
+            "name": "launcherPrep"
           }
         }
       ]

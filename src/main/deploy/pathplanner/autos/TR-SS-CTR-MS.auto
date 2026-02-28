@@ -5,9 +5,15 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "TR-CTR"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "shoot 8"
+            "name": "launcherPrep"
           }
         }
       ]

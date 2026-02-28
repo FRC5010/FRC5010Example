@@ -2,9 +2,6 @@ package frc.robot.rebuilt.commands;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.rebuilt.Constants.Indexer;
-
 public class NamedCommandsReg {
 
   public static void createNamedCommands() {
@@ -31,6 +28,7 @@ public class NamedCommandsReg {
     NamedCommands.registerCommand("iForcePreset", IndexerCommands.shouldForceCommand());
     NamedCommands.registerCommand("hubPreset", LauncherCommands.hubPresetStateCommand());
     NamedCommands.registerCommand("towerPreset", LauncherCommands.towerPresetStateCommand());
-    NamedCommands.registerCommand("towerForwardPreset", LauncherCommands.turretForwardPresetStateCommand());
+    NamedCommands.registerCommand(
+        "towerForwardPreset", LauncherCommands.turretForwardPresetStateCommand());
   }
 }

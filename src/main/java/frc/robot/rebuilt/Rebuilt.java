@@ -89,7 +89,7 @@ public class Rebuilt extends GenericRobot {
 
   @Override
   public void initAutoCommands() {
-NamedCommandsReg.createNamedCommands();
+    NamedCommandsReg.createNamedCommands();
     drivetrain.setAutoBuilder();
   }
 

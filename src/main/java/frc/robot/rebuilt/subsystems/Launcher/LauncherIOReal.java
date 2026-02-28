@@ -28,6 +28,7 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.commands.LauncherCommands;
@@ -59,6 +60,8 @@ public class LauncherIOReal implements LauncherIO {
   protected final Sensor crtSensor36;
   protected EasyCRT easyCrtSolver;
   EasyCRTConfig easyCrt;
+  Angle turretLowLimit = Degrees.of(-90);
+  Angle turretHighLimit = Degrees.of(90);
 
   public LauncherIOReal(Map<String, Object> devices, Map<String, GenericSubsystem> subsystems) {
     this.devices = devices;
@@ -66,6 +69,12 @@ public class LauncherIOReal implements LauncherIO {
     turret = (Pivot) devices.get("turret");
     hood = (Arm) devices.get("hood");
     flyWheel = (FlyWheel) devices.get("flywheel");
+
+    turretLowLimit =
+        turret.getMotorController().getConfig().getMechanismLowerLimit().orElse(turretLowLimit);
+    turretHighLimit =
+        turret.getMotorController().getConfig().getMechanismUpperLimit().orElse(turretHighLimit);
+
     CANBus canivoreBus = new CANBus("canivore");
     crtEncoder40 = new CANcoder(21, canivoreBus);
     crtEncoder36 = new CANcoder(22, canivoreBus);
@@ -105,27 +114,29 @@ public class LauncherIOReal implements LauncherIO {
     easyCrtSolver = new EasyCRT(easyCrt);
     // // Test Values
     SmartDashboard.putNumber(
-        "Unique Coverage", easyCrt.getUniqueCoverage().orElse(Degrees.of(0.0)).in(Degrees));
-    SmartDashboard.putBoolean("Coverage Satisfies Range", easyCrt.coverageSatisfiesRange());
-    SmartDashboard.putNumber("EasyCRT Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
+        "EasyCRT/Unique Coverage", easyCrt.getUniqueCoverage().orElse(Degrees.of(0.0)).in(Degrees));
+    SmartDashboard.putBoolean("EasyCRT/Coverage Satisfies Range", easyCrt.coverageSatisfiesRange());
+    SmartDashboard.putNumber("EasyCRT/Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
     SmartDashboard.putNumber(
-        "EasyCRT Enc 1 Ratio", easyCrt.getEncoder1RotationsPerMechanismRotation());
-    SmartDashboard.putNumber("EasyCRT Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
+        "EasyCRT/Enc 1 Ratio", easyCrt.getEncoder1RotationsPerMechanismRotation());
+    SmartDashboard.putNumber("EasyCRT/Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
     SmartDashboard.putNumber(
-        "EasyCRT Enc 2 Ratio", easyCrt.getEncoder2RotationsPerMechanismRotation());
+        "EasyCRT/Enc 2 Ratio", easyCrt.getEncoder2RotationsPerMechanismRotation());
     Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
-    SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
-    SmartDashboard.putString("CRT Status", easyCrtSolver.getLastStatus().name());
-    SmartDashboard.putNumber("CRT Error Rot", easyCrtSolver.getLastErrorRotations());
+    SmartDashboard.putNumber("EasyCRT/CRT Angle", calculatedAngle.in(Degrees));
+    SmartDashboard.putString("EasyCRT/CRT Status", easyCrtSolver.getLastStatus().name());
+    SmartDashboard.putNumber("EasyCRT/CRT Error Rot", easyCrtSolver.getLastErrorRotations());
     turret.getMotor().setEncoderPosition(calculatedAngle);
+
+    turret.min().or(turret.max()).onTrue(Commands.runOnce(() -> turret.getMotor().setDutyCycle(0)));
   }
 
   @Override()
   public void updateInputs(LauncherIOInputs inputs) {
-    SmartDashboard.putNumber("Encoder 40", crtSensor40.getAsDouble("angle"));
-    SmartDashboard.putNumber("EasyCRT Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
-    SmartDashboard.putNumber("Encoder 36", crtSensor36.getAsDouble("angle"));
-    SmartDashboard.putNumber("EasyCRT Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
+    SmartDashboard.putNumber("EasyCRT/Encoder 40", crtSensor40.getAsDouble("angle"));
+    SmartDashboard.putNumber("EasyCRT/Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
+    SmartDashboard.putNumber("EasyCRT/Encoder 36", crtSensor36.getAsDouble("angle"));
+    SmartDashboard.putNumber("EasyCRT/Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
     // Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
     // SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
     // SmartDashboard.putString("CRT Status", easyCrtSolver.getLastStatus().name());
@@ -147,7 +158,7 @@ public class LauncherIOReal implements LauncherIO {
       inputs.isValidCalculation = params.isValid();
       inputs.hoodAngleCalculated = Radian.of(params.hoodAngle());
       inputs.turretAngleCalculated = params.turretAngle().getMeasure();
-      inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed() * 0.45);
+      inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed() * 0.43);
       inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
     }
 
@@ -224,6 +235,15 @@ public class LauncherIOReal implements LauncherIO {
   }
 
   public void setTurretRotation(Angle angle) {
+    if (angle.gt(turretHighLimit)) {
+      SmartDashboard.putBoolean("Launcher/Turret Limit", true);
+      angle = turretHighLimit;
+    } else if (angle.lt(turretLowLimit)) {
+      SmartDashboard.putBoolean("Launcher/Turret Limit", true);
+      angle = turretLowLimit;
+    } else {
+      SmartDashboard.putBoolean("Launcher/Turret Limit", false);
+    }
     turret.getMotorController().setPosition(angle);
   }
 

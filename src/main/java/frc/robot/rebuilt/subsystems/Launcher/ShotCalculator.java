@@ -485,6 +485,7 @@ public class ShotCalculator {
     Logger.recordOutput(
         "ShotCalculator/VirtualTargetFieldPosition",
         new Pose2d(solution.finalSolverState().virtualTargetFieldPos(), turretAngle));
+    Logger.recordOutput("ShotCalculator/FieldVelocity", Rebuilt.drivetrain.getFieldVelocity());
 
     Rebuilt.drivetrain
         .getField2d()

@@ -327,7 +327,9 @@ public class ShotCalculator {
       return null;
     }
     double hoodAngleDegrees = Math.toDegrees(hoodReference - solution.angleRadians());
-    return new double[] {hoodAngleDegrees, solution.flywheelRadPerSec(), solution.timeOfFlightSeconds()};
+    return new double[] {
+      hoodAngleDegrees, solution.flywheelRadPerSec(), solution.timeOfFlightSeconds()
+    };
   }
 
   /**

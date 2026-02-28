@@ -56,7 +56,6 @@ public class TestCommands {
     controller
         .createYButton()
         .whileTrue(
-            ShotTuningCommand.createWithFeed(launcher)
-                .finallyDo(() -> launcher.stopAllMotors()));
+            ShotTuningCommand.createWithFeed(launcher).finallyDo(() -> launcher.stopAllMotors()));
   }
 }

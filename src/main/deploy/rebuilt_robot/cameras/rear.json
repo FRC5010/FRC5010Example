@@ -5,9 +5,9 @@
   "strategy": "LOWEST_AMBIGUITY",
   "column": 0,
   "x": -0.316347,
-  "y": 0.218577,
+  "y": -0.218577,
   "z": 0.237805,
   "roll": 0,
   "pitch": -30,
-  "yaw": 185
+  "yaw": 175
 }

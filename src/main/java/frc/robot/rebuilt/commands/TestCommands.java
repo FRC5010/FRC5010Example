@@ -51,5 +51,12 @@ public class TestCommands {
     controller
         .createXButton()
         .whileTrue(launcher.getHoodSysIdCommand().finallyDo(() -> launcher.stopAllMotors()));
+
+    // Shot tuning command – hold Y button to enter tuning mode
+    controller
+        .createYButton()
+        .whileTrue(
+            ShotTuningCommand.createWithFeed(launcher)
+                .finallyDo(() -> launcher.stopAllMotors()));
   }
 }

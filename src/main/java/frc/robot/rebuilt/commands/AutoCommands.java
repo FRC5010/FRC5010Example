@@ -29,6 +29,10 @@ public class AutoCommands {
     selectableCommand.addOption(
         "PRO: Launcher Turret Characterization",
         ((Launcher) subsystems.get(Constants.LAUNCHER)).getTurretCharacterizationCommand());
+    selectableCommand.addOption(
+        "TUNE: Shot Lookup Table Tuning",
+        ShotTuningCommand.createWithFeed(
+            (Launcher) subsystems.get(Constants.LAUNCHER)));
   }
 
   public void configureBasicAutoCommands(LoggedDashboardChooser<Command> selectableCommand) {

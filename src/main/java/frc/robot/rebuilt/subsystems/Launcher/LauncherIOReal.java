@@ -217,11 +217,7 @@ public class LauncherIOReal implements LauncherIO {
   }
 
   public void setHoodAngle(Angle angle) {
-    if (isNearTrench()) {
-      hood.getMotorController().setPosition(Degrees.of(31.0));
-    } else {
       hood.getMotorController().setPosition(angle);
-    }
   }
 
   public void setHoodAngleLow() {

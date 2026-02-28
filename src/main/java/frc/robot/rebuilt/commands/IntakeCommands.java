@@ -61,6 +61,7 @@ public class IntakeCommands {
 
     // Not moving trigger senses if the hopper has hit the bumper hard stop for 0.5 sec
     Trigger hopperNotMoving = new Trigger(() -> !intake.isHopperMoving()).debounce(0.5);
+
     // If the hopper is not moving and we want to intake or outtake, set the hopper angle to 0 to
     // prevent jamming
     hopperNotMoving
@@ -143,6 +144,7 @@ public class IntakeCommands {
 
   public static Command outtakingCommand(DoubleSupplier speed) {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.OUTTAKING))
+        .andThen(Commands.runOnce(() -> intake.runHopper(0)))
         // .andThen(() -> intake.setHopperAngle(Degrees.of(0.0)))
         .andThen(Commands.run(() -> intake.runSpintake(-speed.getAsDouble())));
     // Math.max(
@@ -153,6 +155,7 @@ public class IntakeCommands {
 
   public static Command intakingCommand(DoubleSupplier speed) {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.INTAKING))
+        .andThen(Commands.runOnce(() -> intake.runHopper(0)))
         // .andThen(() -> intake.setHopperAngle(Degrees.of(0.0)))
         .andThen(Commands.run(() -> intake.runSpintake(speed.getAsDouble())));
     // Math.min(

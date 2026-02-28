@@ -2,10 +2,10 @@
   "motorSetup": {
     "name": "hopper",
     "controllerType": "talonfx",
-    "motorType": "KrakenX60",
+    "motorType": "KrakenX44",
     "canId": 14,
     "logLevel": "HIGH",
-    "inverted": true,
+    "inverted": false,
     "currentLimit": {
       "val": 60,
       "uom": "amps"

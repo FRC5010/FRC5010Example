@@ -31,8 +31,7 @@ public class AutoCommands {
         ((Launcher) subsystems.get(Constants.LAUNCHER)).getTurretCharacterizationCommand());
     selectableCommand.addOption(
         "TUNE: Shot Lookup Table Tuning",
-        ShotTuningCommand.createWithFeed(
-            (Launcher) subsystems.get(Constants.LAUNCHER)));
+        ShotTuningCommand.createWithFeed((Launcher) subsystems.get(Constants.LAUNCHER)));
   }
 
   public void configureBasicAutoCommands(LoggedDashboardChooser<Command> selectableCommand) {

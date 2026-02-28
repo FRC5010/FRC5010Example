@@ -11,6 +11,7 @@ import frc.robot.rebuilt.commands.ClimbCommands;
 import frc.robot.rebuilt.commands.IndexerCommands;
 import frc.robot.rebuilt.commands.IntakeCommands;
 import frc.robot.rebuilt.commands.LauncherCommands;
+import frc.robot.rebuilt.commands.NamedCommandsReg;
 import frc.robot.rebuilt.commands.TestCommands;
 import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.DriverDisplay.HubStatus;
@@ -88,6 +89,7 @@ public class Rebuilt extends GenericRobot {
 
   @Override
   public void initAutoCommands() {
+    NamedCommandsReg.createNamedCommands();
     drivetrain.setAutoBuilder();
   }
 
@@ -101,7 +103,6 @@ public class Rebuilt extends GenericRobot {
     super.buildAutoCommands();
     selectableCommand.addOption("Do Nothing", Commands.none());
     drivetrain.addAutoCommands(selectableCommand);
-    autocommands.configureNamedCommands();
     autocommands.configureCharacterizationCommands(selectableCommand);
   }
 }

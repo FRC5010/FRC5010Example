@@ -11,14 +11,13 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.rebuilt.commands.IntakeCommands;
 import frc.robot.rebuilt.commands.IntakeCommands.IntakeState;
-import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.sensors.Controller;
 import org.littletonrobotics.junction.Logger;
 
 public class Intake extends GenericSubsystem {
-  private Indexer indexer;
   private IntakeIO io;
   private IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
 
@@ -47,7 +46,7 @@ public class Intake extends GenericSubsystem {
             });
   }
 
-  public void setHopperAngle(Angle angle) {
+  public void setDesiredHopperAngle(Angle angle) {
     io.setHopperAngle(angle);
   }
 
@@ -108,9 +107,19 @@ public class Intake extends GenericSubsystem {
 
   public void setHopperDeployed() {
     io.setHopperPosition(Degrees.of(0));
+    setRequestedState(IntakeCommands.IntakeState.DEPLOYED);
   }
 
   public void setHopperRetracted() {
     io.setHopperPosition(Degrees.of(120));
+    setRequestedState(IntakeCommands.IntakeState.RETRACTED);
+  }
+
+  public boolean isHopperMoving() {
+    return io.isHopperMoving();
+  }
+
+  public void setHopperPosition(Angle angle) {
+    io.setHopperPosition(angle);
   }
 }

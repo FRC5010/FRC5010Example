@@ -214,6 +214,16 @@
       "/SmartDashboard/winch_motor/mechanism": "Mechanism2d"
     },
     "windows": {
+      "/AdvantageKit/RealOutputs/PathPlanner": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Auto Modes": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/DrivePoseEstimator/Pose Field": {
         "CARPET0": {
           "image": ".\\pictures\\carpet.png",

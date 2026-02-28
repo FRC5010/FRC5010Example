@@ -57,15 +57,7 @@ public class LauncherCommands {
     launcher.setRequestedState(LauncherState.IDLE);
 
     drivetrain = (GenericDrivetrain) this.subsystems.get(ConfigConstants.DRIVETRAIN);
-
-    stateMachine = new StateMachine("LauncherStateMachine");
-    presetState = stateMachine.addState("PRESET-SHOOT", presetStateCommand());
-    idleState = stateMachine.addState("IDLE", idleStateCommand());
-    lowState = stateMachine.addState("LOW-SPEED", lowStateCommand());
-    prepState = stateMachine.addState("PREP-SHOOT", prepStateCommand());
-    hammerTimeState = stateMachine.addState("HAMMER-TIME", hammerTimeStateCommand());
-
-    stateMachine.setInitialState(idleState);
+    configureStateMachine();
   }
 
   public void setDefaultCommands() {
@@ -75,8 +67,15 @@ public class LauncherCommands {
     }
   }
 
-  public void configureButtonBindings(Controller driver, Controller operator) {
+  public void configureStateMachine() {
+    stateMachine = new StateMachine("LauncherStateMachine");
+    presetState = stateMachine.addState("PRESET-SHOOT", presetStateCommand());
+    idleState = stateMachine.addState("IDLE", idleStateCommand());
+    lowState = stateMachine.addState("LOW-SPEED", lowStateCommand());
+    prepState = stateMachine.addState("PREP-SHOOT", prepStateCommand());
+    hammerTimeState = stateMachine.addState("HAMMER-TIME", hammerTimeStateCommand());
 
+    stateMachine.setInitialState(idleState);
     idleState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     idleState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
     idleState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
@@ -102,6 +101,15 @@ public class LauncherCommands {
     // Hammer Time is a special case since it's a toggle state
     hammerTimeState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
 
+    Trigger readyToFireTrigger =
+        new Trigger(() -> launcher.isCurrent(LauncherState.PREP) && launcher.isAtGoal());
+    readyToFireTrigger
+        .onTrue(IndexerCommands.shouldFeedCommand())
+        .onFalse(IndexerCommands.shouldIdleCommand());
+  }
+
+  public void configureButtonBindings(Controller driver, Controller operator) {
+
     driver.createAButton().onTrue(shouldLowCommand());
 
     driver.createBButton().onTrue(shouldHammerTimeCommand());
@@ -117,12 +125,6 @@ public class LauncherCommands {
         .createYButton()
         .whileTrue(turretForwardPresetStateCommand())
         .onFalse(shouldIdleCommand());
-
-    Trigger readyToFireTrigger =
-        new Trigger(() -> launcher.isCurrent(LauncherState.PREP) && launcher.isAtGoal());
-    readyToFireTrigger
-        .onTrue(IndexerCommands.shouldFeedCommand())
-        .onFalse(IndexerCommands.shouldIdleCommand());
 
     driver.createUpPovButton().onTrue(launcher.increaseHoodAngleCommand());
     driver.createDownPovButton().onTrue(launcher.decreaseHoodAngleCommand());

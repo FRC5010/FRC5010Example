@@ -82,6 +82,7 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
     var driveConfig = constants.DriveMotorInitialConfigs;
     driveConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     driveConfig.Slot0 = constants.DriveMotorGains;
+    driveConfig.Feedback.SensorToMechanismRatio = constants.DriveMotorGearRatio;
     driveConfig.TorqueCurrent.PeakForwardTorqueCurrent = constants.SlipCurrent;
     driveConfig.TorqueCurrent.PeakReverseTorqueCurrent = -constants.SlipCurrent;
     driveConfig.CurrentLimits.StatorCurrentLimit = constants.SlipCurrent;
@@ -163,18 +164,14 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
   @Override
   public void updateInputs(ModuleIOInputs inputs) {
     // Refresh all signals
-    var driveStatus =
-        BaseStatusSignal.refreshAll(drivePosition, driveVelocity, driveAppliedVolts, driveCurrent);
-    var turnStatus =
-        BaseStatusSignal.refreshAll(turnPosition, turnVelocity, turnAppliedVolts, turnCurrent);
+    var driveStatus = BaseStatusSignal.refreshAll(driveVelocity, driveAppliedVolts, driveCurrent);
+    var turnStatus = BaseStatusSignal.refreshAll(turnVelocity, turnAppliedVolts, turnCurrent);
     var turnEncoderStatus = BaseStatusSignal.refreshAll(turnAbsolutePosition);
 
     // Update drive inputs
     inputs.driveConnected = driveConnectedDebounce.calculate(driveStatus.isOK());
-    inputs.drivePositionRad =
-        Units.rotationsToRadians(drivePosition.getValueAsDouble()) / constants.DriveMotorGearRatio;
-    inputs.driveVelocityRadPerSec =
-        Units.rotationsToRadians(driveVelocity.getValueAsDouble()) / constants.DriveMotorGearRatio;
+    inputs.drivePositionRad = Units.rotationsToRadians(drivePosition.getValueAsDouble());
+    inputs.driveVelocityRadPerSec = Units.rotationsToRadians(driveVelocity.getValueAsDouble());
     inputs.driveAppliedVolts = driveAppliedVolts.getValueAsDouble();
     inputs.driveCurrentAmps = driveCurrent.getValueAsDouble();
 
@@ -208,13 +205,11 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
 
   @Override
   public void setDriveVelocity(double wheelVelocityRadPerSec) {
-    double motorVelocityRotPerSec =
-        Units.radiansToRotations(wheelVelocityRadPerSec) * constants.DriveMotorGearRatio;
+    double velocityRotPerSec = Units.radiansToRotations(wheelVelocityRadPerSec);
     driveTalon.setControl(
         switch (constants.DriveMotorClosedLoopOutput) {
-          case Voltage -> velocityVoltageRequest.withVelocity(motorVelocityRotPerSec);
-          case TorqueCurrentFOC -> velocityTorqueCurrentRequest.withVelocity(
-              motorVelocityRotPerSec);
+          case Voltage -> velocityVoltageRequest.withVelocity(velocityRotPerSec);
+          case TorqueCurrentFOC -> velocityTorqueCurrentRequest.withVelocity(velocityRotPerSec);
         });
   }
 

@@ -26,6 +26,8 @@ public interface IntakeIO {
 
   public void setHopperPosition(Angle angle);
 
+  public boolean isHopperMoving();
+
   public boolean isRetracted();
 
   public boolean isDeployed();

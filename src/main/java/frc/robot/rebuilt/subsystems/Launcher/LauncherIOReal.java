@@ -59,6 +59,7 @@ public class LauncherIOReal implements LauncherIO {
   protected final Sensor crtSensor40;
   protected final Sensor crtSensor36;
   protected EasyCRT easyCrtSolver;
+  /** Initializes the launcher hardware, encoders, simulated sensors, and angle solver */
   EasyCRTConfig easyCrt;
   Angle turretLowLimit = Degrees.of(-90);
   Angle turretHighLimit = Degrees.of(90);
@@ -132,6 +133,7 @@ public class LauncherIOReal implements LauncherIO {
   }
 
   @Override()
+  /** Updating launcher sensor data, calculates shot parameters, and populates input telemetry */
   public void updateInputs(LauncherIOInputs inputs) {
     SmartDashboard.putNumber("EasyCRT/Encoder 40", crtSensor40.getAsDouble("angle"));
     SmartDashboard.putNumber("EasyCRT/Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
@@ -161,7 +163,7 @@ public class LauncherIOReal implements LauncherIO {
       inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed() * 0.43);
       inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
     }
-
+    /** Reads the desired flywheel, hood, and turret setpoints */
     inputs.flyWheelSpeedDesired =
         flyWheel
             .getMotorController()
@@ -200,7 +202,7 @@ public class LauncherIOReal implements LauncherIO {
     // Log trench detection every cycle
     isNearTrench();
   }
-
+  /** Configuring the shot calculator with limits and constraints */
   @Override
   public void configureShotCalculator(ShotCalculator shotCalculator) {
     shotCalculator.setShotTables(ShotCalculator.createDefaultTables());
@@ -211,15 +213,15 @@ public class LauncherIOReal implements LauncherIO {
             turret.getMotorController().getConfig().getMechanismUpperLimit().get().in(Degrees)),
         Rotation2d.fromDegrees(10.0));
   }
-
+/** Sets the flywheel motor's duty cycle */
   public void runShooter(double speed) {
     flyWheel.getMotor().setDutyCycle(speed);
   }
-
+/** Sets the flywheel motor's angular velocity */
   public void setFlyWheelVelocity(AngularVelocity speed) {
     flyWheel.getMotor().setVelocity(speed);
   }
-
+/** Sets the hood angle and overrides the requested angle  if the hood is near the trench */
   public void setHoodAngle(Angle angle) {
     if (isNearTrench()) {
       hood.getMotorController().setPosition(Degrees.of(31.0));
@@ -227,13 +229,13 @@ public class LauncherIOReal implements LauncherIO {
       hood.getMotorController().setPosition(angle);
     }
   }
-
+/** Sets the low hard limit  to 30 degrees and updates LED's */
   public void setHoodAngleLow() {
     hood.getMotorController()
         .setPosition(hood.getArmConfig().getLowerHardLimit().orElse(Degrees.of(30)));
     LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
   }
-
+/** Sets the angle of the turret based on the motor request */
   public void setTurretRotation(Angle angle) {
     if (angle.gt(turretHighLimit)) {
       SmartDashboard.putBoolean("Launcher/Turret Limit", true);
@@ -246,17 +248,18 @@ public class LauncherIOReal implements LauncherIO {
     }
     turret.getMotorController().setPosition(angle);
   }
-
+/** Converts the flywheel angular velocity into speed */
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity) {
     return MetersPerSecond.of(
         flyWheel.getShooterConfig().getCircumference().in(Meters)
             * (velocity.in(RotationsPerSecond)));
   }
-
+/** Returns SysId command for the hood */
   public Command getHoodSysIdCommand() {
     return hood.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
 
+  /** Runs sysid for the cahracterized hood motor and stops at limits */
   public Command getHoodSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(hood.getMotorController(), hood.getName(), launcher),
@@ -279,7 +282,7 @@ public class LauncherIOReal implements LauncherIO {
   public Command getTurretSysIdCommand() {
     return turret.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
-
+  /** Characterizes the turret */
   public Command getTurretSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(
@@ -301,21 +304,21 @@ public class LauncherIOReal implements LauncherIO {
                 .getAsBoolean(),
         () -> turret.getMotor().setDutyCycle(0));
   }
-
+  /** Applies voltage and measures hood velocity to characterize the feed forward */
   public Command getHoodCharacterizationCommand(GenericSubsystem launcher) {
     return SystemIdentification.feedforwardCharacterization(
         launcher,
         (Voltage voltage) -> hood.getMotor().setVoltage(voltage),
         () -> hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
   }
-
+/** Applies voltage and measures turret velocity to characterize the feedfoward */
   public Command getTurretCharacterizationCommand(GenericSubsystem launcher) {
     return SystemIdentification.feedforwardCharacterization(
         launcher,
         (Voltage voltage) -> turret.getMotor().setVoltage(voltage),
         () -> turret.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
   }
-
+/** sets the flywheel, hood, and turret motor duty cycles to 0, which stops the motors */
   public void stopAllMotors() {
     flyWheel.getMotor().setDutyCycle(0);
     hood.getMotor().setDutyCycle(0);

@@ -20,6 +20,7 @@ import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
 
+/** defines commands and state launcher logic for the launcher */
 public class LauncherCommands {
 
   private StateMachine stateMachine;
@@ -37,7 +38,7 @@ public class LauncherCommands {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
   }
   // public static Angle getHoodAngle(Distance toTarget) {} Placeholder for now
-
+  /** declares possible states for the launcher */
   public static enum LauncherState {
     IDLE,
     LOW_SPEED,
@@ -50,7 +51,7 @@ public class LauncherCommands {
       return this.name();
     }
   }
-
+  /** initializes the launcher state machine and adds states */
   public LauncherCommands(Map<String, GenericSubsystem> subsystems) {
     this.subsystems = subsystems;
     launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
@@ -60,7 +61,7 @@ public class LauncherCommands {
     drivetrain = (GenericDrivetrain) this.subsystems.get(ConfigConstants.DRIVETRAIN);
     configureStateMachine();
   }
-
+  /** sets the state machine as the default command of the launcher */
   public void setDefaultCommands() {
     if (launcher != null) {
       stateMachine.addRequirements(launcher);
@@ -142,7 +143,7 @@ public class LauncherCommands {
   private Translation2d getTargetPose() {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
   }
-
+  /** creates command behavior for the IDLE launcher state */
   private static Command idleStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
@@ -151,7 +152,7 @@ public class LauncherCommands {
             }),
         launcher.stopTrackingCommand());
   }
-
+  /** creates command behavior for when the launcher is at low speed */
   private static Command lowStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
@@ -162,7 +163,7 @@ public class LauncherCommands {
             }),
         launcher.trackTargetCommand());
   }
-
+  /** creates command behavior when the launcher is at prep state */
   private static Command prepStateCommand() {
     return Commands.parallel(
         Commands.runOnce(
@@ -173,7 +174,7 @@ public class LauncherCommands {
             }),
         launcher.trackTargetCommand());
   }
-
+  /** creates command behavior for when the launcher is at preset */
   private static Command presetStateCommand() {
     return Commands.parallel(
         Commands.runOnce(

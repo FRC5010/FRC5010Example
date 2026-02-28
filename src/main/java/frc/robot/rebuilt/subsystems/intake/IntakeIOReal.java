@@ -22,7 +22,7 @@ public class IntakeIOReal implements IntakeIO {
   private PercentControlMotor spintakeLead;
   private PercentControlMotor spinTakeFollow;
   private Arm intakeHopper;
-
+  /** initializes the spintake and hopper */
   public IntakeIOReal(Map<String, Object> devices) {
     this.devices = devices;
     // spintakeLead = (FlyWheel) devices.get("spintake");
@@ -65,7 +65,7 @@ public class IntakeIOReal implements IntakeIO {
   public Command getHopperSysIdCommand() {
     return intakeHopper.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
-
+  /** Returns a sysid command for the hopper */
   public Command getHopperSysIdCommand(GenericSubsystem intake) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(
@@ -98,7 +98,7 @@ public class IntakeIOReal implements IntakeIO {
   public void runHopper(double speed) {
     intakeHopper.getMotorController().setDutyCycle(speed);
   }
-
+  /** updates the input structure with the current hopper and intake speed */
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
     Logger.recordOutput(

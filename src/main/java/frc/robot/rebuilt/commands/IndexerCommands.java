@@ -80,7 +80,8 @@ public class IndexerCommands {
             IndexerState.IDLE, idleStateCommand(),
             IndexerState.CHURN, churnStateCommand());
 
-    stateToCommand.forEach((state, cmd) -> new Trigger(() -> indexer.isRequested(state)).onTrue(cmd));
+    stateToCommand.forEach(
+        (state, cmd) -> new Trigger(() -> indexer.isRequested(state)).onTrue(cmd));
   }
 
   // Small helper to reduce duplicate switchTo(...).when(...) boilerplate

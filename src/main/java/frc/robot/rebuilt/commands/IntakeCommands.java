@@ -23,7 +23,6 @@ public class IntakeCommands {
   State intaking;
 
   public static enum IntakeState {
-    DEPLOYING,
     RETRACTED,
     RETRACTING,
     DEPLOYING,
@@ -88,25 +87,25 @@ public class IntakeCommands {
         .switchTo(outtaking)
         .when(() -> intake.isDeployed() && intake.isRequested(IntakeState.OUTTAKING));
     // ---
-//     addRequestedTransition(retracting, intaking, IntakeState.INTAKING);
-//     addRequestedTransition(retracted, intaking, IntakeState.INTAKING);
-//     addRequestedTransition(deploying, intaking, IntakeState.INTAKING);
-//     addRequestedTransition(intaking, retracting, IntakeState.RETRACTING);
-//     addRequestedTransition(intaking, outtaking, IntakeState.OUTTAKING);
-//     addRequestedTransition(outtaking, deploying, IntakeState.DEPLOYING);
-//     addRequestedTransition(retracted, deploying, IntakeState.DEPLOYING);
-//     addRequestedTransition(retracting, deploying, IntakeState.DEPLOYING);
-//     addRequestedTransition(outtaking, retracting, IntakeState.RETRACTING);
-//     addRequestedTransition(outtaking, intaking, IntakeState.INTAKING);
-//     addRequestedTransition(retracting, outtaking, IntakeState.OUTTAKING);
-//     addRequestedTransition(retracted, outtaking, IntakeState.OUTTAKING);
-//     retracting.switchTo(retracted).when(() -> intake.isRetracted());
+    //     addRequestedTransition(retracting, intaking, IntakeState.INTAKING);
+    //     addRequestedTransition(retracted, intaking, IntakeState.INTAKING);
+    //     addRequestedTransition(deploying, intaking, IntakeState.INTAKING);
+    //     addRequestedTransition(intaking, retracting, IntakeState.RETRACTING);
+    //     addRequestedTransition(intaking, outtaking, IntakeState.OUTTAKING);
+    //     addRequestedTransition(outtaking, deploying, IntakeState.DEPLOYING);
+    //     addRequestedTransition(retracted, deploying, IntakeState.DEPLOYING);
+    //     addRequestedTransition(retracting, deploying, IntakeState.DEPLOYING);
+    //     addRequestedTransition(outtaking, retracting, IntakeState.RETRACTING);
+    //     addRequestedTransition(outtaking, intaking, IntakeState.INTAKING);
+    //     addRequestedTransition(retracting, outtaking, IntakeState.OUTTAKING);
+    //     addRequestedTransition(retracted, outtaking, IntakeState.OUTTAKING);
+    //     retracting.switchTo(retracted).when(() -> intake.isRetracted());
   }
 
   private void addRequestedTransition(State from, State to, IntakeState request) {
     from.switchTo(to).when(() -> intake.isRequested(request));
   }
-  
+
   public static Command outtakingCommand(DoubleSupplier speed) {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.OUTTAKING))
         // .andThen(() -> intake.setHopperAngle(Degrees.of(0.0)))
@@ -124,11 +123,6 @@ public class IntakeCommands {
     // Math.min(
     //     Constants.Intake.INTAKE_MAX_IN,
     //     Math.max(speed.getAsDouble(), Constants.Intake.INTAKE_IN)))));
-  }
-
-  public static Command deployingCommand() {
-    return Commands.runOnce(() -> intake.setCurrentState(IntakeState.DEPLOYING))
-        .andThen(() -> intake.runHopper(Constants.Intake.HOPPER_GO_OUT));
   }
 
   public static Command retractingCommand() {
@@ -175,8 +169,8 @@ public class IntakeCommands {
     return Commands.runOnce(() -> intake.setRequestedState(IntakeState.DEPLOYING));
   }
 }
-//Do Not Delete Comments :)
-//Original Code in Case of Replacement Failure
+// Do Not Delete Comments :)
+// Original Code in Case of Replacement Failure
 // retracting.switchTo(intaking).when(() -> intake.isRequested(IntakeState.INTAKING));
 //     retracted.switchTo(intaking).when(() -> intake.isRequested(IntakeState.INTAKING));
 //     deploying.switchTo(intaking).when(() -> intake.isRequested(IntakeState.INTAKING));

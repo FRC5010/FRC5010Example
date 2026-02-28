@@ -34,8 +34,6 @@ public interface IntakeIO {
 
   public boolean isNearTrench();
 
-  
-
   public Command getHopperSysIdCommand();
 
   public Command getHopperCharacterizationCommand(GenericSubsystem intake);

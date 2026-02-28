@@ -86,6 +86,10 @@ public class Intake extends GenericSubsystem {
     return inputs.stateCurrent == state;
   }
 
+  public boolean isNearTrench() {
+    return isCurrent(IntakeState.DEPLOYING) && io.isNearTrench();
+  }
+
   public void setCurrentState(IntakeState state) {
     inputs.stateCurrent = state;
   }

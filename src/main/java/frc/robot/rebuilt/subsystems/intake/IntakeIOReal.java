@@ -6,18 +6,18 @@ import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.rebuilt.FieldConstants;
+import frc.robot.rebuilt.commands.IntakeCommands;
 import java.util.Map;
-
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.motors.SystemIdentification;
 import org.frc5010.common.motors.function.PercentControlMotor;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.rebuilt.commands.IntakeCommands;
 import yams.mechanisms.positional.Arm;
 
 public class IntakeIOReal implements IntakeIO {
@@ -29,7 +29,6 @@ public class IntakeIOReal implements IntakeIO {
   protected GenericDrivetrain drivetrain;
   private boolean isNearTrench = false;
   private IntakeCommands.IntakeState lastState = IntakeCommands.IntakeState.RETRACTED;
-
 
   public IntakeIOReal(Map<String, Object> devices) {
     this.devices = devices;
@@ -100,16 +99,51 @@ public class IntakeIOReal implements IntakeIO {
     intakeHopper.getMotorController().setDutyCycle(speed);
   }
 
-public boolean isNearTrench() {
-  Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
-  double currentX= current.getX();
-  double currentY = current.getY();
+  public boolean isNearTrench() {
+    Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
+    double currentX = current.getX();
+    double currentY = current.getY();
 
-  double topTrenchLeftX = FieldConstants.nearAllianceLeft.getX();
-  
-  return nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom;
-}
+    double topTrenchLeftX = FieldConstants.TrenchZoneTop.nearAllianceLeftDanger.getX();
+    double topTrenchRightX = FieldConstants.TrenchZoneTop.nearAllianceRightDanger.getX();
 
+    double topTrenchY = FieldConstants.TrenchZoneTop.nearAllianceLeftDanger.getY();
+
+    double topOppTrenchLeftX = FieldConstants.TrenchZoneTop.oppAllianceLeftDanger.getX();
+    double topOppTrenchRightX = FieldConstants.TrenchZoneTop.oppAllianceRightDanger.getX();
+
+    double lowerTrenchLeftX = FieldConstants.TrenchZoneBottom.nearAllianceLeftDanger.getX();
+    double lowerTrenchRightX = FieldConstants.TrenchZoneBottom.nearAllianceRightDanger.getX();
+
+    double lowerTrenchY = FieldConstants.TrenchZoneBottom.oppAllianceLeftDanger.getY();
+
+    double lowerOppTrenchLeftX = FieldConstants.TrenchZoneBottom.oppAllianceLeftDanger.getX();
+    double lowerOppTrenchRightX = FieldConstants.TrenchZoneBottom.oppAllianceRightDanger.getX();
+
+    boolean nearAllianceTop =
+        ((currentX > topTrenchLeftX && currentX < topTrenchRightX) && currentY > topTrenchY);
+
+    boolean nearOppAllianceTop =
+        ((currentX > topOppTrenchLeftX && currentX < topOppTrenchRightX) && currentY > topTrenchY);
+
+    boolean nearAllianceBottom =
+        ((currentX > lowerTrenchLeftX && currentX < lowerTrenchRightX) && currentY < lowerTrenchY);
+
+    boolean nearOppAllianceBottom =
+        ((currentX > lowerOppTrenchLeftX && currentX < lowerOppTrenchRightX)
+            && currentY < lowerTrenchY);
+
+    SmartDashboard.putBoolean("Near Top Opp Alliance", nearOppAllianceTop);
+    SmartDashboard.putBoolean("Near Top Alliance", nearAllianceTop);
+    SmartDashboard.putBoolean("Near Bottom Opp Alliance", nearOppAllianceBottom);
+    SmartDashboard.putBoolean("Near Bottom Alliance", nearAllianceBottom);
+
+    if (nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom)
+      return true;
+    else {
+      return false;
+    }
+  }
 
   @Override
   public void updateInputs(IntakeIOInputs inputs) {

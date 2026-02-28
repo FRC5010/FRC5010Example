@@ -22,6 +22,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Distance;
 import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.Rebuilt;
+import frc.robot.rebuilt.subsystems.Launcher.TurretControlPhysics.AimingSolution;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.DoubleFunction;
@@ -76,7 +77,8 @@ public class ShotCalculator {
       double hoodAngle,
       double hoodVelocity,
       double flywheelSpeed,
-      Distance distanceToVirtualTarget) {}
+      Distance distanceToVirtualTarget,
+      AimingSolution solution) {}
 
   // Cache parameters
   private ShootingParameters latestParameters = null;
@@ -286,6 +288,13 @@ public class ShotCalculator {
     return value != null ? value.getDegrees() : Double.NaN;
   }
 
+  public boolean hasValidShot() {
+    if (latestParameters != null) {
+      return latestParameters.solution.isPossible();
+    }
+    return false;
+  }
+
   /**
    * Get the interpolated flywheel speed from the current lookup table for a given distance.
    *
@@ -478,7 +487,8 @@ public class ShotCalculator {
             hoodAngle,
             hoodVelocity,
             flywheelSpeed != null ? flywheelSpeed : 0.0,
-            Meters.of(distanceToVirtualTarget));
+            Meters.of(distanceToVirtualTarget),
+            solution);
 
     // Log calculated values
     Logger.recordOutput("ShotCalculator/AimingStatus", solution.status().toString());

@@ -86,8 +86,8 @@ public class IndexerCommands {
 
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
-    /** Configures bumpers */
-    driver.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    driver.createLeftBumper().onTrue(toggleForceFeed());
+    operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     // operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
   }
 
@@ -176,6 +176,18 @@ public class IndexerCommands {
     return Commands.runOnce(
         () -> {
           indexer.setRequestedState(IndexerState.FORCE);
+        });
+  }
+
+  public static Command toggleForceFeed() {
+    return Commands.runOnce(
+        () -> {
+          if (indexer.isRequested(IndexerState.FEED)) {
+            indexer.setRequestedState(IndexerState.CHURN);
+
+          } else {
+            indexer.setRequestedState(IndexerState.FEED);
+          }
         });
   }
 }

@@ -36,9 +36,9 @@ public class ModuleIOTalonFXReal extends ModuleIOTalonFX {
 
     this.timestampQueue = TalonFXOdometryThread.getInstance().makeTimestampQueue();
     this.drivePositionQueue =
-        TalonFXOdometryThread.getInstance().registerSignal(super.drivePosition.clone());
+        TalonFXOdometryThread.getInstance().registerSignal(super.drivePosition);
     this.turnPositionQueue =
-        TalonFXOdometryThread.getInstance().registerSignal(super.turnPosition.clone());
+        TalonFXOdometryThread.getInstance().registerSignal(super.turnAbsolutePosition);
   }
 
   @Override

@@ -6,13 +6,18 @@ import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
+import java.util.Map;
+
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.drive.GenericDrivetrain;
+import org.frc5010.common.motors.SystemIdentification;
+import org.frc5010.common.motors.function.PercentControlMotor;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
-import java.util.Map;
-import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.motors.SystemIdentification;
-import org.frc5010.common.motors.function.PercentControlMotor;
+import frc.robot.rebuilt.commands.IntakeCommands;
 import yams.mechanisms.positional.Arm;
 
 public class IntakeIOReal implements IntakeIO {
@@ -21,6 +26,10 @@ public class IntakeIOReal implements IntakeIO {
   private PercentControlMotor spintakeLead;
   private PercentControlMotor spinTakeFollow;
   private Arm intakeHopper;
+  protected GenericDrivetrain drivetrain;
+  private boolean isNearTrench = false;
+  private IntakeCommands.IntakeState lastState = IntakeCommands.IntakeState.RETRACTED;
+
 
   public IntakeIOReal(Map<String, Object> devices) {
     this.devices = devices;
@@ -90,6 +99,17 @@ public class IntakeIOReal implements IntakeIO {
   public void runHopper(double speed) {
     intakeHopper.getMotorController().setDutyCycle(speed);
   }
+
+public boolean isNearTrench() {
+  Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
+  double currentX= current.getX();
+  double currentY = current.getY();
+
+  double topTrenchLeftX = FieldConstants.nearAllianceLeft.getX();
+  
+  return nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom;
+}
+
 
   @Override
   public void updateInputs(IntakeIOInputs inputs) {

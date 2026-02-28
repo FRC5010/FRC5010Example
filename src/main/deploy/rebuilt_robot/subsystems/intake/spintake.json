@@ -1,10 +1,11 @@
 {
   "motorSetup": {
     "name": "spintake",
-    "controllerType": "sparkflex",
-    "motorType": "NeoVortex",
+    "controllerType": "talonfx",
+    "motorType": "KrakenX60",
     "canId": 12,
     "logLevel": "LOW",
+    "inverted": true,
     "followers": [
       {
         "canId": 13,

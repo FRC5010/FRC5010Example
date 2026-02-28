@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
+import frc.robot.rebuilt.subsystems.Launcher.ShotCalculator;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
@@ -102,7 +103,11 @@ public class LauncherCommands {
     hammerTimeState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
 
     Trigger readyToFireTrigger =
-        new Trigger(() -> launcher.isCurrent(LauncherState.PREP) && launcher.isAtGoal());
+        new Trigger(
+            () ->
+                launcher.isCurrent(LauncherState.PREP)
+                    && launcher.isAtGoal()
+                    && ShotCalculator.getInstance().hasValidShot());
     readyToFireTrigger
         .onTrue(IndexerCommands.shouldFeedCommand())
         .onFalse(IndexerCommands.shouldIdleCommand());
@@ -114,7 +119,7 @@ public class LauncherCommands {
 
     driver.createBButton().onTrue(shouldHammerTimeCommand());
 
-    operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
+    // operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
 
     operator.createAButton().whileTrue(towerPresetStateCommand()).onFalse(shouldIdleCommand());
 

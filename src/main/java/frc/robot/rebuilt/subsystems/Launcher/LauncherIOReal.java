@@ -92,7 +92,7 @@ public class LauncherIOReal implements LauncherIO {
                 /* encoder1Pinion */ 40,
                 /* encoder2Pinion */ 36)
             .withAbsoluteEncoderOffsets(
-                Rotations.of(-0.241), Rotations.of(-0.208)) // set after mechanical zero
+                Rotations.of(-0.244), Rotations.of(-0.210)) // set after mechanical zero
             .withMechanismRange(Degrees.of(-168), Degrees.of(173)) // -360 deg to +720 deg
             .withMatchTolerance(Rotations.of(0.06)) // ~1.08 deg at encoder2 for the example ratio
             .withAbsoluteEncoderInversions(true, false)
@@ -172,7 +172,7 @@ public class LauncherIOReal implements LauncherIO {
 
     inputs.flyWheelSpeedAtGoal =
         Math.abs(inputs.flyWheelSpeedError.in(RPM)) <= Constants.Launcher.SHOOTER_TOLERANCE_RPM;
-    inputs.flyWheelSpeedAtGoal =
+    inputs.hoodAngleAtGoal =
         Math.abs(inputs.hoodAngleError) <= Constants.Launcher.HOOD_ANGLE_TOLERANCE_DEGREES;
     inputs.turretAngleAtGoal =
         Math.abs(inputs.turretAngleError) <= Constants.Launcher.TURRET_ANGLE_TOLERANCE_DEGREES;

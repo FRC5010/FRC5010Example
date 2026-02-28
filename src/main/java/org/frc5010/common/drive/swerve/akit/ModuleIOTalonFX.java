@@ -148,7 +148,7 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
 
     // Configure periodic frames
     BaseStatusSignal.setUpdateFrequencyForAll(
-        config.ODOMETRY_FREQUENCY, turnPosition, drivePosition);
+        config.ODOMETRY_FREQUENCY, turnPosition, drivePosition, turnAbsolutePosition);
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0,
         driveVelocity,
@@ -156,7 +156,6 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
         driveCurrent,
         turnVelocity,
         turnAppliedVolts,
-        turnAbsolutePosition,
         turnCurrent);
     ParentDevice.optimizeBusUtilizationForAll(driveTalon, turnTalon, cancoder);
   }
@@ -176,7 +175,7 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
     inputs.driveCurrentAmps = driveCurrent.getValueAsDouble();
 
     // Update turn inputs
-    inputs.turnPosition = Rotation2d.fromRotations(turnPosition.getValueAsDouble());
+    inputs.turnPosition = Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble());
     inputs.turnConnected = turnConnectedDebounce.calculate(turnStatus.isOK());
     inputs.turnEncoderConnected = turnEncoderConnectedDebounce.calculate(turnEncoderStatus.isOK());
     inputs.turnAbsolutePosition = Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble());

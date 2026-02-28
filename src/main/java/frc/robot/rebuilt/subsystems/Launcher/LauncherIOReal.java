@@ -194,11 +194,7 @@ public class LauncherIOReal implements LauncherIO {
 
     inputs.targetDistance = Meters.of(inputs.robotToTarget.getDistance(new Translation2d()));
 
-
-
-    
     isNearTrench();
-    
   }
 
   @Override

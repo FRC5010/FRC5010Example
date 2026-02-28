@@ -5,7 +5,6 @@ import static org.frc5010.common.drive.swerve.akit.util.PhoenixUtil.tryUntilOk;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -82,19 +81,8 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
     // Configure drive motor
     var driveConfig = constants.DriveMotorInitialConfigs;
     driveConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    driveConfig.Slot0 = constants.DriveMotorGains;
     driveConfig.Feedback.SensorToMechanismRatio = constants.DriveMotorGearRatio;
-    // Scale drive PID gains from rotor-unit basis to mechanism-unit basis.
-    // With SensorToMechanismRatio set, the PID operates in mechanism (wheel) units,
-    // so kV and kP must be scaled by the gear ratio to produce the same motor output.
-    double gearRatio = constants.DriveMotorGearRatio;
-    driveConfig.Slot0 =
-        new Slot0Configs()
-            .withKP(constants.DriveMotorGains.kP * gearRatio)
-            .withKI(constants.DriveMotorGains.kI * gearRatio)
-            .withKD(constants.DriveMotorGains.kD * gearRatio)
-            .withKS(constants.DriveMotorGains.kS)
-            .withKV(constants.DriveMotorGains.kV * gearRatio)
-            .withKA(constants.DriveMotorGains.kA * gearRatio);
     driveConfig.TorqueCurrent.PeakForwardTorqueCurrent = constants.SlipCurrent;
     driveConfig.TorqueCurrent.PeakReverseTorqueCurrent = -constants.SlipCurrent;
     driveConfig.CurrentLimits.StatorCurrentLimit = constants.SlipCurrent;

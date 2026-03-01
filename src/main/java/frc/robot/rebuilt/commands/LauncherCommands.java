@@ -177,12 +177,6 @@ public class LauncherCommands {
         .whileTrue(turretForwardPresetStateCommand())
         .onFalse(shouldIdleCommand());
 
-    Trigger readyToFireTrigger =
-        new Trigger(() -> launcher.isCurrent(LauncherState.PREP) && launcher.isAtGoal());
-    readyToFireTrigger
-        .onTrue(IndexerCommands.shouldFeedCommand())
-        .onFalse(IndexerCommands.shouldIdleCommand());
-
     Trigger isTrenchTrigger = new Trigger(() -> launcher.isNearTrench());
     isTrenchTrigger.onTrue(shouldAutoHammerTimeCommand()).onFalse(shouldEscapeHammerTimeCommand());
 

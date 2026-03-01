@@ -89,7 +89,8 @@ public class LauncherIOSim extends LauncherIOReal {
     // This would mean we try to shoot 25 times per second, and on average shoot about 12-13
     // gamepieces per second.
     if (Math.random() > 0.5 && amount > 0) {
-      if ((true && launcher.isShooting()) || (indexer.isCurrent(IndexerState.FORCE))) {
+      if ((indexer.isCurrent(IndexerState.FEED) && launcher.isShooting())
+          || (indexer.isCurrent(IndexerState.FORCE))) {
         if (IntakeIOSim.intakeSimulation.obtainGamePieceFromIntake()) {
           Pose2d worldPose = Rebuilt.drivetrain.getPoseEstimator().getCurrentPose();
           gamePieceProjectile =

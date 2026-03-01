@@ -277,7 +277,8 @@ public class LauncherIOReal implements LauncherIO {
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity) {
     return MetersPerSecond.of(
         flyWheel.getShooterConfig().getCircumference().in(Meters)
-            * Math.PI // This is a total fudge on the math, but it gives us a more realistic exit velocity for the flywheel speeds we are commanding
+            * Math.PI // This is a total fudge on the math, but it gives us a more realistic exit
+            // velocity for the flywheel speeds we are commanding
             * (velocity.in(RadiansPerSecond)));
   }
   /** Returns SysId command for the hood */

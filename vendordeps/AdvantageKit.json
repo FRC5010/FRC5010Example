@@ -1,7 +1,7 @@
 {
   "fileName": "AdvantageKit.json",
   "name": "AdvantageKit",
-  "version": "26.0.0",
+  "version": "26.0.1",
   "uuid": "d820cc26-74e3-11ec-90d6-0242ac120003",
   "frcYear": "2026",
   "mavenUrls": [
@@ -12,14 +12,14 @@
     {
       "groupId": "org.littletonrobotics.akit",
       "artifactId": "akit-java",
-      "version": "26.0.0"
+      "version": "26.0.1"
     }
   ],
   "jniDependencies": [
     {
       "groupId": "org.littletonrobotics.akit",
       "artifactId": "akit-wpilibio",
-      "version": "26.0.0",
+      "version": "26.0.1",
       "skipInvalidPlatforms": false,
       "isJar": false,
       "validPlatforms": [
@@ -31,6 +31,5 @@
       ]
     }
   ],
-  "cppDependencies": [],
-  "filterNotes": "FIR (Finite Impulse Response): output is finite-length convolution of input with fixed coefficients. Always stable, can be designed for exact linear phase, but may need higher order for sharp filters. IIR (Infinite Impulse Response): uses feedback (recursive) so impulse response is theoretically infinite. More efficient (lower order) but can be unstable and usually has non-linear phase. Choose FIR when linear phase or guaranteed stability is required; choose IIR for lower complexity/latency when phase and slight instability can be managed."
+  "cppDependencies": []
 }

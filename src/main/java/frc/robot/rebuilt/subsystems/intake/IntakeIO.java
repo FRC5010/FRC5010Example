@@ -34,6 +34,8 @@ public interface IntakeIO {
 
   public void runHopper(double speed);
 
+  public boolean isNearTrench();
+
   public Command getHopperSysIdCommand();
 
   public Command getHopperCharacterizationCommand(GenericSubsystem intake);

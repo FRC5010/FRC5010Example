@@ -10,8 +10,8 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Radian;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
@@ -277,7 +277,8 @@ public class LauncherIOReal implements LauncherIO {
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity) {
     return MetersPerSecond.of(
         flyWheel.getShooterConfig().getCircumference().in(Meters)
-            * (velocity.in(RotationsPerSecond)));
+            * Math.PI // This is a total fudge on the math, but it gives us a more realistic exit velocity for the flywheel speeds we are commanding
+            * (velocity.in(RadiansPerSecond)));
   }
   /** Returns SysId command for the hood */
   public Command getHoodSysIdCommand() {

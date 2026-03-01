@@ -5,15 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "TR-HP"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "intakeIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TR-HP"
           }
         },
         {

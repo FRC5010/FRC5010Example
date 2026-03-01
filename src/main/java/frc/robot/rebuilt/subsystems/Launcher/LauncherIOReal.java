@@ -28,10 +28,13 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.FieldConstants;
+import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
+import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
@@ -58,14 +61,34 @@ public class LauncherIOReal implements LauncherIO {
   protected final Sensor crtSensor40;
   protected final Sensor crtSensor36;
   protected EasyCRT easyCrtSolver;
+  /** Initializes the launcher hardware, encoders, simulated sensors, and angle solver */
   EasyCRTConfig easyCrt;
+
+  protected static Translation2d robotToTurret;
+
+  Angle turretLowLimit = Degrees.of(-90);
+  Angle turretHighLimit = Degrees.of(90);
 
   public LauncherIOReal(Map<String, Object> devices, Map<String, GenericSubsystem> subsystems) {
     this.devices = devices;
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
     turret = (Pivot) devices.get("turret");
+    robotToTurret =
+        turret
+            .getPivotConfig()
+            .getMechanismPositionConfig()
+            .getRelativePosition()
+            .get()
+            .toTranslation2d();
+
     hood = (Arm) devices.get("hood");
     flyWheel = (FlyWheel) devices.get("flywheel");
+
+    turretLowLimit =
+        turret.getMotorController().getConfig().getMechanismLowerLimit().orElse(turretLowLimit);
+    turretHighLimit =
+        turret.getMotorController().getConfig().getMechanismUpperLimit().orElse(turretHighLimit);
+
     CANBus canivoreBus = new CANBus("canivore");
     crtEncoder40 = new CANcoder(21, canivoreBus);
     crtEncoder36 = new CANcoder(22, canivoreBus);
@@ -92,7 +115,7 @@ public class LauncherIOReal implements LauncherIO {
                 /* encoder1Pinion */ 40,
                 /* encoder2Pinion */ 36)
             .withAbsoluteEncoderOffsets(
-                Rotations.of(-0.241), Rotations.of(-0.208)) // set after mechanical zero
+                Rotations.of(-0.244), Rotations.of(-0.210)) // set after mechanical zero
             .withMechanismRange(Degrees.of(-168), Degrees.of(173)) // -360 deg to +720 deg
             .withMatchTolerance(Rotations.of(0.06)) // ~1.08 deg at encoder2 for the example ratio
             .withAbsoluteEncoderInversions(true, false)
@@ -105,27 +128,41 @@ public class LauncherIOReal implements LauncherIO {
     easyCrtSolver = new EasyCRT(easyCrt);
     // // Test Values
     SmartDashboard.putNumber(
-        "Unique Coverage", easyCrt.getUniqueCoverage().orElse(Degrees.of(0.0)).in(Degrees));
-    SmartDashboard.putBoolean("Coverage Satisfies Range", easyCrt.coverageSatisfiesRange());
-    SmartDashboard.putNumber("EasyCRT Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
+        "EasyCRT/Unique Coverage", easyCrt.getUniqueCoverage().orElse(Degrees.of(0.0)).in(Degrees));
+    SmartDashboard.putBoolean("EasyCRT/Coverage Satisfies Range", easyCrt.coverageSatisfiesRange());
+    SmartDashboard.putNumber("EasyCRT/Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
     SmartDashboard.putNumber(
-        "EasyCRT Enc 1 Ratio", easyCrt.getEncoder1RotationsPerMechanismRotation());
-    SmartDashboard.putNumber("EasyCRT Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
+        "EasyCRT/Enc 1 Ratio", easyCrt.getEncoder1RotationsPerMechanismRotation());
+    SmartDashboard.putNumber("EasyCRT/Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
     SmartDashboard.putNumber(
-        "EasyCRT Enc 2 Ratio", easyCrt.getEncoder2RotationsPerMechanismRotation());
+        "EasyCRT/Enc 2 Ratio", easyCrt.getEncoder2RotationsPerMechanismRotation());
     Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
-    SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
-    SmartDashboard.putString("CRT Status", easyCrtSolver.getLastStatus().name());
-    SmartDashboard.putNumber("CRT Error Rot", easyCrtSolver.getLastErrorRotations());
+    SmartDashboard.putNumber("EasyCRT/CRT Angle", calculatedAngle.in(Degrees));
+    SmartDashboard.putString("EasyCRT/CRT Status", easyCrtSolver.getLastStatus().name());
+    SmartDashboard.putNumber("EasyCRT/CRT Error Rot", easyCrtSolver.getLastErrorRotations());
     turret.getMotor().setEncoderPosition(calculatedAngle);
+
+    turret.min().or(turret.max()).onTrue(Commands.runOnce(() -> turret.getMotor().setDutyCycle(0)));
+  }
+
+  public ShotCalculator.ShootingParameters getShootingParameters(
+      Supplier<Pose2d> robotPoseSupplier, Supplier<Translation2d> targetPositionSupplier) {
+    ShotCalculator.getInstance().clearShootingParameters();
+    return ShotCalculator.getInstance()
+        .getParameters(
+            robotToTurret,
+            Rotation2d.fromDegrees(turret.getAngle().in(Degrees)),
+            robotPoseSupplier,
+            targetPositionSupplier);
   }
 
   @Override()
+  /** Updating launcher sensor data, calculates shot parameters, and populates input telemetry */
   public void updateInputs(LauncherIOInputs inputs) {
-    SmartDashboard.putNumber("Encoder 40", crtSensor40.getAsDouble("angle"));
-    SmartDashboard.putNumber("EasyCRT Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
-    SmartDashboard.putNumber("Encoder 36", crtSensor36.getAsDouble("angle"));
-    SmartDashboard.putNumber("EasyCRT Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
+    SmartDashboard.putNumber("EasyCRT/Encoder 40", crtSensor40.getAsDouble("angle"));
+    SmartDashboard.putNumber("EasyCRT/Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
+    SmartDashboard.putNumber("EasyCRT/Encoder 36", crtSensor36.getAsDouble("angle"));
+    SmartDashboard.putNumber("EasyCRT/Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
     // Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
     // SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
     // SmartDashboard.putString("CRT Status", easyCrtSolver.getLastStatus().name());
@@ -135,22 +172,19 @@ public class LauncherIOReal implements LauncherIO {
     ShotCalculator.ShootingParameters params =
         ShotCalculator.getInstance()
             .getParameters(
-                turret
-                    .getPivotConfig()
-                    .getMechanismPositionConfig()
-                    .getRelativePosition()
-                    .get()
-                    .toTranslation2d(),
-                Rotation2d.fromDegrees(turret.getAngle().in(Degrees)));
+                robotToTurret,
+                Rotation2d.fromDegrees(turret.getAngle().in(Degrees)),
+                () -> Rebuilt.drivetrain.getPoseEstimator().getCurrentPose(),
+                () -> LauncherCommands.getTargetPose());
     inputs.isValidCalculation = false;
     if (params != null) {
       inputs.isValidCalculation = params.isValid();
       inputs.hoodAngleCalculated = Radian.of(params.hoodAngle());
-      inputs.turretAngleCalculated = params.turretAngle().getMeasure();
-      inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed() * 0.45);
+      inputs.turretAngleCalculated = params.turretAngle().getMeasure().plus(Degrees.of(5));
+      inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed() * 0.43);
       inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
     }
-
+    /** Reads the desired flywheel, hood, and turret setpoints */
     inputs.flyWheelSpeedDesired =
         flyWheel
             .getMotorController()
@@ -172,7 +206,7 @@ public class LauncherIOReal implements LauncherIO {
 
     inputs.flyWheelSpeedAtGoal =
         Math.abs(inputs.flyWheelSpeedError.in(RPM)) <= Constants.Launcher.SHOOTER_TOLERANCE_RPM;
-    inputs.flyWheelSpeedAtGoal =
+    inputs.hoodAngleAtGoal =
         Math.abs(inputs.hoodAngleError) <= Constants.Launcher.HOOD_ANGLE_TOLERANCE_DEGREES;
     inputs.turretAngleAtGoal =
         Math.abs(inputs.turretAngleError) <= Constants.Launcher.TURRET_ANGLE_TOLERANCE_DEGREES;
@@ -189,7 +223,7 @@ public class LauncherIOReal implements LauncherIO {
     // Log trench detection every cycle
     isNearTrench();
   }
-
+  /** Configuring the shot calculator with limits and constraints */
   @Override
   public void configureShotCalculator(ShotCalculator shotCalculator) {
     shotCalculator.setShotTables(ShotCalculator.createDefaultTables());
@@ -200,15 +234,15 @@ public class LauncherIOReal implements LauncherIO {
             turret.getMotorController().getConfig().getMechanismUpperLimit().get().in(Degrees)),
         Rotation2d.fromDegrees(10.0));
   }
-
+  /** Sets the flywheel motor's duty cycle */
   public void runShooter(double speed) {
     flyWheel.getMotor().setDutyCycle(speed);
   }
-
+  /** Sets the flywheel motor's angular velocity */
   public void setFlyWheelVelocity(AngularVelocity speed) {
     flyWheel.getMotor().setVelocity(speed);
   }
-
+  /** Sets the hood angle and overrides the requested angle if the hood is near the trench */
   public void setHoodAngle(Angle angle) {
     if (isNearTrench()) {
       hood.getMotorController().setPosition(Degrees.of(31.0));
@@ -216,27 +250,37 @@ public class LauncherIOReal implements LauncherIO {
       hood.getMotorController().setPosition(angle);
     }
   }
-
+  /** Sets the low hard limit to 30 degrees and updates LED's */
   public void setHoodAngleLow() {
     hood.getMotorController()
         .setPosition(hood.getArmConfig().getLowerHardLimit().orElse(Degrees.of(30)));
     LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
   }
-
+  /** Sets the angle of the turret based on the motor request */
   public void setTurretRotation(Angle angle) {
+    if (angle.gt(turretHighLimit)) {
+      SmartDashboard.putBoolean("Launcher/Turret Limit", true);
+      angle = turretHighLimit;
+    } else if (angle.lt(turretLowLimit)) {
+      SmartDashboard.putBoolean("Launcher/Turret Limit", true);
+      angle = turretLowLimit;
+    } else {
+      SmartDashboard.putBoolean("Launcher/Turret Limit", false);
+    }
     turret.getMotorController().setPosition(angle);
   }
-
+  /** Converts the flywheel angular velocity into speed */
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity) {
     return MetersPerSecond.of(
         flyWheel.getShooterConfig().getCircumference().in(Meters)
             * (velocity.in(RotationsPerSecond)));
   }
-
+  /** Returns SysId command for the hood */
   public Command getHoodSysIdCommand() {
     return hood.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
 
+  /** Runs sysid for the cahracterized hood motor and stops at limits */
   public Command getHoodSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(hood.getMotorController(), hood.getName(), launcher),
@@ -259,7 +303,7 @@ public class LauncherIOReal implements LauncherIO {
   public Command getTurretSysIdCommand() {
     return turret.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
-
+  /** Characterizes the turret */
   public Command getTurretSysIdCommand(GenericSubsystem launcher) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(
@@ -281,21 +325,21 @@ public class LauncherIOReal implements LauncherIO {
                 .getAsBoolean(),
         () -> turret.getMotor().setDutyCycle(0));
   }
-
+  /** Applies voltage and measures hood velocity to characterize the feed forward */
   public Command getHoodCharacterizationCommand(GenericSubsystem launcher) {
     return SystemIdentification.feedforwardCharacterization(
         launcher,
         (Voltage voltage) -> hood.getMotor().setVoltage(voltage),
         () -> hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
   }
-
+  /** Applies voltage and measures turret velocity to characterize the feedfoward */
   public Command getTurretCharacterizationCommand(GenericSubsystem launcher) {
     return SystemIdentification.feedforwardCharacterization(
         launcher,
         (Voltage voltage) -> turret.getMotor().setVoltage(voltage),
         () -> turret.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
   }
-
+  /** sets the flywheel, hood, and turret motor duty cycles to 0, which stops the motors */
   public void stopAllMotors() {
     flyWheel.getMotor().setDutyCycle(0);
     hood.getMotor().setDutyCycle(0);

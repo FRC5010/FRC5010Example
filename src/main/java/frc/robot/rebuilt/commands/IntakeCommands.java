@@ -18,7 +18,9 @@ public class IntakeCommands {
   static Intake intake;
   Map<String, GenericSubsystem> subsystems;
   StateMachine intakeStateMachine = new StateMachine("IntakeStateMachine");
+  /** Declaring states of the intake */
   State retracted = intakeStateMachine.addState("retracted", retractedCommand());
+
   State retracting = intakeStateMachine.addState("retracting", retractingCommand());
   State deploying = intakeStateMachine.addState("deploying", deployingCommand());
   State deployed =

@@ -5,6 +5,7 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -13,6 +14,7 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
+import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.AutoLog;
 
@@ -21,33 +23,45 @@ public interface LauncherIO {
 
   @AutoLog
   public static class LauncherIOInputs {
+    /** Initializes the requested and current launcher states to idle */
     public LauncherCommands.LauncherState stateRequested = LauncherCommands.LauncherState.IDLE;
-    public LauncherCommands.LauncherState stateCurrent = LauncherCommands.LauncherState.IDLE;
 
+    public LauncherCommands.LauncherState stateCurrent = LauncherCommands.LauncherState.IDLE;
+    /**
+     * Intializes the distance to the virtual target and desired flywheel speed to start at 0 and
+     * calculation validity to false
+     */
     public boolean isValidCalculation = false;
+
     public Distance distanceToVirtualTarget = Meters.of(0.0);
     public AngularVelocity flyWheelSpeedDesired = RPM.of(0.0);
-
+    /**
+     * Intializes calculated and desired angles to 0 degrees and calculated flywheel speed to 0 RPS
+     */
     public AngularVelocity flyWheelSpeedCalculated = RotationsPerSecond.of(0.0);
+
     public Angle hoodAngleCalculated = Degrees.of(0.0);
     public Angle turretAngleCalculated = Degrees.of(0.0);
-
     public Angle hoodAngleDesired = Degrees.of(0.0);
     public Angle turretAngleDesired = Degrees.of(0.0);
-
+    /** Initializes actual flywheel speed to 0 RPM and actual hood and turret angles to 0 degrees */
     public AngularVelocity flyWheelSpeedActual = RPM.of(0.0);
+
     public Angle hoodAngleActual = Degrees.of(0.0);
     public Angle turretAngleActual = Degrees.of(0.0);
-
+    /** Decides whether the flywheel speed and turret and hood angle have reached their goals */
     public boolean flyWheelSpeedAtGoal = false;
+
     public boolean hoodAngleAtGoal = false;
     public boolean turretAngleAtGoal = false;
-
+    /** Initializes the hood and turret angle errors to 0 and the flywheel speed error to 0 RPM */
     public AngularVelocity flyWheelSpeedError = RPM.of(0.0);
+
     public double hoodAngleError = 0.0;
     public double turretAngleError = 0.0;
-
+    /** Intiializes the hood and turret velocities to 0 and the flywheel motor output to 0 */
     public double hoodVelocity = 0.0;
+
     public double turretVelocity = 0.0;
     public double flyWheelMotorOutput = 0.0;
 
@@ -88,6 +102,9 @@ public interface LauncherIO {
   public Command getFlyWheelSysIdCommand();
 
   public Command getTurretSysIdCommand(GenericSubsystem launcher);
+
+  public ShotCalculator.ShootingParameters getShootingParameters(
+      Supplier<Pose2d> robotPoseSupplier, Supplier<Translation2d> targetPositionSupplier);
 
   public void stopAllMotors();
 

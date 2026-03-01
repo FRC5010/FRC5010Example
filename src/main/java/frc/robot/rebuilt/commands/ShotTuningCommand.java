@@ -300,14 +300,10 @@ public class ShotTuningCommand extends Command {
   public static Command createWithFeed(Launcher launcher) {
     return Commands.parallel(
         new ShotTuningCommand(launcher),
-        Commands.run(
-            () -> {
-              // When FireShot is active, also force-feed the indexer
-              if (SmartDashboard.getBoolean("ShotTuning/FireShot", false)) {
-                IndexerCommands.shouldForceCommand().schedule();
-              } else {
-                IndexerCommands.shouldChurnCommand().schedule();
-              }
-            }));
+        Commands.either(
+            // When FireShot is active, also force-feed the indexer
+            IndexerCommands.shouldForceCommand(),
+            IndexerCommands.shouldChurnCommand(),
+            () -> SmartDashboard.getBoolean("ShotTuning/FireShot", false)));
   }
 }

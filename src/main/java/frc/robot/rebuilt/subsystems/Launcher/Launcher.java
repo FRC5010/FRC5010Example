@@ -7,8 +7,10 @@ package frc.robot.rebuilt.subsystems.Launcher;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RPM;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -18,6 +20,7 @@ import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.LauncherCommands.LauncherState;
 import java.util.Map;
+import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Arm;
@@ -41,7 +44,7 @@ public class Launcher extends GenericSubsystem {
         new Transform3d(
             turret.getPivotConfig().getMechanismPositionConfig().getRelativePosition().get(),
             new Rotation3d());
-
+    /** Chooses the IO implimentation to be real or simulated */
     if (RobotBase.isSimulation()) {
       io = new LauncherIOSim(devices, subsystems);
     } else {
@@ -127,7 +130,7 @@ public class Launcher extends GenericSubsystem {
   public void stopAllMotors() {
     io.stopAllMotors();
   }
-
+  /** Command that aims the launcher using hood turret and flywheel values from calculations */
   public Command trackTargetCommand() {
     return Commands.run(
         () -> {
@@ -136,7 +139,7 @@ public class Launcher extends GenericSubsystem {
           io.setFlyWheelVelocity(inputs.flyWheelSpeedCalculated);
         });
   }
-
+  /** Aims the launcher using the preset hood angle and calculates flywheel and turret values */
   public Command trackTargetLowCommand() {
     return Commands.run(
         () -> {
@@ -145,7 +148,7 @@ public class Launcher extends GenericSubsystem {
           io.setFlyWheelVelocity(inputs.flyWheelSpeedCalculated);
         });
   }
-
+  /** Aims the turret and sets the flywheel to a given speed */
   public Command trackTargetCommand(double speed) {
     return Commands.run(
         () -> {
@@ -183,15 +186,15 @@ public class Launcher extends GenericSubsystem {
   public boolean isRequested(LauncherState state) {
     return inputs.stateRequested == state;
   }
-
+  /** Checks if the current launcher matches the given state */
   public boolean isCurrent(LauncherState state) {
     return inputs.stateCurrent == state;
   }
-
+  /** Updates the launcher's current state */
   public void setCurrentState(LauncherState state) {
     inputs.stateCurrent = state;
   }
-
+  /** Sets the launcher's requested state to transition to */
   public void setRequestedState(LauncherState state) {
     inputs.stateRequested = state;
   }
@@ -199,11 +202,16 @@ public class Launcher extends GenericSubsystem {
   public LauncherState getCurrentState() {
     return inputs.stateCurrent;
   }
-
+  /** Applies the hood and turret angle, and the flywheel speed */
   public void usePresets(Angle hoodAngle, Angle turretAngle, AngularVelocity flywheelSpeed) {
     io.setHoodAngle(hoodAngle);
     io.setTurretRotation(turretAngle);
     io.setFlyWheelVelocity(flywheelSpeed);
+  }
+
+  public ShotCalculator.ShootingParameters getShootingParameters(
+      Supplier<Pose2d> robotPoseSupplier, Supplier<Translation2d> targetPositionSupplier) {
+    return io.getShootingParameters(robotPoseSupplier, targetPositionSupplier);
   }
 
   // ---- Actual (measured) value getters for tuning/telemetry ----
@@ -281,7 +289,7 @@ public class Launcher extends GenericSubsystem {
           }
         });
   }
-
+  /** Decreases the hood angle by 0.5 degrees and ensures it does not go below 30 degrees */
   public Command decreaseHoodAngleCommand() {
     return Commands.runOnce(
         () -> {
@@ -291,7 +299,7 @@ public class Launcher extends GenericSubsystem {
           }
         });
   }
-
+  /** Decreases the flywheel speed by 10 RPM and ensures it does not go below 0 RPM */
   public Command decreaseFlywheelSpeedCommand() {
     return Commands.runOnce(
         () -> {
@@ -301,7 +309,7 @@ public class Launcher extends GenericSubsystem {
           }
         });
   }
-
+  /** Increases the flywheel speed by 10 RPM and ensures it does not go above 300 RPM */
   public Command increaseFlywheelSpeedCommand() {
     return Commands.runOnce(
         () -> {
@@ -311,7 +319,7 @@ public class Launcher extends GenericSubsystem {
           }
         });
   }
-
+  /** Decreases the turret angle by 10 degrees and ensures it does not go below -90 */
   public Command decreaseTurretAngleCommand() {
     return Commands.runOnce(
         () -> {
@@ -321,7 +329,7 @@ public class Launcher extends GenericSubsystem {
           }
         });
   }
-
+  /** Increases the turret angle by 1 degree and ensures it does not go above 90 degrees */
   public Command increaseTurretAngleCommand() {
     return Commands.runOnce(
         () -> {

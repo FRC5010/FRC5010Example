@@ -126,6 +126,8 @@ public class FieldConstants {
     // Hub faces
     public static final Pose2d nearFace =
         AprilTags.aprilTagFieldLayout.getTagPose(26).get().toPose2d();
+    public static final Translation2d centerFace =
+        new Translation2d(nearFace.getX(), fieldWidth / 2.0);
     public static final Pose2d farFace =
         AprilTags.aprilTagFieldLayout.getTagPose(20).get().toPose2d();
     public static final Pose2d rightFace =
@@ -274,6 +276,11 @@ public class FieldConstants {
     // Relevant reference points on alliance side
     public static final Translation2d centerPoint =
         new Translation2d(frontFaceX, AprilTags.aprilTagFieldLayout.getTagPose(31).get().getY());
+    public static final Pose2d face =
+        new Pose2d(
+            frontFaceX,
+            AprilTags.aprilTagFieldLayout.getTagPose(31).get().getY(),
+            AprilTags.aprilTagFieldLayout.getTagPose(31).get().getRotation().toRotation2d());
     public static final Translation2d leftUpright =
         new Translation2d(
             frontFaceX,

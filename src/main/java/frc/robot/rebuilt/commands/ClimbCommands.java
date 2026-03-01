@@ -25,7 +25,7 @@ public class ClimbCommands {
   private State loweredState;
   private State disabledState;
   private State manualState;
-
+  /** defines possible states for the climb */
   public static enum ClimbState {
     IDLE,
     ELEVATE,

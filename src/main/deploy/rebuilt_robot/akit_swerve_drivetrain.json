@@ -18,11 +18,11 @@
       "uom": "m/sec"
     },
     "bumperFrameLength": {
-      "val": 30,
+      "val": 33,
       "uom": "inches"
     },
     "bumperFrameWidth": {
-      "val": 30,
+      "val": 33,
       "uom": "inches"
     },
     "gyro": {
@@ -35,21 +35,21 @@
     "steerGearRatio": "1:24",
     "driveMotorControl": {
       "feedBack": {
-        "p": 0.1,
+        "p": 0.6,
         "i": 0.0,
         "d": 0.0
       },
       "feedForward": {
         "s": 0.20406725776687384,
-        "v": 0.11137985795221213,
+        "v": 0.6682791477132728,
         "a": 0.0
       }
     },
     "steerMotorControl": {
       "feedBack": {
-        "p": 100,
+        "p": 30,
         "i": 0.0,
-        "d": 0.5
+        "d": 0.03
       },
       "feedForward": {
         "s": 0.3245401421882499,

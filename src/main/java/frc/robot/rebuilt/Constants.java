@@ -14,7 +14,7 @@ public class Constants {
   public static final String CLIMB = Climb.class.getSimpleName();
   public static final String INTAKE = Intake.class.getSimpleName();
   public static final String LAUNCHER = Launcher.class.getSimpleName();
-
+  /** Defines the maxinum distance for the climb */
   public static class ClimbConstants {
     public static final Distance MAX = Inch.of(27);
   }
@@ -39,18 +39,18 @@ public class Constants {
   }
 
   public static class Indexer {
-    public static final double SPINDEXER_SPEED = 0.5;
-    public static final double TRANSFER_SPEED = 0.6;
+    public static final double SPINDEXER_SPEED = 0.7;
+    public static final double TRANSFER_SPEED = 0.7;
     public static final double TRANSFER_CHURN = 0.25;
   }
 
   public static class Intake {
-    public static final double HOPPER_GO_OUT = -0.1;
+    public static final double HOPPER_GO_OUT = -0.3;
     public static final double HOPPER_GO_IN = 0.1;
     public static final double HOPPER_OUT = 0.00;
     public static final double INTAKE_IN = 0.0;
     public static final double INTAKE_OUT = -0.0;
-    public static final double INTAKE_MAX_IN = 0.8;
-    public static final double INTAKE_MAX_OUT = -0.8;
+    public static final double INTAKE_MAX_IN = 0.9;
+    public static final double INTAKE_MAX_OUT = -0.9;
   }
 }

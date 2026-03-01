@@ -37,6 +37,7 @@ public class LauncherIOSim extends LauncherIOReal {
   }
 
   @Override
+  /** Configures the shot calculator and calculates measurements for parts of the lancher */
   public void configureShotCalculator(ShotCalculator shotCalculator) {
     super.configureShotCalculator(shotCalculator);
     double circumferenceMeters = flyWheel.getShooterConfig().getCircumference().in(Meters);
@@ -45,7 +46,7 @@ public class LauncherIOSim extends LauncherIOReal {
         flyWheel.getShooterConfig().getLowerSoftLimit().orElse(RPM.of(0.0)).in(RadiansPerSecond);
     double maxFlywheelRadPerSec =
         flyWheel.getShooterConfig().getUpperSoftLimit().orElse(RPM.of(5000.0)).in(RadiansPerSecond);
-
+    /** Reads the hood angle limits */
     Rotation2d minHoodAngle =
         Rotation2d.fromDegrees(
             hood.getMotorController().getConfig().getMechanismLowerLimit().get().in(Degrees));
@@ -56,7 +57,7 @@ public class LauncherIOSim extends LauncherIOReal {
 
     double launchHeight = flyWheel.getRelativeMechanismPosition().getZ();
     double targetHeight = FieldConstants.Hub.height;
-
+    /** Creates ballistic configuration for the shot calculator */
     ShotCalculator.BallisticConfig config =
         new ShotCalculator.BallisticConfig(
             1.0,
@@ -74,6 +75,7 @@ public class LauncherIOSim extends LauncherIOReal {
             9.80665,
             Math.toRadians(90.0));
 
+    shotCalculator.setBallisticConfig(config);
     ShotCalculator.ShotTables simTables = ShotCalculator.createBallisticTables(config);
     shotCalculator.setShotTables(simTables);
   }

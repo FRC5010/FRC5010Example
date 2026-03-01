@@ -20,11 +20,12 @@ import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Distance;
-import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.Rebuilt;
+import frc.robot.rebuilt.subsystems.Launcher.TurretControlPhysics.AimingSolution;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.DoubleFunction;
+import java.util.function.Supplier;
 import lombok.experimental.ExtensionMethod;
 import org.frc5010.common.constants.Constants;
 import org.frc5010.common.utils.geometry.AllianceFlipUtil;
@@ -32,6 +33,7 @@ import org.frc5010.common.utils.geometry.GeomUtil;
 import org.littletonrobotics.junction.Logger;
 
 @ExtensionMethod({GeomUtil.class})
+/** Calculates the turret and hood angle, and the flywheel speed for shooting */
 public class ShotCalculator {
   private static ShotCalculator instance;
 
@@ -54,10 +56,6 @@ public class ShotCalculator {
   private double settlingGain = 0.85;
   private DoubleFunction<Double> settlingTimeFunction =
       (angleError) -> Math.abs(angleError) / Math.toRadians(1080.0);
-  private static Translation2d hubTarget = FieldConstants.Hub.topCenterPoint.toTranslation2d();
-  private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
-  private static Translation2d allianceSideRight = FieldConstants.Tower.rightUpright;
-  private static Translation2d currentTarget = hubTarget;
   private final String targetName = "Target";
   private final String lookAhead = "Lookahead";
   private final String virtualTarget = "VirtualTarget";
@@ -67,7 +65,7 @@ public class ShotCalculator {
     if (instance == null) instance = new ShotCalculator();
     return instance;
   }
-
+  /** Stores calculated shooting parameters */
   public record ShootingParameters(
       boolean isValid,
       Rotation2d turretAngle,
@@ -75,7 +73,8 @@ public class ShotCalculator {
       double hoodAngle,
       double hoodVelocity,
       double flywheelSpeed,
-      Distance distanceToVirtualTarget) {}
+      Distance distanceToVirtualTarget,
+      AimingSolution solution) {}
 
   // Cache parameters
   private ShootingParameters latestParameters = null;
@@ -97,6 +96,7 @@ public class ShotCalculator {
       double minDistanceMeters,
       double maxDistanceMeters,
       double phaseDelaySeconds) {
+    /** returns a copy of ShotTables with updated phase delay */
     public ShotTables withPhaseDelaySeconds(double newPhaseDelaySeconds) {
       return new ShotTables(
           hoodAngles,
@@ -107,7 +107,7 @@ public class ShotCalculator {
           newPhaseDelaySeconds);
     }
   }
-
+  /** Stores configuration values for generating ballistic shot tables */
   public record BallisticConfig(
       double minDistanceMeters,
       double maxDistanceMeters,
@@ -127,7 +127,7 @@ public class ShotCalculator {
   static {
     applyShotTables(createDefaultTables());
   }
-
+  /** Creates default hood angle, flywheel speeds, and time of light tables */
   public static ShotTables createDefaultTables() {
     return new ShotTables(
         Map.ofEntries(
@@ -273,6 +273,109 @@ public class ShotCalculator {
     return new BallisticSolution(bestAngle, bestFlywheel, bestTime);
   }
 
+  /**
+   * Get the interpolated hood angle (degrees) from the current lookup table for a given distance.
+   *
+   * @param distanceMeters distance to target in meters
+   * @return hood angle in degrees from the lookup table, or NaN if unavailable
+   */
+  public double getLookupHoodAngleDegrees(double distanceMeters) {
+    Rotation2d value = shotHoodAngleMap.get(distanceMeters);
+    return value != null ? value.getDegrees() : Double.NaN;
+  }
+
+  public boolean hasValidShot() {
+    if (latestParameters != null) {
+      return latestParameters.solution.isPossible();
+    }
+    return false;
+  }
+
+  /**
+   * Get the interpolated flywheel speed from the current lookup table for a given distance.
+   *
+   * @param distanceMeters distance to target in meters
+   * @return flywheel speed from the lookup table, or NaN if unavailable
+   */
+  public double getLookupFlywheelSpeed(double distanceMeters) {
+    Double value = shotFlywheelSpeedMap.get(distanceMeters);
+    return value != null ? value : Double.NaN;
+  }
+
+  /**
+   * Compute a ballistic guess for the given distance using the stored ballistic config. Returns
+   * null if no ballistic config has been provided.
+   *
+   * @param distanceMeters distance to target in meters
+   * @return a double[] of {hoodAngleDegrees, flywheelSpeed, timeOfFlightSeconds}, or null
+   */
+  public double[] getBallisticGuess(double distanceMeters) {
+    if (ballisticConfig == null) {
+      return null;
+    }
+    double hoodReference = ballisticConfig.hoodAngleReferenceRadians();
+    double minAngle = hoodReference - ballisticConfig.maxHoodAngle().getRadians();
+    double maxAngle = hoodReference - ballisticConfig.minHoodAngle().getRadians();
+    double angleStep = Math.max(ballisticConfig.hoodAngleStep().getRadians(), Math.toRadians(0.25));
+    double heightDelta =
+        ballisticConfig.targetHeightMeters() - ballisticConfig.launchHeightMeters();
+    BallisticSolution solution =
+        solveBallistic(
+            distanceMeters,
+            heightDelta,
+            ballisticConfig.gravityMetersPerSecondSquared(),
+            minAngle,
+            maxAngle,
+            angleStep,
+            ballisticConfig.wheelRadiusMeters(),
+            ballisticConfig.minFlywheelRadPerSec(),
+            ballisticConfig.maxFlywheelRadPerSec());
+    if (solution == null) {
+      return null;
+    }
+    double hoodAngleDegrees = Math.toDegrees(hoodReference - solution.angleRadians());
+    return new double[] {
+      hoodAngleDegrees, solution.flywheelRadPerSec(), solution.timeOfFlightSeconds()
+    };
+  }
+
+  /**
+   * Add or update a single data point in the live lookup tables.
+   *
+   * @param distanceMeters the distance key
+   * @param hoodAngleDegrees hood angle in degrees
+   * @param flywheelSpeed flywheel speed value
+   * @param timeOfFlightSeconds estimated time-of-flight in seconds
+   */
+  public void addDataPoint(
+      double distanceMeters,
+      double hoodAngleDegrees,
+      double flywheelSpeed,
+      double timeOfFlightSeconds) {
+    shotHoodAngleMap.put(distanceMeters, Rotation2d.fromDegrees(hoodAngleDegrees));
+    shotFlywheelSpeedMap.put(distanceMeters, flywheelSpeed);
+    timeOfFlightMap.put(distanceMeters, timeOfFlightSeconds);
+    if (distanceMeters < minDistance) {
+      minDistance = distanceMeters;
+    }
+    if (distanceMeters > maxDistance) {
+      maxDistance = distanceMeters;
+    }
+    latestParameters = null;
+    turretControlPhysics = null;
+  }
+
+  /** Store a ballistic config so that ballistic guesses can be computed on demand. */
+  private BallisticConfig ballisticConfig;
+
+  public void setBallisticConfig(BallisticConfig config) {
+    this.ballisticConfig = config;
+  }
+
+  public BallisticConfig getBallisticConfig() {
+    return ballisticConfig;
+  }
+
   public void setShotTables(ShotTables tables) {
     applyShotTables(tables);
     latestParameters = null;
@@ -317,13 +420,16 @@ public class ShotCalculator {
   }
 
   public ShootingParameters getParameters(
-      Translation2d turretRelativePosition, Rotation2d turretRelativeAngle) {
+      Translation2d turretRelativePosition,
+      Rotation2d turretRelativeAngle,
+      Supplier<Pose2d> robotPoseSupplier,
+      Supplier<Translation2d> targetPositionSupplier) {
     if (latestParameters != null) {
       return latestParameters;
     }
 
     // Calculate estimated pose while accounting for phase delay
-    Pose2d estimatedPose = Rebuilt.drivetrain.getPoseEstimator().getCurrentPose();
+    Pose2d estimatedPose = robotPoseSupplier.get();
     ChassisSpeeds robotRelativeVelocity = Rebuilt.drivetrain.getRobotVelocity();
     Pose2d phaseDelayedPose =
         estimatedPose.exp(
@@ -332,7 +438,7 @@ public class ShotCalculator {
                 robotRelativeVelocity.vyMetersPerSecond * phaseDelay,
                 robotRelativeVelocity.omegaRadiansPerSecond * phaseDelay));
 
-    Translation2d target = AllianceFlipUtil.apply(currentTarget);
+    Translation2d target = AllianceFlipUtil.apply(targetPositionSupplier.get());
     Pose2d turretPosition =
         phaseDelayedPose.transformBy(
             new Transform2d(
@@ -380,7 +486,8 @@ public class ShotCalculator {
             hoodAngle,
             hoodVelocity,
             flywheelSpeed != null ? flywheelSpeed : 0.0,
-            Meters.of(distanceToVirtualTarget));
+            Meters.of(distanceToVirtualTarget),
+            solution);
 
     // Log calculated values
     Logger.recordOutput("ShotCalculator/AimingStatus", solution.status().toString());
@@ -389,6 +496,7 @@ public class ShotCalculator {
     Logger.recordOutput(
         "ShotCalculator/VirtualTargetFieldPosition",
         new Pose2d(solution.finalSolverState().virtualTargetFieldPos(), turretAngle));
+    Logger.recordOutput("ShotCalculator/FieldVelocity", Rebuilt.drivetrain.getFieldVelocity());
 
     Rebuilt.drivetrain
         .getField2d()
@@ -416,18 +524,6 @@ public class ShotCalculator {
 
   public void clearShootingParameters() {
     latestParameters = null;
-  }
-
-  public static void setTargetAllianceLeft() {
-    currentTarget = allianceSideLeft;
-  }
-
-  public static void setTargetAllianceRight() {
-    currentTarget = allianceSideRight;
-  }
-
-  public static void setTargetHub() {
-    currentTarget = hubTarget;
   }
 
   private TurretControlPhysics getTurretControlPhysics(Translation2d turretOffset) {

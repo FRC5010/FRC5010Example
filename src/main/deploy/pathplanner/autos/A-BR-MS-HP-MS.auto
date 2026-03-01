@@ -7,13 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shoot 8"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "editititited"
+            "name": "intakeIntake"
           }
         },
         {
@@ -23,21 +17,34 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "launcherPrep"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "BR-HP"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "shoot "
+            "waitTime": 5.0
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "climb"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "HP-CR"
+                }
+              }
+            ]
           }
         }
       ]

@@ -1,7 +1,7 @@
 {
   "name": "spintakeFollow",
-  "controller": "sparkflex",
-  "type": "NeoVortex",
+  "controller": "talonfx",
+  "type": "KrakenX60",
   "id": 13,
   "gearing": 1.0,
   "momentOfInertiaKgMSq": 1.0,

@@ -6,13 +6,19 @@ import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.rebuilt.FieldConstants;
+import frc.robot.rebuilt.commands.IntakeCommands;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.motors.SystemIdentification;
 import org.frc5010.common.motors.function.PercentControlMotor;
+import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Arm;
 
 public class IntakeIOReal implements IntakeIO {
@@ -21,14 +27,18 @@ public class IntakeIOReal implements IntakeIO {
   private PercentControlMotor spintakeLead;
   private PercentControlMotor spinTakeFollow;
   private Arm intakeHopper;
+  protected GenericDrivetrain drivetrain;
+  private boolean isNearTrench = false;
+  private IntakeCommands.IntakeState lastState = IntakeCommands.IntakeState.RETRACTED;
 
+  /** initializes the spintake and hopper */
   public IntakeIOReal(Map<String, Object> devices) {
     this.devices = devices;
     // spintakeLead = (FlyWheel) devices.get("spintake");
     spintakeLead = (PercentControlMotor) devices.get("spintakeLead");
     spinTakeFollow = (PercentControlMotor) devices.get("spintakeFollow");
-    spintakeLead.invert(false);
-    spinTakeFollow.setFollow(spintakeLead, true);
+    spintakeLead.invert(true);
+    spinTakeFollow.setFollow(spintakeLead, false);
     intakeHopper = (Arm) devices.get("hopper");
   }
 
@@ -46,6 +56,13 @@ public class IntakeIOReal implements IntakeIO {
     intakeHopper.getMotor().setEncoderPosition(angle);
   }
 
+  public boolean isHopperMoving() {
+
+    return Math.abs(
+            intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)))
+        > 1.0;
+  }
+
   public boolean isRetracted() {
     return (intakeHopper.getAngle().isNear(Degrees.of(120), Degrees.of(10)));
   }
@@ -57,7 +74,7 @@ public class IntakeIOReal implements IntakeIO {
   public Command getHopperSysIdCommand() {
     return intakeHopper.sysId(Volts.of(4), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
-
+  /** Returns a sysid command for the hopper */
   public Command getHopperSysIdCommand(GenericSubsystem intake) {
     return SystemIdentification.getSysIdFullCommand(
         SystemIdentification.angleSysIdRoutine(
@@ -91,8 +108,59 @@ public class IntakeIOReal implements IntakeIO {
     intakeHopper.getMotorController().setDutyCycle(speed);
   }
 
+  public boolean isNearTrench() {
+    Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
+    double currentX = current.getX();
+    double currentY = current.getY();
+
+    double topTrenchLeftX = FieldConstants.TrenchZoneTop.nearAllianceLeftDanger.getX();
+    double topTrenchRightX = FieldConstants.TrenchZoneTop.nearAllianceRightDanger.getX();
+
+    double topTrenchY = FieldConstants.TrenchZoneTop.nearAllianceLeftDanger.getY();
+
+    double topOppTrenchLeftX = FieldConstants.TrenchZoneTop.oppAllianceLeftDanger.getX();
+    double topOppTrenchRightX = FieldConstants.TrenchZoneTop.oppAllianceRightDanger.getX();
+
+    double lowerTrenchLeftX = FieldConstants.TrenchZoneBottom.nearAllianceLeftDanger.getX();
+    double lowerTrenchRightX = FieldConstants.TrenchZoneBottom.nearAllianceRightDanger.getX();
+
+    double lowerTrenchY = FieldConstants.TrenchZoneBottom.oppAllianceLeftDanger.getY();
+
+    double lowerOppTrenchLeftX = FieldConstants.TrenchZoneBottom.oppAllianceLeftDanger.getX();
+    double lowerOppTrenchRightX = FieldConstants.TrenchZoneBottom.oppAllianceRightDanger.getX();
+
+    boolean nearAllianceTop =
+        ((currentX > topTrenchLeftX && currentX < topTrenchRightX) && currentY > topTrenchY);
+
+    boolean nearOppAllianceTop =
+        ((currentX > topOppTrenchLeftX && currentX < topOppTrenchRightX) && currentY > topTrenchY);
+
+    boolean nearAllianceBottom =
+        ((currentX > lowerTrenchLeftX && currentX < lowerTrenchRightX) && currentY < lowerTrenchY);
+
+    boolean nearOppAllianceBottom =
+        ((currentX > lowerOppTrenchLeftX && currentX < lowerOppTrenchRightX)
+            && currentY < lowerTrenchY);
+
+    SmartDashboard.putBoolean("Near Top Opp Alliance", nearOppAllianceTop);
+    SmartDashboard.putBoolean("Near Top Alliance", nearAllianceTop);
+    SmartDashboard.putBoolean("Near Bottom Opp Alliance", nearOppAllianceBottom);
+    SmartDashboard.putBoolean("Near Bottom Alliance", nearAllianceBottom);
+
+    if (nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom)
+      return true;
+    else {
+      return false;
+    }
+  }
+
+  /** updates the input structure with the current hopper and intake speed */
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
+    Logger.recordOutput(
+        "Hopper Velocity",
+        intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
+    Logger.recordOutput("Hopper MOving", isHopperMoving());
     inputs.hopperAngle = intakeHopper.getMotorController().getMechanismPosition();
     inputs.hopperAngleDouble = inputs.hopperAngle.in(Degrees);
     inputs.speed = spintakeLead.get();

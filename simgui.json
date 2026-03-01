@@ -214,6 +214,16 @@
       "/SmartDashboard/winch_motor/mechanism": "Mechanism2d"
     },
     "windows": {
+      "/AdvantageKit/RealOutputs/PathPlanner": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Auto Modes": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/DrivePoseEstimator/Pose Field": {
         "CARPET0": {
           "image": ".\\pictures\\carpet.png",
@@ -1273,6 +1283,15 @@
             }
           }
         },
+        "flywheel": {
+          "open": true
+        },
+        "hopper": {
+          "hopperMotor": {
+            "open": true
+          },
+          "open": true
+        },
         "open": true
       },
       "Shuffleboard": {
@@ -1329,6 +1348,18 @@
           }
         },
         "Wheel Radius Characterization": {
+          "open": true
+        },
+        "hood": {
+          "open": true
+        },
+        "hopper": {
+          "mechanism": {
+            "hopperRoot": {
+              "open": true
+            },
+            "open": true
+          },
           "open": true
         },
         "open": true

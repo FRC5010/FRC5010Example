@@ -26,11 +26,15 @@ public interface IntakeIO {
 
   public void setHopperPosition(Angle angle);
 
+  public boolean isHopperMoving();
+
   public boolean isRetracted();
 
   public boolean isDeployed();
 
   public void runHopper(double speed);
+
+  public boolean isNearTrench();
 
   public Command getHopperSysIdCommand();
 

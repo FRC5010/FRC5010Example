@@ -27,7 +27,7 @@
     },
     "movementPlane": "XY"
   },
-  "controlAlgorithm": "SIMPLE",
+  "controlAlgorithm": "PROFILED",
   "motorSystemId": {
     "feedBack": {
       "p": 225,

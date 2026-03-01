@@ -7,8 +7,10 @@ package frc.robot.rebuilt.subsystems.Launcher;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RPM;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -18,6 +20,7 @@ import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.LauncherCommands.LauncherState;
 import java.util.Map;
+import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Arm;
@@ -204,6 +207,11 @@ public class Launcher extends GenericSubsystem {
     io.setHoodAngle(hoodAngle);
     io.setTurretRotation(turretAngle);
     io.setFlyWheelVelocity(flywheelSpeed);
+  }
+
+  public ShotCalculator.ShootingParameters getShootingParameters(
+      Supplier<Pose2d> robotPoseSupplier, Supplier<Translation2d> targetPositionSupplier) {
+    return io.getShootingParameters(robotPoseSupplier, targetPositionSupplier);
   }
 
   // ---- Actual (measured) value getters for tuning/telemetry ----

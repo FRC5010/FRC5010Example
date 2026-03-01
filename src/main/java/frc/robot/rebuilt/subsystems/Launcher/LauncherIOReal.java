@@ -31,8 +31,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.FieldConstants;
+import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import java.util.Map;
+import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
@@ -62,6 +64,8 @@ public class LauncherIOReal implements LauncherIO {
   /** Initializes the launcher hardware, encoders, simulated sensors, and angle solver */
   EasyCRTConfig easyCrt;
 
+  protected static Translation2d robotToTurret;
+
   Angle turretLowLimit = Degrees.of(-90);
   Angle turretHighLimit = Degrees.of(90);
 
@@ -69,6 +73,14 @@ public class LauncherIOReal implements LauncherIO {
     this.devices = devices;
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
     turret = (Pivot) devices.get("turret");
+    robotToTurret =
+        turret
+            .getPivotConfig()
+            .getMechanismPositionConfig()
+            .getRelativePosition()
+            .get()
+            .toTranslation2d();
+
     hood = (Arm) devices.get("hood");
     flyWheel = (FlyWheel) devices.get("flywheel");
 
@@ -133,6 +145,17 @@ public class LauncherIOReal implements LauncherIO {
     turret.min().or(turret.max()).onTrue(Commands.runOnce(() -> turret.getMotor().setDutyCycle(0)));
   }
 
+  public ShotCalculator.ShootingParameters getShootingParameters(
+      Supplier<Pose2d> robotPoseSupplier, Supplier<Translation2d> targetPositionSupplier) {
+    ShotCalculator.getInstance().clearShootingParameters();
+    return ShotCalculator.getInstance()
+        .getParameters(
+            robotToTurret,
+            Rotation2d.fromDegrees(turret.getAngle().in(Degrees)),
+            robotPoseSupplier,
+            targetPositionSupplier);
+  }
+
   @Override()
   /** Updating launcher sensor data, calculates shot parameters, and populates input telemetry */
   public void updateInputs(LauncherIOInputs inputs) {
@@ -149,13 +172,10 @@ public class LauncherIOReal implements LauncherIO {
     ShotCalculator.ShootingParameters params =
         ShotCalculator.getInstance()
             .getParameters(
-                turret
-                    .getPivotConfig()
-                    .getMechanismPositionConfig()
-                    .getRelativePosition()
-                    .get()
-                    .toTranslation2d(),
-                Rotation2d.fromDegrees(turret.getAngle().in(Degrees)));
+                robotToTurret,
+                Rotation2d.fromDegrees(turret.getAngle().in(Degrees)),
+                () -> Rebuilt.drivetrain.getPoseEstimator().getCurrentPose(),
+                () -> LauncherCommands.getTargetPose());
     inputs.isValidCalculation = false;
     if (params != null) {
       inputs.isValidCalculation = params.isValid();

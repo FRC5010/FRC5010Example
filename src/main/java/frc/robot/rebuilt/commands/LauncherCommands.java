@@ -2,16 +2,11 @@ package frc.robot.rebuilt.commands;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Radians;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.rebuilt.Constants;
-import frc.robot.rebuilt.subsystems.Launcher.Launcher;
-import frc.robot.rebuilt.subsystems.Launcher.ShotCalculator;
 import java.util.Map;
+
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
 import org.frc5010.common.arch.StateMachine.State;
@@ -19,6 +14,19 @@ import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.rebuilt.Constants;
+import frc.robot.rebuilt.FieldConstants;
+import frc.robot.rebuilt.subsystems.Launcher.Launcher;
+import frc.robot.rebuilt.subsystems.Launcher.ShotCalculator;
+import frc.robot.rebuilt.subsystems.Launcher.ShotCalculator.ShootingParameters;
 
 /** defines commands and state launcher logic for the launcher */
 public class LauncherCommands {
@@ -32,7 +40,14 @@ public class LauncherCommands {
   private static Launcher launcher;
   private static GenericDrivetrain drivetrain;
   private Map<String, GenericSubsystem> subsystems;
-  private static Translation2d target = new Translation2d(Inches.of(182.11), Inches.of(158.84));
+  private static Translation2d hubTarget = FieldConstants.Hub.topCenterPoint.toTranslation2d();
+  private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
+  private static Translation2d allianceSideRight = FieldConstants.Tower.rightUpright;
+  private static Translation2d target = hubTarget;
+  private static Translation2d intakeToCenterTranslation = new Translation2d(Inches.of(25), Inches.of(0));
+  private static Transform2d intakeToCenter = new Transform2d(intakeToCenterTranslation, Rotation2d.fromDegrees(180));
+  private static Translation2d rearToCenterTranslation = new Translation2d(Inches.of(13.5), Inches.of(0));
+  private static Transform2d rearToCenter = new Transform2d(rearToCenterTranslation, Rotation2d.fromDegrees(0));
 
   public static Translation2d getRobotToTarget() {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
@@ -140,8 +155,8 @@ public class LauncherCommands {
     operator.createRightPovButton().onTrue(launcher.increaseTurretAngleCommand());
   }
 
-  private Translation2d getTargetPose() {
-    return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
+  public static Translation2d getTargetPose() {
+    return target;
   }
   /** creates command behavior for the IDLE launcher state */
   private static Command idleStateCommand() {
@@ -216,23 +231,33 @@ public class LauncherCommands {
     return shouldPresetCommand()
         .andThen(
             Commands.runOnce(
-                () ->
-                    launcher.usePresets(
-                        Constants.Launcher.HUB_HOOD_ANGLE,
-                        Constants.Launcher.TURRET_FORWARD,
-                        Constants.Launcher.HUB_FLYWHEEL_RPM)));
+                () -> {
+                  ShootingParameters params =
+                      launcher.getShootingParameters(
+                          () -> FieldConstants.Hub.nearFace.plus(intakeToCenter), 
+                          () -> FieldConstants.Hub.topCenterPoint.toTranslation2d());
+                  launcher.usePresets(
+                      Radians.of(params.hoodAngle()),
+                      Constants.Launcher.TURRET_FORWARD,
+                      RPM.of(params.flywheelSpeed()));
+                }));
   }
 
   public static Command towerPresetStateCommand() {
     return shouldPresetCommand()
         .andThen(
             Commands.runOnce(
-                () ->
-                    launcher.usePresets(
-                        Constants.Launcher.TOWER_HOOD_ANGLE,
-                        Constants.Launcher.TURRET_FORWARD,
-                        Constants.Launcher.TOWER_FLYWHEEL_RPM)));
-  }
+                () -> {
+                  ShootingParameters params =
+                      launcher.getShootingParameters(
+                          () -> FieldConstants.Tower.face.plus(rearToCenter), 
+                          () -> FieldConstants.Hub.topCenterPoint.toTranslation2d());
+                  launcher.usePresets(
+                      Radians.of(params.hoodAngle()),
+                      Constants.Launcher.TURRET_FORWARD,
+                      RPM.of(params.flywheelSpeed()));
+                }));
+      }
 
   public static Command turretForwardPresetStateCommand() {
     return shouldPresetCommand()

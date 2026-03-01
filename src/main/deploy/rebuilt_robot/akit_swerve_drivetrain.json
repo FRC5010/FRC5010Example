@@ -18,11 +18,11 @@
       "uom": "m/sec"
     },
     "bumperFrameLength": {
-      "val": 30,
+      "val": 33,
       "uom": "inches"
     },
     "bumperFrameWidth": {
-      "val": 30,
+      "val": 33,
       "uom": "inches"
     },
     "gyro": {

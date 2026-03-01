@@ -9,6 +9,16 @@ package frc.robot.rebuilt.subsystems.Launcher;
 
 import static edu.wpi.first.units.Units.Meters;
 
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.DoubleFunction;
+import java.util.function.Supplier;
+
+import org.frc5010.common.constants.Constants;
+import org.frc5010.common.utils.geometry.AllianceFlipUtil;
+import org.frc5010.common.utils.geometry.GeomUtil;
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -23,14 +33,7 @@ import edu.wpi.first.units.measure.Distance;
 import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.subsystems.Launcher.TurretControlPhysics.AimingSolution;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.function.DoubleFunction;
 import lombok.experimental.ExtensionMethod;
-import org.frc5010.common.constants.Constants;
-import org.frc5010.common.utils.geometry.AllianceFlipUtil;
-import org.frc5010.common.utils.geometry.GeomUtil;
-import org.littletonrobotics.junction.Logger;
 
 @ExtensionMethod({GeomUtil.class})
 /** Calculates the turret and hood angle, and the flywheel speed for shooting */
@@ -56,10 +59,6 @@ public class ShotCalculator {
   private double settlingGain = 0.85;
   private DoubleFunction<Double> settlingTimeFunction =
       (angleError) -> Math.abs(angleError) / Math.toRadians(1080.0);
-  private static Translation2d hubTarget = FieldConstants.Hub.topCenterPoint.toTranslation2d();
-  private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
-  private static Translation2d allianceSideRight = FieldConstants.Tower.rightUpright;
-  private static Translation2d currentTarget = hubTarget;
   private final String targetName = "Target";
   private final String lookAhead = "Lookahead";
   private final String virtualTarget = "VirtualTarget";
@@ -424,13 +423,16 @@ public class ShotCalculator {
   }
 
   public ShootingParameters getParameters(
-      Translation2d turretRelativePosition, Rotation2d turretRelativeAngle) {
+      Translation2d turretRelativePosition,
+      Rotation2d turretRelativeAngle,
+      Supplier<Pose2d> robotPoseSupplier,
+      Supplier<Translation2d> targetPositionSupplier) {
     if (latestParameters != null) {
       return latestParameters;
     }
 
     // Calculate estimated pose while accounting for phase delay
-    Pose2d estimatedPose = Rebuilt.drivetrain.getPoseEstimator().getCurrentPose();
+    Pose2d estimatedPose = robotPoseSupplier.get();
     ChassisSpeeds robotRelativeVelocity = Rebuilt.drivetrain.getRobotVelocity();
     Pose2d phaseDelayedPose =
         estimatedPose.exp(
@@ -439,7 +441,7 @@ public class ShotCalculator {
                 robotRelativeVelocity.vyMetersPerSecond * phaseDelay,
                 robotRelativeVelocity.omegaRadiansPerSecond * phaseDelay));
 
-    Translation2d target = AllianceFlipUtil.apply(currentTarget);
+    Translation2d target = AllianceFlipUtil.apply(targetPositionSupplier.get());
     Pose2d turretPosition =
         phaseDelayedPose.transformBy(
             new Transform2d(
@@ -525,18 +527,6 @@ public class ShotCalculator {
 
   public void clearShootingParameters() {
     latestParameters = null;
-  }
-
-  public static void setTargetAllianceLeft() {
-    currentTarget = allianceSideLeft;
-  }
-
-  public static void setTargetAllianceRight() {
-    currentTarget = allianceSideRight;
-  }
-
-  public static void setTargetHub() {
-    currentTarget = hubTarget;
   }
 
   private TurretControlPhysics getTurretControlPhysics(Translation2d turretOffset) {

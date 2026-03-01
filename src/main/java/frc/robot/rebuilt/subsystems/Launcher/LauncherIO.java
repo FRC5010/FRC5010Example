@@ -5,6 +5,7 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -13,6 +14,7 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
+import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.littletonrobotics.junction.AutoLog;
 
@@ -100,6 +102,9 @@ public interface LauncherIO {
   public Command getFlyWheelSysIdCommand();
 
   public Command getTurretSysIdCommand(GenericSubsystem launcher);
+
+  public ShotCalculator.ShootingParameters getShootingParameters(
+      Supplier<Pose2d> robotPoseSupplier, Supplier<Translation2d> targetPositionSupplier);
 
   public void stopAllMotors();
 

@@ -13,6 +13,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.commands.LauncherCommands;
+import frc.robot.rebuilt.commands.LauncherCommands.LauncherState;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
@@ -111,4 +112,8 @@ public interface LauncherIO {
   public default void configureShotCalculator(ShotCalculator shotCalculator) {}
 
   public default void updateSimulation(Launcher launcher, Indexer indexer) {}
+
+  public boolean isNearTrench();
+
+  public void determineTarget();
 }

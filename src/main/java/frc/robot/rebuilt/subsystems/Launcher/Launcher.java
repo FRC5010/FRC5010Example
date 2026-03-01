@@ -202,6 +202,22 @@ public class Launcher extends GenericSubsystem {
   public LauncherState getCurrentState() {
     return inputs.stateCurrent;
   }
+
+  public LauncherState getPreTrenchState() {
+    return inputs.preTrenchState;
+  }
+
+  public boolean isNearTrench() {
+    boolean nearTrench = io.isNearTrench();
+    if (nearTrench && (getCurrentState() != LauncherState.AUTO_HAMMERTIME)) {
+      inputs.preTrenchState = getCurrentState();
+      if (getCurrentState() == LauncherState.PRESET) {
+        inputs.preTrenchState = LauncherState.LOW_SPEED;
+      }
+    }
+    return nearTrench;
+  }
+
   /** Applies the hood and turret angle, and the flywheel speed */
   public void usePresets(Angle hoodAngle, Angle turretAngle, AngularVelocity flywheelSpeed) {
     io.setHoodAngle(hoodAngle);

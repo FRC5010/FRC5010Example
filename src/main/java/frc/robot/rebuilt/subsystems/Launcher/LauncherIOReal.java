@@ -19,6 +19,7 @@ import static edu.wpi.first.units.Units.Volts;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
@@ -31,8 +32,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.FieldConstants;
+import frc.robot.rebuilt.commands.IntakeCommands.IntakeState;
 import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.commands.LauncherCommands;
+import frc.robot.rebuilt.subsystems.intake.Intake;
 import java.util.Map;
 import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
@@ -63,6 +66,10 @@ public class LauncherIOReal implements LauncherIO {
   protected EasyCRT easyCrtSolver;
   /** Initializes the launcher hardware, encoders, simulated sensors, and angle solver */
   EasyCRTConfig easyCrt;
+  private boolean isNearTrench = false;
+  private IntakeState lastState = IntakeState.RETRACTED;
+
+  protected Intake intake;
 
   protected static Translation2d robotToTurret;
 
@@ -72,6 +79,7 @@ public class LauncherIOReal implements LauncherIO {
   public LauncherIOReal(Map<String, Object> devices, Map<String, GenericSubsystem> subsystems) {
     this.devices = devices;
     drivetrain = (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN);
+    intake = (Intake) subsystems.get(Constants.INTAKE);
     turret = (Pivot) devices.get("turret");
     robotToTurret =
         turret
@@ -220,7 +228,6 @@ public class LauncherIOReal implements LauncherIO {
 
     inputs.targetDistance = Meters.of(inputs.robotToTarget.getDistance(new Translation2d()));
 
-    // Log trench detection every cycle
     isNearTrench();
   }
   /** Configuring the shot calculator with limits and constraints */
@@ -244,11 +251,7 @@ public class LauncherIOReal implements LauncherIO {
   }
   /** Sets the hood angle and overrides the requested angle if the hood is near the trench */
   public void setHoodAngle(Angle angle) {
-    if (isNearTrench()) {
-      hood.getMotorController().setPosition(Degrees.of(31.0));
-    } else {
-      hood.getMotorController().setPosition(angle);
-    }
+    hood.getMotorController().setPosition(angle);
   }
   /** Sets the low hard limit to 30 degrees and updates LED's */
   public void setHoodAngleLow() {
@@ -350,7 +353,7 @@ public class LauncherIOReal implements LauncherIO {
     return flyWheel.sysId(Volts.of(8), Volts.of(0.5).per(Seconds), Seconds.of(8));
   }
 
-  private boolean isNearTrench() {
+  public boolean isNearTrench() {
     Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
     double currentX = current.getX();
     double currentY = current.getY();
@@ -389,10 +392,55 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putBoolean("Near Bottom Opp Alliance", nearOppAllianceBottom);
     SmartDashboard.putBoolean("Near Bottom Alliance", nearAllianceBottom);
 
-    if (nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom)
-      return true;
+    determineTarget();
 
-    return false;
+    return nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom;
+  }
+
+  public void determineTarget() {
+    Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
+
+    Translation2d allianceCornerOrigin = new Translation2d(0, 0);
+    Translation2d AllianceCornerTrench =
+        new Translation2d(
+            FieldConstants.TrenchZoneBottom.nearAlliance.getX()
+                - 1 / 2 * FieldConstants.LeftTrench.depth,
+            FieldConstants.fieldWidth);
+    Translation2d topRightMidTrenchCorner =
+        new Translation2d(
+            FieldConstants.TrenchZoneTop.oppAlliance.getX()
+                - 1 / 2 * FieldConstants.RightTrench.depth,
+            FieldConstants.fieldWidth);
+    Translation2d bottomRightMidTrenchCorner =
+        new Translation2d(
+            FieldConstants.TrenchZoneTop.oppAlliance.getX()
+                - 1 / 2 * FieldConstants.LeftTrench.depth,
+            0);
+    Translation2d oppTopRightOrigin =
+        new Translation2d(FieldConstants.fieldLength, FieldConstants.fieldWidth);
+    Translation2d oppBottemRightOrigin = new Translation2d(FieldConstants.fieldLength, 0);
+
+    Rectangle2d allianceField = new Rectangle2d(allianceCornerOrigin, AllianceCornerTrench);
+    Rectangle2d upperMidField =
+        new Rectangle2d(FieldConstants.Hub.farLeftCorner, topRightMidTrenchCorner);
+    Rectangle2d lowerMidField =
+        new Rectangle2d(FieldConstants.Hub.farRightCorner, bottomRightMidTrenchCorner);
+    Rectangle2d oppUpperField =
+        new Rectangle2d(FieldConstants.Hub.oppFarLeftCorner, oppTopRightOrigin);
+    Rectangle2d oppLowerField =
+        new Rectangle2d(FieldConstants.Hub.oppFarRightCorner, oppBottemRightOrigin);
+
+    Boolean inAllianceField = allianceField.contains(current.getTranslation());
+    Boolean inUpperMidField = upperMidField.contains(current.getTranslation());
+    Boolean inLowerMidField = lowerMidField.contains(current.getTranslation());
+    Boolean inOppUpperField = oppUpperField.contains(current.getTranslation());
+    Boolean inOppLowerField = oppLowerField.contains(current.getTranslation());
+
+    SmartDashboard.putBoolean("In Alliance Field", inAllianceField);
+    SmartDashboard.putBoolean("In Upper Mid Field", inUpperMidField);
+    SmartDashboard.putBoolean("In Lower Mid Field", inLowerMidField);
+    SmartDashboard.putBoolean("In Opp Upper Field", inOppUpperField);
+    SmartDashboard.putBoolean("In Opp Lower Field", inOppLowerField);
   }
 
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher) {

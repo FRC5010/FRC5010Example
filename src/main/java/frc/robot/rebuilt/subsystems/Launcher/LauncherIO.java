@@ -13,7 +13,6 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rebuilt.commands.LauncherCommands;
-import frc.robot.rebuilt.commands.LauncherCommands.LauncherState;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
 import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericSubsystem;
@@ -28,6 +27,7 @@ public interface LauncherIO {
     public LauncherCommands.LauncherState stateRequested = LauncherCommands.LauncherState.IDLE;
 
     public LauncherCommands.LauncherState stateCurrent = LauncherCommands.LauncherState.IDLE;
+    public LauncherCommands.LauncherState preTrenchState = LauncherCommands.LauncherState.IDLE;
     /**
      * Intializes the distance to the virtual target and desired flywheel speed to start at 0 and
      * calculation validity to false

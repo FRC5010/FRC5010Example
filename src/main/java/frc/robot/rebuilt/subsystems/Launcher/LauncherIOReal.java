@@ -32,8 +32,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.FieldConstants;
-import frc.robot.rebuilt.commands.IntakeCommands.IntakeState;
 import frc.robot.rebuilt.Rebuilt;
+import frc.robot.rebuilt.commands.IntakeCommands.IntakeState;
 import frc.robot.rebuilt.commands.LauncherCommands;
 import frc.robot.rebuilt.subsystems.intake.Intake;
 import java.util.Map;
@@ -66,6 +66,7 @@ public class LauncherIOReal implements LauncherIO {
   protected EasyCRT easyCrtSolver;
   /** Initializes the launcher hardware, encoders, simulated sensors, and angle solver */
   EasyCRTConfig easyCrt;
+
   private boolean isNearTrench = false;
   private IntakeState lastState = IntakeState.RETRACTED;
 

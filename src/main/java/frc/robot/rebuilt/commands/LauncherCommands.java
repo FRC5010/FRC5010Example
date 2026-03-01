@@ -5,16 +5,6 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Radians;
 
-import java.util.Map;
-
-import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.arch.StateMachine;
-import org.frc5010.common.arch.StateMachine.State;
-import org.frc5010.common.config.ConfigConstants;
-import org.frc5010.common.drive.GenericDrivetrain;
-import org.frc5010.common.sensors.Controller;
-import org.frc5010.common.subsystems.LEDStrip;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -27,6 +17,14 @@ import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import frc.robot.rebuilt.subsystems.Launcher.ShotCalculator;
 import frc.robot.rebuilt.subsystems.Launcher.ShotCalculator.ShootingParameters;
+import java.util.Map;
+import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.arch.StateMachine;
+import org.frc5010.common.arch.StateMachine.State;
+import org.frc5010.common.config.ConfigConstants;
+import org.frc5010.common.drive.GenericDrivetrain;
+import org.frc5010.common.sensors.Controller;
+import org.frc5010.common.subsystems.LEDStrip;
 
 /** defines commands and state launcher logic for the launcher */
 public class LauncherCommands {
@@ -44,10 +42,14 @@ public class LauncherCommands {
   private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
   private static Translation2d allianceSideRight = FieldConstants.Tower.rightUpright;
   private static Translation2d target = hubTarget;
-  private static Translation2d intakeToCenterTranslation = new Translation2d(Inches.of(25), Inches.of(0));
-  private static Transform2d intakeToCenter = new Transform2d(intakeToCenterTranslation, Rotation2d.fromDegrees(180));
-  private static Translation2d rearToCenterTranslation = new Translation2d(Inches.of(13.5), Inches.of(0));
-  private static Transform2d rearToCenter = new Transform2d(rearToCenterTranslation, Rotation2d.fromDegrees(0));
+  private static Translation2d intakeToCenterTranslation =
+      new Translation2d(Inches.of(25), Inches.of(0));
+  private static Transform2d intakeToCenter =
+      new Transform2d(intakeToCenterTranslation, Rotation2d.fromDegrees(180));
+  private static Translation2d rearToCenterTranslation =
+      new Translation2d(Inches.of(13.5), Inches.of(0));
+  private static Transform2d rearToCenter =
+      new Transform2d(rearToCenterTranslation, Rotation2d.fromDegrees(0));
 
   public static Translation2d getRobotToTarget() {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
@@ -234,7 +236,7 @@ public class LauncherCommands {
                 () -> {
                   ShootingParameters params =
                       launcher.getShootingParameters(
-                          () -> FieldConstants.Hub.nearFace.plus(intakeToCenter), 
+                          () -> FieldConstants.Hub.nearFace.plus(intakeToCenter),
                           () -> FieldConstants.Hub.topCenterPoint.toTranslation2d());
                   launcher.usePresets(
                       Radians.of(params.hoodAngle()),
@@ -250,14 +252,14 @@ public class LauncherCommands {
                 () -> {
                   ShootingParameters params =
                       launcher.getShootingParameters(
-                          () -> FieldConstants.Tower.face.plus(rearToCenter), 
+                          () -> FieldConstants.Tower.face.plus(rearToCenter),
                           () -> FieldConstants.Hub.topCenterPoint.toTranslation2d());
                   launcher.usePresets(
                       Radians.of(params.hoodAngle()),
                       Constants.Launcher.TURRET_FORWARD,
                       RPM.of(params.flywheelSpeed()));
                 }));
-      }
+  }
 
   public static Command turretForwardPresetStateCommand() {
     return shouldPresetCommand()

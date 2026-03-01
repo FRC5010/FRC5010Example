@@ -117,7 +117,7 @@ public class IntakeCommands {
       intakeStateMachine.addRequirements(intake);
     }
   }
-  
+
   private void addRequestedTransition(State from, State to, IntakeState request) {
     from.switchTo(to).when(() -> intake.isRequested(request));
   }

@@ -9,16 +9,6 @@ package frc.robot.rebuilt.subsystems.Launcher;
 
 import static edu.wpi.first.units.Units.Meters;
 
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.function.DoubleFunction;
-import java.util.function.Supplier;
-
-import org.frc5010.common.constants.Constants;
-import org.frc5010.common.utils.geometry.AllianceFlipUtil;
-import org.frc5010.common.utils.geometry.GeomUtil;
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,10 +20,17 @@ import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Distance;
-import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.Rebuilt;
 import frc.robot.rebuilt.subsystems.Launcher.TurretControlPhysics.AimingSolution;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.DoubleFunction;
+import java.util.function.Supplier;
 import lombok.experimental.ExtensionMethod;
+import org.frc5010.common.constants.Constants;
+import org.frc5010.common.utils.geometry.AllianceFlipUtil;
+import org.frc5010.common.utils.geometry.GeomUtil;
+import org.littletonrobotics.junction.Logger;
 
 @ExtensionMethod({GeomUtil.class})
 /** Calculates the turret and hood angle, and the flywheel speed for shooting */

@@ -90,7 +90,7 @@ public class IndexerCommands {
             IndexerState.FEED, feedStateCommand(),
             IndexerState.FORCE, forceStateCommand(),
             IndexerState.IDLE, idleStateCommand(),
-            IndexerState.HARD_CHURCH, hardChurnCommand(),
+            IndexerState.HARD_CHURN, hardChurnStateCommand(),
             IndexerState.CHURN, churnStateCommand());
 
     stateToCommand.forEach(

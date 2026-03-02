@@ -43,7 +43,6 @@ public class LauncherCommands {
   private static Translation2d hubTarget = FieldConstants.Hub.topCenterPoint.toTranslation2d();
   private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
   private static Translation2d allianceSideRight = FieldConstants.Tower.rightUpright;
-  private static Translation2d target = launcher.getRobotTarget();
   private static Translation2d intakeToCenterTranslation =
       new Translation2d(Inches.of(25), Inches.of(0));
   private static Transform2d intakeToCenter =
@@ -53,7 +52,7 @@ public class LauncherCommands {
   private static Transform2d rearToCenter =
       new Transform2d(rearToCenterTranslation, Rotation2d.fromDegrees(0));
 
-  public static Translation2d getRobotToTarget() {
+  public static Translation2d getRobotToTarget(Translation2d target) {
     return target.minus(drivetrain.getPoseEstimator().getCurrentPose().getTranslation());
   }
   // public static Angle getHoodAngle(Distance toTarget) {} Placeholder for now
@@ -188,9 +187,6 @@ public class LauncherCommands {
     operator.createRightPovButton().onTrue(launcher.increaseTurretAngleCommand());
   }
 
-  public static Translation2d getTargetPose() {
-    return target;
-  }
   /** creates command behavior for the IDLE launcher state */
   private static Command idleStateCommand() {
     return Commands.parallel(

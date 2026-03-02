@@ -118,6 +118,10 @@ public class Launcher extends GenericSubsystem {
     return io.getTurretCharacterizationCommand(this);
   }
 
+  public Translation2d getRobotTarget(){
+    return io.determineTarget();
+  }
+
   @Override
   public Command getDefaultCommand() {
     return Commands.runOnce(
@@ -133,6 +137,7 @@ public class Launcher extends GenericSubsystem {
   /** Command that aims the launcher using hood turret and flywheel values from calculations */
   public Command trackTargetCommand() {
     return Commands.run(
+        
         () -> {
           io.setHoodAngle(inputs.hoodAngleCalculated);
           io.setTurretRotation(inputs.turretAngleCalculated);
@@ -295,6 +300,8 @@ public class Launcher extends GenericSubsystem {
   public boolean isTurretAtGoal() {
     return inputs.turretAngleAtGoal;
   }
+
+  
 
   public Command increaseHoodAngleCommand() {
     return Commands.runOnce(

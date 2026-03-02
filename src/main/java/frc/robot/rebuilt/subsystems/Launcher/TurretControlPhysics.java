@@ -25,6 +25,40 @@ public class TurretControlPhysics {
   private final double minEffectiveRangeMeters;
   private final double maxEffectiveRangeMeters;
 
+  /**
+   * Builds a settling-time function from trapezoidal motion-profile constraints.
+   *
+   * <p>Given angle error {@code |Δθ|} in radians the function returns the time (seconds) for the
+   * turret to reach its goal under a trapezoidal velocity profile with peak velocity {@code vMax}
+   * (rad/s) and peak acceleration {@code aMax} (rad/s²).
+   *
+   * <ul>
+   *   <li>Triangle phase: {@code t = 2 * sqrt(|Δθ| / aMax)} when {@code |Δθ| < vMax²/aMax}
+   *   <li>Trapezoid phase: {@code t = vMax/aMax + |Δθ|/vMax} otherwise
+   * </ul>
+   *
+   * @param maxVelocityRadPerSec peak turret velocity (rad/s)
+   * @param maxAccelRadPerSecSq peak turret acceleration (rad/s²)
+   * @return a {@link DoubleFunction} mapping |angleErrorRadians| → settlingTimeSeconds
+   */
+  public static DoubleFunction<Double> trapezoidalSettlingTimeFunction(
+      double maxVelocityRadPerSec, double maxAccelRadPerSecSq) {
+    double vMax = Math.abs(maxVelocityRadPerSec);
+    double aMax = Math.abs(maxAccelRadPerSecSq);
+    if (vMax < 1e-6 || aMax < 1e-6) {
+      return (err) -> 0.0;
+    }
+    double triangleThreshold = (vMax * vMax) / aMax;
+    return (angleErrorRad) -> {
+      double err = Math.abs(angleErrorRad);
+      if (err < triangleThreshold) {
+        return 2.0 * Math.sqrt(err / aMax);
+      } else {
+        return vMax / aMax + err / vMax;
+      }
+    };
+  }
+
   public record RobotState(Pose2d pose, ChassisSpeeds velocity, ChassisSpeeds acceleration) {}
 
   @FunctionalInterface

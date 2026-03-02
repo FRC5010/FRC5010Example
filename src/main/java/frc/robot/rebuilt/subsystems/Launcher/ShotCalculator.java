@@ -14,7 +14,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.interpolation.InverseInterpolator;
@@ -54,8 +53,14 @@ public class ShotCalculator {
   private Rotation2d maxTurretAngle = Rotation2d.fromDegrees(165.0);
   private Rotation2d feedforwardPaddingAngle = Rotation2d.fromDegrees(10.0);
   private double settlingGain = 0.85;
+  // Default turret motion constraints (overridden via setTurretMotionConstraints).
+  // These represent the practical maximum velocity (360 °/s) and acceleration (720 °/s²)
+  // until real SysId values are provided.
+  private double turretMaxVelocityRadPerSec = Math.toRadians(360.0);
+  private double turretMaxAccelRadPerSecSq = Math.toRadians(720.0);
   private DoubleFunction<Double> settlingTimeFunction =
-      (angleError) -> Math.abs(angleError) / Math.toRadians(1080.0);
+      TurretControlPhysics.trapezoidalSettlingTimeFunction(
+          turretMaxVelocityRadPerSec, turretMaxAccelRadPerSecSq);
   private final String targetName = "Target";
   private final String lookAhead = "Lookahead";
   private final String virtualTarget = "VirtualTarget";
@@ -419,6 +424,29 @@ public class ShotCalculator {
     turretControlPhysics = null;
   }
 
+  /**
+   * Configures the turret settling-time function using the closed-form trapezoidal motion profile.
+   *
+   * <p>This replaces any previously supplied {@link #setSettlingTimeFunction} with the analytical
+   * result derived from the given peak velocity and acceleration. Call this once during robot init
+   * after measuring the turret's actual motion profile constraints via SysId.
+   *
+   * @param maxVelocityRadPerSec peak turret velocity in rad/s
+   * @param maxAccelRadPerSecSq peak turret acceleration in rad/s²
+   * @param newSettlingGain multiplier applied to the computed time (use ≤ 1.0 to avoid
+   *     oscillation)
+   */
+  public void setTurretMotionConstraints(
+      double maxVelocityRadPerSec, double maxAccelRadPerSecSq, double newSettlingGain) {
+    turretMaxVelocityRadPerSec = maxVelocityRadPerSec;
+    turretMaxAccelRadPerSecSq = maxAccelRadPerSecSq;
+    settlingTimeFunction =
+        TurretControlPhysics.trapezoidalSettlingTimeFunction(
+            turretMaxVelocityRadPerSec, turretMaxAccelRadPerSecSq);
+    settlingGain = newSettlingGain;
+    turretControlPhysics = null;
+  }
+
   public ShootingParameters getParameters(
       Translation2d turretRelativePosition,
       Rotation2d turretRelativeAngle,
@@ -428,15 +456,16 @@ public class ShotCalculator {
       return latestParameters;
     }
 
-    // Calculate estimated pose while accounting for phase delay
+    // Snapshot current pose, field-relative velocity, and field-relative acceleration.
+    // Field velocity is used for linear extrapolation: x += vx*dt, y += vy*dt, heading += omega*dt.
+    // This matches the actual drivetrain behavior since the drive code already accounts for
+    // curvature (discretize) when commanding inputs to drive straight in field frame.
     Pose2d estimatedPose = robotPoseSupplier.get();
-    ChassisSpeeds robotRelativeVelocity = Rebuilt.drivetrain.getRobotVelocity();
-    Pose2d phaseDelayedPose =
-        estimatedPose.exp(
-            new Twist2d(
-                robotRelativeVelocity.vxMetersPerSecond * phaseDelay,
-                robotRelativeVelocity.vyMetersPerSecond * phaseDelay,
-                robotRelativeVelocity.omegaRadiansPerSecond * phaseDelay));
+    ChassisSpeeds fieldVelocity = Rebuilt.drivetrain.getFieldVelocity();
+    ChassisSpeeds fieldAcceleration = Rebuilt.drivetrain.getFieldAcceleration();
+
+    // Apply phase delay using linear field-frame extrapolation.
+    Pose2d phaseDelayedPose = linearExtrapolatePose(estimatedPose, fieldVelocity, phaseDelay);
 
     Translation2d target = AllianceFlipUtil.apply(targetPositionSupplier.get());
     Pose2d turretPosition =
@@ -452,15 +481,12 @@ public class ShotCalculator {
             target,
             turretRelativeAngle,
             (timeSinceStartSeconds, lookaheadSeconds) -> {
+              // Linear field-frame pose extrapolation: no twist, just straight-line translation
+              // in the field frame plus proportional heading change.
               Pose2d predictedPose =
-                  phaseDelayedPose.exp(
-                      new Twist2d(
-                          robotRelativeVelocity.vxMetersPerSecond * lookaheadSeconds,
-                          robotRelativeVelocity.vyMetersPerSecond * lookaheadSeconds,
-                          robotRelativeVelocity.omegaRadiansPerSecond * lookaheadSeconds));
-              ChassisSpeeds fieldVelocity = Rebuilt.drivetrain.getFieldVelocity();
-
-              return new TurretControlPhysics.RobotState(predictedPose, fieldVelocity, null);
+                  linearExtrapolatePose(phaseDelayedPose, fieldVelocity, lookaheadSeconds);
+              return new TurretControlPhysics.RobotState(
+                  predictedPose, fieldVelocity, fieldAcceleration);
             });
 
     double distanceToVirtualTarget = solution.effectiveDistanceMeters();
@@ -496,18 +522,16 @@ public class ShotCalculator {
     Logger.recordOutput(
         "ShotCalculator/VirtualTargetFieldPosition",
         new Pose2d(solution.finalSolverState().virtualTargetFieldPos(), turretAngle));
-    Logger.recordOutput("ShotCalculator/FieldVelocity", Rebuilt.drivetrain.getFieldVelocity());
+    Logger.recordOutput("ShotCalculator/FieldVelocity", fieldVelocity);
+    Logger.recordOutput("ShotCalculator/FieldAcceleration", fieldAcceleration);
 
     Rebuilt.drivetrain
         .getField2d()
         .getObject(targetName)
         .setPose(new Pose2d(target, target.getAngle()));
+    // Lookahead visualisation uses the same linear extrapolation
     Pose2d lookaheadRobotPose =
-        phaseDelayedPose.exp(
-            new Twist2d(
-                robotRelativeVelocity.vxMetersPerSecond * solution.estimatedTimeOfFlight(),
-                robotRelativeVelocity.vyMetersPerSecond * solution.estimatedTimeOfFlight(),
-                robotRelativeVelocity.omegaRadiansPerSecond * solution.estimatedTimeOfFlight()));
+        linearExtrapolatePose(phaseDelayedPose, fieldVelocity, solution.estimatedTimeOfFlight());
     Pose2d lookaheadTurretPose =
         lookaheadRobotPose.transformBy(
             new Transform2d(
@@ -520,6 +544,30 @@ public class ShotCalculator {
     Rebuilt.drivetrain.getField2d().getObject(turret).setPose(turretPosition);
 
     return latestParameters;
+  }
+
+  /**
+   * Extrapolates a robot pose forward in time using linear field-frame velocity components.
+   *
+   * <p>The robot's field-frame position advances by {@code vx * dt} and {@code vy * dt}. Heading
+   * advances by {@code omega * dt}. This avoids the curvature error introduced by {@link
+   * Pose2d#exp(Twist2d)} because the drive code already compensates for curvature when generating
+   * robot-relative motor commands (via {@code ChassisSpeeds.discretize}).
+   */
+  private static Pose2d linearExtrapolatePose(
+      Pose2d currentPose, ChassisSpeeds fieldVelocity, double dt) {
+    Translation2d newTranslation =
+        currentPose
+            .getTranslation()
+            .plus(
+                new Translation2d(
+                    fieldVelocity.vxMetersPerSecond * dt,
+                    fieldVelocity.vyMetersPerSecond * dt));
+    Rotation2d newRotation =
+        currentPose
+            .getRotation()
+            .plus(Rotation2d.fromRadians(fieldVelocity.omegaRadiansPerSecond * dt));
+    return new Pose2d(newTranslation, newRotation);
   }
 
   public void clearShootingParameters() {

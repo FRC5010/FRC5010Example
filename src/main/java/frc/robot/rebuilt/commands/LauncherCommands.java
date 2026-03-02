@@ -43,7 +43,7 @@ public class LauncherCommands {
   private static Translation2d hubTarget = FieldConstants.Hub.topCenterPoint.toTranslation2d();
   private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
   private static Translation2d allianceSideRight = FieldConstants.Tower.rightUpright;
-  private static Translation2d target = hubTarget;
+  private static Translation2d target = launcher.getRobotTarget();
   private static Translation2d intakeToCenterTranslation =
       new Translation2d(Inches.of(25), Inches.of(0));
   private static Transform2d intakeToCenter =

@@ -115,5 +115,5 @@ public interface LauncherIO {
 
   public boolean isNearTrench();
 
-  public void determineTarget();
+  public Translation2d determineTarget();
 }

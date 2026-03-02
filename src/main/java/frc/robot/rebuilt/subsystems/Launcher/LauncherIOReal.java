@@ -397,7 +397,7 @@ public class LauncherIOReal implements LauncherIO {
     return nearAllianceTop || nearOppAllianceTop || nearAllianceBottom || nearOppAllianceBottom;
   }
 
-  public void determineTarget() {
+  public Translation2d determineTarget() {
     Pose2d current = drivetrain.getPoseEstimator().getCurrentPose();
 
     Translation2d allianceCornerOrigin = new Translation2d(0, 0);
@@ -441,6 +441,18 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putBoolean("In Lower Mid Field", inLowerMidField);
     SmartDashboard.putBoolean("In Opp Upper Field", inOppUpperField);
     SmartDashboard.putBoolean("In Opp Lower Field", inOppLowerField);
+    if (inAllianceField) {
+      return FieldConstants.Hub.topCenterPoint.toTranslation2d();
+    } else if (inUpperMidField) {
+      //return FieldConstants.Hub.upperMidPoint.toTranslation2d();
+    } else if (inLowerMidField) {
+      //return FieldConstants.Hub.lowerMidPoint.toTranslation2d();
+    } else if (inOppUpperField) {
+      //return FieldConstants.Hub.oppTopCenterPoint.toTranslation2d();
+    } else if (inOppLowerField) {
+      //return FieldConstants.Hub.oppLowerMidPoint.toTranslation2d();
+    }
+    return FieldConstants.Hub.topCenterPoint.toTranslation2d(); // Default target
   }
 
   public Command getFlyWheelSysIdCommand(GenericSubsystem launcher) {

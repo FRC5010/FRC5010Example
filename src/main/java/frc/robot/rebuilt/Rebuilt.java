@@ -16,6 +16,7 @@ import frc.robot.rebuilt.commands.TestCommands;
 import frc.robot.rebuilt.subsystems.Climb.Climb;
 import frc.robot.rebuilt.subsystems.DriverDisplay.HubStatus;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
+import frc.robot.rebuilt.subsystems.Launcher.FieldRegions;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import frc.robot.rebuilt.subsystems.intake.Intake;
 import org.frc5010.common.arch.GenericRobot;
@@ -64,6 +65,7 @@ public class Rebuilt extends GenericRobot {
   /** Configures buttons with commands */
   public void configureButtonBindings(Controller driver, Controller operator) {
     if (!isButtonsConfigured) {
+      FieldRegions.setupFieldRegions();
       driver.createYButton().onTrue(Commands.runOnce(() -> drivetrain.toggleFieldOrientedDrive()));
       drivetrain.configureButtonBindings(driver, operator);
       climbCommands.configureButtonBindings(driver, operator);
@@ -86,6 +88,8 @@ public class Rebuilt extends GenericRobot {
   @Override
   /** Assigns default commands for each subsystem */
   public void setupDefaultCommands(Controller driver, Controller operator) {
+    // This is part of auto init, so a good place to run this
+    FieldRegions.setupFieldRegions();
     drivetrain.setDefaultCommand(drivetrain.createDefaultCommand(driver));
     launcherCommands.setDefaultCommands();
     indexerCommands.setupDefaultCommands();

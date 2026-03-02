@@ -190,7 +190,7 @@ public class IntakeCommands {
 
   public static Command deployingCommand() {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.DEPLOYING))
-        .andThen(() -> intake.runHopper(0.5))
+        .andThen(() -> intake.runHopper(Constants.Intake.HOPPER_GO_OUT))
         .andThen(() -> intake.runSpintake(0));
   }
 

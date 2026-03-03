@@ -289,9 +289,7 @@ public class LauncherIOReal implements LauncherIO {
     double maxVelRadPerSec =
         trapConstraints.map(c -> c.maxVelocity * 2.0 * Math.PI).orElse(Math.toRadians(1080.0));
     double maxAccelRadPerSecSq =
-        trapConstraints
-            .map(c -> c.maxAcceleration * 2.0 * Math.PI)
-            .orElse(Math.toRadians(360.0));
+        trapConstraints.map(c -> c.maxAcceleration * 2.0 * Math.PI).orElse(Math.toRadians(360.0));
     shotCalculator.setTurretMotionConstraints(maxVelRadPerSec, maxAccelRadPerSecSq, 0.85);
   }
 

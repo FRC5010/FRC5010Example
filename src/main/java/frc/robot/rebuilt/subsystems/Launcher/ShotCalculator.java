@@ -433,8 +433,7 @@ public class ShotCalculator {
    *
    * @param maxVelocityRadPerSec peak turret velocity in rad/s
    * @param maxAccelRadPerSecSq peak turret acceleration in rad/s²
-   * @param newSettlingGain multiplier applied to the computed time (use ≤ 1.0 to avoid
-   *     oscillation)
+   * @param newSettlingGain multiplier applied to the computed time (use ≤ 1.0 to avoid oscillation)
    */
   public void setTurretMotionConstraints(
       double maxVelocityRadPerSec, double maxAccelRadPerSecSq, double newSettlingGain) {
@@ -561,8 +560,7 @@ public class ShotCalculator {
             .getTranslation()
             .plus(
                 new Translation2d(
-                    fieldVelocity.vxMetersPerSecond * dt,
-                    fieldVelocity.vyMetersPerSecond * dt));
+                    fieldVelocity.vxMetersPerSecond * dt, fieldVelocity.vyMetersPerSecond * dt));
     Rotation2d newRotation =
         currentPose
             .getRotation()

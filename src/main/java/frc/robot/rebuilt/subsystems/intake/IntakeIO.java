@@ -32,6 +32,8 @@ public interface IntakeIO {
 
   public boolean isDeployed();
 
+  public boolean isHopperStalling();
+
   public void runHopper(double speed);
 
   public boolean isNearTrench();

@@ -139,7 +139,8 @@ public class Launcher extends GenericSubsystem {
     return Commands.run(
         () -> {
           io.setHoodAngle(inputs.hoodAngleCalculated);
-          io.setTurretRotation(inputs.turretAngleCalculated);
+          io.setTurretRotationWithFeedforward(
+              inputs.turretAngleCalculated, inputs.turretFeedforwardRadPerSec);
           io.setFlyWheelVelocity(inputs.flyWheelSpeedCalculated);
         });
   }
@@ -148,7 +149,8 @@ public class Launcher extends GenericSubsystem {
     return Commands.run(
         () -> {
           io.setHoodAngleLow();
-          io.setTurretRotation(inputs.turretAngleCalculated);
+          io.setTurretRotationWithFeedforward(
+              inputs.turretAngleCalculated, inputs.turretFeedforwardRadPerSec);
           io.setFlyWheelVelocity(inputs.flyWheelSpeedCalculated);
         });
   }
@@ -157,7 +159,8 @@ public class Launcher extends GenericSubsystem {
     return Commands.run(
         () -> {
           io.setHoodAngle(hood.getMotorController().getConfig().getMechanismLowerLimit().get());
-          io.setTurretRotation(inputs.turretAngleCalculated);
+          io.setTurretRotationWithFeedforward(
+              inputs.turretAngleCalculated, inputs.turretFeedforwardRadPerSec);
           io.setFlyWheelVelocity(RPM.of(speed));
         });
   }

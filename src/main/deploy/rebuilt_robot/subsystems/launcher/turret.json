@@ -9,7 +9,7 @@
     "canBus": "canivore",
     "robotToMotor": {
       "x": {
-        "val": -5.872,
+        "val": -4.856,
         "uom": "in"
       },
       "y": {

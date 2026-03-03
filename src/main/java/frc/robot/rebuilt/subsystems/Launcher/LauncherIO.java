@@ -67,6 +67,9 @@ public interface LauncherIO {
     public double turretVelocity = 0.0;
     public double flyWheelMotorOutput = 0.0;
 
+    /** Kinematic feedforward for the turret from the aiming solver (rad/s, field-relative). */
+    public double turretFeedforwardRadPerSec = 0.0;
+
     public Translation2d robotToTarget = new Translation2d();
 
     public Distance targetDistance = Meters.of(0.0);
@@ -86,6 +89,18 @@ public interface LauncherIO {
   public void setHoodAngleLow();
 
   public void setTurretRotation(Angle angle);
+
+  /**
+   * Sets the turret to the given angle while simultaneously applying a kinematic feedforward
+   * velocity. The feedforward is passed directly to the underlying motor controller's closed-loop
+   * request so the controller does not need to derive it from the position error alone.
+   *
+   * @param angle desired turret mechanism angle
+   * @param feedforwardRadPerSec angular velocity feedforward in rad/s (mechanism units)
+   */
+  public default void setTurretRotationWithFeedforward(Angle angle, double feedforwardRadPerSec) {
+    setTurretRotation(angle);
+  }
 
   public LinearVelocity getFlyWheelExitSpeed(AngularVelocity velocity);
 

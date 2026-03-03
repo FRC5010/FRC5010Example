@@ -153,9 +153,19 @@ public class Module {
     return inputs.drivePositionRad;
   }
 
-  /** Returns the module velocity in rad/sec. */
+  /** Returns the module drive velocity in rad/sec. */
   public double getDriveFFCharacterizationVelocity() {
     return inputs.driveVelocityRadPerSec;
+  }
+
+  /** Returns the module drive acceleration in m/s², converted from rad/s² using wheel radius. */
+  public double getDriveAccelerationMetersPerSecSquared() {
+    return inputs.driveAccelerationRadPerSecSquared * constants.WheelRadius;
+  }
+
+  /** Returns the current drive acceleration state (velocity and heading) for chassis kinematics. */
+  public SwerveModuleState getAccelerationState() {
+    return new SwerveModuleState(getDriveAccelerationMetersPerSecSquared(), getAngle());
   }
 
   /** Returns the module steer velocity in rad/sec. */

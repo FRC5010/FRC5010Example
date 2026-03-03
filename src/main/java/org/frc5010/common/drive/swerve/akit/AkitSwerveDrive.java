@@ -373,6 +373,26 @@ public class AkitSwerveDrive extends SwerveDriveFunctions {
     return ChassisSpeeds.fromRobotRelativeSpeeds(getChassisSpeeds(), getRotation());
   }
 
+  /**
+   * Returns the robot-relative chassis acceleration derived from drive motor acceleration signals.
+   * Uses the same kinematics math as velocity, but with per-module acceleration instead of
+   * velocity.
+   */
+  public ChassisSpeeds getChassisAcceleration() {
+    SwerveModuleState[] accelStates = new SwerveModuleState[4];
+    for (int i = 0; i < 4; i++) {
+      accelStates[i] = modules[i].getAccelerationState();
+    }
+    return kinematics.toChassisSpeeds(accelStates);
+  }
+
+  /**
+   * Returns the field-relative chassis acceleration derived from drive motor acceleration signals.
+   */
+  public ChassisSpeeds getFieldAcceleration() {
+    return ChassisSpeeds.fromRobotRelativeSpeeds(getChassisAcceleration(), getRotation());
+  }
+
   @Override
   public void drive(ChassisSpeeds velocity, DriveFeedforwards feedforwards) {
     runVelocity(velocity);

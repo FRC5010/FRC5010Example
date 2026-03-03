@@ -11,6 +11,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.commands.IntakeCommands;
 import java.util.Map;
@@ -57,10 +58,13 @@ public class IntakeIOReal implements IntakeIO {
   }
 
   public boolean isHopperMoving() {
-
     return Math.abs(
             intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)))
         > 1.0;
+  }
+
+  public boolean isHopperStalling() {
+    return Math.abs(intakeHopper.getMotor().getStatorCurrent().in(Amps)) > Constants.Intake.HOPPER_STALL_CURRENT_THRESHOLD;
   }
 
   public boolean isRetracted() {

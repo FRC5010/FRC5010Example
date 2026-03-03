@@ -97,6 +97,10 @@ public class Intake extends GenericSubsystem {
     return inputs.stateCurrent;
   }
 
+  public boolean isHopperStalling() {
+    return io.isHopperStalling();
+  }
+
   public Command getHopperSysIdCommand() {
     return io.getHopperSysIdCommand();
   }

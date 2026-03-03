@@ -62,16 +62,16 @@ public class IntakeCommands {
     intaking = intakeStateMachine.addState("intaking", intakingCommand(() -> 0.5));
 
     // Not moving trigger senses if the hopper has hit the bumper hard stop for 0.5 sec
-    Trigger hopperNotMoving = new Trigger(() -> !intake.isHopperMoving()).debounce(0.5);
+    Trigger hopperNotMoving = new Trigger(() -> intake.isHopperStalling()).debounce(0.5).onTrue(Commands.runOnce(() -> intake.setHopperPosition(Degrees.of(0))));
 
     // If the hopper is not moving and we want to intake or outtake, set the hopper angle to 0 to
     // prevent jamming
-    hopperNotMoving
-        .and(() -> intake.isRequested(IntakeState.INTAKING))
-        .onTrue(Commands.runOnce(() -> intake.setHopperPosition(Degrees.of(0))));
-    hopperNotMoving
-        .and(() -> intake.isRequested(IntakeState.OUTTAKING))
-        .onTrue(Commands.runOnce(() -> intake.setHopperPosition(Degrees.of(0))));
+    // hopperNotMoving
+    //     .and(() -> intake.isRequested(IntakeState.INTAKING))
+    //     .onTrue(Commands.runOnce(() -> intake.setHopperPosition(Degrees.of(0))));
+    // hopperNotMoving
+    //     .and(() -> intake.isRequested(IntakeState.OUTTAKING))
+    //     .onTrue(Commands.runOnce(() -> intake.setHopperPosition(Degrees.of(0))));
 
     deployed.switchTo(retracting).when(() -> intake.isRequested(IntakeState.RETRACTING));
     deployed.switchTo(outtaking).when(() -> intake.isRequested(IntakeState.OUTTAKING));

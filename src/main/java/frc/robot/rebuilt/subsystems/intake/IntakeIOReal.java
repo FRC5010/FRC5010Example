@@ -64,7 +64,8 @@ public class IntakeIOReal implements IntakeIO {
   }
 
   public boolean isHopperStalling() {
-    return Math.abs(intakeHopper.getMotor().getStatorCurrent().in(Amps)) > Constants.Intake.HOPPER_STALL_CURRENT_THRESHOLD;
+    return Math.abs(intakeHopper.getMotor().getStatorCurrent().in(Amps))
+        > Constants.Intake.HOPPER_STALL_CURRENT_THRESHOLD;
   }
 
   public boolean isRetracted() {

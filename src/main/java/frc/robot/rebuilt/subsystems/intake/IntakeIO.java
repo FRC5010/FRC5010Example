@@ -11,8 +11,8 @@ import org.littletonrobotics.junction.AutoLog;
 public interface IntakeIO {
   @AutoLog
   public static class IntakeIOInputs {
-    public IntakeCommands.IntakeState stateRequested = IntakeCommands.IntakeState.RETRACTED;
-    public IntakeCommands.IntakeState stateCurrent = IntakeCommands.IntakeState.RETRACTED;
+    public IntakeCommands.IntakeState stateRequested = IntakeCommands.IntakeState.UNKNOWN;
+    public IntakeCommands.IntakeState stateCurrent = IntakeCommands.IntakeState.UNKNOWN;
     public double speed = 0.0;
     public Angle hopperAngle = Degrees.of(0.0);
     public double hopperAngleDouble = 0.0;

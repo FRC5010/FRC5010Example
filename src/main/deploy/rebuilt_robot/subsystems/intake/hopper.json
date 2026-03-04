@@ -63,7 +63,7 @@
     "uom": "m"
   },
   "lowerHardLimit": {
-    "val": 0,
+    "val": -180,
     "uom": "deg"
   },
   "upperHardLimit": {
@@ -75,7 +75,7 @@
     "uom": "deg"
   },
   "lowerSoftLimit": {
-    "val": 0,
+    "val": -180,
     "uom": "deg"
   },
   "upperSoftLimit": {

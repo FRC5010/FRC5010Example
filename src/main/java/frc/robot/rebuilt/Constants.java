@@ -46,7 +46,7 @@ public class Constants {
 
   public static class Intake {
     public static final double HOPPER_GO_OUT = -0.3;
-    public static final double HOPPER_GO_IN = 0.1;
+    public static final double HOPPER_GO_IN = 0.2;
     public static final double HOPPER_OUT = 0.00;
     public static final double INTAKE_IN = 0.0;
     public static final double INTAKE_OUT = -0.0;

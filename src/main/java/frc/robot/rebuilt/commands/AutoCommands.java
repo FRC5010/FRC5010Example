@@ -7,6 +7,7 @@ import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import frc.robot.rebuilt.subsystems.intake.Intake;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
+import org.frc5010.common.drive.GenericDrivetrain;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class AutoCommands {
@@ -31,7 +32,12 @@ public class AutoCommands {
         ((Launcher) subsystems.get(Constants.LAUNCHER)).getTurretCharacterizationCommand());
     selectableCommand.addOption(
         "TUNE: Shot Lookup Table Tuning",
-        ShotTuningCommand.createWithFeed((Launcher) subsystems.get(Constants.LAUNCHER)));
+        ShotCalibrationCommand.createWithFeed(
+            (Launcher) subsystems.get(Constants.LAUNCHER),
+            (GenericDrivetrain)
+                subsystems.get(org.frc5010.common.config.ConfigConstants.DRIVETRAIN),
+            2.0,
+            0.5));
   }
 
   public void configureBasicAutoCommands(LoggedDashboardChooser<Command> selectableCommand) {

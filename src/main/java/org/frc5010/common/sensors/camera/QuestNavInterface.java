@@ -106,6 +106,7 @@ public class QuestNavInterface implements PoseProvider {
 
   private void updateObservations() {
     PoseFrame[] unreadQuestFrames = questNav.getAllUnreadPoseFrames();
+    latestPoseFrame = unreadQuestFrames[unreadQuestFrames.length - 1];
     List<PoseObservation> observations = new ArrayList<>();
 
     for (PoseFrame frame : unreadQuestFrames) {
@@ -156,7 +157,7 @@ public class QuestNavInterface implements PoseProvider {
 
   @Override
   public boolean isConnected() {
-    return input.connected;
+    return questNav.isConnected();
   }
 
   public boolean isActive() {
@@ -202,11 +203,14 @@ public class QuestNavInterface implements PoseProvider {
   @Override
   public void update() {
     if (RobotBase.isReal()) {
+      questNav.commandPeriodic();
       updateVelocity();
       updateObservations();
       SmartDashboard.putBoolean(networkTableRoot + "/Reset Pose", false);
+      SmartDashboard.putBoolean("QUEST Connected", isConnected());
+      SmartDashboard.putBoolean("QUEST Active", isActive());
 
-      Pose2d currPose = getRobotPose().get().toPose2d();
+      Pose2d currPose = getRobotPose().orElse(new Pose3d()).toPose2d();
       SmartDashboard.putNumberArray(
           networkTableRoot + "/Quest POSE",
           new double[] {currPose.getX(), currPose.getY(), currPose.getRotation().getDegrees()});
@@ -242,6 +246,7 @@ public class QuestNavInterface implements PoseProvider {
     return Commands.repeatingSequence(
         Commands.run(
                 () -> {
+                  SmartDashboard.putNumber("QUEST POSE", getPosition().getX());
                   drivetrain.drive(new ChassisSpeeds(0, 0, 0.314));
                 },
                 drivetrain)

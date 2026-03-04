@@ -78,8 +78,8 @@ public class ShotCalibrationCommand extends Command {
     this.distanceStepMeters = distanceStep;
 
     // Initialize alignment controllers based on standard DriveToPosition constants
-    xController = new ProfiledPIDController(2.0, 0, 0, new TrapezoidProfile.Constraints(1.5, 1.0));
-    yController = new ProfiledPIDController(2.0, 0, 0, new TrapezoidProfile.Constraints(1.5, 1.0));
+    xController = new ProfiledPIDController(2.0, 0, 0, new TrapezoidProfile.Constraints(0.2, 0.5));
+    yController = new ProfiledPIDController(2.0, 0, 0, new TrapezoidProfile.Constraints(0.2, 0.5));
     thetaController =
         new ProfiledPIDController(3.0, 0, 0, new TrapezoidProfile.Constraints(Math.PI, Math.PI));
 

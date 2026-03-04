@@ -12,7 +12,6 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -91,7 +90,7 @@ public class PhotonVisionPoseCamera extends PhotonVisionCamera implements Fiduci
         estimate = poseEstimator.estimateLowestAmbiguityPose(iCamResult);
       }
       if (estimate.isPresent()) {
-        if (DriverStation.isEnabled()) {
+        if (false) {
           Optional<EstimatedRobotPose> finalEstimate =
               poseEstimator.estimatePnpDistanceTrigSolvePose(iCamResult);
           if (finalEstimate.isPresent()) {

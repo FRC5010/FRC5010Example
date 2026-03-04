@@ -189,7 +189,7 @@ public class ShotCalibrationCommand extends Command {
       double multiplier = SmartDashboard.getNumber(PREFIX + "Flywheel Multiplier", 1.0);
       double[] guess = shotCalculator.getBallisticGuess(currentDistanceMeters);
 
-      if (guess != null) {
+      if (false && guess != null) {
         SmartDashboard.putNumber(PREFIX + "Test Hood Angle", guess[0]);
         SmartDashboard.putNumber(PREFIX + "Test Flywheel RPM", guess[1] * multiplier);
       } else {

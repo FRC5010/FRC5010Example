@@ -56,6 +56,8 @@ public class TestCommands {
     controller
         .createYButton()
         .whileTrue(
-            ShotTuningCommand.createWithFeed(launcher).finallyDo(() -> launcher.stopAllMotors()));
+            ShotCalibrationCommand.createWithFeed(
+                    launcher, frc.robot.rebuilt.Rebuilt.drivetrain, 2.0, 0.5)
+                .finallyDo(() -> launcher.stopAllMotors()));
   }
 }

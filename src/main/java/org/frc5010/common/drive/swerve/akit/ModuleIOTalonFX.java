@@ -170,8 +170,13 @@ public abstract class ModuleIOTalonFX implements ModuleIO {
     var driveStatus =
         BaseStatusSignal.refreshAll(
             driveVelocity, driveAcceleration, driveAppliedVolts, driveCurrent);
-    var turnStatus = BaseStatusSignal.refreshAll(turnVelocity, turnAppliedVolts, turnCurrent);
-    var turnEncoderStatus = BaseStatusSignal.refreshAll(turnAbsolutePosition);
+    // Refresh turnAbsolutePosition alongside turn motor signals so it is always up-to-date.
+    // In simulation the odometry thread does not run, so signals registered only there would
+    // stay permanently at 0 — causing tank-drive behavior and stuck module angles in sim.
+    var turnStatus =
+        BaseStatusSignal.refreshAll(
+            turnAbsolutePosition, turnVelocity, turnAppliedVolts, turnCurrent);
+    var turnEncoderStatus = turnStatus; // turnAbsolutePosition already refreshed above
 
     // Update drive inputs
     inputs.driveConnected = driveConnectedDebounce.calculate(driveStatus.isOK());

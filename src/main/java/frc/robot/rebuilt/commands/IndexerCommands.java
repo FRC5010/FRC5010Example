@@ -51,18 +51,15 @@ public class IndexerCommands {
         stateMachine.addState(
             "idle",
             idleStateCommand()
-                .alongWith(Commands.runOnce(() -> intake.runHopper(Constants.Intake.HOPPER_GO_OUT))));
+                .alongWith(
+                    Commands.runOnce(() -> intake.runHopper(Constants.Intake.HOPPER_GO_OUT))));
 
     if (indexer != null) {
       /** Adds churn, force, and feed states if there is an indexer */
-      churnState = stateMachine.addState("churn", churnStateCommand()
-      .alongWith(Commands.runOnce(() -> intake.runHopper(Constants.Intake.HOPPER_GO_OUT))));
-      hardChurnState = stateMachine.addState("hard_churn", hardChurnStateCommand()
-      .alongWith(Commands.runOnce(() -> intake.runHopper(Constants.Intake.HOPPER_GO_OUT))));
-      feedState = stateMachine.addState("feed", feedStateCommand()
-      .alongWith(Commands.runOnce(() -> intake.setDesiredHopperAngle(Degrees.of(45)))));
-      forceState = stateMachine.addState("force", forceStateCommand()
-      .alongWith(Commands.runOnce(() -> intake.setDesiredHopperAngle(Degrees.of(45)))));
+      churnState = stateMachine.addState("churn", churnStateCommand());
+      hardChurnState = stateMachine.addState("hard_churn", hardChurnStateCommand());
+      feedState = stateMachine.addState("feed", feedStateCommand());
+      forceState = stateMachine.addState("force", forceStateCommand());
       stateMachine.addRequirements(indexer);
     }
 

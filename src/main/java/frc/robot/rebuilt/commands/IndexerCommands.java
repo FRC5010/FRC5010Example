@@ -1,10 +1,13 @@
 package frc.robot.rebuilt.commands;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
+import frc.robot.rebuilt.subsystems.intake.Intake;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
@@ -24,6 +27,7 @@ public class IndexerCommands {
   private State feedState;
   private State forceState;
   private static Indexer indexer;
+  private static Intake intake;
   /** defines possible states of the indexer */
   public static enum IndexerState {
     IDLE,
@@ -36,20 +40,29 @@ public class IndexerCommands {
   public IndexerCommands(Map<String, GenericSubsystem> systems) {
     this.subsystems = systems;
     IndexerCommands.indexer = (Indexer) subsystems.get(Constants.INDEXER);
+    IndexerCommands.intake = (Intake) subsystems.get(Constants.INTAKE);
     configureTriggerStates();
     // configureStateMachine();
   }
   /** Configures the state machine */
   private void configureStateMachine() {
     stateMachine = new StateMachine("IndexStateMachine");
-    idleState = stateMachine.addState("idle", idleStateCommand());
+    idleState =
+        stateMachine.addState(
+            "idle",
+            idleStateCommand()
+                .alongWith(Commands.runOnce(() -> intake.runHopper(Constants.Intake.HOPPER_GO_OUT))));
 
     if (indexer != null) {
       /** Adds churn, force, and feed states if there is an indexer */
-      churnState = stateMachine.addState("churn", churnStateCommand());
-      hardChurnState = stateMachine.addState("hard_churn", hardChurnStateCommand());
-      feedState = stateMachine.addState("feed", feedStateCommand());
-      forceState = stateMachine.addState("force", forceStateCommand());
+      churnState = stateMachine.addState("churn", churnStateCommand()
+      .alongWith(Commands.runOnce(() -> intake.runHopper(Constants.Intake.HOPPER_GO_OUT))));
+      hardChurnState = stateMachine.addState("hard_churn", hardChurnStateCommand()
+      .alongWith(Commands.runOnce(() -> intake.runHopper(Constants.Intake.HOPPER_GO_OUT))));
+      feedState = stateMachine.addState("feed", feedStateCommand()
+      .alongWith(Commands.runOnce(() -> intake.setDesiredHopperAngle(Degrees.of(45)))));
+      forceState = stateMachine.addState("force", forceStateCommand()
+      .alongWith(Commands.runOnce(() -> intake.setDesiredHopperAngle(Degrees.of(45)))));
       stateMachine.addRequirements(indexer);
     }
 
@@ -157,6 +170,7 @@ public class IndexerCommands {
   // pressed
   private static Command feedStateCommand() {
     return Commands.parallel(
+        Commands.runOnce(() -> intake.setDesiredHopperAngle(Degrees.of(45))),
         Commands.runOnce(
             () -> {
               indexer.setCurrentState(IndexerState.FEED);

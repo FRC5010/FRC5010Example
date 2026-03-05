@@ -12,7 +12,6 @@ public class NamedCommandsReg {
     NamedCommands.registerCommand("launcherIdle", LauncherCommands.shouldIdleCommand());
     // intake
     NamedCommands.registerCommand("intakeIntake", IntakeCommands.shouldIntaking());
-    NamedCommands.registerCommand("intakeOuttake", IntakeCommands.shouldOuttaking());
     NamedCommands.registerCommand("intakeRetracted", IntakeCommands.shouldRetracted());
     NamedCommands.registerCommand("intakeRetracting", IntakeCommands.shouldRetracting());
     // climb

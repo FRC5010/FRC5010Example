@@ -223,7 +223,7 @@ public class LauncherIOReal implements LauncherIO {
         inputs.isValidCalculation = params.isValid();
         inputs.hoodAngleCalculated = Radian.of(params.hoodAngle());
         inputs.turretAngleCalculated = params.turretAngle().getMeasure();
-        inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed());
+        inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed() * 0.44);
         inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
       }
       inputs.robotToTarget = LauncherCommands.getRobotToTarget(targetPose.get());
@@ -356,10 +356,12 @@ public class LauncherIOReal implements LauncherIO {
     // Send MotionMagicVoltage with feedforward directly to the TalonFX obtained through YAMS.
     Object rawController = turret.getMotorController().getMotorController();
     if (rawController instanceof com.ctre.phoenix6.hardware.TalonFX talonFX) {
+      turret.getMotorController().setPosition(angle);
       talonFX.setControl(
           new com.ctre.phoenix6.controls.MotionMagicVoltage(
                   angle.in(edu.wpi.first.units.Units.Rotations))
               .withFeedForward(feedforwardVolts));
+
     } else {
       // Fallback: YAMS setPosition without feedforward
       turret.getMotorController().setPosition(angle);

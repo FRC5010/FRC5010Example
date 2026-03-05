@@ -1,7 +1,5 @@
 package org.frc5010.common.sensors.camera;
 
-import static edu.wpi.first.units.Units.Degrees;
-
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -14,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,6 +41,9 @@ public class QuestNavInterface implements PoseProvider {
   private double previousTime;
   private static boolean hasHardReset = false;
   private static boolean initialReset = false;
+
+  // I guess this works
+  private static Pose2d latestPoseState = null;
 
   private Translation2d _calculatedOffsetToRobotCenter = new Translation2d();
   private int _calculatedOffsetToRobotCenterCount = 0;
@@ -80,7 +82,7 @@ public class QuestNavInterface implements PoseProvider {
 
   public Optional<Pose3d> getRobotPose() {
     if (RobotBase.isReal()) {
-      if (latestPoseFrame == null || !initializedPosition) {
+      if (latestPoseFrame == null) {
         return Optional.empty();
       }
       Pose3d pose = getRobotPoseFromQuestPose(getLatestQuestPose());
@@ -94,19 +96,22 @@ public class QuestNavInterface implements PoseProvider {
     if (latestPoseFrame == null) {
       return new Rotation3d();
     }
-    return getLatestQuestPose().getRotation();
+    return getRobotPoseFromQuestPose(getLatestQuestPose()).getRotation();
   }
 
   public Translation3d getPosition() {
     if (latestPoseFrame == null) {
       return new Translation3d();
     }
-    return getLatestQuestPose().getTranslation();
+    return getRobotPoseFromQuestPose(getLatestQuestPose()).getTranslation();
   }
 
   private void updateObservations() {
     PoseFrame[] unreadQuestFrames = questNav.getAllUnreadPoseFrames();
-    latestPoseFrame = unreadQuestFrames[unreadQuestFrames.length - 1];
+    if (unreadQuestFrames.length > 0) {
+      latestPoseFrame = unreadQuestFrames[unreadQuestFrames.length - 1];
+    }
+
     List<PoseObservation> observations = new ArrayList<>();
 
     for (PoseFrame frame : unreadQuestFrames) {
@@ -134,6 +139,9 @@ public class QuestNavInterface implements PoseProvider {
   @Override
   public Matrix<N3, N1> getStdDeviations(PoseObservation observation) {
     double calib = getConfidence();
+    if (DriverStation.isDisabled()) {
+      calib = 1000;
+    }
     if (null != robotVelocity) {
       Translation2d questVelVector =
           new Translation2d(getVelocity().vxMetersPerSecond, getVelocity().vyMetersPerSecond);
@@ -173,7 +181,7 @@ public class QuestNavInterface implements PoseProvider {
   }
 
   public void resetPose(Pose3d pose) {
-    if (isActive()) {
+    if (isConnected()) {
       Pose3d questPose = getQuestPoseFromRobotPose(pose);
       questNav.setPose(questPose);
       initializedPosition = true;
@@ -211,8 +219,9 @@ public class QuestNavInterface implements PoseProvider {
       SmartDashboard.putBoolean("QUEST Active", isActive());
 
       Pose2d currPose = getRobotPose().orElse(new Pose3d()).toPose2d();
+      latestPoseState = currPose;
       SmartDashboard.putNumberArray(
-          networkTableRoot + "/Quest POSE",
+          networkTableRoot + "/Quest POSE Update",
           new double[] {currPose.getX(), currPose.getY(), currPose.getRotation().getDegrees()});
 
       ChassisSpeeds velocity = getVelocity();
@@ -226,8 +235,11 @@ public class QuestNavInterface implements PoseProvider {
   }
 
   private Translation2d calculateOffsetToRobotCenter() {
-    Pose3d currentPose = getRobotPose().get();
-    Pose2d currentPose2d = currentPose.toPose2d();
+    if (null == latestPoseState) {
+      return new Translation2d();
+    }
+
+    Pose2d currentPose2d = latestPoseState;
 
     Rotation2d angle = currentPose2d.getRotation();
     Translation2d displacement = currentPose2d.getTranslation();
@@ -244,14 +256,14 @@ public class QuestNavInterface implements PoseProvider {
 
   public Command determineOffsetToRobotCenter(GenericDrivetrain drivetrain) {
     return Commands.repeatingSequence(
-        Commands.run(
-                () -> {
-                  SmartDashboard.putNumber("QUEST POSE", getPosition().getX());
-                  drivetrain.drive(new ChassisSpeeds(0, 0, 0.314));
-                },
-                drivetrain)
-            .withTimeout(0.5),
-        Commands.runOnce(
+            Commands.run(
+                    () -> {
+                      SmartDashboard.putNumber("QUEST POSE", getPosition().getX());
+                      drivetrain.drive(new ChassisSpeeds(0, 0, 0.314));
+                    },
+                    drivetrain)
+                .withTimeout(3.0),
+            Commands.runOnce(
                 () -> {
                   // Update current offset
                   Translation2d offset = calculateOffsetToRobotCenter();
@@ -269,7 +281,8 @@ public class QuestNavInterface implements PoseProvider {
                       new double[] {
                         _calculatedOffsetToRobotCenter.getX(), _calculatedOffsetToRobotCenter.getY()
                       });
-                })
-            .onlyIf(() -> getRotation().getMeasureZ().in(Degrees) > 30));
+                }))
+        .beforeStarting(
+            Commands.runOnce(() -> resetPose(new Pose3d())).andThen(Commands.waitSeconds(1)));
   }
 }

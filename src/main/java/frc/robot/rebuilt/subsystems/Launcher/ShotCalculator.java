@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.interpolation.InverseInterpolator;
@@ -136,17 +137,27 @@ public class ShotCalculator {
   public static ShotTables createDefaultTables() {
     return new ShotTables(
         Map.ofEntries(
-            Map.entry(2.15, Rotation2d.fromDegrees(31.0)),
-            Map.entry(2.85, Rotation2d.fromDegrees(31.0)),
-            Map.entry(3.75, Rotation2d.fromDegrees(36.0)),
-            Map.entry(4.24, Rotation2d.fromDegrees(39.0)),
-            Map.entry(5.00, Rotation2d.fromDegrees(41.0))),
+            Map.entry(1.34, Rotation2d.fromDegrees(31.0)),
+            Map.entry(1.78, Rotation2d.fromDegrees(31.0)),
+            Map.entry(2.17, Rotation2d.fromDegrees(36.0)),
+            Map.entry(2.81, Rotation2d.fromDegrees(39.0)),
+            Map.entry(3.82, Rotation2d.fromDegrees(41.0)),
+            Map.entry(4.09, Rotation2d.fromDegrees(42.0)),
+            Map.entry(4.40, Rotation2d.fromDegrees(43.0)),
+            Map.entry(4.77, Rotation2d.fromDegrees(44.0)),
+            Map.entry(5.57, Rotation2d.fromDegrees(44.0)),
+            Map.entry(5.60, Rotation2d.fromDegrees(47.0))),
         Map.ofEntries(
-            Map.entry(2.15, 105.0),
-            Map.entry(2.85, 120.0),
-            Map.entry(3.75, 125.0),
-            Map.entry(4.24, 125.0),
-            Map.entry(5.00, 130.0)),
+            Map.entry(1.34, 210.0),
+            Map.entry(1.78, 220.0),
+            Map.entry(2.17, 220.0),
+            Map.entry(2.81, 230.0),
+            Map.entry(3.82, 250.0),
+            Map.entry(4.09, 255.0),
+            Map.entry(4.40, 260.0),
+            Map.entry(4.77, 265.0),
+            Map.entry(5.57, 275.0),
+            Map.entry(5.60, 290.0)),
         Map.ofEntries(
             Map.entry(5.68, 1.16),
             Map.entry(4.55, 1.12),

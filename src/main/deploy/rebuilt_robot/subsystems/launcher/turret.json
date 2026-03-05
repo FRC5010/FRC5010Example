@@ -44,7 +44,7 @@
       "uom": "deg/s"
     },
     "maxAcceleration": {
-      "val": 1080,
+      "val": 700,
       "uom": "deg/s^2"
     }
   },
@@ -69,11 +69,11 @@
     }
   },
   "lowerHardLimit": {
-    "val": -120,
+    "val": -160,
     "uom": "deg"
   },
   "upperHardLimit": {
-    "val": 120,
+    "val": 160,
     "uom": "deg"
   },
   "startingAngle": {

@@ -1,5 +1,6 @@
 package frc.robot.rebuilt.commands;
 
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.rebuilt.Constants;
@@ -52,9 +53,6 @@ public class TestCommands {
     controller
         .createAButton()
         .whileTrue(launcher.getFlyWheelSysIdCommand().finallyDo(() -> launcher.stopAllMotors()));
-    controller
-        .createXButton()
-        .whileTrue(launcher.getHoodSysIdCommand().finallyDo(() -> launcher.stopAllMotors()));
 
     QuestNavInterface calibrationQuest = new QuestNavInterface(new Transform3d());
     controller
@@ -62,6 +60,14 @@ public class TestCommands {
         .whileTrue(
             calibrationQuest.determineOffsetToRobotCenter(
                 (GenericDrivetrain) subsystems.get(ConfigConstants.DRIVETRAIN)));
+
+    controller
+        .createXButton()
+        .onTrue(
+            Commands.run(
+                () -> {
+                  calibrationQuest.resetPose(new Pose3d());
+                }));
 
     // Shot tuning command – hold Y button to enter tuning mode
     // controller

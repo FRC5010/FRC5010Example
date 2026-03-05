@@ -25,14 +25,14 @@
                 "data": {
                   "pathName": "C-TWR"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "launcherPrep"
-                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launcherPrep"
           }
         }
       ]

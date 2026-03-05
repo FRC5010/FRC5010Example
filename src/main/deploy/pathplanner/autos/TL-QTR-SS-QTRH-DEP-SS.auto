@@ -19,7 +19,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TL-DEP"
+            "pathName": "TL-CTR-QTR"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "QTRL-TL"
           }
         },
         {
@@ -27,9 +33,9 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "DEP-CL"
+                  "waitTime": 3.0
                 }
               },
               {
@@ -39,6 +45,24 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TL-QTRH"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "QTRH-DEP"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launcherPrep"
           }
         }
       ]

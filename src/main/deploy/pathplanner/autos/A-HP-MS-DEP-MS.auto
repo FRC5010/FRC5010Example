@@ -5,21 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "intakeIntake"
+            "pathName": "BR-HP"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "TL-DEP"
+            "waitTime": 3.0
           }
         },
         {
@@ -27,15 +21,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "DEP-CL"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "launcherPrep"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "HP-DEP"
                 }
               }
             ]

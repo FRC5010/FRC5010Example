@@ -160,7 +160,8 @@ public class LauncherCommands {
 
   public void configureButtonBindings(Controller driver, Controller operator) {
 
-    driver.createAButton().onTrue(shouldPrepCommand());
+    //driver.createAButton().onTrue(shouldPrepCommand());
+    driver.createAButton().whileTrue(shouldPrepCommand()).onFalse(shouldIdleCommand());
 
     driver.createBButton().onTrue(shouldHammerTimeCommand());
 

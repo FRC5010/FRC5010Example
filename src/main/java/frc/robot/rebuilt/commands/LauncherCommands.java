@@ -191,6 +191,13 @@ public class LauncherCommands {
     driver.createRightPovButton().onTrue(launcher.increaseFlywheelSpeedCommand());
     operator.createLeftPovButton().onTrue(launcher.decreaseTurretAngleCommand());
     operator.createRightPovButton().onTrue(launcher.increaseTurretAngleCommand());
+
+    operator
+        .createUpPovButton()
+        .onTrue(Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(0.01)));
+    operator
+        .createDownPovButton()
+        .onTrue(Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(-0.01)));
   }
 
   /** creates command behavior for the IDLE launcher state */

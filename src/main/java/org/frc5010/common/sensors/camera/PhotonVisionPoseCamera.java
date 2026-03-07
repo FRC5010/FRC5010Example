@@ -70,13 +70,13 @@ public class PhotonVisionPoseCamera extends PhotonVisionCamera implements Fiduci
     this.poseSupplier = poseSupplier;
     this.fieldLayout = fieldLayout;
 
-    
     this.fiducialIds = fiducialIds;
     visionLayout.addDouble("Observations", () -> input.poseObservations.length);
-    List<AprilTag> filteredTags = fieldLayout.getTags().stream()
-        .filter(tag -> fiducialIds.contains(tag.ID))
-        .toList();
-    AprilTagFieldLayout filteredLayout = new AprilTagFieldLayout(filteredTags, fieldLayout.getFieldLength(), fieldLayout.getFieldWidth());
+    List<AprilTag> filteredTags =
+        fieldLayout.getTags().stream().filter(tag -> fiducialIds.contains(tag.ID)).toList();
+    AprilTagFieldLayout filteredLayout =
+        new AprilTagFieldLayout(
+            filteredTags, fieldLayout.getFieldLength(), fieldLayout.getFieldWidth());
     poseEstimator = new PhotonPoseEstimator(filteredLayout, cameraToRobot);
   }
 
@@ -107,7 +107,7 @@ public class PhotonVisionPoseCamera extends PhotonVisionCamera implements Fiduci
         //     estimate = finalEstimate;
         //   }
         // }
-        
+
         EstimatedRobotPose estimatedRobotPose = estimate.get();
         Pose3d robotPose = estimatedRobotPose.estimatedPose;
 

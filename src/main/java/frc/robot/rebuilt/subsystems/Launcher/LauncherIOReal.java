@@ -210,6 +210,7 @@ public class LauncherIOReal implements LauncherIO {
 
     Optional<Translation2d> targetPose = determineTarget();
     inputs.isValidCalculation = false;
+    SmartDashboard.putNumber("Flywheel Multiplier", ShotCalculator.getFlywheelMultiplier());
     if (targetPose.isPresent()) {
       ShotCalculator.getInstance().clearShootingParameters();
       ShotCalculator.ShootingParameters params =
@@ -223,7 +224,8 @@ public class LauncherIOReal implements LauncherIO {
         inputs.isValidCalculation = params.isValid();
         inputs.hoodAngleCalculated = Radian.of(params.hoodAngle());
         inputs.turretAngleCalculated = params.turretAngle().getMeasure();
-        inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed() * 0.43);
+        inputs.flyWheelSpeedCalculated =
+            RPM.of(params.flywheelSpeed() * ShotCalculator.getFlywheelMultiplier());
         inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
       }
       inputs.robotToTarget = LauncherCommands.getRobotToTarget(targetPose.get());

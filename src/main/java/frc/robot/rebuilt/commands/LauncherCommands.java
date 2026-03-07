@@ -147,6 +147,7 @@ public class LauncherCommands {
     // Hammer Time is a special case since it's a toggle state
     hammerTimeState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     hammerTimeState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
+    hammerTimeState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
 
     Trigger readyToFireTrigger =
         new Trigger(

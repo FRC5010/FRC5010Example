@@ -146,6 +146,7 @@ public class LauncherCommands {
 
     // Hammer Time is a special case since it's a toggle state
     hammerTimeState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
+    hammerTimeState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
 
     Trigger readyToFireTrigger =
         new Trigger(
@@ -160,16 +161,19 @@ public class LauncherCommands {
 
   public void configureButtonBindings(Controller driver, Controller operator) {
 
-    //driver.createAButton().onTrue(shouldPrepCommand());
-    driver.createAButton().whileTrue(shouldPrepCommand()).onFalse(shouldIdleCommand());
+    // driver.createAButton().onTrue(shouldPrepCommand());
+    driver.createAButton().whileTrue(shouldPrepCommand()).onFalse(shouldHammerTimeCommand());
 
-    driver.createBButton().onTrue(shouldHammerTimeCommand());
+    driver.createBButton().onTrue(shouldLowCommand()).onFalse(shouldHammerTimeCommand());
 
     // operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
 
-    operator.createAButton().whileTrue(towerPresetStateCommand()).onFalse(shouldIdleCommand());
+    operator
+        .createAButton()
+        .whileTrue(towerPresetStateCommand())
+        .onFalse(shouldHammerTimeCommand());
 
-    operator.createBButton().onTrue(shouldHammerTimeCommand());
+    operator.createBButton().onTrue(shouldLowCommand()).onFalse(shouldHammerTimeCommand());
 
     operator.createXButton().whileTrue(hubPresetStateCommand()).onFalse(shouldIdleCommand());
     operator
@@ -252,7 +256,7 @@ public class LauncherCommands {
     return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.ESCAPE_HAMMERTIME));
   }
 
-  public static Command shouldHammerTimeCommand() {
+  public static Command shouldToggleHammerTimeCommand() {
     return Commands.runOnce(
         () -> {
           if (launcher.getCurrentState() == LauncherState.HAMMERTIME) {
@@ -261,6 +265,10 @@ public class LauncherCommands {
             launcher.setRequestedState(LauncherState.HAMMERTIME);
           }
         });
+  }
+
+  public static Command shouldHammerTimeCommand() {
+    return Commands.runOnce(() -> launcher.setRequestedState(LauncherState.HAMMERTIME));
   }
 
   // Order is Hood Angle, Turret Angle, Flywheel Speed

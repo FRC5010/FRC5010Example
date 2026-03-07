@@ -194,10 +194,14 @@ public class LauncherCommands {
 
     operator
         .createUpPovButton()
-        .onTrue(Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(0.01)));
+        .onTrue(
+            Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(0.01))
+                .ignoringDisable(true));
     operator
         .createDownPovButton()
-        .onTrue(Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(-0.01)));
+        .onTrue(
+            Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(-0.01))
+                .ignoringDisable(true));
   }
 
   /** creates command behavior for the IDLE launcher state */
@@ -293,7 +297,7 @@ public class LauncherCommands {
                   launcher.usePresets(
                       Radians.of(params.hoodAngle()),
                       Constants.Launcher.TURRET_FORWARD,
-                      RPM.of(params.flywheelSpeed()));
+                      RPM.of(params.flywheelSpeed()*ShotCalculator.getFlywheelMultiplier()));
                 }));
   }
 
@@ -309,7 +313,7 @@ public class LauncherCommands {
                   launcher.usePresets(
                       Radians.of(params.hoodAngle()),
                       Constants.Launcher.TURRET_FORWARD,
-                      RPM.of(params.flywheelSpeed()));
+                      RPM.of(params.flywheelSpeed()*ShotCalculator.flywheelMultiplier));
                 }));
   }
 

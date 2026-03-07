@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Radian;
+import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Second;
@@ -151,7 +152,14 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putNumber("EasyCRT/Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
     SmartDashboard.putNumber(
         "EasyCRT/Enc 2 Ratio", easyCrt.getEncoder2RotationsPerMechanismRotation());
-    Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
+    Angle calculatedAngle;
+    Optional<Angle> optionalAngle = (easyCrtSolver.getAngleOptional());
+    if (optionalAngle.isPresent()) {
+      calculatedAngle = optionalAngle.get().plus(Radians.of(1.4588157292792447));
+    } else {
+      calculatedAngle = Degrees.of(0);
+    }
+
     SmartDashboard.putNumber("EasyCRT/CRT Angle", calculatedAngle.in(Degrees));
     SmartDashboard.putString("EasyCRT/CRT Status", easyCrtSolver.getLastStatus().name());
     SmartDashboard.putNumber("EasyCRT/CRT Error Rot", easyCrtSolver.getLastErrorRotations());

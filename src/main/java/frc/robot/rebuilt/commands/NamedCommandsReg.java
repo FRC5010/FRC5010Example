@@ -26,7 +26,7 @@ public class NamedCommandsReg {
     NamedCommands.registerCommand("indexerFeed", IndexerCommands.shouldFeedCommand());
     // preset
     NamedCommands.registerCommand("iForcePreset", IndexerCommands.shouldForceCommand());
-    NamedCommands.registerCommand("hubPreset", LauncherCommands.hubPresetStateCommand());
+    NamedCommands.registerCommand("hubPreset", LauncherCommands.leftCornerPresetStateCommand());
     NamedCommands.registerCommand("towerPreset", LauncherCommands.towerPresetStateCommand());
     NamedCommands.registerCommand(
         "towerForwardPreset", LauncherCommands.turretForwardPresetStateCommand());

@@ -185,13 +185,6 @@ public class LauncherCommands {
     Trigger isTrenchTrigger = new Trigger(() -> launcher.isNearTrench());
     isTrenchTrigger.onTrue(shouldAutoHammerTimeCommand()).onFalse(shouldEscapeHammerTimeCommand());
 
-    driver.createUpPovButton().onTrue(launcher.increaseHoodAngleCommand());
-    driver.createDownPovButton().onTrue(launcher.decreaseHoodAngleCommand());
-    driver.createLeftPovButton().onTrue(launcher.decreaseFlywheelSpeedCommand());
-    driver.createRightPovButton().onTrue(launcher.increaseFlywheelSpeedCommand());
-    operator.createLeftPovButton().onTrue(launcher.decreaseTurretAngleCommand());
-    operator.createRightPovButton().onTrue(launcher.increaseTurretAngleCommand());
-
     operator
         .createUpPovButton()
         .onTrue(
@@ -297,7 +290,7 @@ public class LauncherCommands {
                   launcher.usePresets(
                       Radians.of(params.hoodAngle()),
                       Constants.Launcher.TURRET_FORWARD,
-                      RPM.of(params.flywheelSpeed()*ShotCalculator.getFlywheelMultiplier()));
+                      RPM.of(params.flywheelSpeed() * ShotCalculator.getFlywheelMultiplier()));
                 }));
   }
 
@@ -313,7 +306,7 @@ public class LauncherCommands {
                   launcher.usePresets(
                       Radians.of(params.hoodAngle()),
                       Constants.Launcher.TURRET_FORWARD,
-                      RPM.of(params.flywheelSpeed()*ShotCalculator.flywheelMultiplier));
+                      RPM.of(params.flywheelSpeed() * ShotCalculator.flywheelMultiplier));
                 }));
   }
 

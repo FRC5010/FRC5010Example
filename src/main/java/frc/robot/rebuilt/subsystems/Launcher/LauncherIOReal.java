@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Radian;
+import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Second;
@@ -151,7 +152,14 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putNumber("EasyCRT/Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
     SmartDashboard.putNumber(
         "EasyCRT/Enc 2 Ratio", easyCrt.getEncoder2RotationsPerMechanismRotation());
-    Angle calculatedAngle = easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
+    Angle calculatedAngle;
+    Optional<Angle> optionalAngle = (easyCrtSolver.getAngleOptional());
+    if (optionalAngle.isPresent()) {
+      calculatedAngle = optionalAngle.get().plus(Radians.of(1.4588157292792447));
+    } else {
+      calculatedAngle = Degrees.of(0);
+    }
+
     SmartDashboard.putNumber("EasyCRT/CRT Angle", calculatedAngle.in(Degrees));
     SmartDashboard.putString("EasyCRT/CRT Status", easyCrtSolver.getLastStatus().name());
     SmartDashboard.putNumber("EasyCRT/CRT Error Rot", easyCrtSolver.getLastErrorRotations());
@@ -210,6 +218,7 @@ public class LauncherIOReal implements LauncherIO {
 
     Optional<Translation2d> targetPose = determineTarget();
     inputs.isValidCalculation = false;
+    SmartDashboard.putNumber("Flywheel Multiplier", ShotCalculator.getFlywheelMultiplier());
     if (targetPose.isPresent()) {
       ShotCalculator.getInstance().clearShootingParameters();
       ShotCalculator.ShootingParameters params =
@@ -223,13 +232,14 @@ public class LauncherIOReal implements LauncherIO {
         inputs.isValidCalculation = params.isValid();
         inputs.hoodAngleCalculated = Radian.of(params.hoodAngle());
         inputs.turretAngleCalculated = params.turretAngle().getMeasure();
-        inputs.flyWheelSpeedCalculated = RPM.of(params.flywheelSpeed() * 0.44);
+        inputs.flyWheelSpeedCalculated =
+            RPM.of(params.flywheelSpeed() * ShotCalculator.getFlywheelMultiplier());
         inputs.distanceToVirtualTarget = params.distanceToVirtualTarget();
+        inputs.turretFeedforwardRadPerSec = params.solution().turretFeedforwardRadPerSec();
       }
       inputs.robotToTarget = LauncherCommands.getRobotToTarget(targetPose.get());
 
       inputs.targetDistance = Meters.of(inputs.robotToTarget.getDistance(new Translation2d()));
-      inputs.turretFeedforwardRadPerSec = params.solution().turretFeedforwardRadPerSec();
     }
     /** Reads the desired flywheel, hood, and turret setpoints */
     inputs.flyWheelSpeedDesired =

@@ -79,22 +79,31 @@ public class IndexerCommands {
   // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
     driver.createLeftBumper().onTrue(toggleForceFeed());
+    // driver.createLeftBumper().whileTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
     operator.createRightBumper().onTrue(shouldHardChurnCommand()).onFalse(shouldChurnCommand());
   }
 
   private void configureTriggerStates() {
-    // Map requested states to their commands and wire triggers in a compact loop
+    // Map requested states to their commands and wire triggers in a compact loop.
+    // CHURN is handled separately below so it can be gated on flywheel readiness.
     java.util.Map<IndexerState, Command> stateToCommand =
         java.util.Map.of(
             IndexerState.FEED, feedStateCommand(),
             IndexerState.FORCE, forceStateCommand(),
             IndexerState.IDLE, idleStateCommand(),
-            IndexerState.HARD_CHURN, hardChurnStateCommand(),
-            IndexerState.CHURN, churnStateCommand());
+            IndexerState.HARD_CHURN, hardChurnStateCommand());
 
     stateToCommand.forEach(
         (state, cmd) -> new Trigger(() -> indexer.isRequested(state)).onTrue(cmd));
+
+    // CHURN: the request can be set at any time, but the indexer only physically
+    // starts churning once LauncherCommands.isFlywheelReadyForChurn() is satisfied.
+    new Trigger(
+            () ->
+                indexer.isRequested(IndexerState.CHURN)
+                    && LauncherCommands.isFlywheelReadyForChurn())
+        .onTrue(churnStateCommand());
   }
 
   // Small helper to reduce duplicate switchTo(...).when(...) boilerplate

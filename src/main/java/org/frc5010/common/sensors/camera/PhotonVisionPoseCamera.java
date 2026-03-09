@@ -4,6 +4,7 @@
 
 package org.frc5010.common.sensors.camera;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
@@ -68,9 +69,15 @@ public class PhotonVisionPoseCamera extends PhotonVisionCamera implements Fiduci
     super(name, colIndex, cameraToRobot);
     this.poseSupplier = poseSupplier;
     this.fieldLayout = fieldLayout;
+
     this.fiducialIds = fiducialIds;
     visionLayout.addDouble("Observations", () -> input.poseObservations.length);
-    poseEstimator = new PhotonPoseEstimator(fieldLayout, cameraToRobot);
+    List<AprilTag> filteredTags =
+        fieldLayout.getTags().stream().filter(tag -> fiducialIds.contains(tag.ID)).toList();
+    AprilTagFieldLayout filteredLayout =
+        new AprilTagFieldLayout(
+            filteredTags, fieldLayout.getFieldLength(), fieldLayout.getFieldWidth());
+    poseEstimator = new PhotonPoseEstimator(filteredLayout, cameraToRobot);
   }
 
   /** Update the camera and target with the latest result */
@@ -88,14 +95,19 @@ public class PhotonVisionPoseCamera extends PhotonVisionCamera implements Fiduci
       SmartDashboard.putBoolean("Camera/" + name() + "/resuls", iCamResult.hasTargets());
       Optional<EstimatedRobotPose> estimate = poseEstimator.estimateCoprocMultiTagPose(iCamResult);
 
+      if (estimate.isEmpty() && !DriverStation.isDisabled()) {
+        estimate = poseEstimator.estimatePnpDistanceTrigSolvePose(iCamResult);
+      }
+
       if (estimate.isPresent()) {
-        if (!DriverStation.isDisabled()) {
-          Optional<EstimatedRobotPose> finalEstimate =
-              poseEstimator.estimatePnpDistanceTrigSolvePose(iCamResult);
-          if (finalEstimate.isPresent()) {
-            estimate = finalEstimate;
-          }
-        }
+        // if (!DriverStation.isDisabled()) {
+        //   Optional<EstimatedRobotPose> finalEstimate =
+        //       poseEstimator.estimatePnpDistanceTrigSolvePose(iCamResult);
+        //   if (finalEstimate.isPresent()) {
+        //     estimate = finalEstimate;
+        //   }
+        // }
+
         EstimatedRobotPose estimatedRobotPose = estimate.get();
         Pose3d robotPose = estimatedRobotPose.estimatedPose;
 

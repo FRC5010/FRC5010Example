@@ -1,9 +1,8 @@
 {
   "download": {
     "deleteAfter": false,
-    "localDir": "C:\\Users\\robot\\Downloads\\Akit",
-    "remoteDir": "/u/logs/",
-    "serverTeam": "5010",
-    "visible": false
+    "localDir": "C:\\Users\\robot\\Downloads\\AllLogs",
+    "remoteDir": "/u/logs",
+    "serverTeam": "5010"
   }
 }

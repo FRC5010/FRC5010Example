@@ -20,6 +20,7 @@ import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import frc.robot.rebuilt.subsystems.Launcher.ShotCalculator;
 import frc.robot.rebuilt.subsystems.Launcher.ShotCalculator.ShootingParameters;
+import frc.robot.rebuilt.subsystems.intake.Intake;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
@@ -42,6 +43,7 @@ public class LauncherCommands {
   private State escapeHammerTimeState;
   private static Launcher launcher;
   private static GenericDrivetrain drivetrain;
+  private static Intake intake;
   private Map<String, GenericSubsystem> subsystems;
   private static Translation2d hubTarget = FieldConstants.Hub.topCenterPoint.toTranslation2d();
   private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
@@ -93,6 +95,7 @@ public class LauncherCommands {
     launcher.setRequestedState(LauncherState.IDLE);
 
     drivetrain = (GenericDrivetrain) this.subsystems.get(ConfigConstants.DRIVETRAIN);
+    intake = (Intake) this.subsystems.get(Constants.INTAKE);
     configureStateMachine();
   }
   /** sets the state machine as the default command of the launcher */

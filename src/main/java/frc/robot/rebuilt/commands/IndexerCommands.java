@@ -176,7 +176,6 @@ public class IndexerCommands {
   // pressed
   private static Command feedStateCommand() {
     return Commands.parallel(
-        Commands.runOnce(() -> intake.setDesiredHopperAngle(Degrees.of(45))),
         Commands.runOnce(
             () -> {
               indexer.setCurrentState(IndexerState.FEED);

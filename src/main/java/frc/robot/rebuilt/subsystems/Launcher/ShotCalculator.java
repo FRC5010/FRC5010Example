@@ -84,7 +84,7 @@ public class ShotCalculator {
 
   // Cache parameters
   private ShootingParameters latestParameters = null;
-  public static double flywheelMultiplier = 0.45;
+  public static double flywheelMultiplier = 1.0;
 
   private static double minDistance;
   private static double maxDistance;
@@ -144,33 +144,34 @@ public class ShotCalculator {
   }
   /** Creates default hood angle, flywheel speeds, and time of light tables */
   public static ShotTables createDefaultTables() {
+    final double offset = 0.5969;
     return new ShotTables(
         Map.ofEntries(
-            Map.entry(0.8001, Rotation2d.fromDegrees(30.0)),
-            Map.entry(1.2700, Rotation2d.fromDegrees(33.0)),
-            Map.entry(1.8034, Rotation2d.fromDegrees(35.0)),
-            Map.entry(2.3114, Rotation2d.fromDegrees(37.5)),
-            Map.entry(2.5844, Rotation2d.fromDegrees(39.0)),
-            Map.entry(2.0383, Rotation2d.fromDegrees(36.0)),
-            Map.entry(1.5494, Rotation2d.fromDegrees(34.0)),
-            Map.entry(5.2070, Rotation2d.fromDegrees(48.0)),
-            Map.entry(4.7625, Rotation2d.fromDegrees(47.0)),
-            Map.entry(3.6957, Rotation2d.fromDegrees(42.0)),
-            Map.entry(3.2639, Rotation2d.fromDegrees(40.0)),
-            Map.entry(2.8448, Rotation2d.fromDegrees(37.0))),
+            Map.entry(0.8001 + offset, Rotation2d.fromDegrees(30.0)),
+            Map.entry(1.2700 + offset, Rotation2d.fromDegrees(33.0)),
+            Map.entry(1.8034 + offset, Rotation2d.fromDegrees(35.0)),
+            Map.entry(2.3114 + offset, Rotation2d.fromDegrees(37.5)),
+            Map.entry(2.5844 + offset, Rotation2d.fromDegrees(39.0)),
+            Map.entry(2.0383 + offset, Rotation2d.fromDegrees(36.0)),
+            Map.entry(1.5494 + offset, Rotation2d.fromDegrees(34.0)),
+            Map.entry(5.2070 + offset, Rotation2d.fromDegrees(48.0)),
+            Map.entry(4.7625 + offset, Rotation2d.fromDegrees(47.0)),
+            Map.entry(3.6957 + offset, Rotation2d.fromDegrees(42.0)),
+            Map.entry(3.2639 + offset, Rotation2d.fromDegrees(40.0)),
+            Map.entry(2.8448 + offset, Rotation2d.fromDegrees(37.0))),
         Map.ofEntries(
-            Map.entry(0.8001, 95.0),
-            Map.entry(1.2700, 97.0),
-            Map.entry(1.8034, 105.0),
-            Map.entry(2.3114, 108.0),
-            Map.entry(2.5844, 110.0),
-            Map.entry(2.0383, 107.0),
-            Map.entry(1.5494, 103.0),
-            Map.entry(5.2070, 128.0),
-            Map.entry(4.7625, 124.0),
-            Map.entry(3.6957, 112.0),
-            Map.entry(3.2639, 108.5),
-            Map.entry(2.8448, 107.0)),
+            Map.entry(0.8001 + offset, 95.0),
+            Map.entry(1.2700 + offset, 97.0),
+            Map.entry(1.8034 + offset, 105.0),
+            Map.entry(2.3114 + offset, 108.0),
+            Map.entry(2.5844 + offset, 110.0),
+            Map.entry(2.0383 + offset, 107.0),
+            Map.entry(1.5494 + offset, 103.0),
+            Map.entry(5.2070 + offset, 128.0),
+            Map.entry(4.7625 + offset, 124.0),
+            Map.entry(3.6957 + offset, 112.0),
+            Map.entry(3.2639 + offset, 108.5),
+            Map.entry(2.8448 + offset, 107.0)),
         Map.ofEntries(
             Map.entry(5.68, 1.16),
             Map.entry(4.55, 1.12),

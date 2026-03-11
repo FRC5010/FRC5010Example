@@ -62,6 +62,7 @@ public class Launcher extends GenericSubsystem {
   @Override
   public void periodic() {
     super.periodic();
+
     io.updateInputs(inputs);
     Logger.processInputs("Launcher", inputs);
   }

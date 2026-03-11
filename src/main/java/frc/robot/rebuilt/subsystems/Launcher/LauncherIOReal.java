@@ -43,6 +43,7 @@ import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.motors.SystemIdentification;
 import org.frc5010.common.subsystems.LEDStrip;
+import org.frc5010.common.vision.AprilTags;
 import yams.mechanisms.config.SensorConfig;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
@@ -209,6 +210,15 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putNumber("EasyCRT/Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
     SmartDashboard.putNumber("EasyCRT/Encoder 36", crtSensor36.getAsDouble("angle"));
     SmartDashboard.putNumber("EasyCRT/Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
+    SmartDashboard.putNumber(
+        "Distance to tag 9",
+        drivetrain
+            .getPoseEstimator()
+            .getCurrentPose3d()
+            .toPose2d()
+            .minus(AprilTags.aprilTagFieldLayout.getTagPose(9).get().toPose2d())
+            .getTranslation()
+            .getNorm());
     // Angle calculatedAngle =
     // easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
     // SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));

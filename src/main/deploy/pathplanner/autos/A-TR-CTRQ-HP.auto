@@ -5,33 +5,27 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "intakeIntake"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
+            "pathName": "TR-CTR-QTR"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "TL-Dep"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "DEP-CL"
+            "pathName": "QTR-TR"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "launcherPrep"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TR-HP"
           }
         }
       ]

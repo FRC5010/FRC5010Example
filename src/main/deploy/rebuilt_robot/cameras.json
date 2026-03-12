@@ -1,7 +1,7 @@
 {
   "cameras": [
-    "rear.json",
     "left.json",
-    "right.json"
+    "right.json",
+    "rear.json"
   ]
 }

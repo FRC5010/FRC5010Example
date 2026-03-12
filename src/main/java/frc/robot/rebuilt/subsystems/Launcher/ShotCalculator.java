@@ -84,7 +84,7 @@ public class ShotCalculator {
 
   // Cache parameters
   private ShootingParameters latestParameters = null;
-  public static double flywheelMultiplier = 0.45;
+  public static double flywheelMultiplier = 1.0;
 
   private static double minDistance;
   private static double maxDistance;
@@ -144,37 +144,42 @@ public class ShotCalculator {
   }
   /** Creates default hood angle, flywheel speeds, and time of light tables */
   public static ShotTables createDefaultTables() {
+    final double offset = 0.5969;
     return new ShotTables(
         Map.ofEntries(
-            Map.entry(1.34, Rotation2d.fromDegrees(31.0)),
-            Map.entry(1.78, Rotation2d.fromDegrees(31.0)),
-            Map.entry(2.17, Rotation2d.fromDegrees(36.0)),
-            Map.entry(2.81, Rotation2d.fromDegrees(39.0)),
-            Map.entry(3.82, Rotation2d.fromDegrees(41.0)),
-            Map.entry(4.09, Rotation2d.fromDegrees(42.0)),
-            Map.entry(4.40, Rotation2d.fromDegrees(43.0)),
-            Map.entry(4.77, Rotation2d.fromDegrees(44.0)),
-            Map.entry(5.57, Rotation2d.fromDegrees(44.0)),
-            Map.entry(5.60, Rotation2d.fromDegrees(47.0))),
+            Map.entry(0.8001 + offset, Rotation2d.fromDegrees(30.0)),
+            Map.entry(1.2700 + offset, Rotation2d.fromDegrees(33.0)),
+            Map.entry(1.8034 + offset, Rotation2d.fromDegrees(35.0)),
+            Map.entry(2.3114 + offset, Rotation2d.fromDegrees(37.5)),
+            Map.entry(2.5844 + offset, Rotation2d.fromDegrees(39.0)),
+            Map.entry(2.0383 + offset, Rotation2d.fromDegrees(36.0)),
+            Map.entry(1.5494 + offset, Rotation2d.fromDegrees(34.0)),
+            Map.entry(5.2070 + offset, Rotation2d.fromDegrees(48.0)),
+            Map.entry(4.7625 + offset, Rotation2d.fromDegrees(47.0)),
+            Map.entry(3.6957 + offset, Rotation2d.fromDegrees(42.0)),
+            Map.entry(3.2639 + offset, Rotation2d.fromDegrees(40.0)),
+            Map.entry(2.8448 + offset, Rotation2d.fromDegrees(37.0))),
         Map.ofEntries(
-            Map.entry(1.34, 210.0),
-            Map.entry(1.78, 220.0),
-            Map.entry(2.17, 220.0),
-            Map.entry(2.81, 230.0),
-            Map.entry(3.82, 250.0),
-            Map.entry(4.09, 255.0),
-            Map.entry(4.40, 260.0),
-            Map.entry(4.77, 265.0),
-            Map.entry(5.57, 275.0),
-            Map.entry(5.60, 290.0)),
+            Map.entry(0.8001 + offset, 95.0),
+            Map.entry(1.2700 + offset, 97.0),
+            Map.entry(1.8034 + offset, 105.0),
+            Map.entry(2.3114 + offset, 108.0),
+            Map.entry(2.5844 + offset, 110.0),
+            Map.entry(2.0383 + offset, 107.0),
+            Map.entry(1.5494 + offset, 103.0),
+            Map.entry(5.2070 + offset, 128.0),
+            Map.entry(4.7625 + offset, 124.0),
+            Map.entry(3.6957 + offset, 112.0),
+            Map.entry(3.2639 + offset, 108.5),
+            Map.entry(2.8448 + offset, 107.0)),
         Map.ofEntries(
             Map.entry(5.68, 1.16),
             Map.entry(4.55, 1.12),
             Map.entry(3.15, 1.11),
             Map.entry(1.88, 1.09),
             Map.entry(1.38, 0.90)),
-        1.34,
-        5.60,
+        0.7,
+        10.0,
         0.03);
   }
 

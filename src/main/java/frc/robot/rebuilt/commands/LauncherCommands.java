@@ -28,6 +28,8 @@ import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
+import org.frc5010.common.utils.geometry.AllianceFlipUtil;
+import org.frc5010.common.vision.AprilTags;
 
 /** defines commands and state launcher logic for the launcher */
 public class LauncherCommands {
@@ -319,11 +321,17 @@ public class LauncherCommands {
                   ShootingParameters params =
                       launcher.getShootingParameters(
                           () ->
-                              new Pose2d(
-                                  new Translation2d(
-                                      Inches.of(25),
-                                      FieldConstants.FIELD_WIDTH.minus(Inches.of(17.25))),
-                                  new Rotation2d()),
+                              AllianceFlipUtil.apply(
+                                  new Pose2d(
+                                      new Translation2d(
+                                          Inches.of(
+                                              AprilTags.aprilTagFieldLayout
+                                                      .getTagPose(31)
+                                                      .get()
+                                                      .getX()
+                                                  + 25),
+                                          FieldConstants.FIELD_WIDTH.minus(Inches.of(17.25))),
+                                      new Rotation2d())),
                           () -> FieldConstants.Hub.topCenterPoint.toTranslation2d());
                   presetHoodAngle = Radians.of(params.hoodAngle());
                   presetTurretAngle = params.turretAngle().getMeasure();
@@ -340,9 +348,17 @@ public class LauncherCommands {
                   ShootingParameters params =
                       launcher.getShootingParameters(
                           () ->
-                              new Pose2d(
-                                  new Translation2d(Inches.of(25), Inches.of(17.5)),
-                                  new Rotation2d()),
+                              AllianceFlipUtil.apply(
+                                  new Pose2d(
+                                      new Translation2d(
+                                          Inches.of(
+                                              AprilTags.aprilTagFieldLayout
+                                                      .getTagPose(31)
+                                                      .get()
+                                                      .getX()
+                                                  + 25),
+                                          Inches.of(17.5)),
+                                      new Rotation2d())),
                           () -> FieldConstants.Hub.topCenterPoint.toTranslation2d());
                   presetHoodAngle = Radians.of(params.hoodAngle());
                   presetTurretAngle = params.turretAngle().getMeasure();
@@ -358,7 +374,8 @@ public class LauncherCommands {
                 () -> {
                   ShootingParameters params =
                       launcher.getShootingParameters(
-                          () -> FieldConstants.Tower.face.plus(rearToCenter),
+                          () ->
+                              AllianceFlipUtil.apply(FieldConstants.Tower.face.plus(rearToCenter)),
                           () -> FieldConstants.Hub.topCenterPoint.toTranslation2d());
                   presetHoodAngle = Radians.of(params.hoodAngle());
                   presetTurretAngle = Constants.Launcher.TURRET_FORWARD;

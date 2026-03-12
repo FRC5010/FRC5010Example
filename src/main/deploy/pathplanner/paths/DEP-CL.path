@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.8302710413694718,
-        "y": 5.969329529243937
+        "x": 0.7231186868686872,
+        "y": 5.523762626262627
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9653444444444448,
-        "y": 5.974144444444444
+        "x": 0.7689651818787464,
+        "y": 4.893427716159044
       },
       "isLocked": false,
-      "linkedName": "TL-DEP-END"
+      "linkedName": "DEPOT"
     },
     {
       "anchor": {
-        "x": 2.384355555555556,
-        "y": 5.969329529243937
+        "x": 2.5439898989898997,
+        "y": 4.699217171717173
       },
       "prevControl": {
-        "x": 1.8776444444444444,
-        "y": 5.9643999999999995
+        "x": 2.097361111111112,
+        "y": 4.974065656565657
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 5.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 6.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -41.86283060446468
+    "rotation": -114.56717132151371
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -114.56717132151371
   },
   "useDefaultConstraints": true
 }

@@ -211,12 +211,12 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putNumber("EasyCRT/Encoder 36", crtSensor36.getAsDouble("angle"));
     SmartDashboard.putNumber("EasyCRT/Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
     SmartDashboard.putNumber(
-        "Distance to tag 9",
+        "Distance to tag 27",
         drivetrain
             .getPoseEstimator()
             .getCurrentPose3d()
             .toPose2d()
-            .minus(AprilTags.aprilTagFieldLayout.getTagPose(9).get().toPose2d())
+            .minus(AprilTags.aprilTagFieldLayout.getTagPose(21).get().toPose2d())
             .getTranslation()
             .getNorm());
     // Angle calculatedAngle =

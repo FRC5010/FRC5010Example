@@ -52,6 +52,7 @@ public class Constants {
     public static final double INTAKE_OUT = -0.0;
     public static final double INTAKE_MAX_IN = 0.9;
     public static final double INTAKE_MAX_OUT = -0.9;
+    public static final double HOPPER_ANGLE_TOLERANCE = 3;
     public static final double HOPPER_STALL_CURRENT_THRESHOLD = 5.0;
   }
 }

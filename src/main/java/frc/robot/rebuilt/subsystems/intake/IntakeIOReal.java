@@ -49,8 +49,8 @@ public class IntakeIOReal implements IntakeIO {
     spintakeLead.set(speed);
   }
 
-  public void setHopperAngle(Angle angle) {
-    intakeHopper.getMotorController().setPosition(angle);
+  public Command setHopperAngle(Angle angle) {
+    return intakeHopper.setAngle(angle);
   }
 
   public void setHopperPosition(Angle angle) {
@@ -60,7 +60,7 @@ public class IntakeIOReal implements IntakeIO {
   public boolean isHopperMoving() {
     return Math.abs(
             intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)))
-        > 10.0;
+        > 1.0;
   }
 
   public boolean isHopperStalling() {
@@ -69,8 +69,7 @@ public class IntakeIOReal implements IntakeIO {
   }
 
   public boolean isRetracted() {
-    return false;
-    // return (intakeHopper.getAngle().isNear(Degrees.of(120), Degrees.of(10)));
+    return (intakeHopper.getAngle().isNear(Degrees.of(130), Degrees.of(10)));
   }
 
   public boolean isDeployed() {
@@ -160,15 +159,20 @@ public class IntakeIOReal implements IntakeIO {
     }
   }
 
-  /** updates the input structure with the current hopper and intake speed */
+  /** updates the input sOtructure with the current hopper and intake speed */
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
     Logger.recordOutput(
         "Hopper Velocity",
         intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
     Logger.recordOutput("Hopper MOving", isHopperMoving());
-    inputs.hopperAngle = intakeHopper.getMotorController().getMechanismPosition();
-    inputs.hopperAngleDouble = inputs.hopperAngle.in(Degrees);
+    inputs.hopperAngleActual = intakeHopper.getMotorController().getMechanismPosition();
+    inputs.hopperAngleDegrees = inputs.hopperAngleActual.in(Degrees);
+    inputs.hopperAngleDesired =
+        intakeHopper.getMotorController().getMechanismPositionSetpoint().orElse(Degrees.of(0));
+    inputs.hopperAngleError = inputs.hopperAngleDesired.minus(inputs.hopperAngleActual).in(Degrees);
+    inputs.hopperAtGoal =
+        Math.abs(inputs.hopperAngleError) < Constants.Intake.HOPPER_ANGLE_TOLERANCE;
     inputs.speed = spintakeLead.get();
     inputs.hopperAmps = intakeHopper.getMotor().getStatorCurrent().in(Amps);
     // inputs.speed = spintakeLead.getMotor().getDutyCycle();

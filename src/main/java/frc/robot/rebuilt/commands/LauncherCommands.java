@@ -248,7 +248,7 @@ public class LauncherCommands {
               LEDStrip.changeSegmentPattern(
                   ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
             }),
-        launcher.trackTargetCommand());
+        launcher.trackTargetLowCommand());
   }
   /** creates command behavior when the launcher is at prep state */
   private static Command prepStateCommand() {

@@ -169,11 +169,10 @@ public class ShotCalculator {
             Map.entry(5.77893560525366, 127.0),
             Map.entry(6.35214199070158, 133.0)),
         Map.ofEntries(
-            Map.entry(5.68, 1.16),
-            Map.entry(4.55, 1.12),
-            Map.entry(3.15, 1.11),
-            Map.entry(1.88, 1.09),
-            Map.entry(1.38, 0.90)),
+            Map.entry(2.11, 1.04),
+            Map.entry(3.92, 1.19),
+            Map.entry(4.10, 1.22),
+            Map.entry(5.58, 1.28)),
         0.7,
         10.0,
         0.03);

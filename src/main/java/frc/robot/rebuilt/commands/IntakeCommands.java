@@ -35,7 +35,7 @@ public class IntakeCommands {
               }));
   State outtaking;
   State intaking;
-  DoubleSupplier intakeSpeedSupplier = () -> 0.5;
+  DoubleSupplier intakeSpeedSupplier = () -> 0.65;
   DoubleSupplier outtakeSpeedSupplier = () -> -0.5;
 
   public static enum IntakeState {

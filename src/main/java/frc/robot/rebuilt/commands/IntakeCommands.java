@@ -19,7 +19,7 @@ public class IntakeCommands {
   Map<String, GenericSubsystem> subsystems;
   StateMachine intakeStateMachine = new StateMachine("IntakeStateMachine");
 
-  DoubleSupplier intakeSpeedSupplier = () -> 0.5;
+  DoubleSupplier intakeSpeedSupplier = () -> 0.65; // Default speed, can be overridden by triggers
   Supplier<DoubleSupplier> intakeSpeed = () -> intakeSpeedSupplier;
 
   public static enum IntakeState {

@@ -190,9 +190,9 @@ public class LauncherCommands {
   public void configureButtonBindings(Controller driver, Controller operator) {
 
     // driver.createAButton().onTrue(shouldPrepCommand());
-    driver.createAButton().whileTrue(shouldPrepCommand()).onFalse(shouldHammerTimeCommand());
+    driver.createBButton().whileTrue(shouldPrepCommand()).onFalse(shouldHammerTimeCommand());
 
-    driver.createBButton().onTrue(shouldLowCommand()).onFalse(shouldHammerTimeCommand());
+    driver.createAButton().onTrue(shouldLowCommand()).onFalse(shouldHammerTimeCommand());
 
     // operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
 
@@ -248,7 +248,7 @@ public class LauncherCommands {
               LEDStrip.changeSegmentPattern(
                   ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
             }),
-        launcher.trackTargetCommand());
+        launcher.trackTargetLowCommand());
   }
   /** creates command behavior when the launcher is at prep state */
   private static Command prepStateCommand() {

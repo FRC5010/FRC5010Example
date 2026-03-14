@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.533396464646465,
-        "y": 3.0386742424242423
+        "x": 6.087244444444444,
+        "y": 3.7913888888888883
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.727651515151514,
-        "y": 0.553585858585858
+        "x": 6.174944444444446,
+        "y": 0.8680555555555554
       },
       "isLocked": false,
-      "linkedName": "CTR-HALF"
+      "linkedName": "nWall"
     },
     {
       "anchor": {
@@ -20,12 +20,12 @@
         "y": 0.6108459595959597
       },
       "prevControl": {
-        "x": 6.92589156626506,
-        "y": 0.6364819277108438
+        "x": 6.925893890115048,
+        "y": 0.6362759383412605
       },
       "nextControl": {
-        "x": 3.6626777797502204,
-        "y": 0.5995197661141952
+        "x": 2.4038444444444447,
+        "y": 0.5854666666666654
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +36,8 @@
         "y": 0.8003975903614469
       },
       "prevControl": {
-        "x": 1.7929029451137886,
-        "y": 1.1210541560180138
+        "x": 0.7765222222222223,
+        "y": 1.2968111111111114
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,7 +50,7 @@
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 1.414035087719306,
+      "waypointRelativePos": 1.2962655601659734,
       "rotationDegrees": 0.0
     }
   ],
@@ -70,10 +70,22 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "launcherPrep",
+      "waypointRelativePos": 1.046153846153844,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "launcherPrep"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 6.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 9.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

@@ -190,9 +190,9 @@ public class LauncherCommands {
   public void configureButtonBindings(Controller driver, Controller operator) {
 
     // driver.createAButton().onTrue(shouldPrepCommand());
-    driver.createAButton().whileTrue(shouldPrepCommand()).onFalse(shouldHammerTimeCommand());
+    driver.createBButton().whileTrue(shouldPrepCommand()).onFalse(shouldHammerTimeCommand());
 
-    driver.createBButton().onTrue(shouldLowCommand()).onFalse(shouldHammerTimeCommand());
+    driver.createAButton().onTrue(shouldLowCommand()).onFalse(shouldHammerTimeCommand());
 
     // operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
 

@@ -1,7 +1,5 @@
 package frc.robot.rebuilt.commands;
 
-import static edu.wpi.first.units.Units.Degrees;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -19,7 +17,8 @@ public class IntakeCommands {
   Map<String, GenericSubsystem> subsystems;
   StateMachine intakeStateMachine = new StateMachine("IntakeStateMachine");
 
-  DoubleSupplier intakeSpeedSupplier = () -> 0.65; // Default speed, can be overridden by triggers
+  DoubleSupplier intakeSpeedSupplier =
+      () -> Constants.Intake.INTAKE_IN; // Default speed, can be overridden by triggers
   Supplier<DoubleSupplier> intakeSpeed = () -> intakeSpeedSupplier;
 
   public static enum IntakeState {
@@ -54,6 +53,10 @@ public class IntakeCommands {
     stateToCommand.forEach(
         (state, cmd) -> new Trigger(() -> intake.isRequested(state)).onTrue(cmd));
 
+    // Not moving trigger senses if the hopper has hit the bumper hard stop for 0.5 sec
+    Trigger hopperNotMoving =
+        new Trigger(() -> intake.isHopperStalling()).debounce(Constants.Intake.HOPPER_STALL_TIME);
+
     /** Trigger the deploying command */
     new Trigger(
             () ->
@@ -64,9 +67,8 @@ public class IntakeCommands {
     new Trigger(
             () ->
                 intake.isRequested(IntakeState.INTAKING)
-                    && intake.isHopperAtGoal()
                     && intake.isCurrent(IntakeState.DEPLOYING)
-                    && intake.getHopperAngle().lt(Degrees.of(10)))
+                    && (intake.isDeployed() || hopperNotMoving.getAsBoolean()))
         .onTrue(intakingCommand(intakeSpeed));
 
     /** Trigger the retracting command */
@@ -80,8 +82,7 @@ public class IntakeCommands {
     new Trigger(
             () ->
                 intake.isCurrent(IntakeState.RETRACTING)
-                    && intake.isHopperAtGoal()
-                    && intake.getHopperAngle().gt(Degrees.of(120)))
+                    && (intake.isRetracted() && hopperNotMoving.getAsBoolean()))
         .onTrue(shouldRetracted());
 
     /** Trigger the angled command */
@@ -93,12 +94,14 @@ public class IntakeCommands {
   public void configureButtonBindings(Controller controller) {
     controller.setRightTrigger(
         controller.createRightTrigger().limit(Constants.Intake.INTAKE_MAX_IN));
-    Trigger rightTrigger = new Trigger(() -> controller.getRightTrigger() > 0.25);
+    Trigger rightTrigger =
+        new Trigger(() -> controller.getRightTrigger() > Constants.Intake.INTAKE_DEADZONE);
     controller.setLeftTrigger(
         controller
             .createLeftTrigger()
             .limit(Constants.Intake.INTAKE_MAX_IN)); // Axis are positive only hence IN
-    Trigger leftTrigger = new Trigger(() -> controller.getLeftTrigger() > 0.25);
+    Trigger leftTrigger =
+        new Trigger(() -> controller.getLeftTrigger() > Constants.Intake.INTAKE_DEADZONE);
 
     rightTrigger.onTrue(shouldIntaking());
     leftTrigger.onTrue(shouldIntaking());
@@ -112,8 +115,9 @@ public class IntakeCommands {
         () -> {
           double rightTriggerSpeed = controller.getRightTrigger();
           double leftTriggerSpeed = controller.getLeftTrigger();
-          double speed = 0.5;
-          if (rightTriggerSpeed > 0.25 || leftTriggerSpeed > 0.25) {
+          double speed = Constants.Intake.INTAKE_IN; // Default speed if neither trigger is pressed
+          if (rightTriggerSpeed > Constants.Intake.INTAKE_DEADZONE
+              || leftTriggerSpeed > Constants.Intake.INTAKE_DEADZONE) {
             speed =
                 rightTriggerSpeed
                     - leftTriggerSpeed; // Positive for intaking, negative for outtaking
@@ -133,7 +137,10 @@ public class IntakeCommands {
 
   public static Command deployingCommand() {
     return Commands.runOnce(() -> intake.setCurrentState(IntakeState.DEPLOYING), intake)
-        .andThen(intake.setDesiredHopperAngle(Degrees.of(0)).until(() -> intake.isHopperAtGoal()))
+        .andThen(
+            intake
+                .setDesiredHopperAngle(Constants.Intake.HOPPER_DEPLOYED_ANGLE)
+                .until(() -> intake.isHopperAtGoal()))
         .andThen(Commands.idle(intake));
   }
 
@@ -152,7 +159,12 @@ public class IntakeCommands {
               intake.setCurrentState(IntakeState.ANGLED);
             },
             intake)
-        .andThen(intake.setDesiredHopperAngle(Degrees.of(45)).until(() -> intake.isHopperMoving()));
+        .andThen(
+            intake
+                .setDesiredHopperAngle(Constants.Intake.HOPPER_ANGLED)
+                .until(() -> intake.isHopperMoving())
+                .andThen(
+                    Commands.run(() -> intake.runSpintake(Constants.Intake.INTAKE_CHURN), intake)));
   }
 
   public static Command retractingCommand() {
@@ -164,7 +176,9 @@ public class IntakeCommands {
             intake)
         .andThen(() -> intake.runSpintake(0), intake)
         .andThen(
-            intake.setDesiredHopperAngle(Degrees.of(130.0)).until(() -> intake.isHopperMoving()));
+            intake
+                .setDesiredHopperAngle(Constants.Intake.HOPPER_RETRACTED_ANGLE)
+                .until(() -> intake.isHopperMoving()));
   }
 
   public static Command retractedCommand() {

@@ -194,6 +194,10 @@ public class Launcher extends GenericSubsystem {
         && inputs.isValidCalculation;
   }
 
+  public boolean isOKToFire() {
+    return inputs.isValidCalculation;
+  }
+
   public boolean isRequested(LauncherState state) {
     return inputs.stateRequested == state;
   }

@@ -4,7 +4,7 @@
     "controllerType": "talonfx",
     "motorType": "KrakenX44",
     "canId": 14,
-    "logLevel": "LOW",
+    "logLevel": "HIGH",
     "inverted": false,
     "currentLimit": {
       "val": 60,
@@ -17,44 +17,46 @@
       }
     ]
   },
-  "controlAlgorithm": "SIMPLE",
+  "controlAlgorithm": "PROFILED",
   "motorSystemId": {
     "feedBack": {
-      "p": 4,
+      "p": 100,
       "i": 0.0,
       "d": 0.0
     },
     "feedForward": {
-      "s": 0.0,
-      "v": 0.0,
-      "a": 0.0
+      "s": 0.5992224858009301,
+      "v": 0.010060789918368191,
+      "a": 0.0,
+      "g": 0.65
     },
     "maxVelocity": {
-      "val": 180,
+      "val": 360,
       "uom": "deg/s"
     },
     "maxAcceleration": {
-      "val": 90,
+      "val": 180,
       "uom": "deg/s^2"
     }
   },
   "simSystemId": {
     "feedBack": {
-      "p": 6.28,
-      "i": 0.62,
-      "d": 2.01
+      "p": 10.0,
+      "i": 0.0,
+      "d": 0.0
     },
     "feedForward": {
-      "s": 0.0,
-      "v": 0.0,
-      "a": 0.0
+      "s": 0.048722,
+      "v": 0.005486,
+      "a": 0.0,
+      "g": 0.04055
     },
     "maxVelocity": {
-      "val": 180,
+      "val": 360,
       "uom": "deg/s"
     },
     "maxAcceleration": {
-      "val": 90,
+      "val": 180,
       "uom": "deg/s^2"
     }
   },
@@ -63,26 +65,26 @@
     "uom": "m"
   },
   "lowerHardLimit": {
-    "val": -180,
-    "uom": "deg"
-  },
-  "upperHardLimit": {
-    "val": 120,
-    "uom": "deg"
-  },
-  "startingAngle": {
     "val": 0,
     "uom": "deg"
   },
+  "upperHardLimit": {
+    "val": 132,
+    "uom": "deg"
+  },
+  "startingAngle": {
+    "val": 132,
+    "uom": "deg"
+  },
   "lowerSoftLimit": {
-    "val": -180,
+    "val": 0,
     "uom": "deg"
   },
   "upperSoftLimit": {
-    "val": 120,
+    "val": 132,
     "uom": "deg"
   },
-  "gearStages": "23:1",
+  "gearStages": "24:1",
   "mass": {
     "val": 1,
     "uom": "lbs"

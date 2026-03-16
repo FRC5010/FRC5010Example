@@ -1,21 +1,11 @@
 {
   "motorSetup": {
-    "name": "flywheel",
+    "name": "spintake_inner",
     "controllerType": "talonfx",
     "motorType": "KrakenX60",
-    "canId": 16,
-    "inverted": true,
+    "canId": 12,
     "logLevel": "LOW",
-    "currentLimit": {
-      "val": 80,
-      "uom": "amps"
-    },
-    "followers": [
-      {
-        "canId": 17,
-        "inverted": true
-      }
-    ],
+    "inverted": true,
     "robotToMotor": {
       "x": {
         "val": -5.872,
@@ -36,23 +26,16 @@
     }
   },
   "motorSystemId": {
+    "controlMode": "CLOSED_LOOP",
     "feedBack": {
-      "p": 5,
+      "p": 4,
       "i": 0.0,
       "d": 0.0
     },
-    "closedLoopRamp": {
-      "val": 0,
-      "uom": "s"
-    },
-    "openLoopRamp": {
-      "val": 0,
-      "uom": "s"
-    },
     "feedForward": {
-      "s": 0.066854,
-      "v": 2.1,
-      "a": 0.38848
+      "s": 0.0,
+      "v": 0.0,
+      "a": 0.0
     },
     "maxVelocity": {
       "val": 180,
@@ -65,14 +48,14 @@
   },
   "simSystemId": {
     "feedBack": {
-      "p": 2,
+      "p": 4,
       "i": 0.0,
       "d": 0.0
     },
     "feedForward": {
-      "s": 0.066854,
-      "v": 2.1962,
-      "a": 0.38848
+      "s": 0.0,
+      "v": 0.0,
+      "a": 0.0
     },
     "maxVelocity": {
       "val": 180,
@@ -91,13 +74,13 @@
     "val": 5000,
     "uom": "rpm"
   },
-  "gearStages": "18:1",
+  "gearStages": "11:36",
   "mass": {
-    "val": 5.1,
-    "uom": "lbs"
+    "val": 2,
+    "uom": "kg"
   },
   "radius": {
-    "val": 1.975,
-    "uom": "in"
+    "val": 0.05,
+    "uom": "m"
   }
 }

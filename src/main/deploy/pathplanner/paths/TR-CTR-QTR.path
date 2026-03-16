@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 6.818077777777778,
-        "y": 0.6341888888888878
+        "y": 0.6341888888888879
       },
       "nextControl": {
         "x": 7.680087465265601,
@@ -99,7 +99,7 @@
   "eventMarkers": [
     {
       "name": "intakeIntake",
-      "waypointRelativePos": 0.3870967741935484,
+      "waypointRelativePos": 0.3366555924695484,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

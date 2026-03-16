@@ -11,21 +11,9 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "QTRL-TL"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "launcherPrep"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "TL-Dep"
           }
         }
       ]

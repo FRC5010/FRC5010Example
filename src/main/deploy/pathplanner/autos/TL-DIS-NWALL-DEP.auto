@@ -5,16 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "TR-CTR"
-                }
-              }
-            ]
+            "pathName": "TL-DIS"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NWALL-DEP"
           }
         }
       ]

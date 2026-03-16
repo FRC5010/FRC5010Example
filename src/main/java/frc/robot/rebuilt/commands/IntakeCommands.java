@@ -82,10 +82,7 @@ public class IntakeCommands {
         .onTrue(retractingCommand());
 
     /** Trigger the retracted command */
-    new Trigger(
-            () ->
-                intake.isCurrent(IntakeState.RETRACTING)
-                    && (intake.isRetracted() && hopperNotMoving.getAsBoolean()))
+    new Trigger(() -> intake.isCurrent(IntakeState.RETRACTING) && (intake.isRetracted()))
         .onTrue(shouldRetracted());
 
     /** Trigger the angled command */
@@ -110,7 +107,6 @@ public class IntakeCommands {
     leftTrigger.onTrue(shouldIntaking());
 
     controller.createRightBumper().onTrue(shouldRetracting());
-    controller.createLeftBumper().onTrue(shouldAngled());
     controller.createStartButton().onTrue(Commands.run(() -> intake.setHopperRetracted()));
     controller.createBackButton().onTrue(Commands.run(() -> intake.setHopperDeployed()));
 

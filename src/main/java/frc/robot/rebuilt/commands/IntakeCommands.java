@@ -1,5 +1,7 @@
 package frc.robot.rebuilt.commands;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -14,6 +16,7 @@ import org.frc5010.common.sensors.Controller;
 
 public class IntakeCommands {
   static Intake intake;
+  static boolean positionFound = false;
   Map<String, GenericSubsystem> subsystems;
   StateMachine intakeStateMachine = new StateMachine("IntakeStateMachine");
 
@@ -130,13 +133,20 @@ public class IntakeCommands {
     return Commands.runOnce(
             () -> {
               intake.setCurrentState(IntakeState.INTAKING);
+              positionFound = true;
+              intake.setHopperPosition(Degrees.of(0));
             },
             intake)
         .andThen(Commands.run(() -> intake.runSpintake(speed.get().getAsDouble()), intake));
   }
 
   public static Command deployingCommand() {
-    return Commands.runOnce(() -> intake.setCurrentState(IntakeState.DEPLOYING), intake)
+    return Commands.runOnce(
+            () -> {
+              intake.setCurrentState(IntakeState.DEPLOYING);
+              intake.setHopperPosition(Constants.Intake.HOPPER_RETRACTED_ANGLE);
+            },
+            intake)
         .andThen(
             intake
                 .setDesiredHopperAngle(Constants.Intake.HOPPER_DEPLOYED_ANGLE)

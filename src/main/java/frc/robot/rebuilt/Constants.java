@@ -57,6 +57,6 @@ public class Constants {
     public static final Angle HOPPER_RETRACTED_ANGLE = Degrees.of(130);
     public static final Angle HOPPER_DEPLOYED_ANGLE = Degrees.of(0);
     public static final Angle HOPPER_ANGLED = Degrees.of(30);
-    public static final double HOPPER_STALL_CURRENT_THRESHOLD = 5.0;
+    public static final double HOPPER_STALL_CURRENT_THRESHOLD = 40.0;
   }
 }

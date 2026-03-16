@@ -159,7 +159,7 @@ public class IntakeIOReal implements IntakeIO {
     }
   }
 
-  /** updates the input sOtructure with the current hopper and intake speed */
+  /** updates the input structure with the current hopper and intake speed */
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
     Logger.recordOutput(

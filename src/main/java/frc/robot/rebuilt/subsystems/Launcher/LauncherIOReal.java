@@ -10,7 +10,6 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Radian;
-import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Second;
@@ -132,7 +131,7 @@ public class LauncherIOReal implements LauncherIO {
                 /* encoder1Pinion */ 40,
                 /* encoder2Pinion */ 36)
             .withAbsoluteEncoderOffsets(
-                Rotations.of(-0.244), Rotations.of(-0.210)) // set after mechanical zero
+                Rotations.of(0.01171875), Rotations.of(0.178466796875)) // set after mechanical zero
             .withMechanismRange(Degrees.of(-168), Degrees.of(173)) // -360 deg to +720 deg
             .withMatchTolerance(Rotations.of(0.06)) // ~1.08 deg at encoder2 for the example ratio
             .withAbsoluteEncoderInversions(true, false)
@@ -156,7 +155,7 @@ public class LauncherIOReal implements LauncherIO {
     Angle calculatedAngle;
     Optional<Angle> optionalAngle = (easyCrtSolver.getAngleOptional());
     if (optionalAngle.isPresent()) {
-      calculatedAngle = optionalAngle.get().plus(Radians.of(1.4588157292792447));
+      calculatedAngle = optionalAngle.get();
     } else {
       calculatedAngle = Degrees.of(0);
     }

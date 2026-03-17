@@ -70,7 +70,7 @@ public class IntakeIOReal implements IntakeIO {
   }
 
   public boolean isDeployed() {
-    return (intakeHopper.getAngle().lte(Degrees.of(1.0)));
+    return (intakeHopper.getAngle().lte(Degrees.of(2.0)));
   }
 
   public Command getHopperSysIdCommand() {

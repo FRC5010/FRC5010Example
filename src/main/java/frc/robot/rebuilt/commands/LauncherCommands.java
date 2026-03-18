@@ -218,16 +218,16 @@ public class LauncherCommands {
     Trigger isTrenchTrigger = new Trigger(() -> launcher.isNearTrench());
     isTrenchTrigger.onTrue(shouldAutoHammerTimeCommand()).onFalse(shouldEscapeHammerTimeCommand());
 
-    operator
-        .createUpPovButton()
-        .onTrue(
-            Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(0.01))
-                .ignoringDisable(true));
-    operator
-        .createDownPovButton()
-        .onTrue(
-            Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(-0.01))
-                .ignoringDisable(true));
+    // operator
+    //     .createUpPovButton()
+    //     .onTrue(
+    //         Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(0.01))
+    //             .ignoringDisable(true));
+    // operator
+    //     .createDownPovButton()
+    //     .onTrue(
+    //         Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(-0.01))
+    //             .ignoringDisable(true));
   }
 
   /** creates command behavior for the IDLE launcher state */

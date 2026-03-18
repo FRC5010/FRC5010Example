@@ -91,7 +91,7 @@ public class IntakeCommands {
         .onTrue(angledCommand());
   }
 
-  public void configureButtonBindings(Controller controller) {
+  public void configureButtonBindings(Controller controller, Controller operator) {
     controller.setRightTrigger(
         controller.createRightTrigger().limit(Constants.Intake.INTAKE_MAX_IN));
     Trigger rightTrigger =
@@ -109,6 +109,8 @@ public class IntakeCommands {
     controller.createRightBumper().onTrue(shouldRetracting());
     controller.createStartButton().onTrue(Commands.run(() -> intake.setHopperRetracted()));
     controller.createBackButton().onTrue(Commands.run(() -> intake.setHopperDeployed()));
+
+    operator.createDownPovButton().onTrue(operatorHopperDownCommand());
 
     intakeSpeedSupplier =
         () -> {
@@ -200,6 +202,15 @@ public class IntakeCommands {
             })
         .andThen(Commands.runOnce(() -> intake.runHopper(0), intake))
         .andThen(Commands.runOnce(() -> intake.runSpintake(0), intake));
+  }
+
+  public Command operatorHopperDownCommand() {
+    return Commands.run(
+            () -> {
+              intake.runHopper(.2);
+            })
+            .until(() -> intake.isHopperStalling())
+            .andThen(intakingCommand(intakeSpeed));
   }
 
   public static Command shouldIntaking() {

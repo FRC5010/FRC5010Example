@@ -70,7 +70,7 @@ public class Rebuilt extends GenericRobot {
       drivetrain.configureButtonBindings(driver, operator);
       climbCommands.configureButtonBindings(driver, operator);
       launcherCommands.configureButtonBindings(driver, operator);
-      intakecommands.configureButtonBindings(driver);
+      intakecommands.configureButtonBindings(driver, operator);
       indexerCommands.configureButtonBindings(driver, operator);
       isButtonsConfigured = true;
     }

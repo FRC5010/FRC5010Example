@@ -38,7 +38,8 @@ public class IndexerCommands {
 
   public void configureButtonBindings(Controller driver, Controller operator) {
     // driver.createLeftBumper().onTrue(toggleForceFeed());
-    driver.createLeftBumper().whileTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    // driver.createLeftBumper().whileTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    driver.createLeftBumper().whileTrue(shouldHardChurnCommand()).onFalse(shouldChurnCommand());
     operator
         .createLeftBumper()
         .whileTrue(

@@ -10,7 +10,6 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Radian;
-import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Second;
@@ -43,6 +42,7 @@ import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.motors.SystemIdentification;
 import org.frc5010.common.subsystems.LEDStrip;
+import org.frc5010.common.vision.AprilTags;
 import yams.mechanisms.config.SensorConfig;
 import yams.mechanisms.positional.Arm;
 import yams.mechanisms.positional.Pivot;
@@ -131,7 +131,7 @@ public class LauncherIOReal implements LauncherIO {
                 /* encoder1Pinion */ 40,
                 /* encoder2Pinion */ 36)
             .withAbsoluteEncoderOffsets(
-                Rotations.of(-0.244), Rotations.of(-0.210)) // set after mechanical zero
+                Rotations.of(0.01171875), Rotations.of(0.178466796875)) // set after mechanical zero
             .withMechanismRange(Degrees.of(-168), Degrees.of(173)) // -360 deg to +720 deg
             .withMatchTolerance(Rotations.of(0.06)) // ~1.08 deg at encoder2 for the example ratio
             .withAbsoluteEncoderInversions(true, false)
@@ -155,7 +155,7 @@ public class LauncherIOReal implements LauncherIO {
     Angle calculatedAngle;
     Optional<Angle> optionalAngle = (easyCrtSolver.getAngleOptional());
     if (optionalAngle.isPresent()) {
-      calculatedAngle = optionalAngle.get().plus(Radians.of(1.4588157292792447));
+      calculatedAngle = optionalAngle.get();
     } else {
       calculatedAngle = Degrees.of(0);
     }
@@ -209,6 +209,15 @@ public class LauncherIOReal implements LauncherIO {
     SmartDashboard.putNumber("EasyCRT/Enc 2", easyCrt.getAbsoluteEncoder2Angle().in(Degrees));
     SmartDashboard.putNumber("EasyCRT/Encoder 36", crtSensor36.getAsDouble("angle"));
     SmartDashboard.putNumber("EasyCRT/Enc 1", easyCrt.getAbsoluteEncoder1Angle().in(Degrees));
+    SmartDashboard.putNumber(
+        "Distance to tag 27",
+        drivetrain
+            .getPoseEstimator()
+            .getCurrentPose3d()
+            .toPose2d()
+            .minus(AprilTags.aprilTagFieldLayout.getTagPose(21).get().toPose2d())
+            .getTranslation()
+            .getNorm());
     // Angle calculatedAngle =
     // easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
     // SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));

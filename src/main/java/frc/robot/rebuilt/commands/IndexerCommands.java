@@ -1,17 +1,13 @@
 package frc.robot.rebuilt.commands;
 
-import static edu.wpi.first.units.Units.Degrees;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.subsystems.Indexer.Indexer;
-import frc.robot.rebuilt.subsystems.intake.Intake;
+import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
-import org.frc5010.common.arch.StateMachine;
-import org.frc5010.common.arch.StateMachine.State;
 import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
@@ -20,14 +16,9 @@ public class IndexerCommands {
   /** declares variables that will later hold state objects */
   private Map<String, GenericSubsystem> subsystems;
 
-  private StateMachine stateMachine;
-  private State idleState;
-  private State churnState;
-  private State hardChurnState;
-  private State feedState;
-  private State forceState;
   private static Indexer indexer;
-  private static Intake intake;
+  private static Launcher launcher;
+
   /** defines possible states of the indexer */
   public static enum IndexerState {
     IDLE,
@@ -36,61 +27,25 @@ public class IndexerCommands {
     FORCE,
     FEED
   }
+
   /** Stores the subsystem map and retrieves the indexer instance */
   public IndexerCommands(Map<String, GenericSubsystem> systems) {
     this.subsystems = systems;
     IndexerCommands.indexer = (Indexer) subsystems.get(Constants.INDEXER);
-    IndexerCommands.intake = (Intake) subsystems.get(Constants.INTAKE);
+    IndexerCommands.launcher = (Launcher) subsystems.get(Constants.LAUNCHER);
     configureTriggerStates();
-    // configureStateMachine();
-  }
-  /** Configures the state machine */
-  private void configureStateMachine() {
-    stateMachine = new StateMachine("IndexStateMachine");
-    idleState =
-        stateMachine.addState(
-            "idle",
-            idleStateCommand()
-                .alongWith(
-                    Commands.runOnce(() -> intake.runHopper(Constants.Intake.HOPPER_GO_OUT))));
-
-    if (indexer != null) {
-      /** Adds churn, force, and feed states if there is an indexer */
-      churnState = stateMachine.addState("churn", churnStateCommand());
-      hardChurnState = stateMachine.addState("hard_churn", hardChurnStateCommand());
-      feedState = stateMachine.addState("feed", feedStateCommand());
-      forceState = stateMachine.addState("force", forceStateCommand());
-      stateMachine.addRequirements(indexer);
-    }
-
-    // Consolidated request-based transitions
-    addRequestedTransition(idleState, churnState, IndexerState.CHURN);
-    addRequestedTransition(idleState, hardChurnState, IndexerState.CHURN);
-    addRequestedTransition(idleState, feedState, IndexerState.FEED);
-    addRequestedTransition(idleState, forceState, IndexerState.FORCE);
-    addRequestedTransition(churnState, feedState, IndexerState.FEED);
-    addRequestedTransition(churnState, idleState, IndexerState.IDLE);
-    addRequestedTransition(churnState, forceState, IndexerState.FORCE);
-    addRequestedTransition(hardChurnState, feedState, IndexerState.FEED);
-    addRequestedTransition(hardChurnState, idleState, IndexerState.IDLE);
-    addRequestedTransition(hardChurnState, forceState, IndexerState.FORCE);
-    addRequestedTransition(feedState, idleState, IndexerState.IDLE);
-    addRequestedTransition(feedState, churnState, IndexerState.CHURN);
-    addRequestedTransition(feedState, hardChurnState, IndexerState.CHURN);
-    addRequestedTransition(feedState, forceState, IndexerState.FORCE);
-    addRequestedTransition(forceState, idleState, IndexerState.IDLE);
-    addRequestedTransition(forceState, churnState, IndexerState.CHURN);
-    addRequestedTransition(forceState, hardChurnState, IndexerState.CHURN);
-
-    stateMachine.setInitialState(idleState);
-    indexer.setDefaultCommands(stateMachine);
   }
 
-  // TODO: Adjust Button Inputs
   public void configureButtonBindings(Controller driver, Controller operator) {
-    driver.createLeftBumper().onTrue(toggleForceFeed());
+    // driver.createLeftBumper().onTrue(toggleForceFeed());
     // driver.createLeftBumper().whileTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
-    operator.createLeftBumper().onTrue(shouldForceCommand()).onFalse(shouldChurnCommand());
+    driver.createLeftBumper().whileTrue(shouldHardChurnCommand()).onFalse(shouldChurnCommand());
+    operator
+        .createLeftBumper()
+        .whileTrue(
+            Commands.either(
+                shouldForceCommand(), shouldChurnCommand(), () -> launcher.isOKToFire()))
+        .onFalse(shouldChurnCommand());
     operator.createRightBumper().onTrue(shouldHardChurnCommand()).onFalse(shouldChurnCommand());
   }
 
@@ -116,14 +71,8 @@ public class IndexerCommands {
         .onTrue(churnStateCommand());
   }
 
-  // Small helper to reduce duplicate switchTo(...).when(...) boilerplate
-  private void addRequestedTransition(State from, State to, IndexerState request) {
-    from.switchTo(to).when(() -> indexer.isRequested(request));
-  }
+  public void setupDefaultCommands() {}
 
-  public void setupDefaultCommands() {
-    indexer.setDefaultCommands(stateMachine);
-  }
   /** defines command behavio for the force state stops the indexer and runs the transfer at 50% */
   public static Command forceStateCommand() {
     return Commands.runOnce(
@@ -138,12 +87,19 @@ public class IndexerCommands {
   /** defines command behavior for the churn state stops the indexer and runs the transfer at 25% */
   private static Command churnStateCommand() {
     return Commands.runOnce(
-        () -> {
-          indexer.setCurrentState(IndexerState.CHURN);
-          indexer.runSpindexer(-0.1);
-          indexer.runTransferFront(Constants.Indexer.TRANSFER_CHURN);
-        },
-        indexer);
+            () -> {
+              indexer.setCurrentState(IndexerState.CHURN);
+              indexer.runSpindexer(-0.1);
+              indexer.runTransferFront(Constants.Indexer.TRANSFER_CHURN);
+            },
+            indexer)
+        .withTimeout(0.5)
+        .andThen(
+            Commands.runOnce(
+                () -> {
+                  indexer.runSpindexer(0.0);
+                  indexer.runTransferFront(0);
+                }));
   }
 
   private static Command hardChurnStateCommand() {

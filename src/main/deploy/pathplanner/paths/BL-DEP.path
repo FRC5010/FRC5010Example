@@ -3,54 +3,59 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5991440798858774,
-        "y": 6.4092439372325245
+        "x": 3.5880826799714898,
+        "y": 6.5478581610833935
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2868133599999187,
-        "y": 6.844728612927464
+        "x": 2.275751960085531,
+        "y": 6.983342836778333
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BLS"
     },
     {
       "anchor": {
-        "x": 2.9522111269614832,
-        "y": 6.603323823109844
+        "x": 0.8719949494949504,
+        "y": 7.321729797979798
       },
       "prevControl": {
-        "x": 3.534450784593438,
-        "y": 6.603323823109844
+        "x": 1.7814694250807417,
+        "y": 7.7374895582475895
       },
       "nextControl": {
-        "x": 2.4710955177785356,
-        "y": 6.603323823109844
+        "x": 0.4344325831371458,
+        "y": 7.121701287644801
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.8126870990734145,
-        "y": 5.9952068473609135
+        "x": 0.7231186868686872,
+        "y": 5.523762626262627
       },
       "prevControl": {
-        "x": 1.5418972895863048,
-        "y": 5.982268188302426
+        "x": 0.6773106060606064,
+        "y": 6.1536237373737395
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "DEPOT"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.3038596491228112,
+      "rotationDegrees": -104.27045396689256
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 5.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 9.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -58,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 178.02506598911802
+    "rotation": -114.56717132151371
   },
   "reversed": false,
   "folder": null,

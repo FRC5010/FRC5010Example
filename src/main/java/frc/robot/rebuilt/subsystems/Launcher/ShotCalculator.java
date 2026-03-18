@@ -84,7 +84,7 @@ public class ShotCalculator {
 
   // Cache parameters
   private ShootingParameters latestParameters = null;
-  public static double flywheelMultiplier = 0.45;
+  public static double flywheelMultiplier = 1.0;
 
   private static double minDistance;
   private static double maxDistance;
@@ -144,37 +144,41 @@ public class ShotCalculator {
   }
   /** Creates default hood angle, flywheel speeds, and time of light tables */
   public static ShotTables createDefaultTables() {
+    final double offset = 0.5969;
     return new ShotTables(
         Map.ofEntries(
-            Map.entry(1.34, Rotation2d.fromDegrees(31.0)),
-            Map.entry(1.78, Rotation2d.fromDegrees(31.0)),
-            Map.entry(2.17, Rotation2d.fromDegrees(36.0)),
-            Map.entry(2.81, Rotation2d.fromDegrees(39.0)),
-            Map.entry(3.82, Rotation2d.fromDegrees(41.0)),
-            Map.entry(4.09, Rotation2d.fromDegrees(42.0)),
-            Map.entry(4.40, Rotation2d.fromDegrees(43.0)),
-            Map.entry(4.77, Rotation2d.fromDegrees(44.0)),
-            Map.entry(5.57, Rotation2d.fromDegrees(44.0)),
-            Map.entry(5.60, Rotation2d.fromDegrees(47.0))),
+            Map.entry(2.0796297600462808, Rotation2d.fromDegrees(33.0)),
+            Map.entry(2.3644814757115706, Rotation2d.fromDegrees(34.0)),
+            Map.entry(2.7648598116063776, Rotation2d.fromDegrees(35.0)),
+            Map.entry(3.2194779503261004, Rotation2d.fromDegrees(38.0)),
+            Map.entry(3.53088512698516, Rotation2d.fromDegrees(39.0)),
+            Map.entry(3.9268571046742813, Rotation2d.fromDegrees(40.0)),
+            Map.entry(4.317290273504823, Rotation2d.fromDegrees(42.0)),
+            Map.entry(4.540307519714445, Rotation2d.fromDegrees(43.0)),
+            Map.entry(5.77893560525366, Rotation2d.fromDegrees(45.0)),
+            Map.entry(6.35214199070158, Rotation2d.fromDegrees(47.0)),
+            Map.entry(10.990685758149123, Rotation2d.fromDegrees(50.0)),
+            Map.entry(13.024035615135324, Rotation2d.fromDegrees(55.0))),
         Map.ofEntries(
-            Map.entry(1.34, 210.0),
-            Map.entry(1.78, 220.0),
-            Map.entry(2.17, 220.0),
-            Map.entry(2.81, 230.0),
-            Map.entry(3.82, 250.0),
-            Map.entry(4.09, 255.0),
-            Map.entry(4.40, 260.0),
-            Map.entry(4.77, 265.0),
-            Map.entry(5.57, 275.0),
-            Map.entry(5.60, 290.0)),
+            Map.entry(2.0796297600462808, 97.0),
+            Map.entry(2.3644814757115706, 103.0),
+            Map.entry(2.7648598116063776, 105.0),
+            Map.entry(3.2194779503261004, 107.0),
+            Map.entry(3.53088512698516, 110.0),
+            Map.entry(3.9268571046742813, 113.0),
+            Map.entry(4.317290273504823, 115.0),
+            Map.entry(4.540307519714445, 117.0),
+            Map.entry(5.77893560525366, 127.0),
+            Map.entry(6.35214199070158, 133.0),
+            Map.entry(10.990685758149123, 155.0),
+            Map.entry(13.024035615135324, 170.0)),
         Map.ofEntries(
-            Map.entry(5.68, 1.16),
-            Map.entry(4.55, 1.12),
-            Map.entry(3.15, 1.11),
-            Map.entry(1.88, 1.09),
-            Map.entry(1.38, 0.90)),
-        1.34,
-        5.60,
+            Map.entry(2.11, 1.04),
+            Map.entry(3.92, 1.19),
+            Map.entry(4.10, 1.22),
+            Map.entry(5.58, 1.28)),
+        0.7,
+        100.0,
         0.03);
   }
 

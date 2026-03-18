@@ -81,11 +81,11 @@
     "uom": "deg"
   },
   "lowerSoftLimit": {
-    "val": -120,
+    "val": -150,
     "uom": "deg"
   },
   "upperSoftLimit": {
-    "val": 120,
+    "val": 150,
     "uom": "deg"
   },
   "gearStages": "30:1",

@@ -14,15 +14,19 @@ public interface IntakeIO {
     public IntakeCommands.IntakeState stateRequested = IntakeCommands.IntakeState.UNKNOWN;
     public IntakeCommands.IntakeState stateCurrent = IntakeCommands.IntakeState.UNKNOWN;
     public double speed = 0.0;
-    public Angle hopperAngle = Degrees.of(0.0);
-    public double hopperAngleDouble = 0.0;
+    public Angle hopperAngleActual = Degrees.of(0.0);
+    public double hopperAngleDegrees = 0.0;
     public double hopperAmps = 0;
+
+    public Angle hopperAngleDesired = Degrees.of(0);
+    public double hopperAngleError = 0.0;
+    public boolean hopperAtGoal = true;
     public int simulatedGamepieces = 0;
   }
 
   public void runSpintake(double speed);
 
-  public void setHopperAngle(Angle angle);
+  public Command setHopperAngle(Angle angle);
 
   public void setHopperPosition(Angle angle);
 

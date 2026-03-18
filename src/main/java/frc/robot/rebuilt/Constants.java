@@ -22,7 +22,7 @@ public class Constants {
   public static class Launcher {
     public static final double SHOOTER_TOLERANCE_RPM = 50.0;
     public static final double HOOD_ANGLE_TOLERANCE_DEGREES = 1.0;
-    public static final double TURRET_ANGLE_TOLERANCE_DEGREES = 1.5;
+    public static final double TURRET_ANGLE_TOLERANCE_DEGREES = 5;
 
     public static final Angle LOW_HOOD_ANGLE = Degrees.of(31);
     public static final AngularVelocity LOW_FLYWHEEL_RPM = RotationsPerSecond.of(1);
@@ -47,11 +47,16 @@ public class Constants {
   public static class Intake {
     public static final double HOPPER_GO_OUT = -0.3;
     public static final double HOPPER_GO_IN = 0.2;
-    public static final double HOPPER_OUT = 0.00;
-    public static final double INTAKE_IN = 0.0;
-    public static final double INTAKE_OUT = -0.0;
+    public static final double INTAKE_IN = 0.55;
+    public static final double INTAKE_DEADZONE = 0.25;
+    public static final double INTAKE_CHURN = 0.25;
     public static final double INTAKE_MAX_IN = 0.9;
     public static final double INTAKE_MAX_OUT = -0.9;
-    public static final double HOPPER_STALL_CURRENT_THRESHOLD = 5.0;
+    public static final double HOPPER_ANGLE_TOLERANCE = 3;
+    public static final double HOPPER_STALL_TIME = 0.5;
+    public static final Angle HOPPER_RETRACTED_ANGLE = Degrees.of(130);
+    public static final Angle HOPPER_DEPLOYED_ANGLE = Degrees.of(0);
+    public static final Angle HOPPER_ANGLED = Degrees.of(30);
+    public static final double HOPPER_STALL_CURRENT_THRESHOLD = 40.0;
   }
 }

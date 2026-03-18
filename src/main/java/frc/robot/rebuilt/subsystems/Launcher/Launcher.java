@@ -62,6 +62,7 @@ public class Launcher extends GenericSubsystem {
   @Override
   public void periodic() {
     super.periodic();
+
     io.updateInputs(inputs);
     Logger.processInputs("Launcher", inputs);
   }
@@ -191,6 +192,10 @@ public class Launcher extends GenericSubsystem {
         && inputs.hoodAngleAtGoal
         && inputs.turretAngleAtGoal
         && inputs.isValidCalculation;
+  }
+
+  public boolean isOKToFire() {
+    return inputs.isValidCalculation;
   }
 
   public boolean isRequested(LauncherState state) {

@@ -137,6 +137,13 @@ public class PhotonVisionPoseCamera extends PhotonVisionCamera implements Fiduci
               robotPose.getY(),
               robotPose.getRotation().toRotation2d().getDegrees()
             });
+        SmartDashboard.putNumberArray(
+            "Camera/" + name() + "/Photon Camera " + name + " Robot Offset",
+            new double[] {
+              robotToCamera.getX(),
+              robotToCamera.getY(),
+              robotToCamera.getRotation().toRotation2d().getDegrees()
+            });
 
         observations.add(
             new PoseObservation(

@@ -18,15 +18,14 @@ import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.motors.SystemIdentification;
-import org.frc5010.common.motors.function.PercentControlMotor;
 import org.littletonrobotics.junction.Logger;
 import yams.mechanisms.positional.Arm;
+import yams.mechanisms.velocity.FlyWheel;
 
 public class IntakeIOReal implements IntakeIO {
   protected Map<String, Object> devices;
-  // private FlyWheel spintakeLead;
-  private PercentControlMotor spintakeLead;
-  private PercentControlMotor spinTakeFollow;
+  private FlyWheel spintakeInner;
+  private FlyWheel spintakeOuter;
   private Arm intakeHopper;
   protected GenericDrivetrain drivetrain;
   private boolean isNearTrench = false;
@@ -36,21 +35,19 @@ public class IntakeIOReal implements IntakeIO {
   public IntakeIOReal(Map<String, Object> devices) {
     this.devices = devices;
     // spintakeLead = (FlyWheel) devices.get("spintake");
-    spintakeLead = (PercentControlMotor) devices.get("spintakeLead");
-    spinTakeFollow = (PercentControlMotor) devices.get("spintakeFollow");
-    spintakeLead.invert(true);
-    spinTakeFollow.setFollow(spintakeLead, false);
+    spintakeOuter = (FlyWheel) devices.get("spintake_outer");
+    spintakeInner = (FlyWheel) devices.get("spintake_inner");
     intakeHopper = (Arm) devices.get("hopper");
   }
 
   @Override
   public void runSpintake(double speed) {
-    // spintakeLead.getMotor().setDutyCycle(speed);
-    spintakeLead.set(speed);
+    spintakeOuter.getMotor().setDutyCycle(speed);
+    spintakeInner.getMotor().setDutyCycle(speed * 0.5);
   }
 
-  public void setHopperAngle(Angle angle) {
-    intakeHopper.getMotorController().setPosition(angle);
+  public Command setHopperAngle(Angle angle) {
+    return intakeHopper.setAngle(angle);
   }
 
   public void setHopperPosition(Angle angle) {
@@ -60,7 +57,7 @@ public class IntakeIOReal implements IntakeIO {
   public boolean isHopperMoving() {
     return Math.abs(
             intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)))
-        > 10.0;
+        > 1.0;
   }
 
   public boolean isHopperStalling() {
@@ -69,12 +66,11 @@ public class IntakeIOReal implements IntakeIO {
   }
 
   public boolean isRetracted() {
-    return false;
-    // return (intakeHopper.getAngle().isNear(Degrees.of(120), Degrees.of(10)));
+    return (intakeHopper.getAngle().gte(Degrees.of(130)));
   }
 
   public boolean isDeployed() {
-    return (intakeHopper.getAngle().isNear(Degrees.of(0.0), Degrees.of(10)));
+    return (intakeHopper.getAngle().lte(Degrees.of(2.0)));
   }
 
   public Command getHopperSysIdCommand() {
@@ -167,9 +163,14 @@ public class IntakeIOReal implements IntakeIO {
         "Hopper Velocity",
         intakeHopper.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
     Logger.recordOutput("Hopper MOving", isHopperMoving());
-    inputs.hopperAngle = intakeHopper.getMotorController().getMechanismPosition();
-    inputs.hopperAngleDouble = inputs.hopperAngle.in(Degrees);
-    inputs.speed = spintakeLead.get();
+    inputs.hopperAngleActual = intakeHopper.getMotorController().getMechanismPosition();
+    inputs.hopperAngleDegrees = inputs.hopperAngleActual.in(Degrees);
+    inputs.hopperAngleDesired =
+        intakeHopper.getMotorController().getMechanismPositionSetpoint().orElse(Degrees.of(0));
+    inputs.hopperAngleError = inputs.hopperAngleDesired.minus(inputs.hopperAngleActual).in(Degrees);
+    inputs.hopperAtGoal =
+        Math.abs(inputs.hopperAngleError) < Constants.Intake.HOPPER_ANGLE_TOLERANCE;
+    inputs.speed = spintakeOuter.getMotor().getDutyCycle();
     inputs.hopperAmps = intakeHopper.getMotor().getStatorCurrent().in(Amps);
     // inputs.speed = spintakeLead.getMotor().getDutyCycle();
   }

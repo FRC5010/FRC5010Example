@@ -5,18 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "intakeIntake"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -24,25 +12,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "TR-CTR"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 7.8
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "launcherPrep"
-                      }
-                    }
-                  ]
                 }
               }
             ]

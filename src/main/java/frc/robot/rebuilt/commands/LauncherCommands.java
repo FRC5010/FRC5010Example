@@ -20,7 +20,6 @@ import frc.robot.rebuilt.FieldConstants;
 import frc.robot.rebuilt.subsystems.Launcher.Launcher;
 import frc.robot.rebuilt.subsystems.Launcher.ShotCalculator;
 import frc.robot.rebuilt.subsystems.Launcher.ShotCalculator.ShootingParameters;
-import frc.robot.rebuilt.subsystems.intake.Intake;
 import java.util.Map;
 import org.frc5010.common.arch.GenericSubsystem;
 import org.frc5010.common.arch.StateMachine;
@@ -29,6 +28,8 @@ import org.frc5010.common.config.ConfigConstants;
 import org.frc5010.common.drive.GenericDrivetrain;
 import org.frc5010.common.sensors.Controller;
 import org.frc5010.common.subsystems.LEDStrip;
+import org.frc5010.common.utils.geometry.AllianceFlipUtil;
+import org.frc5010.common.vision.AprilTags;
 
 /** defines commands and state launcher logic for the launcher */
 public class LauncherCommands {
@@ -43,7 +44,6 @@ public class LauncherCommands {
   private State escapeHammerTimeState;
   private static Launcher launcher;
   private static GenericDrivetrain drivetrain;
-  private static Intake intake;
   private Map<String, GenericSubsystem> subsystems;
   private static Translation2d hubTarget = FieldConstants.Hub.topCenterPoint.toTranslation2d();
   private static Translation2d allianceSideLeft = FieldConstants.Tower.leftUpright;
@@ -95,7 +95,6 @@ public class LauncherCommands {
     launcher.setRequestedState(LauncherState.IDLE);
 
     drivetrain = (GenericDrivetrain) this.subsystems.get(ConfigConstants.DRIVETRAIN);
-    intake = (Intake) this.subsystems.get(Constants.INTAKE);
     configureStateMachine();
   }
   /** sets the state machine as the default command of the launcher */
@@ -191,9 +190,9 @@ public class LauncherCommands {
   public void configureButtonBindings(Controller driver, Controller operator) {
 
     // driver.createAButton().onTrue(shouldPrepCommand());
-    driver.createAButton().whileTrue(shouldPrepCommand()).onFalse(shouldHammerTimeCommand());
+    driver.createBButton().whileTrue(shouldPrepCommand()).onFalse(shouldHammerTimeCommand());
 
-    driver.createBButton().onTrue(shouldLowCommand()).onFalse(shouldHammerTimeCommand());
+    driver.createAButton().onTrue(shouldLowCommand()).onFalse(shouldHammerTimeCommand());
 
     // operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
 
@@ -249,7 +248,7 @@ public class LauncherCommands {
               LEDStrip.changeSegmentPattern(
                   ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
             }),
-        launcher.trackTargetCommand());
+        launcher.trackTargetLowCommand());
   }
   /** creates command behavior when the launcher is at prep state */
   private static Command prepStateCommand() {
@@ -322,11 +321,17 @@ public class LauncherCommands {
                   ShootingParameters params =
                       launcher.getShootingParameters(
                           () ->
-                              new Pose2d(
-                                  new Translation2d(
-                                      Inches.of(25),
-                                      FieldConstants.FIELD_WIDTH.minus(Inches.of(17.25))),
-                                  new Rotation2d()),
+                              AllianceFlipUtil.apply(
+                                  new Pose2d(
+                                      new Translation2d(
+                                          Inches.of(
+                                              AprilTags.aprilTagFieldLayout
+                                                      .getTagPose(31)
+                                                      .get()
+                                                      .getX()
+                                                  + 25),
+                                          FieldConstants.FIELD_WIDTH.minus(Inches.of(17.25))),
+                                      new Rotation2d())),
                           () -> FieldConstants.Hub.topCenterPoint.toTranslation2d());
                   presetHoodAngle = Radians.of(params.hoodAngle());
                   presetTurretAngle = params.turretAngle().getMeasure();
@@ -343,9 +348,17 @@ public class LauncherCommands {
                   ShootingParameters params =
                       launcher.getShootingParameters(
                           () ->
-                              new Pose2d(
-                                  new Translation2d(Inches.of(25), Inches.of(17.5)),
-                                  new Rotation2d()),
+                              AllianceFlipUtil.apply(
+                                  new Pose2d(
+                                      new Translation2d(
+                                          Inches.of(
+                                              AprilTags.aprilTagFieldLayout
+                                                      .getTagPose(31)
+                                                      .get()
+                                                      .getX()
+                                                  + 25),
+                                          Inches.of(17.5)),
+                                      new Rotation2d())),
                           () -> FieldConstants.Hub.topCenterPoint.toTranslation2d());
                   presetHoodAngle = Radians.of(params.hoodAngle());
                   presetTurretAngle = params.turretAngle().getMeasure();
@@ -361,7 +374,8 @@ public class LauncherCommands {
                 () -> {
                   ShootingParameters params =
                       launcher.getShootingParameters(
-                          () -> FieldConstants.Tower.face.plus(rearToCenter),
+                          () ->
+                              AllianceFlipUtil.apply(FieldConstants.Tower.face.plus(rearToCenter)),
                           () -> FieldConstants.Hub.topCenterPoint.toTranslation2d());
                   presetHoodAngle = Radians.of(params.hoodAngle());
                   presetTurretAngle = Constants.Launcher.TURRET_FORWARD;

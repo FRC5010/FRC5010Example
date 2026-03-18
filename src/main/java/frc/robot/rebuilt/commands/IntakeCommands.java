@@ -209,8 +209,8 @@ public class IntakeCommands {
             () -> {
               intake.runHopper(.2);
             })
-            .until(() -> intake.isHopperStalling())
-            .andThen(intakingCommand(intakeSpeed));
+        .until(() -> intake.isHopperStalling())
+        .andThen(intakingCommand(intakeSpeed));
   }
 
   public static Command shouldIntaking() {

@@ -57,7 +57,7 @@ public class IntakeCommands {
         (state, cmd) -> new Trigger(() -> intake.isRequested(state)).onTrue(cmd));
 
     // Not moving trigger senses if the hopper has hit the bumper hard stop for 0.5 sec
-    Trigger hopperNotMoving =
+    Trigger hopperNotMovingAndLowish =
         new Trigger(() -> intake.isHopperStalling()).debounce(Constants.Intake.HOPPER_STALL_TIME);
 
     /** Trigger the deploying command */
@@ -71,7 +71,7 @@ public class IntakeCommands {
             () ->
                 intake.isRequested(IntakeState.INTAKING)
                     && intake.isCurrent(IntakeState.DEPLOYING)
-                    && (intake.isDeployed() || hopperNotMoving.getAsBoolean()))
+                    && (intake.isDeployed() || hopperNotMovingAndLowish.getAsBoolean()))
         .onTrue(intakingCommand(intakeSpeed));
 
     /** Trigger the retracting command */
@@ -111,6 +111,7 @@ public class IntakeCommands {
     controller.createBackButton().onTrue(Commands.run(() -> intake.setHopperDeployed()));
 
     operator.createDownPovButton().onTrue(operatorHopperDownCommand());
+    controller.createXButton().onTrue(operatorHopperDownCommand());
 
     intakeSpeedSupplier =
         () -> {
@@ -135,7 +136,13 @@ public class IntakeCommands {
               intake.setHopperPosition(Degrees.of(0));
             },
             intake)
-        .andThen(Commands.run(() -> intake.runSpintake(speed.get().getAsDouble()), intake));
+        .andThen(
+            Commands.run(
+                () -> {
+                  intake.runHopper(-0.1);
+                  intake.runSpintake(speed.get().getAsDouble());
+                },
+                intake));
   }
 
   public static Command deployingCommand() {
@@ -149,7 +156,13 @@ public class IntakeCommands {
             intake
                 .setDesiredHopperAngle(Constants.Intake.HOPPER_DEPLOYED_ANGLE)
                 .until(() -> intake.isHopperAtGoal()))
-        .andThen(Commands.idle(intake));
+        .alongWith(
+            Commands.run(
+                () -> {
+                  if (intake.getHopperAngle().lt(Degrees.of(60))) {
+                    intake.runSpintake(Constants.Intake.INTAKE_IN);
+                  }
+                }));
   }
 
   public static Command deployedCommand() {
@@ -207,7 +220,7 @@ public class IntakeCommands {
   public Command operatorHopperDownCommand() {
     return Commands.run(
             () -> {
-              intake.runHopper(.2);
+              intake.runHopper(-.2);
             })
         .until(() -> intake.isHopperStalling())
         .andThen(intakingCommand(intakeSpeed));

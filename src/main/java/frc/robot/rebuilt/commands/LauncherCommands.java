@@ -170,7 +170,7 @@ public class LauncherCommands {
             () ->
                 launcher.isCurrent(LauncherState.PREP)
                     && launcher.isAtGoal()
-                    && ShotCalculator.getInstance().hasValidShot());
+                  );
     readyToFireTrigger
         .onTrue(IndexerCommands.shouldFeedCommand())
         .onFalse(IndexerCommands.shouldIdleCommand());

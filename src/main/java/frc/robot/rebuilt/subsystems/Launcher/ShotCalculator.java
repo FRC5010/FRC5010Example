@@ -84,7 +84,7 @@ public class ShotCalculator {
 
   // Cache parameters
   private ShootingParameters latestParameters = null;
-  public static double flywheelMultiplier = 1.0;
+  public static double flywheelMultiplier = 1.06;
 
   private static double minDistance;
   private static double maxDistance;

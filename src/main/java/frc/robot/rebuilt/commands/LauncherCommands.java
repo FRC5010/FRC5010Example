@@ -166,11 +166,7 @@ public class LauncherCommands {
     hammerTimeState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
 
     Trigger readyToFireTrigger =
-        new Trigger(
-            () ->
-                launcher.isCurrent(LauncherState.PREP)
-                    && launcher.isAtGoal()
-                  );
+        new Trigger(() -> launcher.isCurrent(LauncherState.PREP) && launcher.isAtGoal());
     readyToFireTrigger
         .onTrue(IndexerCommands.shouldFeedCommand())
         .onFalse(IndexerCommands.shouldIdleCommand());
@@ -195,6 +191,12 @@ public class LauncherCommands {
     driver.createAButton().onTrue(shouldLowCommand()).onFalse(shouldHammerTimeCommand());
 
     // operator.createLeftBumper().whileTrue(shouldPrepCommand()).onFalse(shouldLowCommand());
+    operator
+        .createLeftPovButton()
+        .onTrue(Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(-0.01)));
+    operator
+        .createRightPovButton()
+        .onTrue(Commands.runOnce(() -> ShotCalculator.incrementFlywheelMultiplier(0.01)));
 
     operator
         .createAButton()

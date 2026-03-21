@@ -93,7 +93,7 @@ public class IndexerCommands {
               indexer.runTransferFront(Constants.Indexer.TRANSFER_CHURN);
             },
             indexer)
-        .withTimeout(0.5)
+        .andThen(Commands.waitSeconds(1.0))
         .andThen(
             Commands.runOnce(
                 () -> {

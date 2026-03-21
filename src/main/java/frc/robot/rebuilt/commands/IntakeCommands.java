@@ -2,6 +2,7 @@ package frc.robot.rebuilt.commands;
 
 import static edu.wpi.first.units.Units.Degrees;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -139,8 +140,14 @@ public class IntakeCommands {
         .andThen(
             Commands.run(
                 () -> {
-                  intake.runHopper(-0.1);
-                  intake.runSpintake(speed.get().getAsDouble());
+                  double runSpeed = speed.get().getAsDouble();
+                  intake.setDesiredHopperAngle(Constants.Intake.HOPPER_DEPLOYED_ANGLE);
+                  // if (intake.getHopperAngle().gt(Degrees.of(5))
+                  //     || runSpeed > Constants.Intake.INTAKE_IN) {
+                  //   intake.runHopper(-0.15);
+                  // } else {
+                  // }
+                  intake.runSpintake(runSpeed);
                 },
                 intake));
   }

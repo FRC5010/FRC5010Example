@@ -53,7 +53,7 @@ public class Constants {
     public static final double INTAKE_MAX_IN = 0.9;
     public static final double INTAKE_MAX_OUT = -0.9;
     public static final double HOPPER_ANGLE_TOLERANCE = 3;
-    public static final double HOPPER_STALL_TIME = 0.5;
+    public static final double HOPPER_STALL_TIME = 0.3;
     public static final Angle HOPPER_RETRACTED_ANGLE = Degrees.of(120);
     public static final Angle HOPPER_DEPLOYED_ANGLE = Degrees.of(0);
     public static final Angle HOPPER_ANGLED = Degrees.of(30);

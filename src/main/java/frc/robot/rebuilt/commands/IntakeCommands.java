@@ -167,7 +167,12 @@ public class IntakeCommands {
         .andThen(
             intake
                 .setDesiredHopperAngle(Constants.Intake.HOPPER_DEPLOYED_ANGLE)
-                .until(() -> intake.isHopperAtGoal()))
+                .until(() -> intake.isHopperAtGoal())
+                .andThen(
+                    Commands.runOnce(
+                        () -> {
+                          intake.runHopper(-0.1);
+                        })))
         .alongWith(
             Commands.run(
                 () -> {

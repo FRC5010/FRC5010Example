@@ -70,10 +70,10 @@
     },
     {
       "name": "intake",
-      "minWaypointRelativePos": 1.2129032258064532,
+      "minWaypointRelativePos": 1.0223325062034787,
       "maxWaypointRelativePos": 1.9116625310173645,
       "constraints": {
-        "maxVelocity": 1.5,
+        "maxVelocity": 1.0,
         "maxAcceleration": 6.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -84,7 +84,7 @@
     {
       "name": "hopper",
       "minWaypointRelativePos": 0.3831265508684809,
-      "maxWaypointRelativePos": 1.3439205955334927,
+      "maxWaypointRelativePos": 0.9548387096774164,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 9.0,

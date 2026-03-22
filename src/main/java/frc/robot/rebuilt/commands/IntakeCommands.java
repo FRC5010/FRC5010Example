@@ -65,7 +65,7 @@ public class IntakeCommands {
     new Trigger(
             () ->
                 intake.isRequested(IntakeState.INTAKING) && !intake.isCurrent(IntakeState.INTAKING))
-        .onTrue(deployingCommand());
+        .onTrue(deployingCommand().until(() -> intake.isCurrent(IntakeState.INTAKING)));
 
     /** Trigger the intaking command */
     new Trigger(
@@ -80,7 +80,7 @@ public class IntakeCommands {
             () ->
                 intake.isRequested(IntakeState.RETRACTING)
                     && !intake.isCurrent(IntakeState.RETRACTED))
-        .onTrue(retractingCommand());
+        .onTrue(retractingCommand().until(() -> intake.isCurrent(IntakeState.RETRACTED)));
 
     /** Trigger the retracted command */
     new Trigger(() -> intake.isCurrent(IntakeState.RETRACTING) && (intake.isRetracted()))

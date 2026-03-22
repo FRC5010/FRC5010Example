@@ -187,3 +187,4 @@ compile_commands.json
 .factorypath
 /results
 /src/main/resources/pose_optimizer
+src/main/java/frc/robot/BuildConstants.java

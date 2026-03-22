@@ -19,6 +19,12 @@
         {
           "type": "named",
           "data": {
+            "name": "indexerChurn"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "launcherPrep"
           }
         },
@@ -49,7 +55,7 @@
         {
           "type": "named",
           "data": {
-            "name": "launcherPrep"
+            "name": null
           }
         }
       ]

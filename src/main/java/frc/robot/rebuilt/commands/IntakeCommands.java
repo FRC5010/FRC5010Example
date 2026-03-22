@@ -125,6 +125,9 @@ public class IntakeCommands {
                 rightTriggerSpeed
                     - leftTriggerSpeed; // Positive for intaking, negative for outtaking
           }
+          if (RobotState.isAutonomous()) {
+            speed = Constants.Intake.INTAKE_AUTO; // Intake in speed in auto
+          }
           return speed;
         };
   }

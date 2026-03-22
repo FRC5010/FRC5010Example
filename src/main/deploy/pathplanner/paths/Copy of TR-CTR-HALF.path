@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.753867394480944,
+        "x": 4.7538673944809435,
         "y": 0.702399999999999
       },
       "isLocked": false,
@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "nWallNew"
     }
   ],
   "rotationTargets": [

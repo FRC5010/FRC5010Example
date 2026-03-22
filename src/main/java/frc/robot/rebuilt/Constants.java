@@ -48,6 +48,7 @@ public class Constants {
     public static final double HOPPER_GO_OUT = -0.3;
     public static final double HOPPER_GO_IN = 0.2;
     public static final double INTAKE_IN = 0.65;
+    public static final double INTAKE_AUTO = 0.75;
     public static final double INTAKE_DEADZONE = 0.25;
     public static final double INTAKE_CHURN = 0.25;
     public static final double INTAKE_MAX_IN = 0.9;

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.920313253012047,
-        "y": 4.799939759036144
+        "x": 7.417638554216868,
+        "y": 4.8108674698795175
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.46431135009664,
-        "y": 7.657571586792378
+        "x": 7.961636651301461,
+        "y": 7.668499297635752
       },
       "isLocked": false,
       "linkedName": "QTRLH"
@@ -62,7 +62,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -73.68614757373946
   },
   "useDefaultConstraints": true
 }

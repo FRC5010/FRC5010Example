@@ -157,6 +157,10 @@ public class IntakeCommands {
                 intake));
   }
 
+  public static Command waitUntilIntaking() {
+    return Commands.idle().until(() -> intake.isCurrent(IntakeState.INTAKING));
+  }
+
   public static Command deployingCommand() {
     return Commands.runOnce(
             () -> {

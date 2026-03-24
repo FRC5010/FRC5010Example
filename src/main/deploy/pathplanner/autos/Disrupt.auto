@@ -7,49 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TR-CTR-QTRAngled"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "QTR-TRBack"
+            "pathName": "RightDisrupt1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "indexerChurn"
+            "name": "intakeIntake"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "launcherPrep"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 4.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launcherLow"
+            "name": "WaitUntilIntaking"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "TRBack-CTR-HALF"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "QTRH-TRBack"
+            "pathName": "Disrupter2"
           }
         },
         {

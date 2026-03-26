@@ -2,7 +2,7 @@
   "cameras": [
     "left.json",
     "right.json",
-    "quest.json"
+    "rear.json"
   ],
   "viewGamePieces": false,
   "aprilTagLayout": "2026-rebuilt-andymark.json"

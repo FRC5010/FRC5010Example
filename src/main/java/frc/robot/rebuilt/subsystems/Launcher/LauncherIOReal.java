@@ -130,8 +130,9 @@ public class LauncherIOReal implements LauncherIO {
                 /* driveGearTeeth */ 12,
                 /* encoder1Pinion */ 40,
                 /* encoder2Pinion */ 36)
-            .withAbsoluteEncoderOffsets(
-                Rotations.of(0.01171875), Rotations.of(0.178466796875)) // set after mechanical zero
+            .withAbsoluteEncoderOffsets( // -0.474609375
+                Rotations.of(0.474609375),
+                Rotations.of(-0.009521484375)) // set after mechanical zero
             .withMechanismRange(Degrees.of(-168), Degrees.of(173)) // -360 deg to +720 deg
             .withMatchTolerance(Rotations.of(0.06)) // ~1.08 deg at encoder2 for the example ratio
             .withAbsoluteEncoderInversions(true, false)

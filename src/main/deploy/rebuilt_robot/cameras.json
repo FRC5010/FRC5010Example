@@ -3,5 +3,6 @@
     "left.json",
     "right.json",
     "rear.json"
-  ]
+  ],
+  "aprilTagLayout": "2026-rebuilt-andymark.json"
 }

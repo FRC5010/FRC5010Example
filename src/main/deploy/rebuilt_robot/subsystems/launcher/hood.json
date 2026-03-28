@@ -1,0 +1,87 @@
+{
+  "motorSetup": {
+    "name": "hood",
+    "controllerType": "talonfx",
+    "motorType": "KrakenX44",
+    "canId": 19,
+    "logLevel": "LOW",
+    "currentLimit": {
+      "val": 60,
+      "uom": "amps"
+    }
+  },
+  "controlAlgorithm": "SIMPLE",
+  "motorSystemId": {
+    "feedBack": {
+      "p": 200,
+      "i": 0.0,
+      "d": 7
+    },
+    "feedForward": {
+      "s": 0.0,
+      "v": 0.0,
+      "a": 0.0
+    },
+    "maxVelocity": {
+      "val": 180,
+      "uom": "deg/s"
+    },
+    "maxAcceleration": {
+      "val": 90,
+      "uom": "deg/s^2"
+    }
+  },
+  "simSystemId": {
+    "feedBack": {
+      "p": 9,
+      "i": 0.0,
+      "d": 0.0
+    },
+    "feedForward": {
+      "s": 0.0,
+      "v": 0.0,
+      "a": 0.0
+    },
+    "maxVelocity": {
+      "val": 180,
+      "uom": "deg/s"
+    },
+    "maxAcceleration": {
+      "val": 90,
+      "uom": "deg/s^2"
+    }
+  },
+  "length": {
+    "val": 9.466,
+    "uom": "in"
+  },
+  "lowerHardLimit": {
+    "val": 30,
+    "uom": "deg"
+  },
+  "upperHardLimit": {
+    "val": 55,
+    "uom": "deg"
+  },
+  "startingAngle": {
+    "val": 30,
+    "uom": "deg"
+  },
+  "lowerSoftLimit": {
+    "val": 30,
+    "uom": "deg"
+  },
+  "upperSoftLimit": {
+    "val": 55,
+    "uom": "deg"
+  },
+  "gearStages": "1015:33",
+  "mass": {
+    "val": 0.25,
+    "uom": "lbs"
+  },
+  "horizontalZero": {
+    "val": 30,
+    "uom": "deg"
+  }
+}

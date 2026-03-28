@@ -194,7 +194,7 @@ public class AprilTags {
     try {
       aprilTagFieldLayout =
           AprilTagFieldLayout.loadFromResource(
-              AprilTagFields.k2025ReefscapeAndyMark.m_resourceFile);
+              AprilTagFields.kDefaultField.m_resourceFile);
 
       List<AprilTag> aprilTagPoses = new ArrayList<>();
       for (AprilTag5010 aprilTag : AprilTag5010.values()) {

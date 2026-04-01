@@ -150,17 +150,27 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveRobotRelative(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">driveRobotRelative</a><wbr>(edu.wpi.first.math.kinematics.ChassisSpeeds&nbsp;velocity)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../AkitSwerveConfig.html" title="class in org.frc5010.common.drive.swerve">AkitSwerveConfig</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getConfig()" class="member-name-link">getConfig</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDriveFFCharacterizationVelocity()" class="member-name-link">getDriveFFCharacterizationVelocity</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.kinematics.ChassisSpeeds</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getChassisAcceleration()" class="member-name-link">getChassisAcceleration</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the robot-relative chassis acceleration derived from drive motor acceleration signals.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../AkitSwerveConfig.html" title="class in org.frc5010.common.drive.swerve">AkitSwerveConfig</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getConfig()" class="member-name-link">getConfig</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDriveFFCharacterizationVelocity()" class="member-name-link">getDriveFFCharacterizationVelocity</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the average velocity of the modules in rad/sec.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj.smartdashboard.Field2d</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getField2d()" class="member-name-link">getField2d</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj.smartdashboard.Field2d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getField2d()" class="member-name-link">getField2d</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.kinematics.ChassisSpeeds</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFieldAcceleration()" class="member-name-link">getFieldAcceleration</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the field-relative chassis acceleration derived from drive motor acceleration signals.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.kinematics.ChassisSpeeds</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFieldVelocity()" class="member-name-link">getFieldVelocity</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -552,6 +562,22 @@ loadScripts(document, 'script');</script>
 <dt>Specified by:</dt>
 <dd><code><a href="../SwerveDriveFunctions.html#getFieldVelocity()">getFieldVelocity</a></code>&nbsp;in class&nbsp;<code><a href="../SwerveDriveFunctions.html" title="class in org.frc5010.common.drive.swerve">SwerveDriveFunctions</a></code></dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getChassisAcceleration()">
+<h3>getChassisAcceleration</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.kinematics.ChassisSpeeds</span>&nbsp;<span class="element-name">getChassisAcceleration</span>()</div>
+<div class="block">Returns the robot-relative chassis acceleration derived from drive motor acceleration signals.
+ Uses the same kinematics math as velocity, but with per-module acceleration instead of
+ velocity.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getFieldAcceleration()">
+<h3>getFieldAcceleration</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.kinematics.ChassisSpeeds</span>&nbsp;<span class="element-name">getFieldAcceleration</span>()</div>
+<div class="block">Returns the field-relative chassis acceleration derived from drive motor acceleration signals.</div>
 </section>
 </li>
 <li>

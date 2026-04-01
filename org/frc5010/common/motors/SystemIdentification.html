@@ -112,6 +112,18 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;motorName,
  edu.wpi.first.wpilibj2.command.SubsystemBase&nbsp;subsystemBase)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#angleSysIdRoutine(yams.motorcontrollers.SmartMotorController,java.lang.String,edu.wpi.first.wpilibj2.command.SubsystemBase)" class="member-name-link">angleSysIdRoutine</a><wbr>(yams.motorcontrollers.SmartMotorController&nbsp;motor,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;motorName,
+ edu.wpi.first.wpilibj2.command.SubsystemBase&nbsp;subsystemBase)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.Command</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#feedforwardCharacterization(org.frc5010.common.arch.GenericSubsystem,java.util.function.Consumer,java.util.function.Supplier)" class="member-name-link">feedforwardCharacterization</a><wbr>(<a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch">GenericSubsystem</a>&nbsp;subsystem,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;edu.wpi.first.units.measure.Voltage&gt;&nbsp;characterizer,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;velocitySupplier)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Measures the velocity feedforward constants for the motors.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.Command</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSysIdDynamic(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine,edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction)" class="member-name-link">getSysIdDynamic</a><wbr>(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine&nbsp;routine,
  edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction&nbsp;direction)</code></div>
@@ -129,26 +141,35 @@ loadScripts(document, 'script');</script>
  double&nbsp;delay)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSysIdQuasistatic(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine,edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction)" class="member-name-link">getSysIdQuasistatic</a><wbr>(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine&nbsp;routine,
- edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction&nbsp;direction)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSysIdFullCommand(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine,double,double,double,java.util.function.BooleanSupplier,java.util.function.BooleanSupplier,java.lang.Runnable)" class="member-name-link">getSysIdFullCommand</a><wbr>(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine&nbsp;routine,
+ double&nbsp;quasistaticTimeout,
+ double&nbsp;dynamicTimeout,
+ double&nbsp;delay,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;isAtMax,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;isAtMin,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;stopMotor)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSysIdQuasistaticBackward(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine)" class="member-name-link">getSysIdQuasistaticBackward</a><wbr>(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine&nbsp;routine)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSysIdQuasistatic(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine,edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction)" class="member-name-link">getSysIdQuasistatic</a><wbr>(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine&nbsp;routine,
+ edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction&nbsp;direction)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSysIdQuasistaticForward(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine)" class="member-name-link">getSysIdQuasistaticForward</a><wbr>(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine&nbsp;routine)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSysIdQuasistaticBackward(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine)" class="member-name-link">getSysIdQuasistaticBackward</a><wbr>(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine&nbsp;routine)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rpmSysIdRoutine(org.frc5010.common.motors.GenericMotorController,org.frc5010.common.sensors.encoder.GenericEncoder,java.lang.String,edu.wpi.first.wpilibj2.command.SubsystemBase)" class="member-name-link">rpmSysIdRoutine</a><wbr>(<a href="GenericMotorController.html" title="interface in org.frc5010.common.motors">GenericMotorController</a>&nbsp;motor,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.Command</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSysIdQuasistaticForward(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine)" class="member-name-link">getSysIdQuasistaticForward</a><wbr>(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine&nbsp;routine)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rpmSysIdRoutine(org.frc5010.common.motors.GenericMotorController,org.frc5010.common.sensors.encoder.GenericEncoder,java.lang.String,edu.wpi.first.wpilibj2.command.SubsystemBase)" class="member-name-link">rpmSysIdRoutine</a><wbr>(<a href="GenericMotorController.html" title="interface in org.frc5010.common.motors">GenericMotorController</a>&nbsp;motor,
  <a href="../sensors/encoder/GenericEncoder.html" title="interface in org.frc5010.common.sensors.encoder">GenericEncoder</a>&nbsp;encoder,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;motorName,
  edu.wpi.first.wpilibj2.command.SubsystemBase&nbsp;subsystemBase)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rpmSysIdRoutine(yams.motorcontrollers.SmartMotorController,java.lang.String,edu.wpi.first.wpilibj2.command.SubsystemBase)" class="member-name-link">rpmSysIdRoutine</a><wbr>(yams.motorcontrollers.SmartMotorController&nbsp;motor,
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rpmSysIdRoutine(yams.motorcontrollers.SmartMotorController,java.lang.String,edu.wpi.first.wpilibj2.command.SubsystemBase)" class="member-name-link">rpmSysIdRoutine</a><wbr>(yams.motorcontrollers.SmartMotorController&nbsp;motor,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;motorName,
  edu.wpi.first.wpilibj2.command.SubsystemBase&nbsp;subsystemBase)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -193,6 +214,14 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="rpmSysIdRoutine(yams.motorcontrollers.SmartMotorController,java.lang.String,edu.wpi.first.wpilibj2.command.SubsystemBase)">
 <h3>rpmSysIdRoutine</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine</span>&nbsp;<span class="element-name">rpmSysIdRoutine</span><wbr><span class="parameters">(yams.motorcontrollers.SmartMotorController&nbsp;motor,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;motorName,
+ edu.wpi.first.wpilibj2.command.SubsystemBase&nbsp;subsystemBase)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="angleSysIdRoutine(yams.motorcontrollers.SmartMotorController,java.lang.String,edu.wpi.first.wpilibj2.command.SubsystemBase)">
+<h3>angleSysIdRoutine</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine</span>&nbsp;<span class="element-name">angleSysIdRoutine</span><wbr><span class="parameters">(yams.motorcontrollers.SmartMotorController&nbsp;motor,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;motorName,
  edu.wpi.first.wpilibj2.command.SubsystemBase&nbsp;subsystemBase)</span></div>
 </section>
@@ -245,12 +274,43 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="feedforwardCharacterization(org.frc5010.common.arch.GenericSubsystem,java.util.function.Consumer,java.util.function.Supplier)">
+<h3>feedforwardCharacterization</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj2.command.Command</span>&nbsp;<span class="element-name">feedforwardCharacterization</span><wbr><span class="parameters">(<a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch">GenericSubsystem</a>&nbsp;subsystem,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;edu.wpi.first.units.measure.Voltage&gt;&nbsp;characterizer,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;velocitySupplier)</span></div>
+<div class="block">Measures the velocity feedforward constants for the motors.
+
+ <p>This command should only be used in voltage control mode.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>subsystem</code> - the swerve drivetrain subsystem to characterize</dd>
+<dd><code>characterizer</code> - consumer that accepts voltage values to apply to motors</dd>
+<dd><code>velocitySupplier</code> - supplier that returns the current velocity for measurement</dd>
+<dt>Returns:</dt>
+<dd>a command that performs feedforward characterization and logs results</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getSysIdFullCommand(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine,double,double,double)">
 <h3>getSysIdFullCommand</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj2.command.Command</span>&nbsp;<span class="element-name">getSysIdFullCommand</span><wbr><span class="parameters">(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine&nbsp;routine,
  double&nbsp;quasistaticTimeout,
  double&nbsp;dynamicTimeout,
  double&nbsp;delay)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getSysIdFullCommand(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine,double,double,double,java.util.function.BooleanSupplier,java.util.function.BooleanSupplier,java.lang.Runnable)">
+<h3>getSysIdFullCommand</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj2.command.Command</span>&nbsp;<span class="element-name">getSysIdFullCommand</span><wbr><span class="parameters">(edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine&nbsp;routine,
+ double&nbsp;quasistaticTimeout,
+ double&nbsp;dynamicTimeout,
+ double&nbsp;delay,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;isAtMax,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;isAtMin,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;stopMotor)</span></div>
 </section>
 </li>
 </ul>

@@ -149,14 +149,25 @@ implements <a href="WpiHelperInterface.html" title="interface in org.frc5010.com
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#configureButtonBindings(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)" class="member-name-link">configureButtonBindings</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#configureAltButtonBindings(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)" class="member-name-link">configureAltButtonBindings</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
  <a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;operator)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">configureAltButtonBindings should map button/axis controls to commands</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#configureButtonBindings(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)" class="member-name-link">configureButtonBindings</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
+ <a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;operator)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">configureButtonBindings should map button/axis controls to commands</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#disabledInit()" class="member-name-link">disabledInit</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Executed periodically when robot is disabled</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#disabledBehavior()" class="member-name-link">disabledBehavior</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#disabledPeriodic()" class="member-name-link">disabledPeriodic</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Executed periodically when robot is disabled</div>
 </div>
@@ -176,23 +187,23 @@ implements <a href="WpiHelperInterface.html" title="interface in org.frc5010.com
 <div class="block">initRealOrSim should check the real or simulation state of the robot and initialize its code
  accordingly</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setupDefaultCommands(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)" class="member-name-link">setupDefaultCommands</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
- <a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;operator)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">setupDefaultCommands should setup the default commands needed by subsystems It could check for
- Test mode and enable different commands</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupPreferences()" class="member-name-link">setupPreferences</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">setupPreferences should be implemented in place of using Constants files</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupTestDefaultCommmands(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)" class="member-name-link">setupTestDefaultCommmands</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupAltDefaultCommmands(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)" class="member-name-link">setupAltDefaultCommmands</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
  <a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;operator)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets up the default commands for testing purposes.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setupDefaultCommands(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)" class="member-name-link">setupDefaultCommands</a><wbr>(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
+ <a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;operator)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">setupDefaultCommands should setup the default commands needed by subsystems It could check for
+ Test mode and enable different commands</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupPreferences()" class="member-name-link">setupPreferences</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">setupPreferences should be implemented in place of using Constants files</div>
 </div>
 </div>
 </div>
@@ -283,6 +294,19 @@ implements <a href="WpiHelperInterface.html" title="interface in org.frc5010.com
 </section>
 </li>
 <li>
+<section class="detail" id="configureAltButtonBindings(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)">
+<h3>configureAltButtonBindings</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">configureAltButtonBindings</span><wbr><span class="parameters">(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
+ <a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;operator)</span></div>
+<div class="block">configureAltButtonBindings should map button/axis controls to commands</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>driver</code> - - driver joystick</dd>
+<dd><code>operator</code> - - operator joystick</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="setupDefaultCommands(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)">
 <h3>setupDefaultCommands</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupDefaultCommands</span><wbr><span class="parameters">(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
@@ -297,9 +321,9 @@ implements <a href="WpiHelperInterface.html" title="interface in org.frc5010.com
 </section>
 </li>
 <li>
-<section class="detail" id="setupTestDefaultCommmands(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)">
-<h3>setupTestDefaultCommmands</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupTestDefaultCommmands</span><wbr><span class="parameters">(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
+<section class="detail" id="setupAltDefaultCommmands(org.frc5010.common.sensors.Controller,org.frc5010.common.sensors.Controller)">
+<h3>setupAltDefaultCommmands</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupAltDefaultCommmands</span><wbr><span class="parameters">(<a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;driver,
  <a href="../sensors/Controller.html" title="class in org.frc5010.common.sensors">Controller</a>&nbsp;operator)</span></div>
 <div class="block">Sets up the default commands for testing purposes.</div>
 <dl class="notes">
@@ -345,9 +369,16 @@ implements <a href="WpiHelperInterface.html" title="interface in org.frc5010.com
 </section>
 </li>
 <li>
-<section class="detail" id="disabledBehavior()">
-<h3>disabledBehavior</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">disabledBehavior</span>()</div>
+<section class="detail" id="disabledInit()">
+<h3>disabledInit</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">disabledInit</span>()</div>
+<div class="block">Executed periodically when robot is disabled</div>
+</section>
+</li>
+<li>
+<section class="detail" id="disabledPeriodic()">
+<h3>disabledPeriodic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">disabledPeriodic</span>()</div>
 <div class="block">Executed periodically when robot is disabled</div>
 </section>
 </li>

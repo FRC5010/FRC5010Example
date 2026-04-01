@@ -126,15 +126,29 @@ implements <a href="../../org/frc5010/common/arch/WpiHelperInterface.html" title
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#disabledBehavior()" class="member-name-link">disabledBehavior</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#configureAltButtonBindings()" class="member-name-link">configureAltButtonBindings</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAutonomousCommand()" class="member-name-link">getAutonomousCommand</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#configureButtonBindings()" class="member-name-link">configureButtonBindings</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Use this to pass the autonomous command to the main <a href="Robot.html" title="class in frc.robot"><code>Robot</code></a> class.</div>
+<div class="block">Configures the button bindings for the robot.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initAutoCommands()" class="member-name-link">initAutoCommands</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#disabledInit()" class="member-name-link">disabledInit</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#disabledPeriodic()" class="member-name-link">disabledPeriodic</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAutonomousCommand()" class="member-name-link">getAutonomousCommand</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Use this to pass the autonomous command to the main <a href="Robot.html" title="class in frc.robot"><code>Robot</code></a> class.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initAutoCommands()" class="member-name-link">initAutoCommands</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupAltDefaultCommands()" class="member-name-link">setupAltDefaultCommands</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupDefaults()" class="member-name-link">setupDefaults</a>()</code></div>
@@ -188,9 +202,35 @@ implements <a href="../../org/frc5010/common/arch/WpiHelperInterface.html" title
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="configureButtonBindings()">
+<h3>configureButtonBindings</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">configureButtonBindings</span>()</div>
+<div class="block">Configures the button bindings for the robot. This should be called from the robot periodic
+ methods (i.e. robotPeriodic) to update the button bindings.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="disabledInit()">
+<h3>disabledInit</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">disabledInit</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="configureAltButtonBindings()">
+<h3>configureAltButtonBindings</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">configureAltButtonBindings</span>()</div>
+</section>
+</li>
+<li>
 <section class="detail" id="setupDefaults()">
 <h3>setupDefaults</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupDefaults</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setupAltDefaultCommands()">
+<h3>setupAltDefaultCommands</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupAltDefaultCommands</span>()</div>
 </section>
 </li>
 <li>
@@ -211,9 +251,9 @@ implements <a href="../../org/frc5010/common/arch/WpiHelperInterface.html" title
 </section>
 </li>
 <li>
-<section class="detail" id="disabledBehavior()">
-<h3>disabledBehavior</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">disabledBehavior</span>()</div>
+<section class="detail" id="disabledPeriodic()">
+<h3>disabledPeriodic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">disabledPeriodic</span>()</div>
 </section>
 </li>
 </ul>

@@ -112,14 +112,19 @@ implements <a href="../GenericMotorController.html" title="interface in org.frc5
 <div class="block">The maximum amount of times the swerve motor will attempt to configure a motor if failures
  occur.</div>
 </div>
-<div class="col-first odd-row-color"><code>protected edu.wpi.first.units.measure.AngularVelocity</code></div>
-<div class="col-second odd-row-color"><code><a href="#maxRPM" class="member-name-link">maxRPM</a></code></div>
+<div class="col-first odd-row-color"><code>protected boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#maxOrFlex" class="member-name-link">maxOrFlex</a></code></div>
 <div class="col-last odd-row-color">
+<div class="block">MaxOrFlex</div>
+</div>
+<div class="col-first even-row-color"><code>protected edu.wpi.first.units.measure.AngularVelocity</code></div>
+<div class="col-second even-row-color"><code><a href="#maxRPM" class="member-name-link">maxRPM</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">The maximum angular velocity</div>
 </div>
-<div class="col-first even-row-color"><code>protected edu.wpi.first.math.system.plant.DCMotor</code></div>
-<div class="col-second even-row-color"><code><a href="#motorSim" class="member-name-link">motorSim</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>protected edu.wpi.first.math.system.plant.DCMotor</code></div>
+<div class="col-second odd-row-color"><code><a href="#motorSim" class="member-name-link">motorSim</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The simulated instance of the motor</div>
 </div>
 </div>
@@ -136,12 +141,14 @@ implements <a href="../GenericMotorController.html" title="interface in org.frc5
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,boolean)" class="member-name-link">GenericRevBrushlessMotor</a><wbr>(int&nbsp;port,
  boolean&nbsp;maxOrFlex)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,org.frc5010.common.motors.MotorConstants.Motor)" class="member-name-link">GenericRevBrushlessMotor</a><wbr>(int&nbsp;port,
- <a href="../MotorConstants.Motor.html" title="enum class in org.frc5010.common.motors">MotorConstants.Motor</a>&nbsp;config)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,org.frc5010.common.motors.MotorConstants.Motor,edu.wpi.first.units.measure.Current)" class="member-name-link">GenericRevBrushlessMotor</a><wbr>(int&nbsp;port,
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,org.frc5010.common.motors.MotorConstants.Motor,boolean)" class="member-name-link">GenericRevBrushlessMotor</a><wbr>(int&nbsp;port,
  <a href="../MotorConstants.Motor.html" title="enum class in org.frc5010.common.motors">MotorConstants.Motor</a>&nbsp;config,
- edu.wpi.first.units.measure.Current&nbsp;currentLimit)</code></div>
+ boolean&nbsp;maxOrFlex)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,org.frc5010.common.motors.MotorConstants.Motor,edu.wpi.first.units.measure.Current,boolean)" class="member-name-link">GenericRevBrushlessMotor</a><wbr>(int&nbsp;port,
+ <a href="../MotorConstants.Motor.html" title="enum class in org.frc5010.common.motors">MotorConstants.Motor</a>&nbsp;config,
+ edu.wpi.first.units.measure.Current&nbsp;currentLimit,
+ boolean&nbsp;maxOrFlex)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructor for a generic REV brushless motor</div>
 </div>
@@ -384,6 +391,13 @@ implements <a href="../GenericMotorController.html" title="interface in org.frc5
 </section>
 </li>
 <li>
+<section class="detail" id="maxOrFlex">
+<h3>maxOrFlex</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">maxOrFlex</span></div>
+<div class="block">MaxOrFlex</div>
+</section>
+</li>
+<li>
 <section class="detail" id="config">
 <h3>config</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../MotorConstants.Motor.html" title="enum class in org.frc5010.common.motors">MotorConstants.Motor</a></span>&nbsp;<span class="element-name">config</span></div>
@@ -422,11 +436,12 @@ implements <a href="../GenericMotorController.html" title="interface in org.frc5
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(int,org.frc5010.common.motors.MotorConstants.Motor,edu.wpi.first.units.measure.Current)">
+<section class="detail" id="&lt;init&gt;(int,org.frc5010.common.motors.MotorConstants.Motor,edu.wpi.first.units.measure.Current,boolean)">
 <h3>GenericRevBrushlessMotor</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">GenericRevBrushlessMotor</span><wbr><span class="parameters">(int&nbsp;port,
  <a href="../MotorConstants.Motor.html" title="enum class in org.frc5010.common.motors">MotorConstants.Motor</a>&nbsp;config,
- edu.wpi.first.units.measure.Current&nbsp;currentLimit)</span></div>
+ edu.wpi.first.units.measure.Current&nbsp;currentLimit,
+ boolean&nbsp;maxOrFlex)</span></div>
 <div class="block">Constructor for a generic REV brushless motor</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -437,10 +452,11 @@ implements <a href="../GenericMotorController.html" title="interface in org.frc5
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(int,org.frc5010.common.motors.MotorConstants.Motor)">
+<section class="detail" id="&lt;init&gt;(int,org.frc5010.common.motors.MotorConstants.Motor,boolean)">
 <h3>GenericRevBrushlessMotor</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">GenericRevBrushlessMotor</span><wbr><span class="parameters">(int&nbsp;port,
- <a href="../MotorConstants.Motor.html" title="enum class in org.frc5010.common.motors">MotorConstants.Motor</a>&nbsp;config)</span></div>
+ <a href="../MotorConstants.Motor.html" title="enum class in org.frc5010.common.motors">MotorConstants.Motor</a>&nbsp;config,
+ boolean&nbsp;maxOrFlex)</span></div>
 </section>
 </li>
 </ul>

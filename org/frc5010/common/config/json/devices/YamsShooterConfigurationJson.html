@@ -96,26 +96,32 @@ implements <a href="../../DeviceConfiguration.html" title="interface in org.frc5
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="../UnitValueJson.html" title="class in org.frc5010.common.config.json">UnitValueJson</a></code></div>
-<div class="col-second even-row-color"><code><a href="#diameter" class="member-name-link">diameter</a></code></div>
+<div class="col-first even-row-color"><code><a href="../../ConfigConstants.ControlAlgorithm.html" title="enum class in org.frc5010.common.config">ConfigConstants.ControlAlgorithm</a></code></div>
+<div class="col-second even-row-color"><code><a href="#controlAlgorithm" class="member-name-link">controlAlgorithm</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>double[]</code></div>
 <div class="col-second odd-row-color"><code><a href="#gearing" class="member-name-link">gearing</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code><a href="../UnitValueJson.html" title="class in org.frc5010.common.config.json">UnitValueJson</a></code></div>
-<div class="col-second even-row-color"><code><a href="#lowerSoftLimit" class="member-name-link">lowerSoftLimit</a></code></div>
+<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#gearStages" class="member-name-link">gearStages</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code><a href="../UnitValueJson.html" title="class in org.frc5010.common.config.json">UnitValueJson</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#mass" class="member-name-link">mass</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#lowerSoftLimit" class="member-name-link">lowerSoftLimit</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>double</code></div>
-<div class="col-second even-row-color"><code><a href="#moi" class="member-name-link">moi</a></code></div>
+<div class="col-first even-row-color"><code><a href="../UnitValueJson.html" title="class in org.frc5010.common.config.json">UnitValueJson</a></code></div>
+<div class="col-second even-row-color"><code><a href="#mass" class="member-name-link">mass</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code><a href="MotorSetupJson.html" title="class in org.frc5010.common.config.json.devices">MotorSetupJson</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#motorSetup" class="member-name-link">motorSetup</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code><a href="MotorSystemIdJson.html" title="class in org.frc5010.common.config.json.devices">MotorSystemIdJson</a></code></div>
 <div class="col-second even-row-color"><code><a href="#motorSystemId" class="member-name-link">motorSystemId</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code><a href="../UnitValueJson.html" title="class in org.frc5010.common.config.json">UnitValueJson</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#radius" class="member-name-link">radius</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code><a href="MotorSystemIdJson.html" title="class in org.frc5010.common.config.json.devices">MotorSystemIdJson</a></code></div>
+<div class="col-second even-row-color"><code><a href="#simSystemId" class="member-name-link">simSystemId</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code><a href="../UnitValueJson.html" title="class in org.frc5010.common.config.json">UnitValueJson</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#upperSoftLimit" class="member-name-link">upperSoftLimit</a></code></div>
@@ -182,9 +188,21 @@ implements <a href="../../DeviceConfiguration.html" title="interface in org.frc5
 </section>
 </li>
 <li>
+<section class="detail" id="controlAlgorithm">
+<h3>controlAlgorithm</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../ConfigConstants.ControlAlgorithm.html" title="enum class in org.frc5010.common.config">ConfigConstants.ControlAlgorithm</a></span>&nbsp;<span class="element-name">controlAlgorithm</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="motorSystemId">
 <h3>motorSystemId</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MotorSystemIdJson.html" title="class in org.frc5010.common.config.json.devices">MotorSystemIdJson</a></span>&nbsp;<span class="element-name">motorSystemId</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="simSystemId">
+<h3>simSystemId</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MotorSystemIdJson.html" title="class in org.frc5010.common.config.json.devices">MotorSystemIdJson</a></span>&nbsp;<span class="element-name">simSystemId</span></div>
 </section>
 </li>
 <li>
@@ -206,6 +224,12 @@ implements <a href="../../DeviceConfiguration.html" title="interface in org.frc5
 </section>
 </li>
 <li>
+<section class="detail" id="gearStages">
+<h3>gearStages</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">gearStages</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="voltageCompensation">
 <h3>voltageCompensation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../UnitValueJson.html" title="class in org.frc5010.common.config.json">UnitValueJson</a></span>&nbsp;<span class="element-name">voltageCompensation</span></div>
@@ -218,15 +242,9 @@ implements <a href="../../DeviceConfiguration.html" title="interface in org.frc5
 </section>
 </li>
 <li>
-<section class="detail" id="diameter">
-<h3>diameter</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../UnitValueJson.html" title="class in org.frc5010.common.config.json">UnitValueJson</a></span>&nbsp;<span class="element-name">diameter</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="moi">
-<h3>moi</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">moi</span></div>
+<section class="detail" id="radius">
+<h3>radius</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../UnitValueJson.html" title="class in org.frc5010.common.config.json">UnitValueJson</a></span>&nbsp;<span class="element-name">radius</span></div>
 </section>
 </li>
 </ul>

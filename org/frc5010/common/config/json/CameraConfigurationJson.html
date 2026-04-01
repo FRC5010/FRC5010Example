@@ -174,29 +174,34 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">The use case for this camera.</div>
 </div>
-<div class="col-first odd-row-color"><code>int</code></div>
-<div class="col-second odd-row-color"><code><a href="#width" class="member-name-link">width</a></code></div>
+<div class="col-first odd-row-color"><code>boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#viewGamePieces" class="member-name-link">viewGamePieces</a></code></div>
 <div class="col-last odd-row-color">
+<div class="block">Whether to view game pieces in simulation</div>
+</div>
+<div class="col-first even-row-color"><code>int</code></div>
+<div class="col-second even-row-color"><code><a href="#width" class="member-name-link">width</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Horizontal resolution of the camera in pixels</div>
 </div>
-<div class="col-first even-row-color"><code>double</code></div>
-<div class="col-second even-row-color"><code><a href="#x" class="member-name-link">x</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>double</code></div>
+<div class="col-second odd-row-color"><code><a href="#x" class="member-name-link">x</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Camera X position offset from robot center in meters (forward/backward in robot frame)</div>
 </div>
-<div class="col-first odd-row-color"><code>double</code></div>
-<div class="col-second odd-row-color"><code><a href="#y" class="member-name-link">y</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>double</code></div>
+<div class="col-second even-row-color"><code><a href="#y" class="member-name-link">y</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Camera Y position offset from robot center in meters (left/right in robot frame)</div>
 </div>
-<div class="col-first even-row-color"><code>double</code></div>
-<div class="col-second even-row-color"><code><a href="#yaw" class="member-name-link">yaw</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>double</code></div>
+<div class="col-second odd-row-color"><code><a href="#yaw" class="member-name-link">yaw</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Camera yaw rotation in degrees around the Z-axis in the robot's reference frame</div>
 </div>
-<div class="col-first odd-row-color"><code>double</code></div>
-<div class="col-second odd-row-color"><code><a href="#z" class="member-name-link">z</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>double</code></div>
+<div class="col-second even-row-color"><code><a href="#z" class="member-name-link">z</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Camera Z position offset from robot center in meters (up/down in robot frame)</div>
 </div>
 </div>
@@ -226,10 +231,20 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#configureCamera(org.frc5010.common.arch.GenericRobot)" class="member-name-link">configureCamera</a><wbr>(<a href="../../arch/GenericRobot.html" title="class in org.frc5010.common.arch">GenericRobot</a>&nbsp;robot)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#canViewGamePieces()" class="member-name-link">canViewGamePieces</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns whether the camera system can view game pieces in simulation mode.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#configureCamera(org.frc5010.common.arch.GenericRobot)" class="member-name-link">configureCamera</a><wbr>(<a href="../../arch/GenericRobot.html" title="class in org.frc5010.common.arch">GenericRobot</a>&nbsp;robot)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Configures the camera system based on the provided robot and current configuration.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setViewGamePieces(boolean)" class="member-name-link">setViewGamePieces</a><wbr>(boolean&nbsp;viewGamePieces)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets whether to view game pieces in simulation.</div>
 </div>
 </div>
 </div>
@@ -396,6 +411,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="viewGamePieces">
+<h3>viewGamePieces</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">viewGamePieces</span></div>
+<div class="block">Whether to view game pieces in simulation</div>
+</section>
+</li>
+<li>
 <section class="detail" id="targetFiducialIds">
 <h3>targetFiducialIds</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int[]</span>&nbsp;<span class="element-name">targetFiducialIds</span></div>
@@ -425,6 +447,36 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="setViewGamePieces(boolean)">
+<h3>setViewGamePieces</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setViewGamePieces</span><wbr><span class="parameters">(boolean&nbsp;viewGamePieces)</span></div>
+<div class="block">Sets whether to view game pieces in simulation. If true, the camera system will simulate vision
+ targets for game pieces in the arena. This can be useful for testing vision code without a real
+ camera. If false, the camera system will only process vision information for real camera
+ images.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>viewGamePieces</code> - whether to enable or disable viewing game pieces in simulation</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="canViewGamePieces()">
+<h3>canViewGamePieces</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">canViewGamePieces</span>()</div>
+<div class="block">Returns whether the camera system can view game pieces in simulation mode.
+
+ <p>This property is set by the <a href="#setViewGamePieces(boolean)"><code>setViewGamePieces(boolean)</code></a> method and controls whether
+ the camera system will simulate vision targets for game pieces in the arena. If true, the
+ camera system will simulate game pieces in simulation; otherwise, it will only process vision
+ information for real camera images.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>whether the camera system can view game pieces in simulation mode</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="configureCamera(org.frc5010.common.arch.GenericRobot)">
 <h3>configureCamera</h3>

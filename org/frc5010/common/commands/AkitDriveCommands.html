@@ -101,8 +101,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Measures the proportional gain (P value) of the drive motor PID controllers.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj2.command.Command</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#feedforwardCharacterization(org.frc5010.common.drive.swerve.GenericSwerveDrivetrain,org.frc5010.common.drive.swerve.akit.AkitSwerveDrive,java.util.function.Consumer,java.util.function.Supplier)" class="member-name-link">feedforwardCharacterization</a><wbr>(<a href="../drive/swerve/GenericSwerveDrivetrain.html" title="class in org.frc5010.common.drive.swerve">GenericSwerveDrivetrain</a>&nbsp;swerveDrive,
- <a href="../drive/swerve/akit/AkitSwerveDrive.html" title="class in org.frc5010.common.drive.swerve.akit">AkitSwerveDrive</a>&nbsp;drive,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#feedforwardCharacterization(org.frc5010.common.arch.GenericSubsystem,java.util.function.Consumer,java.util.function.Supplier)" class="member-name-link">feedforwardCharacterization</a><wbr>(<a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch">GenericSubsystem</a>&nbsp;subsystem,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;edu.wpi.first.units.measure.Voltage&gt;&nbsp;characterizer,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;velocitySupplier)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
@@ -200,10 +199,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="feedforwardCharacterization(org.frc5010.common.drive.swerve.GenericSwerveDrivetrain,org.frc5010.common.drive.swerve.akit.AkitSwerveDrive,java.util.function.Consumer,java.util.function.Supplier)">
+<section class="detail" id="feedforwardCharacterization(org.frc5010.common.arch.GenericSubsystem,java.util.function.Consumer,java.util.function.Supplier)">
 <h3>feedforwardCharacterization</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj2.command.Command</span>&nbsp;<span class="element-name">feedforwardCharacterization</span><wbr><span class="parameters">(<a href="../drive/swerve/GenericSwerveDrivetrain.html" title="class in org.frc5010.common.drive.swerve">GenericSwerveDrivetrain</a>&nbsp;swerveDrive,
- <a href="../drive/swerve/akit/AkitSwerveDrive.html" title="class in org.frc5010.common.drive.swerve.akit">AkitSwerveDrive</a>&nbsp;drive,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj2.command.Command</span>&nbsp;<span class="element-name">feedforwardCharacterization</span><wbr><span class="parameters">(<a href="../arch/GenericSubsystem.html" title="class in org.frc5010.common.arch">GenericSubsystem</a>&nbsp;subsystem,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;edu.wpi.first.units.measure.Voltage&gt;&nbsp;characterizer,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;velocitySupplier)</span></div>
 <div class="block">Measures the velocity feedforward constants for the drive motors.
@@ -211,8 +209,7 @@ loadScripts(document, 'script');</script>
  <p>This command should only be used in voltage control mode.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>swerveDrive</code> - the swerve drivetrain subsystem to characterize</dd>
-<dd><code>drive</code> - the swerve drive implementation</dd>
+<dd><code>subsystem</code> - the swerve drivetrain subsystem to characterize</dd>
 <dd><code>characterizer</code> - consumer that accepts voltage values to apply to drive motors</dd>
 <dd><code>velocitySupplier</code> - supplier that returns the current velocity for measurement</dd>
 <dt>Returns:</dt>

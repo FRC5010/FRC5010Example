@@ -109,39 +109,44 @@ implements <a href="../../drive/pose/PoseProvider.html" title="interface in org.
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>protected int</code></div>
-<div class="col-second even-row-color"><code><a href="#colIndex" class="member-name-link">colIndex</a></code></div>
+<div class="col-first even-row-color"><code>protected boolean</code></div>
+<div class="col-second even-row-color"><code><a href="#canViewGamePieces" class="member-name-link">canViewGamePieces</a></code></div>
 <div class="col-last even-row-color">
+<div class="block">Whether or not to view the game pieces in simulation</div>
+</div>
+<div class="col-first odd-row-color"><code>protected int</code></div>
+<div class="col-second odd-row-color"><code><a href="#colIndex" class="member-name-link">colIndex</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The index of the column in the dashboard</div>
 </div>
-<div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#name" class="member-name-link">name</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#name" class="member-name-link">name</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">The name of the camera</div>
 </div>
-<div class="col-first even-row-color"><code>protected edu.wpi.first.math.geometry.Transform3d</code></div>
-<div class="col-second even-row-color"><code><a href="#robotToCamera" class="member-name-link">robotToCamera</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>protected edu.wpi.first.math.geometry.Transform3d</code></div>
+<div class="col-second odd-row-color"><code><a href="#robotToCamera" class="member-name-link">robotToCamera</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The robot-to-camera transform</div>
 </div>
-<div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#updaters" class="member-name-link">updaters</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#updaters" class="member-name-link">updaters</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">The list of updaters that will be called every time the camera is updated</div>
 </div>
-<div class="col-first even-row-color"><code>protected boolean</code></div>
-<div class="col-second even-row-color"><code><a href="#updateValues" class="member-name-link">updateValues</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>protected boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#updateValues" class="member-name-link">updateValues</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Whether or not to update the values</div>
 </div>
-<div class="col-first odd-row-color"><code>protected edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout</code></div>
-<div class="col-second odd-row-color"><code><a href="#visionLayout" class="member-name-link">visionLayout</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>protected edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout</code></div>
+<div class="col-second even-row-color"><code><a href="#visionLayout" class="member-name-link">visionLayout</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">The display layout to use</div>
 </div>
-<div class="col-first even-row-color"><code>protected edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab</code></div>
-<div class="col-second even-row-color"><code><a href="#visionTab" class="member-name-link">visionTab</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>protected edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab</code></div>
+<div class="col-second odd-row-color"><code><a href="#visionTab" class="member-name-link">visionTab</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The display tab to use</div>
 </div>
 </div>
@@ -178,46 +183,56 @@ implements <a href="../../drive/pose/PoseProvider.html" title="interface in org.
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDistanceToTarget(double)" class="member-name-link">getDistanceToTarget</a><wbr>(double&nbsp;targetHeight)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#canViewGamePieces()" class="member-name-link">canViewGamePieces</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns whether or not the camera can view game pieces in simulation mode.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDistanceToTarget(double)" class="member-name-link">getDistanceToTarget</a><wbr>(double&nbsp;targetHeight)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">A method to get the distance to the target.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Transform3d</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRobotToCamera()" class="member-name-link">getRobotToCamera</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Transform3d</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRobotToCamera()" class="member-name-link">getRobotToCamera</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the transformation matrix from the robot's coordinate system to the camera's coordinate
  system.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getTargetArea()" class="member-name-link">getTargetArea</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getTargetArea()" class="member-name-link">getTargetArea</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the area of the target.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTargetPitch()" class="member-name-link">getTargetPitch</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTargetPitch()" class="member-name-link">getTargetPitch</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the pitch of the target in degrees along the vertical Y axis of the camera.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTargetYaw()" class="member-name-link">getTargetYaw</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTargetYaw()" class="member-name-link">getTargetYaw</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the yaw of the target in degrees along the horizontal X axis of the camera.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasValidTarget()" class="member-name-link">hasValidTarget</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasValidTarget()" class="member-name-link">hasValidTarget</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns whether or not the camera has a valid target.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the name of the object.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerUpdater(java.lang.Runnable)" class="member-name-link">registerUpdater</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;updater)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerUpdater(java.lang.Runnable)" class="member-name-link">registerUpdater</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;updater)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Registers a Runnable updater to the list of updaters.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCanViewGamePieces(boolean)" class="member-name-link">setCanViewGamePieces</a><wbr>(boolean&nbsp;canViewGamePieces)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets whether or not the camera should view game pieces in simulation mode.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unregisterUpdater(java.lang.Runnable)" class="member-name-link">unregisterUpdater</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;updater)</code></div>
@@ -301,6 +316,13 @@ implements <a href="../../drive/pose/PoseProvider.html" title="interface in org.
 <h3>name</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">name</span></div>
 <div class="block">The name of the camera</div>
+</section>
+</li>
+<li>
+<section class="detail" id="canViewGamePieces">
+<h3>canViewGamePieces</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">canViewGamePieces</span></div>
+<div class="block">Whether or not to view the game pieces in simulation</div>
 </section>
 </li>
 </ul>
@@ -444,6 +466,28 @@ implements <a href="../../drive/pose/PoseProvider.html" title="interface in org.
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the area of the target</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="canViewGamePieces()">
+<h3>canViewGamePieces</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">canViewGamePieces</span>()</div>
+<div class="block">Returns whether or not the camera can view game pieces in simulation mode.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>whether or not the camera can view game pieces in simulation mode</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setCanViewGamePieces(boolean)">
+<h3>setCanViewGamePieces</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setCanViewGamePieces</span><wbr><span class="parameters">(boolean&nbsp;canViewGamePieces)</span></div>
+<div class="block">Sets whether or not the camera should view game pieces in simulation mode.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>canViewGamePieces</code> - whether or not the camera should view game pieces in simulation mode</dd>
 </dl>
 </section>
 </li>

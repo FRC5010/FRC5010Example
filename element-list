@@ -1,6 +1,8 @@
 frc.robot
 frc.robot.baby_swerve
 frc.robot.example
+frc.robot.example.commands
+frc.robot.example.subsystems
 org.frc5010.common.arch
 org.frc5010.common.auto
 org.frc5010.common.auto.pathplanner
@@ -31,5 +33,6 @@ org.frc5010.common.sensors.gyro
 org.frc5010.common.subsystems
 org.frc5010.common.telemetry
 org.frc5010.common.utils
+org.frc5010.common.utils.geometry
 org.frc5010.common.vision
 org.frc5010.lobbinloco

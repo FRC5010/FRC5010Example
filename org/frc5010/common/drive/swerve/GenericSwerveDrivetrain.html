@@ -209,9 +209,20 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Command</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driveWithSetpointGeneratorOrientationConsidered(java.util.function.Supplier)" class="member-name-link">driveWithSetpointGeneratorOrientationConsidered</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;edu.wpi.first.math.kinematics.ChassisSpeeds&gt;&nbsp;inputSpeeds)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj.smartdashboard.Field2d</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getField2d()" class="member-name-link">getField2d</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected edu.wpi.first.math.kinematics.ChassisSpeeds</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getChassisSpeeds()" class="member-name-link">getChassisSpeeds</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the measured chassis speeds of the robot.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj.smartdashboard.Field2d</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getField2d()" class="member-name-link">getField2d</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.kinematics.ChassisSpeeds</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFieldAcceleration()" class="member-name-link">getFieldAcceleration</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the current field-relative chassis acceleration derived from drive motor acceleration
+ signals.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.kinematics.ChassisSpeeds</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFieldVelocitiesFromJoystick(java.util.function.DoubleSupplier,java.util.function.DoubleSupplier,java.util.function.DoubleSupplier)" class="member-name-link">getFieldVelocitiesFromJoystick</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;xSpdFunction,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a>&nbsp;ySpdFunction,
@@ -443,6 +454,18 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="getChassisSpeeds()">
+<h3>getChassisSpeeds</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">edu.wpi.first.math.kinematics.ChassisSpeeds</span>&nbsp;<span class="element-name">getChassisSpeeds</span>()</div>
+<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../GenericDrivetrain.html#getChassisSpeeds()">GenericDrivetrain</a></code></span></div>
+<div class="block">Returns the measured chassis speeds of the robot.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../GenericDrivetrain.html#getChassisSpeeds()">getChassisSpeeds</a></code>&nbsp;in class&nbsp;<code><a href="../GenericDrivetrain.html" title="class in org.frc5010.common.drive">GenericDrivetrain</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="initGlassWidget(org.frc5010.common.constants.GenericDrivetrainConstants)">
 <h3>initGlassWidget</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initGlassWidget</span><wbr><span class="parameters">(<a href="../../constants/GenericDrivetrainConstants.html" title="class in org.frc5010.common.constants">GenericDrivetrainConstants</a>&nbsp;constants)</span></div>
@@ -480,8 +503,25 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.kinematics.ChassisSpeeds</span>&nbsp;<span class="element-name">getFieldVelocity</span>()</div>
 <div class="block">Gets the current field-relative velocity (x, y and omega) of the robot</div>
 <dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="../GenericDrivetrain.html#getFieldVelocity()">getFieldVelocity</a></code>&nbsp;in class&nbsp;<code><a href="../GenericDrivetrain.html" title="class in org.frc5010.common.drive">GenericDrivetrain</a></code></dd>
 <dt>Returns:</dt>
 <dd>A ChassisSpeeds object of the current field-relative velocity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getFieldAcceleration()">
+<h3>getFieldAcceleration</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.kinematics.ChassisSpeeds</span>&nbsp;<span class="element-name">getFieldAcceleration</span>()</div>
+<div class="block">Gets the current field-relative chassis acceleration derived from drive motor acceleration
+ signals. Returns zero if the underlying drive implementation does not support acceleration
+ signals.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="../GenericDrivetrain.html#getFieldAcceleration()">getFieldAcceleration</a></code>&nbsp;in class&nbsp;<code><a href="../GenericDrivetrain.html" title="class in org.frc5010.common.drive">GenericDrivetrain</a></code></dd>
+<dt>Returns:</dt>
+<dd>A ChassisSpeeds object representing field-relative acceleration (m/s² components)</dd>
 </dl>
 </section>
 </li>

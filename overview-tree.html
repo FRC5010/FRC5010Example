@@ -54,6 +54,8 @@ loadScripts(document, 'script');</script>
 <li><a href="frc/robot/package-tree.html">frc.robot</a>, </li>
 <li><a href="frc/robot/baby_swerve/package-tree.html">frc.robot.baby_swerve</a>, </li>
 <li><a href="frc/robot/example/package-tree.html">frc.robot.example</a>, </li>
+<li><a href="frc/robot/example/commands/package-tree.html">frc.robot.example.commands</a>, </li>
+<li><a href="frc/robot/example/subsystems/package-tree.html">frc.robot.example.subsystems</a>, </li>
 <li><a href="org/frc5010/common/arch/package-tree.html">org.frc5010.common.arch</a>, </li>
 <li><a href="org/frc5010/common/auto/package-tree.html">org.frc5010.common.auto</a>, </li>
 <li><a href="org/frc5010/common/auto/pathplanner/package-tree.html">org.frc5010.common.auto.pathplanner</a>, </li>
@@ -84,6 +86,7 @@ loadScripts(document, 'script');</script>
 <li><a href="org/frc5010/common/subsystems/package-tree.html">org.frc5010.common.subsystems</a>, </li>
 <li><a href="org/frc5010/common/telemetry/package-tree.html">org.frc5010.common.telemetry</a>, </li>
 <li><a href="org/frc5010/common/utils/package-tree.html">org.frc5010.common.utils</a>, </li>
+<li><a href="org/frc5010/common/utils/geometry/package-tree.html">org.frc5010.common.utils.geometry</a>, </li>
 <li><a href="org/frc5010/common/vision/package-tree.html">org.frc5010.common.vision</a>, </li>
 <li><a href="org/frc5010/lobbinloco/package-tree.html">org.frc5010.lobbinloco</a></li>
 </ul>
@@ -113,6 +116,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">org.frc5010.common.commands.<a href="org/frc5010/common/commands/AkitDriveCommands.html" class="type-name-link" title="class in org.frc5010.common.commands">AkitDriveCommands</a></li>
 <li class="circle">org.frc5010.common.config.json.<a href="org/frc5010/common/config/json/AKitSwerveDrivetrainJson.html" class="type-name-link" title="class in org.frc5010.common.config.json">AKitSwerveDrivetrainJson</a> (implements org.frc5010.common.config.json.<a href="org/frc5010/common/config/json/DrivetrainPropertiesJson.html" title="interface in org.frc5010.common.config.json">DrivetrainPropertiesJson</a>)</li>
 <li class="circle">org.frc5010.common.utils.<a href="org/frc5010/common/utils/AllianceFlip.html" class="type-name-link" title="class in org.frc5010.common.utils">AllianceFlip</a></li>
+<li class="circle">org.frc5010.common.utils.geometry.<a href="org/frc5010/common/utils/geometry/AllianceFlipUtil.html" class="type-name-link" title="class in org.frc5010.common.utils.geometry">AllianceFlipUtil</a></li>
 <li class="circle">org.frc5010.common.sensors.<a href="org/frc5010/common/sensors/AnalogInput5010.html" class="type-name-link" title="class in org.frc5010.common.sensors">AnalogInput5010</a> (implements org.frc5010.common.sensors.encoder.<a href="org/frc5010/common/sensors/encoder/GenericEncoder.html" title="interface in org.frc5010.common.sensors.encoder">GenericEncoder</a>)</li>
 <li class="circle">org.frc5010.common.vision.<a href="org/frc5010/common/vision/AprilTags.html" class="type-name-link" title="class in org.frc5010.common.vision">AprilTags</a></li>
 <li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/ArmParser.html" class="type-name-link" title="class in org.frc5010.common.config.json.devices">ArmParser</a></li>
@@ -219,6 +223,17 @@ loadScripts(document, 'script');</script>
 <li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/DrivetrainConstantsJson.html" class="type-name-link" title="class in org.frc5010.common.config.json.devices">DrivetrainConstantsJson</a></li>
 <li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/DrivetrainConstantsJson.ModuleConfigJson.html" class="type-name-link" title="class in org.frc5010.common.config.json.devices">DrivetrainConstantsJson.ModuleConfigJson</a></li>
 <li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/ElevatorParser.html" class="type-name-link" title="class in org.frc5010.common.config.json.devices">ElevatorParser</a></li>
+<li class="circle">frc.robot.example.commands.<a href="frc/robot/example/commands/ExampleCommands.html" class="type-name-link" title="class in frc.robot.example.commands">ExampleCommands</a></li>
+<li class="circle">frc.robot.example.subsystems.<a href="frc/robot/example/subsystems/ExampleIO.ExampleIOInputs.html" class="type-name-link" title="class in frc.robot.example.subsystems">ExampleIO.ExampleIOInputs</a>
+<ul>
+<li class="circle">frc.robot.example.subsystems.<a href="frc/robot/example/subsystems/ExampleIOInputsAutoLogged.html" class="type-name-link" title="class in frc.robot.example.subsystems">ExampleIOInputsAutoLogged</a> (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Cloneable.html" title="class or interface in java.lang" class="external-link">Cloneable</a>, org.littletonrobotics.junction.inputs.LoggableInputs)</li>
+</ul>
+</li>
+<li class="circle">frc.robot.example.subsystems.<a href="frc/robot/example/subsystems/ExampleIOReal.html" class="type-name-link" title="class in frc.robot.example.subsystems">ExampleIOReal</a> (implements frc.robot.example.subsystems.<a href="frc/robot/example/subsystems/ExampleIO.html" title="interface in frc.robot.example.subsystems">ExampleIO</a>)
+<ul>
+<li class="circle">frc.robot.example.subsystems.<a href="frc/robot/example/subsystems/ExampleIOSim.html" class="type-name-link" title="class in frc.robot.example.subsystems">ExampleIOSim</a></li>
+</ul>
+</li>
 <li class="circle">org.frc5010.common.constants.<a href="org/frc5010/common/constants/FieldDimensions.html" class="type-name-link" title="class in org.frc5010.common.constants">FieldDimensions</a></li>
 <li class="circle">org.frc5010.common.config.json.<a href="org/frc5010/common/config/json/GamePieceJson.html" class="type-name-link" title="class in org.frc5010.common.config.json">GamePieceJson</a></li>
 <li class="circle">swervelib.simulation.ironmaple.simulation.gamepieces.GamePieceProjectile (implements swervelib.simulation.ironmaple.simulation.gamepieces.GamePiece)
@@ -308,6 +323,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">org.frc5010.common.motors.hardware.<a href="org/frc5010/common/motors/hardware/GenericTalonFXMotor.html" class="type-name-link" title="class in org.frc5010.common.motors.hardware">GenericTalonFXMotor</a> (implements org.frc5010.common.motors.<a href="org/frc5010/common/motors/GenericMotorController.html" title="interface in org.frc5010.common.motors">GenericMotorController</a>)</li>
 <li class="circle">org.frc5010.common.motors.hardware.<a href="org/frc5010/common/motors/hardware/GenericTalonFXSMotor.html" class="type-name-link" title="class in org.frc5010.common.motors.hardware">GenericTalonFXSMotor</a> (implements org.frc5010.common.motors.<a href="org/frc5010/common/motors/GenericMotorController.html" title="interface in org.frc5010.common.motors">GenericMotorController</a>)</li>
 <li class="circle">org.frc5010.common.motors.hardware.<a href="org/frc5010/common/motors/hardware/GenericThriftyNovaMotor.html" class="type-name-link" title="class in org.frc5010.common.motors.hardware">GenericThriftyNovaMotor</a> (implements org.frc5010.common.motors.<a href="org/frc5010/common/motors/GenericMotorController.html" title="interface in org.frc5010.common.motors">GenericMotorController</a>)</li>
+<li class="circle">org.frc5010.common.utils.geometry.<a href="org/frc5010/common/utils/geometry/GeomUtil.html" class="type-name-link" title="class in org.frc5010.common.utils.geometry">GeomUtil</a></li>
 <li class="circle">org.frc5010.common.drive.swerve.akit.<a href="org/frc5010/common/drive/swerve/akit/GyroIO.GyroIOInputs.html" class="type-name-link" title="class in org.frc5010.common.drive.swerve.akit">GyroIO.GyroIOInputs</a>
 <ul>
 <li class="circle">org.frc5010.common.drive.swerve.akit.<a href="org/frc5010/common/drive/swerve/akit/GyroIOInputsAutoLogged.html" class="type-name-link" title="class in org.frc5010.common.drive.swerve.akit">GyroIOInputsAutoLogged</a> (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Cloneable.html" title="class or interface in java.lang" class="external-link">Cloneable</a>, org.littletonrobotics.junction.inputs.LoggableInputs)</li>
@@ -387,7 +403,8 @@ loadScripts(document, 'script');</script>
 </ul>
 </li>
 <li class="circle">org.frc5010.common.commands.calibration.<a href="org/frc5010/common/commands/calibration/PoseProviderAutoOffset.html" class="type-name-link" title="class in org.frc5010.common.commands.calibration">PoseProviderAutoOffset</a></li>
-<li class="circle">org.frc5010.common.sensors.camera.<a href="org/frc5010/common/sensors/camera/QuestNav.html" class="type-name-link" title="class in org.frc5010.common.sensors.camera">QuestNav</a> (implements org.frc5010.common.drive.pose.<a href="org/frc5010/common/drive/pose/PoseProvider.html" title="interface in org.frc5010.common.drive.pose">PoseProvider</a>)</li>
+<li class="circle">org.frc5010.common.sensors.camera.<a href="org/frc5010/common/sensors/camera/QuestNavInterface.html" class="type-name-link" title="class in org.frc5010.common.sensors.camera">QuestNavInterface</a> (implements org.frc5010.common.drive.pose.<a href="org/frc5010/common/drive/pose/PoseProvider.html" title="interface in org.frc5010.common.drive.pose">PoseProvider</a>)</li>
+<li class="circle">org.frc5010.common.sensors.camera.<a href="org/frc5010/common/sensors/camera/QuestNavOld.html" class="type-name-link" title="class in org.frc5010.common.sensors.camera">QuestNavOld</a> (implements org.frc5010.common.drive.pose.<a href="org/frc5010/common/drive/pose/PoseProvider.html" title="interface in org.frc5010.common.drive.pose">PoseProvider</a>)</li>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Record.html" class="type-name-link external-link" title="class or interface in java.lang">Record</a>
 <ul>
 <li class="circle">org.frc5010.common.drive.swerve.<a href="org/frc5010/common/drive/swerve/GenericSwerveModuleInfo.html" class="type-name-link" title="class in org.frc5010.common.drive.swerve">GenericSwerveModuleInfo</a></li>
@@ -445,7 +462,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">frc.robot.example.<a href="frc/robot/example/DisplayValueSubsystem.html" class="type-name-link" title="class in frc.robot.example">DisplayValueSubsystem</a></li>
 <li class="circle">org.frc5010.common.drive.pose.<a href="org/frc5010/common/drive/pose/DrivePoseEstimator.html" class="type-name-link" title="class in org.frc5010.common.drive.pose">DrivePoseEstimator</a></li>
-<li class="circle">frc.robot.example.<a href="frc/robot/example/ExampleSubsystem.html" class="type-name-link" title="class in frc.robot.example">ExampleSubsystem</a></li>
+<li class="circle">frc.robot.example.subsystems.<a href="frc/robot/example/subsystems/ExampleSubsystem.html" class="type-name-link" title="class in frc.robot.example.subsystems">ExampleSubsystem</a></li>
 <li class="circle">org.frc5010.common.drive.<a href="org/frc5010/common/drive/GenericDrivetrain.html" class="type-name-link" title="class in org.frc5010.common.drive">GenericDrivetrain</a>
 <ul>
 <li class="circle">org.frc5010.common.drive.<a href="org/frc5010/common/drive/DifferentialDrivetrain.html" class="type-name-link" title="class in org.frc5010.common.drive">DifferentialDrivetrain</a></li>
@@ -508,6 +525,8 @@ loadScripts(document, 'script');</script>
 <li class="circle">org.frc5010.common.config.json.<a href="org/frc5010/common/config/json/YAGSLDrivetrainJson.html" class="type-name-link" title="class in org.frc5010.common.config.json">YAGSLDrivetrainJson</a> (implements org.frc5010.common.config.json.<a href="org/frc5010/common/config/json/DrivetrainPropertiesJson.html" title="interface in org.frc5010.common.config.json">DrivetrainPropertiesJson</a>)</li>
 <li class="circle">org.frc5010.common.sensors.gyro.<a href="org/frc5010/common/sensors/gyro/YagslGyro.html" class="type-name-link" title="class in org.frc5010.common.sensors.gyro">YagslGyro</a> (implements org.frc5010.common.sensors.gyro.<a href="org/frc5010/common/sensors/gyro/GenericGyro.html" title="interface in org.frc5010.common.sensors.gyro">GenericGyro</a>)</li>
 <li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/YamsArmConfigurationJson.html" class="type-name-link" title="class in org.frc5010.common.config.json.devices">YamsArmConfigurationJson</a> (implements org.frc5010.common.config.<a href="org/frc5010/common/config/DeviceConfiguration.html" title="interface in org.frc5010.common.config">DeviceConfiguration</a>)</li>
+<li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/YamsConfigCommon.html" class="type-name-link" title="class in org.frc5010.common.config.json.devices">YamsConfigCommon</a></li>
+<li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/YamsConfigCommon.PhysicalParameters.html" class="type-name-link" title="class in org.frc5010.common.config.json.devices">YamsConfigCommon.PhysicalParameters</a></li>
 <li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/YamsElevatorConfigurationJson.html" class="type-name-link" title="class in org.frc5010.common.config.json.devices">YamsElevatorConfigurationJson</a> (implements org.frc5010.common.config.<a href="org/frc5010/common/config/DeviceConfiguration.html" title="interface in org.frc5010.common.config">DeviceConfiguration</a>)</li>
 <li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/YamsPivotConfigurationJson.html" class="type-name-link" title="class in org.frc5010.common.config.json.devices">YamsPivotConfigurationJson</a> (implements org.frc5010.common.config.<a href="org/frc5010/common/config/DeviceConfiguration.html" title="interface in org.frc5010.common.config">DeviceConfiguration</a>)</li>
 <li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/YamsShooterConfigurationJson.html" class="type-name-link" title="class in org.frc5010.common.config.json.devices">YamsShooterConfigurationJson</a> (implements org.frc5010.common.config.<a href="org/frc5010/common/config/DeviceConfiguration.html" title="interface in org.frc5010.common.config">DeviceConfiguration</a>)</li>
@@ -521,6 +540,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">org.frc5010.common.config.<a href="org/frc5010/common/config/DeviceConfiguration.html" class="type-name-link" title="interface in org.frc5010.common.config">DeviceConfiguration</a></li>
 <li class="circle">org.frc5010.common.drive.pose.<a href="org/frc5010/common/drive/pose/DrivePoseEstimator.VisionConsumer.html" class="type-name-link" title="interface in org.frc5010.common.drive.pose">DrivePoseEstimator.VisionConsumer</a></li>
 <li class="circle">org.frc5010.common.config.json.<a href="org/frc5010/common/config/json/DrivetrainPropertiesJson.html" class="type-name-link" title="interface in org.frc5010.common.config.json">DrivetrainPropertiesJson</a></li>
+<li class="circle">frc.robot.example.subsystems.<a href="frc/robot/example/subsystems/ExampleIO.html" class="type-name-link" title="interface in frc.robot.example.subsystems">ExampleIO</a></li>
 <li class="circle">org.frc5010.common.sensors.camera.<a href="org/frc5010/common/sensors/camera/FiducialTargetCamera.html" class="type-name-link" title="interface in org.frc5010.common.sensors.camera">FiducialTargetCamera</a></li>
 <li class="circle">org.frc5010.common.arch.<a href="org/frc5010/common/arch/GenericDeviceHandler.html" class="type-name-link" title="interface in org.frc5010.common.arch">GenericDeviceHandler</a></li>
 <li class="circle">org.frc5010.common.sensors.encoder.<a href="org/frc5010/common/sensors/encoder/GenericEncoder.html" class="type-name-link" title="interface in org.frc5010.common.sensors.encoder">GenericEncoder</a></li>
@@ -549,6 +569,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">org.frc5010.common.config.units.<a href="org/frc5010/common/config/units/AngularVelocityUnit.html" class="type-name-link" title="enum class in org.frc5010.common.config.units">AngularVelocityUnit</a></li>
 <li class="circle">org.frc5010.common.vision.<a href="org/frc5010/common/vision/AprilTags.AprilTag5010.html" class="type-name-link" title="enum class in org.frc5010.common.vision">AprilTags.AprilTag5010</a></li>
 <li class="circle">org.frc5010.common.subsystems.<a href="org/frc5010/common/subsystems/Color.html" class="type-name-link" title="enum class in org.frc5010.common.subsystems">Color</a></li>
+<li class="circle">org.frc5010.common.config.<a href="org/frc5010/common/config/ConfigConstants.ControlAlgorithm.html" class="type-name-link" title="enum class in org.frc5010.common.config">ConfigConstants.ControlAlgorithm</a></li>
 <li class="circle">frc.robot.<a href="frc/robot/Constants.Mode.html" class="type-name-link" title="enum class in frc.robot">Constants.Mode</a></li>
 <li class="circle">org.frc5010.common.sensors.<a href="org/frc5010/common/sensors/Controller.JoystickPorts.html" class="type-name-link" title="enum class in org.frc5010.common.sensors">Controller.JoystickPorts</a></li>
 <li class="circle">org.frc5010.common.config.units.<a href="org/frc5010/common/config/units/CurrentUnit.html" class="type-name-link" title="enum class in org.frc5010.common.config.units">CurrentUnit</a></li>
@@ -564,7 +585,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">org.frc5010.common.motors.<a href="org/frc5010/common/motors/MotorConstants.Motor.html" class="type-name-link" title="enum class in org.frc5010.common.motors">MotorConstants.Motor</a></li>
 <li class="circle">org.frc5010.common.drive.pose.<a href="org/frc5010/common/drive/pose/PoseProvider.PoseObservationType.html" class="type-name-link" title="enum class in org.frc5010.common.drive.pose">PoseProvider.PoseObservationType</a></li>
 <li class="circle">org.frc5010.common.drive.pose.<a href="org/frc5010/common/drive/pose/PoseProvider.ProviderType.html" class="type-name-link" title="enum class in org.frc5010.common.drive.pose">PoseProvider.ProviderType</a></li>
-<li class="circle">org.frc5010.common.sensors.camera.<a href="org/frc5010/common/sensors/camera/QuestNav.QuestCommand.html" class="type-name-link" title="enum class in org.frc5010.common.sensors.camera">QuestNav.QuestCommand</a></li>
+<li class="circle">org.frc5010.common.sensors.camera.<a href="org/frc5010/common/sensors/camera/QuestNavOld.QuestCommand.html" class="type-name-link" title="enum class in org.frc5010.common.sensors.camera">QuestNavOld.QuestCommand</a></li>
 <li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/ReflectionsManager.SparkBaseType.html" class="type-name-link" title="enum class in org.frc5010.common.config.json.devices">ReflectionsManager.SparkBaseType</a></li>
 <li class="circle">org.frc5010.common.config.json.devices.<a href="org/frc5010/common/config/json/devices/ReflectionsManager.VENDOR.html" class="type-name-link" title="enum class in org.frc5010.common.config.json.devices">ReflectionsManager.VENDOR</a></li>
 <li class="circle">org.frc5010.common.config.units.<a href="org/frc5010/common/config/units/TimeUnit.html" class="type-name-link" title="enum class in org.frc5010.common.config.units">TimeUnit</a></li>

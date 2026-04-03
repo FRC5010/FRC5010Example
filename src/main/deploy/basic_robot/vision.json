@@ -1,0 +1,21 @@
+{
+  "cameras": [
+    {
+      "name": "left",
+      "type": "photonvision",
+      "config": "left.json"
+    },
+    {
+      "name": "right",
+      "type": "photonvision",
+      "config": "right.json"
+    },
+    {
+      "name": "quest",
+      "type": "quest",
+      "config": "quest.json"
+    }
+  ],
+  "viewGamePieces": false,
+  "aprilTagLayout": "2026-rebuilt-andymark.json"
+}

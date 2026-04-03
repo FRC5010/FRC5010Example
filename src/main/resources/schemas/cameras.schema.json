@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Cameras Configuration",
-  "description": "List of camera configuration files (matches CameraConfigurationJson.java)",
+  "title": "Vision Configuration",
+  "description": "Vision system configuration (matches VisionPropertiesJson.java)",
   "type": "object",
   "required": [
     "cameras"
@@ -9,12 +9,57 @@
   "properties": {
     "cameras": {
       "type": "array",
-      "description": "Array of camera configuration file names in the cameras/ subdirectory",
+      "description": "Camera entries with type and config file",
       "items": {
-        "type": "string",
-        "description": "Camera configuration file name (e.g., 'intake.json')"
+        "type": "object",
+        "required": [
+          "name",
+          "type"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "photonvision",
+              "yall",
+              "limelight",
+              "quest"
+            ]
+          },
+          "config": {
+            "type": "string"
+          }
+        }
       },
       "minItems": 0
+    },
+    "aprilTagLayout": {
+      "type": "string",
+      "description": "AprilTag layout name",
+      "default": "default"
+    },
+    "simulatedField": {
+      "type": "string",
+      "description": "Simulated field class name",
+      "default": "default"
+    },
+    "gamePieces": {
+      "type": "object",
+      "description": "Game piece class mappings",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "viewGamePieces": {
+      "type": "boolean",
+      "description": "Whether to view game pieces in simulation",
+      "default": true
     }
   }
 }

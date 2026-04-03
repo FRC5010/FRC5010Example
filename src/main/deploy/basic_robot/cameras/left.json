@@ -1,12 +1,31 @@
 {
   "name": "left",
   "use": "apriltag",
-  "type": "photonvision",
   "column": 0,
-  "x": -0.33,
-  "y": 0.33,
-  "z": 0.5,
-  "roll": 0,
-  "pitch": 0,
-  "yaw": 90
+  "pose": {
+    "x": {
+      "val": -0.33,
+      "uom": "m"
+    },
+    "y": {
+      "val": 0.33,
+      "uom": "m"
+    },
+    "z": {
+      "val": 0.5,
+      "uom": "m"
+    },
+    "roll": {
+      "val": 0,
+      "uom": "deg"
+    },
+    "pitch": {
+      "val": 0,
+      "uom": "deg"
+    },
+    "rotation": {
+      "val": 90,
+      "uom": "deg"
+    }
+  }
 }

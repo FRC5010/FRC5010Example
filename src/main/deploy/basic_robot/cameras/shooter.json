@@ -1,14 +1,33 @@
 {
   "name": "shooter",
   "use": "target",
-  "type": "photonvision",
   "column": 0,
-  "x": 0.25,
-  "y": 0,
-  "z": 0.25,
-  "roll": 0,
-  "pitch": 10,
-  "yaw": 0,
+  "pose": {
+    "x": {
+      "val": 0.25,
+      "uom": "m"
+    },
+    "y": {
+      "val": 0,
+      "uom": "m"
+    },
+    "z": {
+      "val": 0.25,
+      "uom": "m"
+    },
+    "roll": {
+      "val": 0,
+      "uom": "deg"
+    },
+    "pitch": {
+      "val": 10,
+      "uom": "deg"
+    },
+    "rotation": {
+      "val": 0,
+      "uom": "deg"
+    }
+  },
   "targetFiducialIds": [
     17,
     18,

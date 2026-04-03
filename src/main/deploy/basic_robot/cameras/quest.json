@@ -2,10 +2,30 @@
   "name": "quest",
   "use": "quest",
   "column": 0,
-  "x": 0,
-  "y": 0,
-  "z": 18,
-  "roll": 0,
-  "pitch": 0,
-  "yaw": 0
+  "pose": {
+    "x": {
+      "val": 0,
+      "uom": "m"
+    },
+    "y": {
+      "val": 0,
+      "uom": "m"
+    },
+    "z": {
+      "val": 18,
+      "uom": "m"
+    },
+    "roll": {
+      "val": 0,
+      "uom": "deg"
+    },
+    "pitch": {
+      "val": 0,
+      "uom": "deg"
+    },
+    "rotation": {
+      "val": 0,
+      "uom": "deg"
+    }
+  }
 }

@@ -102,7 +102,7 @@ public class RobotParser {
     // Read in the cameras
     visionJson =
         new ObjectMapper()
-            .readValue(new File(directory, "cameras.json"), VisionPropertiesJson.class);
+            .readValue(new File(directory, "vision.json"), VisionPropertiesJson.class);
     camerasMap = visionJson.readCameraSystem(directory);
 
     // Parse LED strips

@@ -20,19 +20,9 @@
         "quest"
       ]
     },
-    "type": {
-      "type": "string",
-      "description": "Camera vendor/type",
-      "enum": [
-        "limelight",
-        "photonvision",
-        "none"
-      ],
-      "default": "none"
-    },
     "strategy": {
       "type": "string",
-      "description": "Pose estimation strategy for PhotonVision cameras",
+      "description": "Pose estimation strategy for PhotonVision cameras or YaLL (MEGATAG1/2)",
       "default": "none"
     },
     "column": {
@@ -41,35 +31,29 @@
       "default": 0,
       "minimum": 0
     },
-    "x": {
-      "type": "number",
-      "description": "Camera X position offset from robot center in meters (forward/backward)",
-      "default": 0
-    },
-    "y": {
-      "type": "number",
-      "description": "Camera Y position offset from robot center in meters (left/right)",
-      "default": 0
-    },
-    "z": {
-      "type": "number",
-      "description": "Camera Z position offset from robot center in meters (up/down)",
-      "default": 0
-    },
-    "roll": {
-      "type": "number",
-      "description": "Camera roll rotation in degrees around X-axis",
-      "default": 0
-    },
-    "pitch": {
-      "type": "number",
-      "description": "Camera pitch rotation in degrees around Y-axis",
-      "default": 0
-    },
-    "yaw": {
-      "type": "number",
-      "description": "Camera yaw rotation in degrees around Z-axis",
-      "default": 0
+    "pose": {
+      "type": "object",
+      "description": "Camera pose relative to the robot center",
+      "properties": {
+        "x": {
+          "$ref": "unit-value.schema.json"
+        },
+        "y": {
+          "$ref": "unit-value.schema.json"
+        },
+        "z": {
+          "$ref": "unit-value.schema.json"
+        },
+        "roll": {
+          "$ref": "unit-value.schema.json"
+        },
+        "pitch": {
+          "$ref": "unit-value.schema.json"
+        },
+        "rotation": {
+          "$ref": "unit-value.schema.json"
+        }
+      }
     },
     "width": {
       "type": "integer",
@@ -82,6 +66,59 @@
       "description": "Vertical resolution of the camera in pixels",
       "default": 600,
       "minimum": 1
+    },
+    "fov": {
+      "type": "number",
+      "description": "Camera field of view (degrees)",
+      "default": 70
+    },
+    "targetHeight": {
+      "type": "number",
+      "description": "Target height in meters",
+      "default": 0
+    },
+    "viewGamePieces": {
+      "type": "boolean",
+      "description": "Whether to view game pieces in simulation",
+      "default": true
+    },
+    "targetFiducialIds": {
+      "type": "array",
+      "description": "Optional list of AprilTag IDs to track",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "yallLedMode": {
+      "type": "string",
+      "description": "YaLL LED mode"
+    },
+    "yallStreamMode": {
+      "type": "string",
+      "description": "YaLL stream mode"
+    },
+    "yallImuMode": {
+      "type": "string",
+      "description": "YaLL IMU mode"
+    },
+    "yallFiducialDownscaling": {
+      "type": "string",
+      "description": "YaLL fiducial downscaling override"
+    },
+    "yallPipelineIndex": {
+      "type": "integer",
+      "description": "YaLL pipeline index override",
+      "default": -1
+    },
+    "yallPriorityTagId": {
+      "type": "integer",
+      "description": "YaLL priority AprilTag ID override",
+      "default": -1
+    },
+    "yallImuAssistAlpha": {
+      "type": "number",
+      "description": "YaLL IMU assist alpha value",
+      "default": -1
     }
   }
 }

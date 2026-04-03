@@ -1,13 +1,32 @@
 {
   "name": "two",
   "use": "apriltag",
-  "type": "limelight",
   "strategy": "LOWEST_AMBIGUITY",
   "column": 0,
-  "x": 0.16,
-  "y": -0.1,
-  "z": 0.335,
-  "roll": -2,
-  "pitch": 0,
-  "yaw": 0
+  "pose": {
+    "x": {
+      "val": 0.16,
+      "uom": "m"
+    },
+    "y": {
+      "val": -0.1,
+      "uom": "m"
+    },
+    "z": {
+      "val": 0.335,
+      "uom": "m"
+    },
+    "roll": {
+      "val": -2,
+      "uom": "deg"
+    },
+    "pitch": {
+      "val": 0,
+      "uom": "deg"
+    },
+    "rotation": {
+      "val": 0,
+      "uom": "deg"
+    }
+  }
 }

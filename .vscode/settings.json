@@ -90,7 +90,7 @@
     },
     {
       "fileMatch": [
-        "**/cameras.json"
+        "**/vision.json"
       ],
       "url": "./src/main/resources/schemas/cameras.schema.json"
     },

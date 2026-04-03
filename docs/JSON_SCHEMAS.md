@@ -39,33 +39,39 @@ All JSON schemas are stored in: `src/main/java/org/frc5010/common/config/schemas
 
 ---
 
-### 3. **cameras.json** → `cameras.schema.json`
-**Location:** `src/main/deploy/*/cameras.json`
+### 3. **vision.json** → `cameras.schema.json`
+**Location:** `src/main/deploy/*/vision.json`
 
-**Java Class:** `CameraConfigurationJson.java`
+**Java Class:** `VisionPropertiesJson.java`
 
-**Purpose:** List of camera configuration files to load
+**Purpose:** Vision system configuration and camera entry list
 
 **Key Fields:**
-- `cameras` - Array of camera configuration filenames in the cameras/ directory
+- `cameras` - Array of camera entries with name/type/config
+- `aprilTagLayout` - AprilTag layout identifier
+- `simulatedField` - Simulated arena class name
+- `gamePieces` - Game piece mapping
+- `viewGamePieces` - Whether to show game pieces in simulation
 
 ---
 
 ### 4. **cameras/*.json** → `camera.schema.json`
 **Location:** `src/main/deploy/*/cameras/*.json` (e.g., intake.json, localization.json)
 
-**Java Class:** `CameraConfigurationJson.java`
+**Java Class:** `CameraConfigurationJson.java` (base), per-type config classes
 
-**Purpose:** Configuration for individual camera systems (PhotonVision, Limelight, etc.)
+**Purpose:** Configuration for individual camera systems (PhotonVision, YaLL, Quest, etc.)
 
 **Key Fields:**
 - `name` - Unique camera identifier
 - `use` - Use case (target, apriltag, quest)
-- `type` - Camera type (limelight, photonvision)
 - `strategy` - Pose estimation strategy
-- `x`, `y`, `z` - Position offsets from robot center (meters)
-- `roll`, `pitch`, `yaw` - Rotation angles (degrees)
-- `width`, `height` - Camera resolution (pixels)
+- `pose` - Camera pose (Pose3dJson)
+- `width`, `height`, `fov` - Camera resolution and field of view
+- `targetHeight` - Target height for visual tracking
+- `targetFiducialIds` - Optional AprilTag ID list
+- `yall*` - YaLL-specific settings (LED, stream, IMU, etc.)
+- Quest cameras use `type: "quest"` in `vision.json` and `use: "quest"` in camera config
 
 ---
 

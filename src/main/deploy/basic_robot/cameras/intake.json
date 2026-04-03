@@ -1,13 +1,32 @@
 {
   "name": "intake",
   "use": "target",
-  "type": "limelight",
   "column": 0,
-  "x": 0.15,
-  "y": 0.05,
-  "z": 0.2,
-  "roll": 0,
-  "pitch": 10,
-  "yaw": 0,
+  "pose": {
+    "x": {
+      "val": 0.15,
+      "uom": "m"
+    },
+    "y": {
+      "val": 0.05,
+      "uom": "m"
+    },
+    "z": {
+      "val": 0.2,
+      "uom": "m"
+    },
+    "roll": {
+      "val": 0,
+      "uom": "deg"
+    },
+    "pitch": {
+      "val": 10,
+      "uom": "deg"
+    },
+    "rotation": {
+      "val": 0,
+      "uom": "deg"
+    }
+  },
   "targetHeight": 0.02
 }

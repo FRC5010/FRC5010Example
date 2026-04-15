@@ -219,8 +219,9 @@ public class LauncherCommands {
         .whileTrue(turretForwardPresetStateCommand())
         .onFalse(shouldLowCommand());
 
-    Trigger isTrenchTrigger = new Trigger(() -> launcher.isNearTrench());
-    isTrenchTrigger.onTrue(shouldAutoHammerTimeCommand()).onFalse(shouldEscapeHammerTimeCommand());
+    // This allowed auto-hammer time
+    // Trigger isTrenchTrigger = new Trigger(() -> launcher.isNearTrench());
+    // isTrenchTrigger.onTrue(shouldAutoHammerTimeCommand()).onFalse(shouldEscapeHammerTimeCommand());
 
     // When intake is retracting or retracted, force turret to HAMMERTIME (hopper arm interferes)
     Trigger intakeUpTrigger =

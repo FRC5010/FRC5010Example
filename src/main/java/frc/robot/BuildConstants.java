@@ -6,6 +6,7 @@ public final class BuildConstants {
   public static final String MAVEN_NAME = "Rebuilt2026";
   public static final String VERSION = "unspecified";
 <<<<<<< HEAD
+<<<<<<< HEAD
   public static final int GIT_REVISION = 555;
   public static final String GIT_SHA = "e54b32ef1728c94d2d66e821e5abdd06f16af277";
   public static final String GIT_DATE = "2026-04-06 18:35:34 EDT";
@@ -28,6 +29,14 @@ public final class BuildConstants {
   public static final String BUILD_DATE = "2026-04-13 16:47:20 EDT";
   public static final long BUILD_UNIX_TIME = 1776113240372L;
 >>>>>>> Rebuilt
+>>>>>>> Rebuilt
+=======
+  public static final int GIT_REVISION = 619;
+  public static final String GIT_SHA = "56c4a0b8b3791bf516368f5f0c1bf1eabae2f6c6";
+  public static final String GIT_DATE = "2026-04-15 17:30:38 EDT";
+  public static final String GIT_BRANCH = "Rebuilt";
+  public static final String BUILD_DATE = "2026-04-15 17:44:57 EDT";
+  public static final long BUILD_UNIX_TIME = 1776289497415L;
 >>>>>>> Rebuilt
   public static final int DIRTY = 1;
 

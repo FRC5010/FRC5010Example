@@ -45,6 +45,18 @@
           "data": {
             "name": "launcherPrep"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot end to middle left"
+          }
         }
       ]
     }

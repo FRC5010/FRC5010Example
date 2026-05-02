@@ -11,33 +11,15 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "intakeIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launcherPrep"
+            "pathName": "Delay TR- Wait TR"
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 3.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launcherLow"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Delay TR- Wait TR"
           }
         },
         {

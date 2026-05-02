@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 6.740122222222222,
-        "y": 3.654966666666666
+        "x": 7.183152639087017,
+        "y": 4.546077032810271
       },
       "prevControl": {
-        "x": 7.722820125980237,
-        "y": 3.5127340753332685
+        "x": 8.175550776987984,
+        "y": 4.513347596846524
       },
       "nextControl": {
-        "x": 5.95680404040404,
-        "y": 3.7683416666666663
+        "x": 6.448765081629416,
+        "y": 4.57029724203519
       },
       "isLocked": false,
       "linkedName": null
@@ -84,7 +84,7 @@
         "y": 5.296519258202568
       },
       "prevControl": {
-        "x": 0.9570581742288373,
+        "x": 0.9570581742288374,
         "y": 5.054353291691557
       },
       "nextControl": {
@@ -96,16 +96,16 @@
     },
     {
       "anchor": {
-        "x": 0.5524,
+        "x": 0.5331807228915662,
         "y": 7.309133333333333
       },
       "prevControl": {
-        "x": 0.5134093566317471,
+        "x": 0.49419007952331323,
         "y": 7.0621925920010655
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Depot End"
     }
   ],
   "rotationTargets": [
@@ -202,7 +202,19 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "launcherPrep",
+      "waypointRelativePos": 4.488858879135716,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "launcherPrep"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 9.0,

@@ -37,13 +37,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Delay TR- Wait TR"
+            "pathName": "Delay TL- Wait TL"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Wait-TR-BL-Depot"
+            "pathName": "Wait-TL-BR-HP"
           }
         },
         {

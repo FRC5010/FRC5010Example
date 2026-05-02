@@ -205,7 +205,7 @@
   "eventMarkers": [
     {
       "name": "launcherPrep",
-      "waypointRelativePos": 4.488858879135716,
+      "waypointRelativePos": 4.278190411883858,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

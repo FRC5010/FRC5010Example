@@ -37,7 +37,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "DelayTRS-CTR-QTR-BR-HP Longer"
+            "pathName": "Delay TR- Wait TR"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Wait-TR-BL-Depot"
           }
         },
         {

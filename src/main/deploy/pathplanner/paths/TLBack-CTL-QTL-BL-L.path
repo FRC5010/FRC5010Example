@@ -80,16 +80,16 @@
     },
     {
       "anchor": {
-        "x": 0.7375444444444446,
-        "y": 5.301777777777777
+        "x": 0.8949643366619111,
+        "y": 5.296519258202568
       },
       "prevControl": {
-        "x": 0.7996382820113708,
-        "y": 5.059611811266766
+        "x": 0.9570581742288373,
+        "y": 5.054353291691557
       },
       "nextControl": {
-        "x": 0.6401000000000001,
-        "y": 5.681811111111109
+        "x": 0.7975198922174667,
+        "y": 5.6765525915359
       },
       "isLocked": false,
       "linkedName": null
@@ -138,9 +138,9 @@
     {
       "name": "trench",
       "minWaypointRelativePos": 0.06644518272425252,
-      "maxWaypointRelativePos": 0.47841191066996414,
+      "maxWaypointRelativePos": 0.6158001350438886,
       "constraints": {
-        "maxVelocity": 2.0,
+        "maxVelocity": 4.0,
         "maxAcceleration": 6.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -153,7 +153,7 @@
       "minWaypointRelativePos": 1.2129032258064532,
       "maxWaypointRelativePos": 1.9116625310173645,
       "constraints": {
-        "maxVelocity": 1.5,
+        "maxVelocity": 3.0,
         "maxAcceleration": 6.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,

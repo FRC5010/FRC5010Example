@@ -5,15 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "intakeIntake"
+            "waitTime": 1.0
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 2.0
+            "name": "intakeIntake"
           }
         },
         {
@@ -37,13 +37,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "DelayTRS-QTRL"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "QTRLeft-HP"
+            "pathName": "TLBack-CTL-QTL-BL-L"
           }
         },
         {

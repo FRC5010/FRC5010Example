@@ -22,6 +22,7 @@ import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -66,9 +67,12 @@ import yams.units.EasyCRTConfig;
 /** Add your docs here. */
 public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
   protected static final Angle HARD_STOP = Radians.of(2.9437091319525455);
-  protected static final double encoder40Offset = 0.4423828125;
-  protected static final double encoder36Offset = -0.095947265625;
-  private static final double MIN_DYNAMIC_TURRET_TOLERANCE_DEGREES = 0.5;
+  protected static final double encoder40Offset = -0.46923828125;
+  protected static final double encoder36Offset = 0.129638671875;
+  private static final double MIN_DYNAMIC_TURRET_TOLERANCE_DEGREES = 2.0;
+  private static final double MIN_DYNAMIC_TURRET_SHUTTLE_TOLERANCE_DEGREES = 4.0;
+  private static final double MAX_DYNAMIC_TURRET_SHUTTLE_TOLERANCE_DEGREES = 20.0;
+
   protected Map<String, Object> devices;
   protected Pivot turret;
   protected Arm hood;
@@ -108,6 +112,8 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
   Angle hoodLowLimit = Degrees.of(12);
   Angle hoodHighLimit = Degrees.of(42);
 
+  private Debouncer hoodNotMoving;
+
   /** 2-state turret controller: SEEKING (MotionMagic) and TRACKING (Position + FF). */
   protected SmartTurretController smartTurretController;
 
@@ -129,6 +135,8 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
             .getRelativePosition()
             .get()
             .toTranslation2d();
+
+    hoodNotMoving = new Debouncer(0.25, Debouncer.DebounceType.kRising);
 
     turretZeroButton = new DigitalInput(0);
 
@@ -229,8 +237,8 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
         // Turret is a Pivot so getArmFeedforward() contains the characterised kS/kV/kA in SI units.
         // Fallback values match turret.json in case the YAMS FF was not set.
         ArmFeedforward yamsFf = turretConfig.getArmFeedforward().orElse(null);
-        double kS = yamsFf != null ? yamsFf.getKs() : 15.26;
-        double kV = yamsFf != null ? yamsFf.getKv() : 4.0;
+        double kS = yamsFf != null ? yamsFf.getKs() : 12.12;
+        double kV = yamsFf != null ? yamsFf.getKv() : 3.06;
         double kA = yamsFf != null ? yamsFf.getKa() : 2.0;
         SmartTurretConfig smartConfig =
             new SmartTurretConfig.Builder()
@@ -286,6 +294,7 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
             .minus(AprilTags.aprilTagFieldLayout.getTagPose(21).get().toPose2d())
             .getTranslation()
             .getNorm());
+
     // Angle calculatedAngle =
     // easyCrtSolver.getAngleOptional().orElse(Degrees.of(0.0));
     // SmartDashboard.putNumber("CRT Angle", calculatedAngle.in(Degrees));
@@ -301,6 +310,10 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
 
     Translation2d SOTMOffset = new Translation2d();
     Distance distanceToVirtualTarget = Meters.of(0.0001);
+
+    inputs.hoodMoving =
+        !hoodNotMoving.calculate(
+            hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second)) < 1.0);
 
     if (targetPose.isPresent()) {
       targetProfile = getTargetProfile(targetPose.get());
@@ -441,6 +454,10 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
     return smartTurretController;
   }
 
+  public void resetHoodAngle(Angle angle) {
+    hood.getMotor().setEncoderPosition(angle);
+  }
+
   /** Sets the flywheel motor's duty cycle */
   public void runShooter(double speed) {
     flyWheel.getMotor().setDutyCycle(speed);
@@ -460,6 +477,19 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
   public void setHoodAngleLow() {
     requestHoodAngle(hood.getArmConfig().getLowerHardLimit().orElse(Degrees.of(30)));
     LEDStrip.changeSegmentPattern(ConfigConstants.ALL_LEDS, LEDStrip.getSolidPattern(Color.kGreen));
+  }
+
+  public void runHoodDown() {
+    hood.getMotor().setDutyCycle(-1.0);
+  }
+
+  public void stopHood() {
+    hood.getMotor().setDutyCycle(0.0);
+  }
+
+  public Boolean isHoodStalled() {
+    return hood.getMotor().getStatorCurrent().in(Amps)
+        > Constants.Launcher.HOOD_STALL_CURRENT_THRESHOLD;
   }
 
   private void requestHoodAngle(Angle angle) {
@@ -648,7 +678,7 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
       TargetProfile targetProfile) {
     if (targetPose == null || targetProfile == TargetProfile.NONE) {
       return new double[] {
-        Constants.Launcher.TURRET_ANGLE_TOLERANCE_DEGREES,
+        -Constants.Launcher.TURRET_ANGLE_TOLERANCE_DEGREES,
         Constants.Launcher.TURRET_ANGLE_TOLERANCE_DEGREES
       };
     }
@@ -662,7 +692,11 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
           turretFieldPosition,
           desiredFieldHeading,
           SOTMOffset,
-          Meters.of(targetPose.minus(currentPose.getTranslation()).plus(SOTMOffset).getNorm()));
+          Meters.of(
+              AllianceFlipUtil.apply(targetPose)
+                  .minus(currentPose.getTranslation())
+                  .plus(SOTMOffset)
+                  .getNorm()));
     }
 
     return getShuttleTurretAngleToleranceDegrees(
@@ -683,7 +717,9 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
     double toleranceDegrees =
         Math.max(
             Math.toDegrees(
-                Math.atan(FieldConstants.Hub.innerWidth / 2 / distanceToVirtualTarget.in(Meters))),
+                Math.atan(
+                    (FieldConstants.Hub.innerWidth / 2 - 0.075)
+                        / distanceToVirtualTarget.in(Meters))),
             MIN_DYNAMIC_TURRET_TOLERANCE_DEGREES);
     return new double[] {-toleranceDegrees, toleranceDegrees};
   }
@@ -706,7 +742,7 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
             new Translation2d(allianceZoneFarX, FieldConstants.Hub.nearRightCorner.getY()));
     Translation2d fieldTarget = AllianceFlipUtil.apply(targetPose);
 
-    if (fieldTarget.getY() >= FieldConstants.fieldWidth / 2.0) {
+    if (AllianceFlipUtil.applyY(turretFieldPosition.getY()) >= FieldConstants.fieldWidth / 2.0) {
 
       Translation2d adjustedUpperFieldEdge = upperFieldEdge.plus(SOTMOffset);
       Translation2d adjustedUpperLaneEdge = upperLaneEdge.plus(SOTMOffset);
@@ -734,8 +770,14 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
 
     double lowerBound = Math.min(marginA, marginB);
     double upperBound = Math.max(marginA, marginB);
-    lowerBound = Math.min(lowerBound, -MIN_DYNAMIC_TURRET_TOLERANCE_DEGREES);
-    upperBound = Math.max(upperBound, MIN_DYNAMIC_TURRET_TOLERANCE_DEGREES);
+    lowerBound =
+        Math.max(
+            Math.min(lowerBound, -MIN_DYNAMIC_TURRET_SHUTTLE_TOLERANCE_DEGREES),
+            -MAX_DYNAMIC_TURRET_SHUTTLE_TOLERANCE_DEGREES);
+    upperBound =
+        Math.min(
+            Math.max(upperBound, MIN_DYNAMIC_TURRET_SHUTTLE_TOLERANCE_DEGREES),
+            MAX_DYNAMIC_TURRET_SHUTTLE_TOLERANCE_DEGREES);
 
     return new double[] {lowerBound, upperBound};
   }

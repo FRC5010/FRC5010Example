@@ -82,6 +82,7 @@ public class Launcher extends GenericSubsystem {
     super.periodic();
 
     io.updateInputs(inputs);
+
     Logger.processInputs("Launcher", inputs);
   }
 
@@ -320,6 +321,18 @@ public class Launcher extends GenericSubsystem {
     return inputs.flyWheelSpeedDesired;
   }
 
+  public Boolean isHoodMoving() {
+    return inputs.hoodMoving;
+  }
+
+  public Boolean isHoodStalled() {
+    return io.isHoodStalled();
+  }
+
+  public void zeroHood() {
+    io.resetHoodAngle(Degrees.of(12.723));
+  }
+
   // ---- Error and at-goal getters for tuning/telemetry ----
 
   /** Get the flywheel speed error (actual - desired). */
@@ -340,6 +353,10 @@ public class Launcher extends GenericSubsystem {
   /** Whether the flywheel speed is within tolerance of the setpoint. */
   public boolean isFlywheelAtGoal() {
     return inputs.flyWheelSpeedAtGoal;
+  }
+
+  public double getHoodVelocity() {
+    return inputs.hoodVelocity;
   }
 
   public boolean isFlywheelAtOrAboveGoal() {
@@ -399,6 +416,14 @@ public class Launcher extends GenericSubsystem {
           }
         });
   }
+
+  public void runHoodDown() {
+    io.runHoodDown();
+  }
+
+  public void stopHood() {
+    io.stopHood();
+  }
   /** Decreases the turret angle by 10 degrees and ensures it does not go below -90 */
   public Command decreaseTurretAngleCommand() {
     return Commands.runOnce(
@@ -430,7 +455,12 @@ public class Launcher extends GenericSubsystem {
 
   public Command zeroTurretCommand() {
     return Commands.sequence(
-            Commands.runOnce(() -> zeroTurret(), this),
+            Commands.runOnce(
+                () -> {
+                  zeroTurret();
+                  zeroHood();
+                },
+                this),
             Commands.run(
                     () -> {
                       org.frc5010.common.utils.OrchestraManager.playTone(261.63);

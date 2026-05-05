@@ -191,7 +191,7 @@
   "eventMarkers": [
     {
       "name": "launcherPrep",
-      "waypointRelativePos": 4.915555555555553,
+      "waypointRelativePos": 5.315136476426798,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -216,7 +216,7 @@
   "reversed": false,
   "folder": "Right",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.0,
     "rotation": -0.08211332881449039
   },
   "useDefaultConstraints": true

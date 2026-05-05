@@ -24,6 +24,7 @@ public class Constants {
     public static final double HOOD_ANGLE_TOLERANCE_DEGREES = 3.5;
     public static final double TURRET_ANGLE_TOLERANCE_DEGREES = 5.0;
     public static final Angle HOPPER_EXTENSION_BUFFER_BEFORE_AIM = Degrees.of(10);
+    public static final double HOOD_STALL_CURRENT_THRESHOLD = 20.0;
 
     public static final double HOOD_LEGACY_START_ANGLE_DEGREES = 30.0;
     public static final double HOOD_CORRECTED_START_ANGLE_DEGREES = 12.723;
@@ -70,7 +71,7 @@ public class Constants {
     public static final Angle HOPPER_RETRACTED_ANGLE = Degrees.of(120);
     public static final Angle HOPPER_DEPLOYED_ANGLE = Degrees.of(0);
     public static final Angle HOPPER_ANGLED = Degrees.of(45);
-    public static final double HOPPER_STALL_CURRENT_THRESHOLD = 40.0;
+    public static final double HOPPER_STALL_CURRENT_THRESHOLD = 80.0;
     public static final double HOPPER_MOVING_VELOCITY_THRESHOLD = 1.0;
     public static final double HOPPER_DEPLOY_STOP_REZERO_MAX_ANGLE = 20.0;
     public static final double HOPPER_AUTO_REZERO_THRESHOLD =

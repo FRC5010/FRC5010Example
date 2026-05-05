@@ -66,6 +66,8 @@ public interface LauncherIO {
     /** Intiializes the hood and turret velocities to 0 and the flywheel motor output to 0 */
     public double hoodVelocity = 0.0;
 
+    public boolean hoodMoving = true;
+
     public double turretVelocity = 0.0;
     public double flyWheelMotorOutput = 0.0;
 
@@ -128,6 +130,14 @@ public interface LauncherIO {
   public Command getFlyWheelSysIdCommand();
 
   public Command getTurretSysIdCommand(GenericSubsystem launcher);
+
+  public void runHoodDown();
+
+  public void stopHood();
+
+  public Boolean isHoodStalled();
+
+  public void resetHoodAngle(Angle angle);
 
   public ShotCalculator.ShootingParameters getShootingParameters(
       Supplier<Pose2d> robotPoseSupplier, Supplier<Translation2d> targetPositionSupplier);

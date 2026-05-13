@@ -60,6 +60,18 @@ public class DrivetrainConstantsJson {
   public String canbus = "";
   /** Starting pose of the robot */
   public Pose2dJson startingPose = new Pose2dJson();
+  /**
+   * The closed-loop output type for the drive motor. Valid values: "TorqueCurrentFOC", "Voltage".
+   * TorqueCurrentFOC provides better real-robot torque control but requires Phoenix Pro and is
+   * incompatible with simulation. Use "Voltage" for simpler tuning or without Phoenix Pro. Default:
+   * "Voltage"
+   */
+  public String driveClosedLoopOutput = "Voltage";
+  /**
+   * The closed-loop output type for the steer motor. Valid values: "TorqueCurrentFOC", "Voltage".
+   * Default: "Voltage"
+   */
+  public String steerClosedLoopOutput = "Voltage";
 
   /** Configuration for a swerve module */
   public static class ModuleConfigJson {

@@ -333,6 +333,7 @@ public class Controller {
    */
   public Controller(int port) {
     joystick = new Joystick(port);
+    initAxisMap();
   }
 
   /**
@@ -344,6 +345,20 @@ public class Controller {
   public Controller(int port, boolean single) {
     joystick = new Joystick(port);
     singleControllerMode = single;
+    initAxisMap();
+  }
+
+  /**
+   * Initializes the axis map with properly configured Axis objects using this controller's
+   * joystick.
+   */
+  private void initAxisMap() {
+    axisMap.put(AxisNums.LEFT_X.ordinal(), new Axis(AxisNums.LEFT_X.ordinal(), joystick));
+    axisMap.put(AxisNums.LEFT_Y.ordinal(), new Axis(AxisNums.LEFT_Y.ordinal(), joystick));
+    axisMap.put(AxisNums.L_TRIGGER.ordinal(), new Axis(AxisNums.L_TRIGGER.ordinal(), joystick));
+    axisMap.put(AxisNums.R_TRIGGER.ordinal(), new Axis(AxisNums.R_TRIGGER.ordinal(), joystick));
+    axisMap.put(AxisNums.RIGHT_X.ordinal(), new Axis(AxisNums.RIGHT_X.ordinal(), joystick));
+    axisMap.put(AxisNums.RIGHT_Y.ordinal(), new Axis(AxisNums.RIGHT_Y.ordinal(), joystick));
   }
 
   /**

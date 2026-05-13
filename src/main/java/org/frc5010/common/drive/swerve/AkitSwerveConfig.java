@@ -156,8 +156,14 @@ public class AkitSwerveConfig extends SwerveDriveConfig {
                       .withKS(constants.driveMotorControl.feedForward.s)
                       .withKV(constants.driveMotorControl.feedForward.v)
                       .withKA(constants.driveMotorControl.feedForward.a))
-              .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.TorqueCurrentFOC)
-              .withDriveMotorClosedLoopOutput(ClosedLoopOutputType.TorqueCurrentFOC)
+              .withSteerMotorClosedLoopOutput(
+                  "Voltage".equalsIgnoreCase(constants.steerClosedLoopOutput)
+                      ? ClosedLoopOutputType.Voltage
+                      : ClosedLoopOutputType.TorqueCurrentFOC)
+              .withDriveMotorClosedLoopOutput(
+                  "Voltage".equalsIgnoreCase(constants.driveClosedLoopOutput)
+                      ? ClosedLoopOutputType.Voltage
+                      : ClosedLoopOutputType.TorqueCurrentFOC)
               .withSlipCurrent(UnitsParser.parseAmps(constants.slipCurrent))
               .withSpeedAt12Volts(UnitsParser.parseVelocity(constants.maxDriveSpeed))
               .withDriveMotorType(DriveMotorArrangement.TalonFX_Integrated)

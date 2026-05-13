@@ -38,10 +38,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.rebuilt.Constants;
 import frc.robot.rebuilt.FieldConstants;
-import frc.robot.rebuilt.commands.IntakeCommands.IntakeState;
 import frc.robot.rebuilt.subsystems.intake.Intake;
 import frc.robot.rebuilt.util.TorqueCurrentArmSupport;
 import java.util.Map;
@@ -99,13 +97,11 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
   }
 
   private boolean isNearTrench = false;
-  private IntakeState lastState = IntakeState.RETRACTED;
 
   protected Intake intake;
 
   protected static Translation2d robotToTurret;
   private DigitalInput turretZeroButton;
-  private Trigger turretZeroTrigger;
 
   Angle turretLowLimit = Degrees.of(-90);
   Angle turretHighLimit = Degrees.of(90);
@@ -116,9 +112,6 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
 
   /** 2-state turret controller: SEEKING (MotionMagic) and TRACKING (Position + FF). */
   protected SmartTurretController smartTurretController;
-
-  /** Previous turret desired angle (rad) for numerical feedforward differentiation. */
-  private double previousTurretDesiredAngleRad = 0.0;
 
   /** Previous turret velocity feedforward (rad/s) for numerical acceleration computation. */
   private double previousTurretVelocityRadPerSec = 0.0;
@@ -618,7 +611,7 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
     return SystemIdentification.feedforwardCharacterization(
         launcher,
         (Voltage voltage) -> hood.getMotor().setVoltage(voltage),
-        () -> hood.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
+        () -> hood.getMotorController().getMechanismVelocity().in(RadiansPerSecond));
   }
 
   /** Applies voltage and measures turret velocity to characterize the feedfoward */
@@ -626,7 +619,7 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
     return SystemIdentification.feedforwardCharacterization(
         launcher,
         (Voltage voltage) -> turret.getMotor().setVoltage(voltage),
-        () -> turret.getMotorController().getMechanismVelocity().in(Degrees.per(Second)));
+        () -> turret.getMotorController().getMechanismVelocity().in(RadiansPerSecond));
   }
 
   /** sets the flywheel, hood, and turret motor duty cycles to 0, which stops the motors */
@@ -740,7 +733,6 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
     Translation2d lowerLaneEdge =
         AllianceFlipUtil.apply(
             new Translation2d(allianceZoneFarX, FieldConstants.Hub.nearRightCorner.getY()));
-    Translation2d fieldTarget = AllianceFlipUtil.apply(targetPose);
 
     if (AllianceFlipUtil.applyY(turretFieldPosition.getY()) >= FieldConstants.fieldWidth / 2.0) {
 
@@ -840,5 +832,10 @@ public class LauncherIOReal implements LauncherIO { // -0.030679615757712823
   @Override
   public BooleanSupplier getTurretZeroButtonSupplier() {
     return turretZeroButton::get;
+  }
+
+  @Override
+  public AngularVelocity getFlywheelUpperLimit() {
+    return flyWheel.getShooterConfig().getUpperSoftLimit().orElse(RPM.of(6000.0));
   }
 }

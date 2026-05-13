@@ -221,11 +221,21 @@ public class SmartTurretController {
           ksFeedforward = Math.signum(signedError) * config.getKS();
         }
 
+        // Inject acceleration feedforward manually. The firmware kA in Slot1 operates on
+        // the derivative of the velocity reference, which is nearly zero since the reference
+        // only changes at 20 ms boundaries. Explicitly adding kA * accel here fills that gap.
+        // kA is in Amps/(rot/s²), so convert rad/s² → rot/s² by dividing by 2π.
+        double accelFeedforward =
+            config.getKA() * (currentTarget.accelerationRadPerSecSq() / (2.0 * Math.PI));
+
+        double totalFeedforward =
+            applyFeedforwardSafetyPadding(actualPositionMechRot, ksFeedforward + accelFeedforward);
+
         talonFX.setControl(
             trackingRequest
                 .withPosition(currentTarget.positionMechRot())
-                .withVelocity(RadiansPerSecond.of(currentTarget.velocityRadPerSec))
-                .withFeedForward(ksFeedforward));
+                .withVelocity(RadiansPerSecond.of(currentTarget.velocityRadPerSec()))
+                .withFeedForward(totalFeedforward));
 
         break;
     }

@@ -34,6 +34,7 @@ public class Launcher extends GenericSubsystem {
   public static Transform3d robotToTurret = new Transform3d();
   private Map<String, GenericSubsystem> subsystems;
   private SmartTurretController smartTurretController;
+  private Notifier turretProfileNotifier;
 
   private static final double PROFILE_PERIOD_SECONDS = 0.005; // 200 Hz
 
@@ -62,10 +63,10 @@ public class Launcher extends GenericSubsystem {
     // sending control requests to the TalonFX.
     smartTurretController = io.getSmartTurretController();
     if (smartTurretController != null) {
-      Notifier profileNotifier =
+      turretProfileNotifier =
           new Notifier(() -> smartTurretController.step(PROFILE_PERIOD_SECONDS));
-      profileNotifier.setName("SmartTurret");
-      profileNotifier.startPeriodic(PROFILE_PERIOD_SECONDS);
+      turretProfileNotifier.setName("SmartTurret");
+      turretProfileNotifier.startPeriodic(PROFILE_PERIOD_SECONDS);
     }
 
     new edu.wpi.first.wpilibj2.command.button.Trigger(io.getTurretZeroButtonSupplier())
@@ -406,12 +407,13 @@ public class Launcher extends GenericSubsystem {
           }
         });
   }
-  /** Increases the flywheel speed by 10 RPM and ensures it does not go above 300 RPM */
+  /** Increases the flywheel speed by 10 RPM up to the configured upper soft limit */
   public Command increaseFlywheelSpeedCommand() {
     return Commands.runOnce(
         () -> {
           AngularVelocity newSpeed = inputs.flyWheelSpeedActual.plus(RPM.of(10));
-          if (newSpeed.lt(RPM.of(300))) { // Assuming 300 RPM as the upper limit
+          AngularVelocity upperLimit = io.getFlywheelUpperLimit();
+          if (newSpeed.lt(upperLimit)) {
             io.setFlyWheelVelocity(newSpeed);
           }
         });

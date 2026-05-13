@@ -178,6 +178,14 @@ public interface LauncherIO {
 
   public void zeroTurret();
 
+  /**
+   * Returns the flywheel upper soft limit from the mechanism config, or a safe fallback of 6000 RPM
+   * if no limit is configured.
+   */
+  public default AngularVelocity getFlywheelUpperLimit() {
+    return RPM.of(6000.0);
+  }
+
   public default boolean isTurretAtZero() {
     return false;
   }

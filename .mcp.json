@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "first-agentic-csa": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "first-agentic-csa"
+      ],
+      "env": {}
+    }
+  }
+}

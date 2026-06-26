@@ -188,9 +188,17 @@ task(eventDeploy) {
 }
 createVersionFile.dependsOn(eventDeploy)
 
-// Spotless formatting
-project.compileJava.dependsOn(spotlessApply)
+// Spotless formatting.
+//
+// Spotless is intentionally decoupled from compilation and the `check`/`build`
+// lifecycle: it is NOT wired into compileJava, and `enforceCheck false` keeps
+// `spotlessCheck` out of the `check` task. This lets the project compile, test,
+// simulate, and deploy on any JDK (the bundled google-java-format only runs on
+// the WPILib JDK 17). Run formatting explicitly:
+//   ./gradlew spotlessApply   (reformat in place, JDK 17)
+//   ./gradlew spotlessCheck   (verify formatting, run in CI on JDK 17)
 spotless {
+    enforceCheck false
     java {
         target fileTree(".") {
             include "**/*.java"

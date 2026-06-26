@@ -169,19 +169,10 @@ public abstract class GenericRobot extends GenericMechanism implements GenericDe
   /** Initialize the robot depending on whether we are simulating or not */
   @Override
   protected void initRealOrSim() {
-    if (RobotBase.isReal()) {
-      // WpiDataLogging.start(true);
-      // TODO: Resolve this, maybe do not double log
-    } else {
+    if (!RobotBase.isReal()) {
       WpiDataLogging.start(false);
-      // NetworkTableInstance instance = NetworkTableInstance.getDefault();
-      // instance.stopServer();
-      // set the NT server if simulating this code.
-      // "localhost" for photon on desktop, or "photonvision.local" / "[ip-address]"
-      // for coprocessor
-      // instance.setServer("localhost");
-      // instance.startClient4("myRobot");
     }
+    // TODO: Resolve real-robot data logging (currently disabled to avoid double logging).
   }
 
   /**

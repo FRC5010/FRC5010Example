@@ -1,0 +1,35 @@
+name: Build & Test
+
+on:
+  push:
+    branches:
+      - main
+      - 'claude/**'
+      - 'event*'
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # Run spotlessCheck first as a standalone step. Because compileJava depends
+      # on spotlessApply, formatting issues would otherwise be auto-fixed during the
+      # build and never reported. A standalone spotlessCheck does not trigger the
+      # apply task, so it correctly fails CI on unformatted code.
+      - name: Check formatting
+        run: ./gradlew spotlessCheck
+
+      - name: Build and test
+        run: ./gradlew build test

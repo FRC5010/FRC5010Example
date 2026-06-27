@@ -68,7 +68,11 @@ public class Robot extends LoggedRobot {
       case REPLAY:
         // Replaying a log, set up replay source
         setUseTiming(false); // Run as fast as possible
-        String logPath = LogFileUtil.findReplayLog();
+        // Read the path directly — LogFileUtil.findReplayLog() falls through to a stdin prompt
+        // when AdvantageScope is not connected, which crashes headless Gradle runs.
+        String logPath = System.getProperty("log");
+        if (logPath == null) logPath = System.getenv("AKIT_LOG_PATH");
+        if (logPath == null) logPath = LogFileUtil.findReplayLog();
         Logger.setReplaySource(new WPILOGReader(logPath));
         Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
         break;

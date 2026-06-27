@@ -94,6 +94,50 @@ task(replayWatch, type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+// Analyze a .wpilog file and print a summary of key swerve/vision signals.
+// Usage:
+//   .\gradlew.bat logSummary                           # most recent log in logs/
+//   .\gradlew.bat logSummary -PlogFile=logs/foo.wpilog # specific file
+task(logSummary, type: JavaExec) {
+    group = 'FRC5010'
+    description = 'Print a diagnostic summary of a .wpilog file'
+    mainClass = "org.frc5010.common.util.LogSummary"
+    classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty('logFile')) {
+        args = [project.logFile]
+    }
+}
+
+// Run logSummary on the most recent replay (_sim.wpilog) in logs/.
+// Usage: .\gradlew.bat replayValidate
+// Typical workflow:
+//   1. .\gradlew.bat simulateJava                                # produce a live log
+//   2. .\gradlew.bat simulateJava -Plog=<log>                    # replay it (Ctrl-C when done)
+//   3. .\gradlew.bat replayValidate                              # check the replay log
+task(replayValidate, type: JavaExec) {
+    group = 'FRC5010'
+    description = 'Run logSummary on the most recent replay (_sim.wpilog) in logs/'
+    mainClass = "org.frc5010.common.util.LogSummary"
+    classpath = sourceSets.main.runtimeClasspath
+    doFirst {
+        def logsDir = file('logs')
+        if (!logsDir.isDirectory()) {
+            throw new GradleException(
+            "logs/ directory not found — run the simulation first:\n" +
+            "  .\\gradlew.bat simulateJava")
+        }
+        def latest = logsDir.listFiles()
+                .findAll { it.name.endsWith('_sim.wpilog') }
+                .max { it.lastModified() }
+        if (!latest) {
+            throw new GradleException(
+            "No _sim.wpilog found in logs/ — run replay first:\n" +
+            "  .\\gradlew.bat simulateJava -Plog=<log>")
+        }
+        args = [latest.absolutePath]
+    }
+}
+
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 5.
 dependencies {
@@ -138,8 +182,22 @@ test {
 }
 
 // Simulation configuration (e.g. environment variables).
-wpi.sim.addGui().defaultEnabled = true
-wpi.sim.addDriverstation()
+// REPLAY mode (-Plog=...) must run without HAL sim extensions — AdvantageKit
+// enforces this and throws if the Glass GUI or DriverStation extensions are present.
+if (!project.hasProperty('log')) {
+    wpi.sim.addGui().defaultEnabled = true
+    wpi.sim.addDriverstation()
+}
+
+// Forward the replay log path to the JVM as a system property so Robot code can read them.
+// Usage:
+//   .\gradlew.bat simulateJava                          # Glass simulation
+//   .\gradlew.bat simulateJava -Plog=logs/foo.wpilog    # replay mode (headless)
+tasks.withType(JavaExec).configureEach {
+    if (project.hasProperty('log')) {
+        systemProperty 'log', project.log
+    }
+}
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
 // in order to make them all available at runtime. Also adding the manifest so WPILib

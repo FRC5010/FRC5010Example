@@ -8,12 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import org.frc5010.common.HalTestBase;
 import org.frc5010.common.subsystems.Color;
 import org.frc5010.robot.TestRobot;
 import org.junit.jupiter.api.Test;
 
 /** Add your docs here. */
-public class GenericRobotTest {
+public class GenericRobotTest extends HalTestBase {
 
   @Test
   public void testCreateDefaultGenericRobot() {

@@ -5,6 +5,7 @@
 package org.frc5010.common.config.json.devices;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.io.File;
@@ -24,13 +25,14 @@ public class PivotParser {
   public static Pivot parse(String subDirectory, String filename, SubsystemBase system) {
     try {
       File directory = new File(Filesystem.getDeployDirectory(), subDirectory);
-      DeviceConfigReader.checkDirectory(directory);
       File deviceFile = new File(directory, filename);
       YamsPivotConfigurationJson yamsPivotConfigurationJson =
           new ObjectMapper().readValue(deviceFile, YamsPivotConfigurationJson.class);
       return yamsPivotConfigurationJson.configure(system);
     } catch (IOException e) {
-      System.out.println("Error reading device configuration: " + e.getMessage());
+      DriverStation.reportError(
+          "Error reading pivot configuration '" + filename + "': " + e.getMessage(),
+          e.getStackTrace());
       return null;
     }
   }

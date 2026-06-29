@@ -5,6 +5,7 @@
 package org.frc5010.common.config.json.devices;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.io.File;
@@ -24,14 +25,14 @@ public class ArmParser {
   public static Arm parse(String subDirectory, String filename, SubsystemBase system) {
     try {
       File directory = new File(Filesystem.getDeployDirectory(), subDirectory);
-      DeviceConfigReader.checkDirectory(directory);
       File deviceFile = new File(directory, filename);
       YamsArmConfigurationJson yamsArmConfigurationJson =
           new ObjectMapper().readValue(deviceFile, YamsArmConfigurationJson.class);
       return yamsArmConfigurationJson.configure(system);
     } catch (Exception e) {
-      System.out.println("Error reading device configuration: " + e.getMessage());
-      e.printStackTrace();
+      DriverStation.reportError(
+          "Error reading arm configuration '" + filename + "': " + e.getMessage(),
+          e.getStackTrace());
       return null;
     }
   }

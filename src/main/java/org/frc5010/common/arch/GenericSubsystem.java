@@ -8,6 +8,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,8 +52,16 @@ public class GenericSubsystem extends SubsystemBase
     try {
       GenericRobot.subsystemParser.parseSubsystem(this, configFile);
     } catch (Exception e) {
-      e.printStackTrace();
-      System.exit(1);
+      // Report loudly but keep running: a System.exit here would kill (and restart)
+      // the whole robot program because one subsystem failed to configure.
+      DriverStation.reportError(
+          "Failed to configure subsystem '"
+              + logPrefix
+              + "' from '"
+              + configFile
+              + "': "
+              + e.getMessage(),
+          e.getStackTrace());
     }
     WpiNetworkTableValuesHelper.register(this);
   }

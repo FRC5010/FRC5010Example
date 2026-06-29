@@ -40,7 +40,10 @@ public class SubsystemParser {
    * @param configFile the name of the configuration file to verify existence
    */
   private void checkDirectory(File directory, String configFile) {
-    assert new File(directory, configFile).exists();
+    if (!new File(directory, configFile).exists()) {
+      throw new ConfigException(
+          "Subsystem config '" + configFile + "' not found in " + directory.getPath());
+    }
   }
 
   /**

@@ -31,8 +31,7 @@ public class AutoPath {
     try {
       return new AutoPath(PathPlannerPath.fromPathFile(pathPlannerName));
     } catch (Exception e) {
-      e.printStackTrace();
-      throw new RuntimeException("PathPlannerPath file " + pathPlannerName + " not found");
+      throw new RuntimeException("PathPlannerPath file " + pathPlannerName + " not found", e);
     }
   }
 
@@ -46,8 +45,7 @@ public class AutoPath {
     try {
       return new AutoPath(PathPlannerPath.fromChoreoTrajectory(choreoTrajectory));
     } catch (Exception e) {
-      e.printStackTrace();
-      throw new RuntimeException("Choreo trajectory file " + choreoTrajectory + " not found");
+      throw new RuntimeException("Choreo trajectory file " + choreoTrajectory + " not found", e);
     }
   }
 
@@ -62,8 +60,7 @@ public class AutoPath {
     try {
       return new AutoPath(PathPlannerPath.fromChoreoTrajectory(choreoTrajectory, splitIndex));
     } catch (Exception e) {
-      e.printStackTrace();
-      throw new RuntimeException("Choreo trajectory file " + choreoTrajectory + " not found");
+      throw new RuntimeException("Choreo trajectory file " + choreoTrajectory + " not found", e);
     }
   }
 

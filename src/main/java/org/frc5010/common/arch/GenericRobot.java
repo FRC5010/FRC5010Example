@@ -100,7 +100,12 @@ public abstract class GenericRobot extends GenericMechanism implements GenericDe
 
       initializeDisplay();
     } catch (Exception e) {
-      e.printStackTrace();
+      // Surface the failure loudly but do not rethrow: an uncaught exception out of
+      // robotInit restarts the robot program. Loading stops here with the robot left
+      // in whatever partial state it reached.
+      DriverStation.reportError(
+          "Robot construction failed for '" + directory + "': " + e.getMessage(),
+          e.getStackTrace());
       return;
     }
     initRealOrSim();

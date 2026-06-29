@@ -150,7 +150,9 @@ public class RobotParser {
    * @throws AssertionError if required configuration files do not exist
    */
   private void checkDirectory(File directory) {
-    assert new File(directory, "robot.json").exists();
+    if (!new File(directory, "robot.json").exists()) {
+      throw new ConfigException("robot.json not found in " + directory.getPath());
+    }
   }
 
   /**

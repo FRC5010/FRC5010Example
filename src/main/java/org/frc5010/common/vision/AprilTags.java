@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -204,7 +205,8 @@ public class AprilTags {
           new AprilTagFieldLayout(aprilTagPoses, Units.feetToMeters(30), Units.feetToMeters(30));
 
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      DriverStation.reportError(
+          "AprilTags: failed to load field layout: " + e.getMessage(), e.getStackTrace());
     }
   }
 

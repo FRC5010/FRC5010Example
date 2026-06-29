@@ -216,13 +216,4 @@ public class DeviceConfigReader {
         throw new RuntimeException("Unknown motor controller type: " + controller);
     }
   }
-
-  /**
-   * Method to check the existence of specific JSON configuration files in the provided directory.
-   *
-   * @param directory the directory to check for JSON configuration files
-   */
-  public static void checkDirectory(File directory) {
-    assert new File(directory, "robot.json").exists();
-  }
 }

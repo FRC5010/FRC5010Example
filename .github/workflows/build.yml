@@ -24,12 +24,40 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Run spotlessCheck first as a standalone step. Because compileJava depends
-      # on spotlessApply, formatting issues would otherwise be auto-fixed during the
-      # build and never reported. A standalone spotlessCheck does not trigger the
-      # apply task, so it correctly fails CI on unformatted code.
+      # Spotless is decoupled from the build (not wired into compileJava or `check`),
+      # so run spotlessCheck as an explicit step to gate formatting on JDK 17.
       - name: Check formatting
         run: ./gradlew spotlessCheck
 
       - name: Build and test
         run: ./gradlew build test
+
+  # SpotBugs static analysis. Non-blocking (continue-on-error + the build itself uses
+  # ignoreFailures): it surfaces findings via an uploaded HTML report but never fails
+  # CI, so it does not block merges until the team triages.
+  static-analysis:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run SpotBugs
+        run: ./gradlew spotbugsMain
+
+      - name: Upload SpotBugs report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spotbugs-report
+          path: build/reports/spotbugs/main.html
+          if-no-files-found: warn

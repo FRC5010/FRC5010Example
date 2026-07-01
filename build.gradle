@@ -1,9 +1,35 @@
+import com.github.spotbugs.snom.Effort
+
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2026.2.1"
     id "com.peterabeles.gversion" version "1.10"
     id "com.diffplug.spotless" version "6.12.0"
     id "io.freefair.lombok" version "8.4"
+    id "com.github.spotbugs" version "6.0.26"
+}
+
+// SpotBugs static analysis (report-only). Configured to inform, not block: it is
+// decoupled from the default build/check fail path (ignoreFailures = true), reports
+// only HIGH-confidence findings to start, and excludes generated/vendored files. Run
+// it explicitly with `./gradlew spotbugsMain`; CI runs it as a non-blocking job.
+spotbugs {
+    ignoreFailures = true
+    effort = Effort.MAX
+    excludeFilter = file("config/spotbugs/exclude.xml")
+}
+spotbugsMain {
+    reports {
+        html { required = true }
+        xml { required = false }
+    }
+}
+// Keep SpotBugs off the default build/check path so local builds and deploys stay fast.
+// It runs only when explicitly requested (`./gradlew spotbugsMain`) or in the dedicated
+// non-blocking CI job. (reportLevel is left at the plugin default; filter by confidence
+// in the HTML report.)
+tasks.matching { it.name.startsWith("spotbugs") }.configureEach { task ->
+    task.onlyIf { gradle.startParameter.taskNames.any { it.toLowerCase().contains("spotbugs") } }
 }
 
 javadoc {

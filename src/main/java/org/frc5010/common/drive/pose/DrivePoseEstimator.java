@@ -138,7 +138,7 @@ public class DrivePoseEstimator extends GenericSubsystem {
   private DisplayBoolean aprilTagVisible = DashBoard.makeDisplayBoolean("AprilTagVisible");
   private boolean updatingPoseAcceptor = false;
 
-  private static double CONFIDENCE_RESET_THRESHOLD = 0.025;
+  private static final double CONFIDENCE_RESET_THRESHOLD = 0.025;
   private boolean activateAcceptorUpdates = true;
   private boolean poseAcceptable = false;
 
@@ -159,7 +159,8 @@ public class DrivePoseEstimator extends GenericSubsystem {
     }
   }
 
-  private static State state = State.DISABLED_FIELD;
+  // Per-estimator state: instance (not static) so multiple pose estimators don't share it.
+  private State state = State.DISABLED_FIELD;
 
   /**
    * Build a DrivePoseEstimator

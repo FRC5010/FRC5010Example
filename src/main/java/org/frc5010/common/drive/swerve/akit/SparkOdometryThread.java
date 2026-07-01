@@ -88,7 +88,7 @@ public class SparkOdometryThread extends OdometryThread {
         }
       }
     } finally {
-      AkitSwerveDrive.odometryLock.unlock();
+      SwerveDriveFunctions.odometryLock.unlock();
     }
   }
 }

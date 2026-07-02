@@ -421,6 +421,10 @@ public class Launcher extends GenericSubsystem {
     io.runHoodDown();
   }
 
+  public void runHoodDownSlowly() {
+    io.runHoodDownSlowly();
+  }
+
   public void stopHood() {
     io.stopHood();
   }

@@ -11,33 +11,21 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "intakeIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launcherPrep"
+            "pathName": "Delay TR- Wait TR"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launcherLow"
+            "waitTime": 3.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "DelayTRS-CTR-QTR-BR-HP Longer"
+            "pathName": "Wait-TR-BL-Depot"
           }
         },
         {

@@ -25,7 +25,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.5
+            "waitTime": 3.3
           }
         },
         {
@@ -37,13 +37,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "DelayTRS-CTR-QTR-BR-HP Longer"
+            "pathName": "TLBack-CTL-QTL-BL-L"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "launcherPrep"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot end to middle left"
           }
         }
       ]

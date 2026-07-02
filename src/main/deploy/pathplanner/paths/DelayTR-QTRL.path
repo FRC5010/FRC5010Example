@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.582922222222222,
-        "y": 0.6536777777777774
+        "x": 3.5732667617689007,
+        "y": 0.6515406562054205
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.582922222222224,
-        "y": 0.6536777777777774
+        "x": 4.5732667617689025,
+        "y": 0.6515406562054205
       },
       "isLocked": false,
       "linkedName": "TRBack Delay"
@@ -123,7 +123,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -2.0998881303161165
+    "rotation": -1.3639275316027573
   },
   "useDefaultConstraints": false
 }

@@ -25,7 +25,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.5
+            "waitTime": 3.0
           }
         },
         {
@@ -37,7 +37,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "DelayTRS-CTR-QTR-BR-HP Longer"
+            "pathName": "Delay TL- Wait TL"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Wait-TL-BR-HP"
           }
         },
         {

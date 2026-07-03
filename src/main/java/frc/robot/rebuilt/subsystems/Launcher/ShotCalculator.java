@@ -597,7 +597,16 @@ public class ShotCalculator {
     Double flywheelSpeed = shotFlywheelSpeedMap.get(distanceToVirtualTarget);
 
     turretAngle = solution.turretLocalHeading();
-    hoodAngle = hoodSetpoint != null ? hoodSetpoint.getRadians() : 0.0;
+    // When the distance is outside the shot table range, keep the last valid hood angle rather
+    // than commanding 0 radians (0°), which is below the physical lower hard stop (~12°) and
+    // could damage the mechanism.
+    if (hoodSetpoint != null) {
+      hoodAngle = hoodSetpoint.getRadians();
+    } else if (Double.isNaN(lastHoodAngle)) {
+      // No previous valid angle and no table entry — leave hoodAngle as NaN so callers can
+      // detect the invalid state rather than silently driving to 0°.
+    }
+    // else: keep hoodAngle at its last valid value.
     if (lastTurretAngle == null) lastTurretAngle = turretAngle;
     if (Double.isNaN(lastHoodAngle)) lastHoodAngle = hoodAngle;
     turretVelocity =

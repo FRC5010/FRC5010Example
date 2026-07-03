@@ -166,6 +166,7 @@ public class LauncherCommands {
     escapeHammerTimeState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
 
     // Hammer Time is a special case since it's a toggle state
+    hammerTimeState.switchTo(idleState).when(() -> launcher.isRequested(LauncherState.IDLE));
     hammerTimeState.switchTo(lowState).when(() -> launcher.isRequested(LauncherState.LOW_SPEED));
     hammerTimeState.switchTo(prepState).when(() -> launcher.isRequested(LauncherState.PREP));
     hammerTimeState.switchTo(presetState).when(() -> launcher.isRequested(LauncherState.PRESET));
@@ -176,8 +177,13 @@ public class LauncherCommands {
     Trigger churnWhileFiring =
         new Trigger(() -> launcher.isCurrent(LauncherState.PREP) && !launcher.isAtGoal());
     churnWhileFiring.onTrue(IndexerCommands.shouldChurnCommand());
-    readyToFireTrigger
-        .negate()
+    // Only idle the indexer when transitioning away from a PREP sub-state (ready-to-fire or
+    // churning). Without the inPrep guard, both negated triggers are true in ALL non-PREP states,
+    // causing this trigger to fire on every state change and race against intentional indexer
+    // state commands from other parts of the code.
+    Trigger inPrep = new Trigger(() -> launcher.isCurrent(LauncherState.PREP));
+    inPrep
+        .and(readyToFireTrigger.negate())
         .and(churnWhileFiring.negate())
         .onTrue(IndexerCommands.shouldIdleCommand());
   }

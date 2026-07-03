@@ -15,12 +15,20 @@ import edu.wpi.first.wpilibj.RobotBase;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  /**** The simulation mode to run - Uncomment the one you want to use *****/
-  public static final Mode SIM_MODE = Mode.SIM; // This is for running the Glass Simulator
-  // Mode.REPLAY; // This is for replaying from a log in Advantage Scope
-  /**** ------------------------------------------------------------- *****/
+  /**
+   * Default simulation mode. REPLAY mode is auto-selected when the JVM is launched with {@code
+   * -Dlog=<path>} (Gradle {@code -Plog=<path>}) or with the {@code AKIT_LOG_PATH} environment
+   * variable set — AdvantageScope's "Spawn Replay" sets the latter, so leave this on {@link
+   * Mode#SIM} unless you specifically want REPLAY by default.
+   */
+  public static final Mode SIM_MODE = Mode.SIM;
 
-  public static final Mode CURRENT_MODE = RobotBase.isReal() ? Mode.REAL : SIM_MODE;
+  public static final Mode CURRENT_MODE =
+      RobotBase.isReal()
+          ? Mode.REAL
+          : (System.getProperty("log") != null || System.getenv("AKIT_LOG_PATH") != null)
+              ? Mode.REPLAY
+              : SIM_MODE;
 
   public static enum Mode {
     /** Running on a real robot. */

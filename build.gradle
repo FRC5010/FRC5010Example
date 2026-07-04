@@ -21,7 +21,7 @@ spotbugs {
 spotbugsMain {
     reports {
         html { required = true }
-        xml { required = false }
+        xml { required = true }
     }
 }
 // Keep SpotBugs off the default build/check path so local builds and deploys stay fast.

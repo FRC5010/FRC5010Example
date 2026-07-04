@@ -10,7 +10,8 @@
   <Match>
     <Class name="frc.robot.BuildConstants"/>
   </Match>
+  <!-- Regex (~) so inner classes (LimelightHelpers$...) are excluded too. -->
   <Match>
-    <Class name="org.frc5010.common.vision.LimelightHelpers"/>
+    <Class name="~org\.frc5010\.common\.vision\.LimelightHelpers.*"/>
   </Match>
 </FindBugsFilter>

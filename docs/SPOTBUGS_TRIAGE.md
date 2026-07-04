@@ -6,15 +6,15 @@ confidence) on branch `claude/init-78wjxp`. Regenerate any time with
 Generated/vendored sources (`BuildConstants`, `LimelightHelpers`) are excluded via
 `config/spotbugs/exclude.xml`.
 
-**Total: 443 findings — 26 high priority (P1), 417 medium (P2).**
+**Total: 418 findings — 26 high priority (P1), 392 medium (P2).**
 
 | # | Category | Findings | P1 | Priority |
 |---|----------|----------|----|----------|
 | 1 | Correctness bugs | 41 | 5 | HIGH |
 | 2 | Static state & concurrency | 58 | 8 | HIGH-MED |
-| 3 | Dead / unused code | 87 | 2 | MED |
+| 3 | Dead / unused code | 65 | 2 | MED |
 | 4 | Exposed mutable internals & API design | 223 | 10 | LOW-MED |
-| 5 | Style & naming | 34 | 1 | LOW |
+| 5 | Style & naming | 31 | 1 | LOW |
 
 Each category has a corresponding GitHub issue. P1 = SpotBugs high-confidence,
 listed first within each section.
@@ -141,11 +141,11 @@ Instance methods writing static fields (34 sites), unsynchronized singleton gett
 | 2 | `MS_CANNOT_BE_FINAL` | `org/frc5010/common/vision/AprilTags.java:197` |
 
 
-## 3. Dead / unused code (87 findings, priority MED)
+## 3. Dead / unused code (65 findings, priority MED)
 
 Fields that are never read, never written, or entirely unused, plus dead local stores and an uncalled private method. Continuation of the Phase 0 dead-code cleanup. Mostly safe deletions, but beware fields read reflectively (Jackson POJOs) or by dashboards.
 
-**Patterns:** `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` (43), `UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD` (12), `URF_UNREAD_FIELD` (11), `UUF_UNUSED_FIELD` (7), `UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD` (6), `DLS_DEAD_LOCAL_STORE` (4), `UWF_UNWRITTEN_FIELD` (3), `UPM_UNCALLED_PRIVATE_METHOD` (1)
+**Patterns:** `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` (21), `UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD` (12), `URF_UNREAD_FIELD` (11), `UUF_UNUSED_FIELD` (7), `UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD` (6), `DLS_DEAD_LOCAL_STORE` (4), `UWF_UNWRITTEN_FIELD` (3), `UPM_UNCALLED_PRIVATE_METHOD` (1)
 
 | P | Pattern | Location |
 |---|---------|----------|
@@ -214,28 +214,6 @@ Fields that are never read, never written, or entirely unused, plus dead local s
 | 2 | `UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/telemetry/DisplayAngle.java:None` |
 | 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/telemetry/DisplayValuesHelper.java:102` |
 | 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/telemetry/DisplayVoltage.java:107` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:467` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:468` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:469` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:470` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:471` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:472` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:473` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:474` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:475` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:476` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:477` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:478` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:559` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:560` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:561` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:562` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:563` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:564` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:565` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:566` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:567` |
-| 2 | `URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD` | `org/frc5010/common/vision/LimelightHelpers.java:568` |
 
 
 ## 4. Exposed mutable internals & API design (223 findings, priority LOW-MED)
@@ -471,11 +449,11 @@ Returning/storing mutable internals (`EI_EXPOSE_REP`/`EI_EXPOSE_REP2`), mutable 
 | 2 | `MS_SHOULD_BE_FINAL` | `org/frc5010/common/vision/VisionConstants.java:31` |
 
 
-## 5. Style & naming (34 findings, priority LOW)
+## 5. Style & naming (31 findings, priority LOW)
 
 Methods that could be static, missing switch defaults, naming-convention deviations, clone() without super.clone(). Fix opportunistically when touching the file.
 
-**Patterns:** `SS_SHOULD_BE_STATIC` (16), `CN_IDIOM_NO_SUPER_CALL` (5), `SF_SWITCH_NO_DEFAULT` (5), `NM_METHOD_NAMING_CONVENTION` (3), `NM_FIELD_NAMING_CONVENTION` (3), `NM_VERY_CONFUSING` (1), `SIC_INNER_SHOULD_BE_STATIC` (1)
+**Patterns:** `SS_SHOULD_BE_STATIC` (16), `CN_IDIOM_NO_SUPER_CALL` (5), `SF_SWITCH_NO_DEFAULT` (5), `NM_METHOD_NAMING_CONVENTION` (3), `NM_VERY_CONFUSING` (1), `SIC_INNER_SHOULD_BE_STATIC` (1)
 
 | P | Pattern | Location |
 |---|---------|----------|
@@ -510,7 +488,4 @@ Methods that could be static, missing switch defaults, naming-convention deviati
 | 2 | `SS_SHOULD_BE_STATIC` | `org/frc5010/common/motors/hardware/GenericTalonFXSMotor.java:45` |
 | 2 | `SS_SHOULD_BE_STATIC` | `org/frc5010/common/sensors/absolute_encoder/GenericAbsoluteEncoder.java:15` |
 | 2 | `SS_SHOULD_BE_STATIC` | `org/frc5010/common/subsystems/SegmentedLedSystem.java:31` |
-| 2 | `NM_FIELD_NAMING_CONVENTION` | `org/frc5010/common/vision/LimelightHelpers.java:None` |
-| 2 | `NM_FIELD_NAMING_CONVENTION` | `org/frc5010/common/vision/LimelightHelpers.java:None` |
-| 2 | `NM_FIELD_NAMING_CONVENTION` | `org/frc5010/common/vision/LimelightHelpers.java:None` |
 

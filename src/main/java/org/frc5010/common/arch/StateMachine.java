@@ -158,16 +158,20 @@ public class StateMachine extends Command {
     sb.append("All states for StateMachine ").append(name).append("\n");
 
     for (WeakReference<State> state : states) {
+      State s = state.get();
+      if (s == null) {
+        continue; // state was garbage collected; nothing to print
+      }
       boolean noExits = true; // initially haven't found any
       boolean noEntrances = true; // initially haven't found any
 
       sb.append("-------")
-          .append(state.get().name)
+          .append(s.name)
           .append("-------")
-          .append(state.get() == initialState ? " INITIAL STATE\n" : "\n");
+          .append(s == initialState ? " INITIAL STATE\n" : "\n");
 
       // loop through all the transitions of this state
-      for (Transition transition : state.get().transitions) {
+      for (Transition transition : s.transitions) {
         noExits = false; // at least one transition out of this state
         sb.append("transition ")
             .append(transition)
@@ -181,8 +185,12 @@ public class StateMachine extends Command {
       // loop through all the states again to find at least one entrance to this state
       allStates:
       for (WeakReference<State> stateInner : states) {
-        for (Transition transition : stateInner.get().transitions) {
-          if (transition.nextState == state.get()) {
+        State sInner = stateInner.get();
+        if (sInner == null) {
+          continue;
+        }
+        for (Transition transition : sInner.transitions) {
+          if (transition.nextState == s) {
             noEntrances = false;
             break allStates;
           }

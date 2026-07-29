@@ -29,6 +29,7 @@ public class LEDStripSegment {
     this.start = start;
     this.end = end;
     this.color = color.getColor8Bit();
+    this.ledPos = start;
   }
 
   /**
@@ -42,6 +43,7 @@ public class LEDStripSegment {
     this.start = start;
     this.end = end;
     this.color = color;
+    this.ledPos = start;
   }
 
   /**
@@ -223,7 +225,7 @@ public class LEDStripSegment {
         });
   }
 
-  int ledPos = start;
+  int ledPos;
 
   /**
    * Orbit effect on the LED strip segment

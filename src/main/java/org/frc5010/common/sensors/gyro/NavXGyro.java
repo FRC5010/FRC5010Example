@@ -35,7 +35,7 @@ public class NavXGyro implements GenericGyro {
   @Override
   public void reset() {
     if (gyro.isCalibrating()) {
-      new NavXRunnable(this);
+      new Thread(new NavXRunnable(this)).start();
     } else {
       gyro.reset();
       gyro.setAngleAdjustment(0);

@@ -322,8 +322,11 @@ public abstract class GenericControlledMotor extends GenericFunctionalMotor
   @Override
   public double calculateControlEffort(double current) {
     double controlEffort = controller.calculateControlEffort(current);
-    MathUtil.clamp(
-        controlEffort, minOutput.getValue(), maxOutput.getValue()); // clamp effort to (min, max, 0)
+    controlEffort =
+        MathUtil.clamp(
+            controlEffort,
+            minOutput.getValue(),
+            maxOutput.getValue()); // clamp effort to (min, max, 0)
     calculatedEffort.setVoltage(controlEffort * outputFactor.getValue(), Volts);
     return controlEffort;
   }

@@ -76,7 +76,7 @@ public abstract class GenericDrivetrain extends GenericSubsystem {
   protected Supplier<RobotConfig> ppRobotConfigSupplier = () -> ppRobotConfig;
 
   protected static Supplier<Optional<AbstractDriveTrainSimulation>> driveTrainSimulationSupplier =
-      () -> null;
+      () -> Optional.empty();
   protected DisplayBoolean hasIssues;
   protected DoubleSupplier angleSpeedSupplier = null;
   public Supplier<Double> maxForwardAcceleration,

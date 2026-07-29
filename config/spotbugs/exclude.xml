@@ -14,4 +14,19 @@
   <Match>
     <Class name="~org\.frc5010\.common\.vision\.LimelightHelpers.*"/>
   </Match>
+  <!-- config/json POJOs have public fields written reflectively by Jackson during
+       deserialization, which SpotBugs cannot see. -->
+  <Match>
+    <Package name="~org\.frc5010\.common\.config\.json.*"/>
+    <Bug pattern="NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD"/>
+  </Match>
+  <!-- DrivetrainConstantsJson fields are also Jackson-deserialized, but SpotBugs
+       attributes the finding to the read site (builder classes in org.frc5010.common.drive*)
+       rather than the declaring package, so the <Class>/<Package> rule above (which matches
+       the bug's reporting class) doesn't catch these. Match on the Field annotation instead,
+       which identifies the field regardless of where it's dereferenced. -->
+  <Match>
+    <Field name="~modules|driveMotorControl|steerMotorControl"/>
+    <Bug pattern="NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD"/>
+  </Match>
 </FindBugsFilter>

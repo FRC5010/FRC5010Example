@@ -385,12 +385,16 @@ public class WpiNetworkTableValuesHelper implements WpiHelperInterface {
       switch (value.getFirst()) {
         case "Double":
           Preferences.setDouble(key, (Double) val);
+          break;
         case "Integer":
           Preferences.setInt(key, (Integer) val);
+          break;
         case "String":
           Preferences.setString(key, (String) val);
+          break;
         case "Boolean":
           Preferences.setBoolean(key, (Boolean) val);
+          break;
       }
       persisted.put(key, Pair.of(value.getFirst(), val));
     } else if (sendables.containsKey(key)) {
@@ -410,26 +414,34 @@ public class WpiNetworkTableValuesHelper implements WpiHelperInterface {
         case "Double":
           tab.addDouble(
               key, () -> Double.valueOf(Preferences.getDouble(key, (Double) value.getSecond())));
+          break;
         case "Integer":
           tab.addInteger(
               key, () -> Integer.valueOf(Preferences.getInt(key, (Integer) value.getSecond())));
+          break;
         case "String":
           tab.addString(key, () -> Preferences.getString(key, (String) value.getSecond()));
+          break;
         case "Boolean":
           tab.addBoolean(
               key, () -> Boolean.valueOf(Preferences.getBoolean(key, (Boolean) value.getSecond())));
+          break;
       }
     } else if (sendables.containsKey(key)) {
       Pair<String, Object> value = sendables.get(key);
       switch (value.getFirst()) {
         case "Double":
           tab.addDouble(key, () -> (Double) (sendables.get(key).getSecond()));
+          break;
         case "Integer":
           tab.addInteger(key, () -> (Integer) (sendables.get(key).getSecond()));
+          break;
         case "String":
           tab.addString(key, () -> (String) (sendables.get(key).getSecond()));
+          break;
         case "Boolean":
           tab.addBoolean(key, () -> (Boolean) (sendables.get(key).getSecond()));
+          break;
       }
     } else {
       System.err.println("Unable to add " + key + " to the tab " + tab);
@@ -485,8 +497,9 @@ public class WpiNetworkTableValuesHelper implements WpiHelperInterface {
    */
   public void initSendables(SendableBuilder builder, String loggingPrefix) {
     builder.setSmartDashboardType(loggingPrefix);
-    for (String key : sendables.keySet()) {
-      Pair<String, Object> value = sendables.get(key);
+    for (Map.Entry<String, Pair<String, Object>> entry : sendables.entrySet()) {
+      String key = entry.getKey();
+      Pair<String, Object> value = entry.getValue();
       switch (value.getFirst()) {
         case "Integer":
           builder.addIntegerProperty(

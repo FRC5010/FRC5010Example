@@ -63,8 +63,8 @@ public class SegmentedLedSystem extends GenericSubsystem {
 
   @Override
   public void periodic() {
-    for (String name : ledStripSegments.keySet()) {
-      LEDStripSegment segment = ledStripSegments.get(name);
+    for (Map.Entry<String, LEDStripSegment> entry : ledStripSegments.entrySet()) {
+      LEDStripSegment segment = entry.getValue();
       if (segment.isActive() && segment.needsUpdate()) {
         needsUpdate |= segment.needsUpdate();
         segment.setNeedsUpdate(false);

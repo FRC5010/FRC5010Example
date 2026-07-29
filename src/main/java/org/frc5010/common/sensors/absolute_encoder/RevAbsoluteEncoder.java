@@ -36,14 +36,10 @@ public class RevAbsoluteEncoder extends GenericAbsoluteEncoder {
             "Encoders", "Failure configuring SparkMax Analog Encoder", Alert.AlertType.kWarning);
     offsetFailure =
         new Alert("Encoders", "Failure to set Absolute Encoder Offset", Alert.AlertType.kWarning);
-    if (motor instanceof SparkMax) {
-      this.motor = motor;
-      encoder = this.motor.getAbsoluteEncoder();
-      setPositionConversion(conversionFactor);
-      setVelocityConversion(conversionFactor);
-    } else {
-      throw new RuntimeException("Motor given to instantiate SparkMaxEncoder is not a SparkMax");
-    }
+    this.motor = motor;
+    encoder = this.motor.getAbsoluteEncoder();
+    setPositionConversion(conversionFactor);
+    setVelocityConversion(conversionFactor);
   }
 
   /**

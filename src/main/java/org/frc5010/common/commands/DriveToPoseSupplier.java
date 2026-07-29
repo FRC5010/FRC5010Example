@@ -63,7 +63,7 @@ public class DriveToPoseSupplier extends GenericCommand {
 
   private Supplier<ChassisSpeeds> initialVelocity = () -> new ChassisSpeeds();
 
-  private final double maxAngularSpeed = 3.14;
+  private final double maxAngularSpeed = Math.PI;
   private final double MAX_ANGULAR_ACCELERATION = 5.0;
 
   /** The speed that the robot will drive at in the X direction */

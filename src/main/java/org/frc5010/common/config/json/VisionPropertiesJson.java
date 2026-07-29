@@ -58,9 +58,9 @@ public class VisionPropertiesJson {
                 .newInstance();
         if (!gamePieces.isEmpty()) {
           arena.clearGamePieces();
-          for (String key : gamePieces.keySet()) {
+          for (Map.Entry<String, String[]> entry : gamePieces.entrySet()) {
             arena.addGamePiece(
-                Class.forName(gamePieces.get(key)[0])
+                Class.forName(entry.getValue()[0])
                     .asSubclass(GamePieceOnFieldSimulation.class)
                     .getDeclaredConstructor()
                     .newInstance());

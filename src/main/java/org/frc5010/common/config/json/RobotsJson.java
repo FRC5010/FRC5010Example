@@ -39,12 +39,12 @@ public class RobotsJson {
     if (competitionPin >= 0) {
       competitionSwitch = Optional.of(new DigitalInput(competitionPin));
     }
-    for (String robotName : robots.keySet()) {
-      RobotIdentity robotIdentity = robots.get(robotName);
+    for (Map.Entry<String, RobotIdentity> entry : robots.entrySet()) {
+      RobotIdentity robotIdentity = entry.getValue();
       if ((RobotBase.isSimulation() && robotIdentity.simulate)
           || (competitionSwitch.map(it -> it.get()).orElse(false) && robotIdentity.competition)
           || robotIdentity.id.equals(whichRobot)) {
-        robotDirectory = robotName;
+        robotDirectory = entry.getKey();
         break;
       }
     }

@@ -42,7 +42,6 @@ public class ExampleSubsystem extends GenericSubsystem {
     return Commands.run(
         () -> {
           Translation2d targetPose = targetSupplier.get();
-          targetPose.getNorm();
           io.setTurretRotation(targetPose.getAngle().getMeasure());
           io.setHoodAngle(Degrees.of(45));
         });

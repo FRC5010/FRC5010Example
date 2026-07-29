@@ -13,7 +13,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.Timer;
-import java.util.function.Supplier;
 import org.frc5010.common.arch.GenericCommand;
 import org.frc5010.common.drive.swerve.GenericSwerveDrivetrain;
 import org.frc5010.common.telemetry.DisplayDouble;
@@ -34,7 +33,6 @@ public class WheelRadiusCharacterization extends GenericCommand {
   private final double ROTATION_SPEED = 2.0;
   private SlewRateLimiter rampEnforcer = new SlewRateLimiter(RAMP_RATE);
   private GenericSwerveDrivetrain drivetrain;
-  private Supplier<Rotation2d> gyroOverride = null;
   private double robotRotationRadius = 0.0;
   private Timer time = new Timer();
 
@@ -111,12 +109,7 @@ public class WheelRadiusCharacterization extends GenericCommand {
     rotateRobot(ROTATION_SPEED);
     if (time.hasElapsed(dataCollectionDelay.in(Seconds))) {
 
-      Rotation2d currentRotation;
-      if (null != gyroOverride) {
-        currentRotation = gyroOverride.get();
-      } else {
-        currentRotation = drivetrain.getHeading();
-      }
+      Rotation2d currentRotation = drivetrain.getHeading();
 
       double[] currentPositions = getCurrentModulePositions();
 

@@ -73,6 +73,11 @@ public class GenericTalonFXSMotor implements GenericMotorController {
 
   public GenericTalonFXSMotor(int id, String canbus) {
     motor = new TalonFXS(id, new CANBus(canbus));
+    throw new UnsupportedOperationException(
+        "GenericTalonFXSMotor does not yet support encoder/controller wiring: "
+            + "TalonFXEncoder and TalonFXController require a GenericTalonFXMotor, which "
+            + "GenericTalonFXSMotor does not extend. Do not configure a motor with "
+            + "controllerType \"talonfxs\" until this is implemented.");
   }
   /**
    * Construct the TalonFX swerve motor given the ID and CANBus.
@@ -92,8 +97,11 @@ public class GenericTalonFXSMotor implements GenericMotorController {
     setMotorSimulationType(config.getMotorSimulationType());
     setMaxRPM(config.maxRpm);
     this.config = config;
-    // encoder = new TalonFXEncoder(this);
-    // controller = new TalonFXController(this);
+    throw new UnsupportedOperationException(
+        "GenericTalonFXSMotor does not yet support encoder/controller wiring: "
+            + "TalonFXEncoder and TalonFXController require a GenericTalonFXMotor, which "
+            + "GenericTalonFXSMotor does not extend. Do not configure a motor with "
+            + "controllerType \"talonfxs\" until this is implemented.");
   }
 
   public GenericTalonFXSMotor(int canId, Motor config) {

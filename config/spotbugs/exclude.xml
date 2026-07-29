@@ -29,4 +29,13 @@
     <Field name="~modules|driveMotorControl|steerMotorControl"/>
     <Bug pattern="NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD"/>
   </Match>
+  <!-- GenericTalonFXSMotor.encoder is intentionally never assigned: TalonFXS encoder/
+       controller support isn't implemented, and every constructor now throws
+       UnsupportedOperationException before returning rather than leaving a silent NPE
+       for later. Expected until that feature is built. -->
+  <Match>
+    <Class name="org.frc5010.common.motors.hardware.GenericTalonFXSMotor"/>
+    <Field name="encoder"/>
+    <Bug pattern="NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD"/>
+  </Match>
 </FindBugsFilter>
